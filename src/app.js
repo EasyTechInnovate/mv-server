@@ -1,5 +1,5 @@
 import express from 'express'
-import router from './router/apiRouter.js'
+import router from './router/index.js'
 import globalErrorHandler from './middleware/globalErrorHandler.js'
 import responseMessage from './constant/responseMessage.js'
 import httpError from './util/httpError.js'
@@ -32,6 +32,15 @@ app.use(
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }))
+
+// Root route - Welcome message and API list
+app.get('/', (_, res) => {
+    res.json({
+        message: 'Welcome to Maheshwari Visuals API Server',
+        success: true,
+        version: '1.0.0',
+    })
+})
 
 app.use('/v1', router)
 

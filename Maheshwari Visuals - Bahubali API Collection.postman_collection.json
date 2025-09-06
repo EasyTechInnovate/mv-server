@@ -1,0 +1,1143 @@
+{
+	"info": {
+		"_postman_id": "8847f9f1-9b9d-4ca6-b24d-d92d2f21ff14",
+		"name": "Maheshwari Visuals - Bahubali API Collection",
+		"description": "Complete API collection for Maheshwari Visuals music distribution platform",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26372308"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Server Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"health"
+							]
+						},
+						"description": "Check server health status"
+					},
+					"response": []
+				},
+				{
+					"name": "Server Self Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/self",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"self"
+							]
+						},
+						"description": "Server self-check endpoint"
+					},
+					"response": []
+				},
+				{
+					"name": "API Root",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								""
+							]
+						},
+						"description": "Welcome message and available APIs list"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Auth Self Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/auth/self",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"self"
+							]
+						},
+						"description": "Authentication service health check"
+					},
+					"response": []
+				},
+				{
+					"name": "User Registration",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.tokens) {",
+									"        pm.collectionVariables.set('authToken', jsonData.data.tokens.accessToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Artist\",\n    \"emailAddress\": \"john.artist@example.com\",\n    \"password\": \"SecurePass123\",\n    \"confirmPassword\": \"SecurePass123\",\n    \"userType\": \"artist\",\n    \"companyName\": \"John Music Studios\",\n    \"phoneNumber\": \"+91-9876543210\",\n    \"agreeToTerms\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register a new user account (artist, label, or aggregator)"
+					},
+					"response": []
+				},
+				{
+					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.tokens) {",
+									"        pm.collectionVariables.set('authToken', jsonData.data.tokens.accessToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"emailAddress\": \"john.artist@example.com\",\n    \"password\": \"SecurePass123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login with email and password"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.tokens) {",
+									"        pm.collectionVariables.set('adminToken', jsonData.data.tokens.accessToken);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"emailAddress\": \"admin@maheshwarivisuals.com\",\n    \"password\": \"AdminSecure123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login as admin user and set admin token"
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh Token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"your_refresh_token_here\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/refresh-token",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"refresh-token"
+							]
+						},
+						"description": "Refresh access token using refresh token"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/auth/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"profile"
+							]
+						},
+						"description": "Get authenticated user profile information"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currentPassword\": \"SecurePass123\",\n    \"newPassword\": \"NewSecurePass123\",\n    \"confirmPassword\": \"NewSecurePass123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/change-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"change-password"
+							]
+						},
+						"description": "Change user password"
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"emailAddress\": \"john.artist@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/forgot-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"forgot-password"
+							]
+						},
+						"description": "Request password reset email"
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"reset_token_from_email\",\n    \"password\": \"NewSecurePass123\",\n    \"confirmPassword\": \"NewSecurePass123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/reset-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"reset-password"
+							]
+						},
+						"description": "Reset password using reset token from email"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\": \"your_refresh_token_here\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Logout from current session"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout All Devices",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/auth/logout-all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"logout-all"
+							]
+						},
+						"description": "Logout from all devices"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"token\": \"verification_token_from_registration_response\",\n    \"code\": \"123456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/verify-email",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"verify-email"
+							]
+						},
+						"description": "Verify email address using token and code"
+					},
+					"response": []
+				},
+				{
+					"name": "Resend Verification Email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"emailAddress\": \"john.artist@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/resend-verification",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"resend-verification"
+							]
+						},
+						"description": "Resend verification email to user"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Admin User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Admin\",\n    \"lastName\": \"User\",\n    \"emailAddress\": \"newadmin@maheshwarivisuals.com\",\n    \"password\": \"AdminSecure123\",\n    \"confirmPassword\": \"AdminSecure123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/auth/admin/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"auth",
+								"admin",
+								"create"
+							]
+						},
+						"description": "Create a new admin user (admin-only access)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subscription Management",
+			"item": [
+				{
+					"name": "Get All Subscription Plans",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/subscription/plans",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"subscription",
+								"plans"
+							]
+						},
+						"description": "Get all available subscription plans with pricing and features"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Plan by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/subscription/plans/{{planId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"subscription",
+								"plans",
+								"{{planId}}"
+							]
+						},
+						"description": "Get specific plan details by plan ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Payment Intent",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"planId\": \"maheshwari_standard\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/subscription/create-payment-intent",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"subscription",
+								"create-payment-intent"
+							]
+						},
+						"description": "Create payment intent for subscription purchase"
+					},
+					"response": []
+				},
+				{
+					"name": "Verify Razorpay Payment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"razorpayPaymentId\": \"pay_123456789\",\n    \"razorpayOrderId\": \"order_123456789\",\n    \"razorpaySignature\": \"signature_123456789\",\n    \"planId\": \"maheshwari_standard\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/subscription/verify-payment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"subscription",
+								"verify-payment"
+							]
+						},
+						"description": "Verify Razorpay payment and activate subscription"
+					},
+					"response": []
+				},
+				{
+					"name": "Mock Payment Verification",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"planId\": \"maheshwari_standard\",\n    \"mockPaymentId\": \"mock_payment_123\",\n    \"amount\": 499\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/subscription/mock-verify-payment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"subscription",
+								"mock-verify-payment"
+							]
+						},
+						"description": "Mock payment verification for testing purposes"
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Subscription",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/subscription/my-subscription",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"subscription",
+								"my-subscription"
+							]
+						},
+						"description": "Get current user's subscription details"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Payment History",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/subscription/payment-history?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"subscription",
+								"payment-history"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Get user's payment transaction history"
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Subscription",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/subscription/cancel-subscription",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"subscription",
+								"cancel-subscription"
+							]
+						},
+						"description": "Cancel active subscription"
+					},
+					"response": []
+				},
+				{
+					"name": "Self",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - Plan Management",
+			"item": [
+				{
+					"name": "Get All Plans (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/plans?includeInactive=true",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"plans"
+							],
+							"query": [
+								{
+									"key": "includeInactive",
+									"value": "true",
+									"description": "Include inactive plans"
+								}
+							]
+						},
+						"description": "Get all subscription plans (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Plan",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"planId\": \"maheshwari_premium\",\n    \"name\": \"Maheshwari Premium\",\n    \"description\": \"Premium plan with all features\",\n    \"price\": {\n        \"current\": 1999,\n        \"original\": 2499\n    },\n    \"currency\": \"INR\",\n    \"interval\": \"month\",\n    \"intervalCount\": 1,\n    \"features\": {\n        \"unlimitedReleases\": true,\n        \"artistProfile\": true,\n        \"collaborateWithOthers\": true,\n        \"metaContentId\": true,\n        \"youtubeContentId\": true,\n        \"analyticsDemo\": true,\n        \"spotifyDiscoveryMode\": true,\n        \"assistedPlaylists\": true,\n        \"preReleasePromo\": true,\n        \"freeUpcCode\": true,\n        \"freeIsrcCode\": true,\n        \"lifetimeAvailability\": true,\n        \"supportHours\": \"24_hours\",\n        \"businessHours\": true,\n        \"liveSupport\": true,\n        \"dailyArtistDistribution\": true,\n        \"worldwideAvailability\": true,\n        \"analyticsCenter\": true\n    },\n    \"isPopular\": false,\n    \"isBestValue\": true,\n    \"displayOrder\": 2,\n    \"limits\": {\n        \"maxUploads\": -1,\n        \"maxCollaborators\": 10,\n        \"maxDistributionChannels\": 50\n    },\n    \"trial\": {\n        \"enabled\": true,\n        \"days\": 7\n    }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/plans",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"plans"
+							]
+						},
+						"description": "Create a new subscription plan (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Plan Details (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/plans/{{planId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"plans",
+								"{{planId}}"
+							]
+						},
+						"description": "Get detailed plan information with analytics (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Plan",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Plan Name\",\n    \"price\": {\n        \"current\": 599,\n        \"original\": 699\n    },\n    \"features\": {\n        \"unlimitedReleases\": false,\n        \"supportHours\": \"48_hours\"\n    },\n    \"isPopular\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/plans/{{planId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"plans",
+								"{{planId}}"
+							]
+						},
+						"description": "Update existing subscription plan (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Plan",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/plans/{{planId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"plans",
+								"{{planId}}"
+							]
+						},
+						"description": "Delete subscription plan (admin only) - Only if no active subscribers"
+					},
+					"response": []
+				},
+				{
+					"name": "Activate Plan",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/plans/{{planId}}/activate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"plans",
+								"{{planId}}",
+								"activate"
+							]
+						},
+						"description": "Activate a subscription plan (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate Plan",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/plans/{{planId}}/deactivate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"plans",
+								"{{planId}}",
+								"deactivate"
+							]
+						},
+						"description": "Deactivate a subscription plan (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Self",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - Analytics",
+			"item": [
+				{
+					"name": "Revenue Summary",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/revenue/summary?startDate=2024-01-01&endDate=2024-12-31",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"revenue",
+								"summary"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-01-01",
+									"description": "Start date for revenue analysis"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-12-31",
+									"description": "End date for revenue analysis"
+								},
+								{
+									"key": "planId",
+									"value": "maheshwari_standard",
+									"description": "Filter by specific plan",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get revenue summary and analytics (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "User Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/users/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"users",
+								"stats"
+							]
+						},
+						"description": "Get user statistics and demographics (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Subscription Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/subscriptions/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"subscriptions",
+								"stats"
+							]
+						},
+						"description": "Get subscription statistics and growth metrics (admin only)"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status code is 200\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});",
+					"",
+					"pm.test(\"Response has success property\", function () {",
+					"    var jsonData = pm.response.json();",
+					"    pm.expect(jsonData).to.have.property('success');",
+					"});",
+					"",
+					"pm.test(\"Response time is less than 1000ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "adminToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "planId",
+			"value": "maheshwari_standard",
+			"type": "string"
+		}
+	]
+}

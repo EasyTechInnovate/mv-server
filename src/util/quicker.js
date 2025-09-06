@@ -1,4 +1,5 @@
 import os from 'os';
+import crypto from 'crypto';
 import config from '../config/config.js';
 import jwt from 'jsonwebtoken'
 
@@ -27,6 +28,12 @@ export default {
     },
     verifyToken: (token, secret) => {
         return jwt.verify(token, secret)
+    },
+    generateVerificationCode: () => {
+        return Math.floor(100000 + Math.random() * 900000).toString()
+    },
+    generateVerificationToken: () => {
+        return crypto.randomBytes(32).toString('hex')
     },
     getDomainFromUrl: (url) => {
         try {

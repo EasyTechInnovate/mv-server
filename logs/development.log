@@ -21,3 +21,1289 @@
         "SERVER_URL": "http://localhost:5000"
     }
 }
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-05T08:06:06.342Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-05T08:06:06.347Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-05T08:06:06.348Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-05T08:14:32.400Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-05T08:14:32.404Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-05T08:14:32.404Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-05T08:15:19.926Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-05T08:15:19.932Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-05T08:15:19.933Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-05T08:22:40.891Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-05T08:22:40.897Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-05T08:22:40.898Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-05T08:22:44.715Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-05T08:22:44.720Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-05T08:22:44.721Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-05T08:22:50.670Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-05T08:22:50.675Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-05T08:22:50.676Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T09:43:06.485Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T09:43:06.489Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T09:43:06.489Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-06T09:43:10.798Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/health"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "application": {
+                "environment": "development",
+                "uptime": "5.03 Seconds",
+                "memoryUsage": {
+                    "heapTotal": "39.31 MB",
+                    "heapUsed": "25.17 MB"
+                }
+            },
+            "system": {
+                "cpuUsage": [
+                    2.35400390625,
+                    2.16845703125,
+                    2.0341796875
+                ],
+                "totalMemory": "16384.00 MB",
+                "freeMemory": "95.16 MB"
+            },
+            "timestamp": 1757151790798
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T09:43:32.733Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T09:43:32.735Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T09:43:32.736Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T09:43:36.399Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T09:43:36.403Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T09:43:36.403Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T09:43:40.196Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T09:43:40.199Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T09:43:40.199Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T09:44:05.778Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T09:44:05.784Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T09:44:05.784Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T09:44:09.316Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T09:44:09.320Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T09:44:09.320Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T09:44:23.008Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T09:44:23.010Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T09:44:23.011Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:07:13.692Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:07:13.696Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:07:13.696Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:07:18.289Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:07:18.293Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:07:18.293Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-06T10:07:52.981Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/subscription/self"
+        },
+        "message": "Authentication service is running.",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:08:03.398Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:08:03.401Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:08:03.402Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:08:22.030Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:08:22.033Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:08:22.034Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:08:24.917Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:08:24.920Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:08:24.921Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:08:27.866Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:08:27.871Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:08:27.871Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:08:29.653Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:08:29.658Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:08:29.659Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:08:32.449Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:08:32.452Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:08:32.453Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:08:35.497Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:08:35.502Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:08:35.503Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:08:39.037Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:08:39.042Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:08:39.043Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:08:55.693Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:08:55.697Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:08:55.698Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:09:00.549Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:09:00.552Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:09:00.552Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:09:04.355Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:09:04.358Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:09:04.358Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:09:05.758Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:09:05.761Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:09:05.761Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:09:09.918Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:09:09.921Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:09:09.922Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:09:10.620Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:09:10.622Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:09:10.623Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:09:12.687Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:09:12.691Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:09:12.691Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:09:18.547Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:09:18.549Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:09:18.550Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:09:29.366Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:09:29.369Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:09:29.369Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:09:30.692Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:09:30.697Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:09:30.698Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-06T10:09:48.679Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/admin/self"
+        },
+        "message": "Admin Subscription service is running.",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:14:47.428Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:14:47.430Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:14:47.430Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:16:06.641Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:16:06.643Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:16:06.643Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:16:27.448Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:16:27.450Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:16:27.450Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:20:51.875Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:20:51.877Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:20:51.877Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:21:02.391Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:21:02.395Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:21:02.396Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:21:28.299Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:21:28.302Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:21:28.303Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:22:38.136Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:22:38.139Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:22:38.139Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:23:02.009Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:23:02.012Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:23:02.013Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:23:05.921Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:23:05.924Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:23:05.924Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:24:58.008Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:24:58.010Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:24:58.011Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:25:04.102Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:25:04.104Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:25:04.104Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:25:12.406Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:25:12.408Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:25:12.408Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:25:19.692Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:25:19.694Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:25:19.694Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:25:33.580Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:25:33.582Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:25:33.582Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:25:47.045Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:25:47.047Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:25:47.047Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:25:56.774Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:25:56.776Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:25:56.776Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:26:02.006Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:26:02.008Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:26:02.009Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:26:09.578Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:26:09.580Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:26:09.580Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:42:21.378Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:42:21.382Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:42:21.382Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-06T10:42:27.303Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-06T10:42:27.304Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-06T10:42:27.305Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}

@@ -19,3 +19,5 @@ build
 .env.production
 .env.test
 .env.test.local
+docs
+logs
