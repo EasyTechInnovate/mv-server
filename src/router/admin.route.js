@@ -4,6 +4,7 @@ import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
 import authorization from '../middleware/authorization.js'
 import adminSchemas from '../schema/admin.schema.js'
+import aggregatorSchemas from '../schema/aggregator.schema.js'
 import { EUserRole } from '../constant/application.js'
 
 const router = Router()
@@ -74,6 +75,36 @@ router.route('/subscriptions/stats')
         authentication,
         authorization([EUserRole.ADMIN]),
         adminController.getSubscriptionStats
+    )
+
+router.route('/aggregator/applications')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        adminController.getAllAggregatorApplications
+    )
+
+router.route('/aggregator/applications/:applicationId')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        adminController.getAggregatorApplication
+    )
+
+router.route('/aggregator/applications/:applicationId/review')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(aggregatorSchemas.reviewApplication),
+        adminController.reviewAggregatorApplication
+    )
+
+router.route('/aggregator/applications/:applicationId/create-account')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(aggregatorSchemas.createAggregatorAccount),
+        adminController.createAggregatorAccount
     )
 
 export default router

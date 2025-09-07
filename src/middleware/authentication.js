@@ -31,7 +31,7 @@ export default async (request, _res, next) => {
         }
 
         try {
-            const { userId } = quicker.verifyToken(accessToken, config.jwt.accessToken.secret)
+            const { userId } = quicker.verifyToken(accessToken, config.auth.jwtSecret)
 
             const user = await userModel.findOne({ _id: userId }).select('-password')
 

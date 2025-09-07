@@ -36,10 +36,12 @@ export default {
 
             const verificationToken = quicker.generateVerificationToken()
             const verificationCode = quicker.generateVerificationCode()
+            const accountId = await quicker.generateAccountId(userType, User)
 
             const userData = {
                 firstName,
                 lastName,
+                accountId,
                 emailAddress,
                 password: hashedPassword,
                 role: EUserRole.USER,
@@ -95,6 +97,7 @@ export default {
             const responseData = {
                 user: {
                     _id: newUser._id,
+                    accountId: newUser.accountId,
                     firstName: newUser.firstName,
                     lastName: newUser.lastName,
                     emailAddress: newUser.emailAddress,
@@ -176,6 +179,7 @@ export default {
             const responseData = {
                 user: {
                     _id: user._id,
+                    accountId: user.accountId,
                     firstName: user.firstName,
                     lastName: user.lastName,
                     emailAddress: user.emailAddress,
@@ -432,6 +436,7 @@ export default {
             const responseData = {
                 user: {
                     _id: user._id,
+                    accountId: user.accountId,
                     firstName: user.firstName,
                     lastName: user.lastName,
                     emailAddress: user.emailAddress,
@@ -506,6 +511,7 @@ export default {
                 {
                     user: {
                         _id: user._id,
+                        accountId: user.accountId,
                         emailAddress: user.emailAddress,
                         isEmailVerified: user.isEmailVerified
                     }
@@ -585,10 +591,12 @@ export default {
 
             const salt = await bcrypt.genSalt(12)
             const hashedPassword = await bcrypt.hash(password, salt)
+            const accountId = await quicker.generateAccountId('admin', User)
 
             const adminUser = new User({
                 firstName,
                 lastName,
+                accountId,
                 emailAddress,
                 password: hashedPassword,
                 role: EUserRole.ADMIN,
@@ -598,15 +606,20 @@ export default {
 
             await adminUser.save()
 
-            adminUser.addNotification(
-                'Admin Account Created',
-                'Your admin account has been created successfully.',
-                'success'
-            )
+            adminUser.notifications.push({
+                title: 'Admin Account Created',
+                message: 'Your admin account has been created successfully.',
+                type: 'success',
+                isRead: false,
+                createdAt: new Date()
+            })
+            
+            await adminUser.save()
 
             const responseData = {
                 admin: {
                     _id: adminUser._id,
+                    accountId: adminUser.accountId,
                     firstName: adminUser.firstName,
                     lastName: adminUser.lastName,
                     emailAddress: adminUser.emailAddress,

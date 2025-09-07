@@ -20,4 +20,4 @@ build
 .env.test
 .env.test.local
 docs
-logs
+development.log

@@ -30,6 +30,13 @@ const userSchema = new mongoose.Schema(
       maxlength: [50, "Last name cannot exceed 50 characters"],
     },
 
+    accountId: {
+      type: String,
+      unique: true,
+      required: [true, "Account ID is required"],
+      trim: true,
+    },
+
     emailAddress: {
       type: String,
       required: [true, "Email address is required"],
@@ -857,5 +864,7 @@ userSchema.statics.findActiveSubscribers = function () {
     isActive: true,
   });
 };
+
+userSchema.index({ accountId: 1 });
 
 export default mongoose.model("User", userSchema);

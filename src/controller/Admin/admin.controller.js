@@ -1,15 +1,19 @@
 import dayjs from "dayjs";
+import bcrypt from 'bcryptjs'
 import SubscriptionPlan from "../../model/subscriptionPlan.model.js";
 import PaymentTransaction from "../../model/paymentTransaction.model.js";
 import User from "../../model/user.model.js";
+import AggregatorApplication from "../../model/aggregatorApplication.model.js";
 import {
   ESubscriptionStatus,
   EPaymentStatus,
   EUserType,
+  EUserRole,
 } from "../../constant/application.js";
 import responseMessage from "../../constant/responseMessage.js";
 import httpResponse from "../../util/httpResponse.js";
 import httpError from "../../util/httpError.js";
+import quicker from "../../util/quicker.js";
 
 export default {
   async self(req, res, next) {
@@ -541,6 +545,254 @@ export default {
       return httpResponse(req, res, 200, responseMessage.SUCCESS, stats);
     } catch (err) {
       return httpError(next, err, req, 500);
+    }
+  },
+
+  async getAllAggregatorApplications(req, res, next) {
+    try {
+      const { status, page = 1, limit = 10 } = req.query
+
+      const query = {}
+      if (status) {
+        query.applicationStatus = status
+      }
+
+      const skip = (page - 1) * limit
+      const applications = await AggregatorApplication.find(query)
+        .populate('reviewedBy', 'firstName lastName emailAddress')
+        .populate('createdAccountId', 'firstName lastName emailAddress')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(parseInt(limit))
+
+      const totalApplications = await AggregatorApplication.countDocuments(query)
+
+      const responseData = {
+        applications,
+        pagination: {
+          currentPage: parseInt(page),
+          totalPages: Math.ceil(totalApplications / limit),
+          totalApplications,
+          hasNextPage: page * limit < totalApplications,
+          hasPrevPage: page > 1
+        }
+      }
+
+      return httpResponse(req, res, 200, responseMessage.SUCCESS, responseData)
+    } catch (err) {
+      return httpError(next, err, req, 500)
+    }
+  },
+
+  async getAggregatorApplication(req, res, next) {
+    try {
+      const { applicationId } = req.params
+
+      const application = await AggregatorApplication.findById(applicationId)
+        .populate('reviewedBy', 'firstName lastName emailAddress')
+        .populate('createdAccountId', 'firstName lastName emailAddress')
+
+      if (!application) {
+        return httpError(
+          next,
+          new Error(responseMessage.customMessage('Application not found')),
+          req,
+          404
+        )
+      }
+
+      return httpResponse(
+        req,
+        res,
+        200,
+        responseMessage.SUCCESS,
+        { application }
+      )
+    } catch (err) {
+      return httpError(next, err, req, 500)
+    }
+  },
+
+  async reviewAggregatorApplication(req, res, next) {
+    try {
+      const { applicationId } = req.params
+      const { applicationStatus, adminNotes } = req.body
+      const adminId = req.authenticatedUser._id
+
+      const application = await AggregatorApplication.findById(applicationId)
+
+      if (!application) {
+        return httpError(
+          next,
+          new Error(responseMessage.customMessage('Application not found')),
+          req,
+          404
+        )
+      }
+
+      if (application.applicationStatus !== 'pending') {
+        return httpError(
+          next,
+          new Error(responseMessage.customMessage('Application has already been reviewed')),
+          req,
+          400
+        )
+      }
+
+      application.applicationStatus = applicationStatus
+      application.adminNotes = adminNotes || null
+      application.reviewedAt = new Date()
+      application.reviewedBy = adminId
+
+      await application.save()
+
+      const responseData = {
+        application: {
+          _id: application._id,
+          companyName: application.companyName,
+          emailAddress: application.emailAddress,
+          applicationStatus: application.applicationStatus,
+          adminNotes: application.adminNotes,
+          reviewedAt: application.reviewedAt
+        }
+      }
+
+      return httpResponse(
+        req,
+        res,
+        200,
+        responseMessage.customMessage(`Application ${applicationStatus} successfully`),
+        responseData
+      )
+    } catch (err) {
+      return httpError(next, err, req, 500)
+    }
+  },
+
+  async createAggregatorAccount(req, res, next) {
+    try {
+      const { applicationId } = req.params
+      const { password } = req.body
+
+      const application = await AggregatorApplication.findById(applicationId)
+
+      if (!application) {
+        return httpError(
+          next,
+          new Error(responseMessage.customMessage('Application not found')),
+          req,
+          404
+        )
+      }
+
+      if (application.applicationStatus !== 'approved') {
+        return httpError(
+          next,
+          new Error(responseMessage.customMessage('Only approved applications can have accounts created')),
+          req,
+          400
+        )
+      }
+
+      if (application.isAccountCreated) {
+        return httpError(
+          next,
+          new Error(responseMessage.customMessage('Account has already been created for this application')),
+          req,
+          400
+        )
+      }
+
+      const existingUser = await User.findOne({ emailAddress: application.emailAddress })
+      if (existingUser) {
+        return httpError(
+          next,
+          new Error(responseMessage.customMessage('A user with this email already exists')),
+          req,
+          409
+        )
+      }
+
+      const salt = await bcrypt.genSalt(12)
+      const hashedPassword = await bcrypt.hash(password, salt)
+      
+      const accountId = await quicker.generateAccountId(EUserType.AGGREGATOR, User)
+
+      const aggregatorUser = new User({
+        firstName: application.firstName,
+        lastName: application.lastName,
+        accountId,
+        emailAddress: application.emailAddress,
+        password: hashedPassword,
+        role: EUserRole.USER,
+        userType: EUserType.AGGREGATOR,
+        phoneNumber: application.phoneNumber,
+        companyName: application.companyName,
+        isActive: true,
+        isEmailVerified: true,
+        aggregatorData: {
+          companyName: application.companyName,
+          websiteLink: application.websiteLink,
+          instagramUrl: application.instagramUrl,
+          facebookUrl: application.facebookUrl,
+          linkedinUrl: application.linkedinUrl,
+          youtubeLink: application.youtubeLink,
+          popularReleaseLinks: application.popularReleaseLinks,
+          popularArtistLinks: application.popularArtistLinks,
+          associatedLabels: application.associatedLabels,
+          totalReleases: application.totalReleases,
+          releaseFrequency: application.releaseFrequency,
+          monthlyReleasePlans: application.monthlyReleasePlans,
+          briefInfo: application.briefInfo,
+          additionalServices: application.additionalServices,
+          howDidYouKnow: application.howDidYouKnow,
+          howDidYouKnowOther: application.howDidYouKnowOther
+        }
+      })
+
+      await aggregatorUser.save()
+
+      application.isAccountCreated = true
+      application.createdAccountId = aggregatorUser._id
+      await application.save()
+
+      aggregatorUser.notifications.push({
+        title: 'Welcome to Maheshwari Visuals!',
+        message: 'Your aggregator account has been created successfully. You can now login and access all features.',
+        type: 'success',
+        isRead: false,
+        createdAt: new Date()
+      })
+      
+      await aggregatorUser.save()
+
+      const responseData = {
+        user: {
+          _id: aggregatorUser._id,
+          accountId: aggregatorUser.accountId,
+          firstName: aggregatorUser.firstName,
+          lastName: aggregatorUser.lastName,
+          emailAddress: aggregatorUser.emailAddress,
+          role: aggregatorUser.role,
+          userType: aggregatorUser.userType,
+          companyName: aggregatorUser.companyName,
+          createdAt: aggregatorUser.createdAt
+        },
+        application: {
+          _id: application._id,
+          isAccountCreated: application.isAccountCreated
+        }
+      }
+
+      return httpResponse(
+        req,
+        res,
+        201,
+        responseMessage.customMessage('Aggregator account created successfully'),
+        responseData
+      )
+    } catch (err) {
+      return httpError(next, err, req, 500)
     }
   },
 };

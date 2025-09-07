@@ -524,6 +524,40 @@
 			]
 		},
 		{
+			"name": "Aggregator Management",
+			"item": [
+				{
+					"name": "Submit Aggregator Application",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Aggregator\",\n    \"emailAddress\": \"john.aggregator@example.com\",\n    \"phoneNumber\": \"+91-9876543210\",\n    \"companyName\": \"Music Distribution Co\",\n    \"websiteLink\": \"https://musicdistribution.com\",\n    \"instagramUrl\": \"https://instagram.com/musicdist\",\n    \"facebookUrl\": \"https://facebook.com/musicdist\",\n    \"youtubeLink\": \"https://youtube.com/musicdist\",\n    \"popularReleaseLinks\": [\"https://spotify.com/track1\", \"https://spotify.com/track2\"],\n    \"popularArtistLinks\": [\"https://spotify.com/artist1\"],\n    \"associatedLabels\": [\"Label One\", \"Label Two\"],\n    \"totalReleases\": 500,\n    \"releaseFrequency\": \"monthly\",\n    \"monthlyReleasePlans\": 50,\n    \"briefInfo\": \"We are a leading music distribution company with 5+ years of experience in the industry. We work with over 100 artists and labels.\",\n    \"additionalServices\": [\"music_marketing\", \"youtube_cms\"],\n    \"howDidYouKnow\": \"social_media\",\n    \"agreeToTerms\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/aggregator/apply",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"aggregator",
+								"apply"
+							]
+						},
+						"description": "Submit aggregator application for admin review"
+					},
+					"response": []
+				},
+			]
+		},
+		{
 			"name": "Subscription Management",
 			"item": [
 				{
@@ -1085,6 +1119,150 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Admin - Aggregator Management",
+			"item": [
+				{
+					"name": "Get All Aggregator Applications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/aggregator/applications?status=pending&page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"aggregator",
+								"applications"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "pending"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Get all aggregator applications with filtering and pagination (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Application Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/aggregator/applications/{{applicationId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"aggregator",
+								"applications",
+								"{{applicationId}}"
+							]
+						},
+						"description": "Get specific aggregator application details (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Review Application",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"applicationStatus\": \"approved\",\n    \"adminNotes\": \"Great portfolio and experience. Approved for aggregator account.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/aggregator/applications/{{applicationId}}/review",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"aggregator",
+								"applications",
+								"{{applicationId}}",
+								"review"
+							]
+						},
+						"description": "Approve or reject aggregator application (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Aggregator Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"AggregatorSecure123\",\n    \"confirmPassword\": \"AggregatorSecure123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/aggregator/applications/{{applicationId}}/create-account",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"aggregator",
+								"applications",
+								"{{applicationId}}",
+								"create-account"
+							]
+						},
+						"description": "Create aggregator user account after application approval (admin only)"
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -1137,6 +1315,11 @@
 		{
 			"key": "planId",
 			"value": "maheshwari_standard",
+			"type": "string"
+		},
+		{
+			"key": "applicationId",
+			"value": "",
 			"type": "string"
 		}
 	]

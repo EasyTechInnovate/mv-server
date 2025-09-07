@@ -8,7 +8,7 @@ const register = z.object({
         emailAddress: z.string().email('Invalid email address').transform(val => val.toLowerCase()),
         password: z.string().min(6, 'Password must be at least 6 characters'),
         confirmPassword: z.string(),
-        userType: z.enum(Object.values(EUserType)),
+        userType: z.enum([EUserType.ARTIST, EUserType.LABEL]),
         companyName: z.string().trim().optional(),
         phoneNumber: z.string().trim().optional(),
         agreeToTerms: z.boolean().refine(val => val === true, {
