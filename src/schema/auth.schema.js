@@ -10,10 +10,40 @@ const register = z.object({
         confirmPassword: z.string(),
         userType: z.enum([EUserType.ARTIST, EUserType.LABEL]),
         companyName: z.string().trim().optional(),
-        phoneNumber: z.string().trim().optional(),
-        agreeToTerms: z.boolean().refine(val => val === true, {
-            message: 'You must agree to terms and conditions'
-        })
+        phoneNumber: z.string().min(10, 'Phone number must be at least 10 digits').optional(),
+        consent: z.object({
+            terms: z.boolean().refine(val => val === true, {
+                message: 'You must agree to terms and conditions'
+            }),
+            privacy: z.boolean().refine(val => val === true, {
+                message: 'You must agree to privacy policy'
+            }),
+            marketing: z.boolean().optional()
+        }),
+        address: z.object({
+            street: z.string().min(1, 'Street is required'),
+            city: z.string().min(1, 'City is required'),
+            state: z.string().min(1, 'State is required'),
+            country: z.string().min(1, 'Country is required'),
+            pinCode: z.string().min(1, 'Pin code is required')
+        }),
+        artistData: z.object({
+            artistName: z.string().min(1, 'Artist name is required'),
+            youtubeLink: z.string().url('Invalid YouTube URL').optional(),
+            instagramLink: z.string().url('Invalid Instagram URL').optional(),
+            facebookLink: z.string().url('Invalid Facebook URL').optional()
+        }).optional(),
+        labelData: z.object({
+            labelName: z.string().min(1, 'Label name is required'),
+            youtubeLink: z.string().url('Invalid YouTube URL').optional(),
+            websiteLink: z.string().url('Invalid Website URL').optional(),
+            popularReleaseLink: z.string().url('Invalid Release URL').optional(),
+            popularArtistLinks: z.array(z.string().url()).optional(),
+            totalReleases: z.number().min(0, 'Total releases must be non-negative').optional(),
+            releaseFrequency: z.enum(['daily', 'weekly', 'monthly', 'quarterly', 'yearly']).optional(),
+            monthlyReleasePlans: z.number().min(0, 'Monthly release plans must be non-negative').optional(),
+            aboutLabel: z.string().optional()
+        }).optional()
     }).refine(data => data.password === data.confirmPassword, {
         message: 'Passwords do not match',
         path: ['confirmPassword']

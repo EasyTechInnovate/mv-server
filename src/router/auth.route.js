@@ -2,9 +2,7 @@ import { Router } from 'express'
 import authController from '../controller/Authentication/auth.controller.js'
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
-import authorization from '../middleware/authorization.js'
 import authSchemas from '../schema/auth.schema.js'
-import { EUserRole } from '../constant/application.js'
 
 const router = Router()
 
@@ -79,8 +77,6 @@ router.route('/resend-verification')
 
 router.route('/admin/create')
     .post(
-        authentication,
-        authorization([EUserRole.ADMIN]),
         validateRequest(authSchemas.createAdmin),
         authController.createAdmin
     )

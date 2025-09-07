@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs'
 import crypto from 'crypto'
 import User from '../../model/user.model.js'
 import { EUserRole } from '../../constant/application.js'
@@ -19,23 +18,26 @@ export default {
 
     async register(req, res, next) {
         try {
-            const { firstName, lastName, emailAddress, password, userType, companyName, phoneNumber } = req.body
+            const { firstName, lastName, emailAddress, password, userType, companyName, phoneNumber, consent, address, artistData, labelData } = req.body
 
             const existingUser = await User.findOne({ emailAddress })
             if (existingUser) {
                 return httpError(
                     next,
-                    new Error(responseMessage.customMessage('User with this email already exists')),
+                    new Error(responseMessage.customMessage('An account with this email already exists. Please login to continue.')),
                     req,
                     409
                 )
             }
 
-            const salt = await bcrypt.genSalt(12)
-            const hashedPassword = await bcrypt.hash(password, salt)
+            const { countryCode, isoCode, internationalNumber } = quicker.parsePhoneNumber(`+${phoneNumber}`)
+            if (!countryCode || !isoCode || !internationalNumber) {
+                return httpError(next, new Error(responseMessage.customMessage('Invalid phone number')), req, 422)
+            }
 
             const verificationToken = quicker.generateVerificationToken()
             const verificationCode = quicker.generateVerificationCode()
+
             const accountId = await quicker.generateAccountId(userType, User)
 
             const userData = {
@@ -43,10 +45,16 @@ export default {
                 lastName,
                 accountId,
                 emailAddress,
-                password: hashedPassword,
+                password,
                 role: EUserRole.USER,
                 userType,
-                phoneNumber: phoneNumber || null,
+                phoneNumber:{
+                    countryCode,
+                    isoCode,
+                    internationalNumber
+                },
+                consent,
+                address,
                 isActive: true,
                 isEmailVerified: false,
                 accountConfirmation: {
@@ -55,6 +63,14 @@ export default {
                     expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
                     isUsed: false
                 }
+            }
+
+            if (userType === 'artist' && artistData) {
+                userData.artistData = artistData
+            }
+            
+            if (userType === 'label' && labelData) {
+                userData.labelData = labelData
             }
 
             if (companyName) {
@@ -133,7 +149,7 @@ export default {
         try {
             const { emailAddress, password } = req.body
 
-            const user = await User.findOne({ emailAddress, isActive: true })
+            const user = await User.findOne({ emailAddress })
             if (!user) {
                 return httpError(
                     next,
@@ -143,7 +159,7 @@ export default {
                 )
             }
 
-            const isPasswordValid = await bcrypt.compare(password, user.password)
+            const isPasswordValid = await user.comparePassword(password)
             if (!isPasswordValid) {
                 return httpError(
                     next,
@@ -176,6 +192,8 @@ export default {
             user.lastLoginAt = new Date()
             await user.save()
 
+            const accountStatus = quicker.getAccountStatus(user)
+
             const responseData = {
                 user: {
                     _id: user._id,
@@ -188,12 +206,14 @@ export default {
                     isEmailVerified: user.isEmailVerified,
                     profileCompletion: user.profileCompletion,
                     hasActiveSubscription: user.hasActiveSubscription,
-                    subscription: user.subscription
+                    subscription: user.subscription,
+                    kycStatus: user.kycStatus
                 },
                 tokens: {
                     accessToken,
                     refreshToken
-                }
+                },
+                accountStatus: accountStatus
             }
 
             return httpResponse(
@@ -297,7 +317,7 @@ export default {
         try {
             const { emailAddress } = req.body
 
-            const user = await User.findOne({ emailAddress, isActive: true })
+            const user = await User.findOne({ emailAddress })
             if (!user) {
                 return httpResponse(
                     req,
@@ -344,8 +364,7 @@ export default {
             const user = await User.findOne({
                 'passwordReset.token': token,
                 'passwordReset.expiresAt': { $gt: new Date() },
-                'passwordReset.isUsed': false,
-                isActive: true
+                'passwordReset.isUsed': false
             })
 
             if (!user) {
@@ -357,10 +376,7 @@ export default {
                 )
             }
 
-            const salt = await bcrypt.genSalt(12)
-            const hashedPassword = await bcrypt.hash(password, salt)
-
-            user.password = hashedPassword
+            user.password = password
             user.passwordReset = {
                 token: null,
                 expiresAt: null,
@@ -392,7 +408,7 @@ export default {
             const userId = req.authenticatedUser._id
 
             const user = await User.findById(userId)
-            const isCurrentPasswordValid = await bcrypt.compare(currentPassword, user.password)
+            const isCurrentPasswordValid = await user.comparePassword(currentPassword)
 
             if (!isCurrentPasswordValid) {
                 return httpError(
@@ -403,10 +419,7 @@ export default {
                 )
             }
 
-            const salt = await bcrypt.genSalt(12)
-            const hashedPassword = await bcrypt.hash(newPassword, salt)
-
-            user.password = hashedPassword
+            user.password = newPassword
             user.refreshTokens = []
             await user.save()
 
@@ -589,8 +602,16 @@ export default {
                 )
             }
 
-            const salt = await bcrypt.genSalt(12)
-            const hashedPassword = await bcrypt.hash(password, salt)
+            // const existingAdmin = await User.findOne({ role: EUserRole.ADMIN })
+            // if (existingAdmin) {
+            //     return httpError(
+            //         next,
+            //         new Error(responseMessage.customMessage('An admin user already exists')),
+            //         req,
+            //         409
+            //     )
+            // }
+
             const accountId = await quicker.generateAccountId('admin', User)
 
             const adminUser = new User({
@@ -598,7 +619,7 @@ export default {
                 lastName,
                 accountId,
                 emailAddress,
-                password: hashedPassword,
+                password,
                 role: EUserRole.ADMIN,
                 isActive: true,
                 isEmailVerified: true
@@ -606,13 +627,11 @@ export default {
 
             await adminUser.save()
 
-            adminUser.notifications.push({
-                title: 'Admin Account Created',
-                message: 'Your admin account has been created successfully.',
-                type: 'success',
-                isRead: false,
-                createdAt: new Date()
-            })
+            adminUser.addNotification(
+                'Admin Account Created',
+                'Your admin account has been created successfully.',
+                'success'
+            )
             
             await adminUser.save()
 

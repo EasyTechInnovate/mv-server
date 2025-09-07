@@ -22,7 +22,7 @@ export default {
         req,
         res,
         200,
-        responseMessage.SERVICE("Admin Subscription")
+        responseMessage.SERVICE("Admin")
       );
     } catch (err) {
       httpError(next, err, req, 500);
@@ -756,13 +756,11 @@ export default {
       application.createdAccountId = aggregatorUser._id
       await application.save()
 
-      aggregatorUser.notifications.push({
-        title: 'Welcome to Maheshwari Visuals!',
-        message: 'Your aggregator account has been created successfully. You can now login and access all features.',
-        type: 'success',
-        isRead: false,
-        createdAt: new Date()
-      })
+      aggregatorUser.addNotification(
+        'Welcome to Maheshwari Visuals!',
+        'Your aggregator account has been created successfully. You can now login and access all features.',
+        'success'
+      )
       
       await aggregatorUser.save()
 

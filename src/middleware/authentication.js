@@ -8,16 +8,12 @@ export default async (request, _res, next) => {
     try {
         const req = request
 
-        console.log('Authentication middleware called')
-
         let accessToken
 
         const cookies = req.cookies
         if (cookies?.accessToken) {
             accessToken = cookies.accessToken
         }
-
-        console.log('Access token from cookies:', accessToken)
 
         if (!accessToken) {
             const authHeader = req.headers.authorization

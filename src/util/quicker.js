@@ -2,6 +2,7 @@ import os from 'os';
 import crypto from 'crypto';
 import config from '../config/config.js';
 import jwt from 'jsonwebtoken'
+import parsePhoneNumber from 'libphonenumber-js'
 
 export default {
     getSystemHealth: () => {
@@ -68,5 +69,72 @@ export default {
         } catch (err) {
             throw err
         }
-    }
+    },
+
+    getAccountStatus: (user) => {
+        const status = {
+            emailVerified: user.isEmailVerified,
+            kycCompleted: user.kycStatus?.isCompleted || false,
+            kycStatus: user.kycStatus?.status || 'pending',
+            hasActiveSubscription: user.hasActiveSubscription,
+            subscriptionStatus: user.subscription?.status || 'inactive',
+            nextStep: null,
+            redirectTo: null,
+        }
+
+        // Determine next step and redirect
+        if (!status.emailVerified) {
+            status.nextStep = 'verify_email'
+            status.redirectTo = '/verify-email'
+        } else if (!status.kycCompleted) {
+            if (status.kycStatus === 'pending') {
+                status.nextStep = 'complete_kyc'
+                status.redirectTo = '/kyc'
+            } else if (status.kycStatus === 'submitted') {
+                status.nextStep = 'kyc_under_review'
+                status.redirectTo = '/kyc-status'
+            } else if (status.kycStatus === 'rejected') {
+                status.nextStep = 'resubmit_kyc'
+                status.redirectTo = '/kyc'
+            } else if (status.kycStatus === 'verified') {
+                status.kycCompleted = true
+            }
+        }
+
+        if (status.emailVerified && status.kycCompleted) {
+            if (!status.hasActiveSubscription) {
+                status.nextStep = 'choose_subscription'
+                status.redirectTo = '/subscription'
+            } else {
+                status.nextStep = 'dashboard'
+                status.redirectTo = '/dashboard'
+            }
+        }
+
+        return status
+    },
+    parsePhoneNumber: (phoneNumber) => {
+        try {
+            const parsedContactNumber = parsePhoneNumber(phoneNumber)
+            if (parsedContactNumber) {
+                return {
+                    countryCode: parsedContactNumber.countryCallingCode,
+                    isoCode: parsedContactNumber.country || null,
+                    internationalNumber: parsedContactNumber.formatInternational()
+                }
+            }
+
+            return {
+                countryCode: null,
+                isoCode: null,
+                internationalNumber: null
+            }
+        } catch (err) {
+            return {
+                countryCode: null,
+                isoCode: null,
+                internationalNumber: null
+            }
+        }
+    },
 };

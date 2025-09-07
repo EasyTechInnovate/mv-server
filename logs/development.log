@@ -1307,3 +1307,2945 @@
         "SERVER_URL": "http://localhost:5000"
     }
 }
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:29:05.076Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:29:05.080Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:29:05.080Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:30:47.269Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:30:47.271Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:30:47.272Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:32:08.931Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:32:08.934Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:32:08.934Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:32:25.658Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:32:25.660Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:32:25.661Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:32:34.006Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:32:34.011Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:32:34.012Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T16:33:07.837Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/health"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "application": {
+                "environment": "development",
+                "uptime": "34.44 Seconds",
+                "memoryUsage": {
+                    "heapTotal": "30.56 MB",
+                    "heapUsed": "27.59 MB"
+                }
+            },
+            "system": {
+                "cpuUsage": [
+                    3.916015625,
+                    3.1806640625,
+                    2.6552734375
+                ],
+                "totalMemory": "16384.00 MB",
+                "freeMemory": "296.44 MB"
+            },
+            "timestamp": 1757262787836
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T16:33:18.158Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/auth/self"
+        },
+        "message": "Authentication service is running.",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T16:33:40.624Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/auth/self"
+        },
+        "message": "Authentication service is running.",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:47:03.558Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:47:03.561Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:47:03.561Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:50:03.670Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:50:03.672Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:50:03.673Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:50:12.321Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:50:12.325Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:50:12.325Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:50:35.208Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:50:35.210Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:50:35.210Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:50:50.738Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:50:50.740Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:50:50.740Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:53:26.215Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:53:26.217Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:53:26.217Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:53:32.178Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:53:32.182Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:53:32.183Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:53:42.857Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:53:42.859Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:53:42.859Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:54:04.698Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:54:04.700Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:54:04.701Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:54:16.097Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:54:16.100Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:54:16.101Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:57:45.167Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:57:45.169Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:57:45.169Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:58:31.975Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:58:31.981Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:58:31.981Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T16:58:50.002Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T16:58:50.004Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T16:58:50.004Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:01:39.951Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:01:39.956Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:01:39.956Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T17:04:21.415Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/admin/create"
+        },
+        "message": "Admin user created successfully",
+        "data": {
+            "admin": {
+                "_id": "68bdbb14ef3bb3aacc9e98ce",
+                "accountId": "MV/AD/02",
+                "firstName": "System",
+                "lastName": "Admin",
+                "emailAddress": "system.admin@maheshwarivisuals.com",
+                "role": "admin",
+                "createdAt": "2025-09-07T17:04:20.846Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:08:52.478Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:08:52.480Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:08:52.480Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:08:57.373Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:08:57.375Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:08:57.375Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:09:39.423Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:09:39.428Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:09:39.429Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:17:05.270Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:17:05.277Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:17:05.277Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:17:25.489Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:17:25.491Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:17:25.491Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:17:52.439Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:17:52.444Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:17:52.445Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:18:18.915Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:18:18.917Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:18:18.918Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:19:08.579Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:19:08.584Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:19:08.585Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:28:43.414Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:28:43.418Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:28:43.419Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:28:48.037Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:28:48.041Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:28:48.042Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:28:55.952Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:28:55.955Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:28:55.956Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:29:23.649Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:29:23.651Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:29:23.651Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:30:08.412Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:30:08.414Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:30:08.414Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:31:14.084Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:31:14.086Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:31:14.086Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T17:31:37.645Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bdc179c94816854336dd06",
+                "accountId": "MV/A/02",
+                "firstName": "Jane",
+                "lastName": "Artist",
+                "emailAddress": "jane.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T17:31:37.185Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkYzE3OWM5NDgxNjg1NDMzNmRkMDYiLCJlbWFpbEFkZHJlc3MiOiJqYW5lLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTcyNjYyOTcsImV4cCI6MTc1NzM1MjY5N30.SuCzNxeRd2QLF2gA_1DP7oyQQaHmN_ML_NK3pPNYzVg",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkYzE3OWM5NDgxNjg1NDMzNmRkMDYiLCJpYXQiOjE3NTcyNjYyOTcsImV4cCI6MTc1Nzg3MTA5N30.pn9jl2OLRXnyFJqcf8nEKmefM0IMjj91rbJmf0WPa3E"
+            },
+            "verification": {
+                "verificationUrl": "http://localhost:3000/verify-email?token=2e527ce25609c644fbbb2b8348be8279d287a0bfbb97fd55e69b4d739b08520a",
+                "verificationCode": "502930",
+                "message": "Please verify your email to activate your account"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:32:17.208Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:32:17.212Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:32:17.212Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:32:47.072Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:32:47.076Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:32:47.077Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T17:36:03.818Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T17:36:03.822Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T17:36:03.822Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:15:53.070Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:15:53.072Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:15:53.072Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:16:18.354Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:16:18.357Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:16:18.358Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:22:22.350Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:22:22.355Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:22:22.355Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T18:23:14.400Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bdcd92663d2beab83445e8",
+                "accountId": "MV/A/03",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.newartist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T18:23:14.042Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2Q5MjY2M2QyYmVhYjgzNDQ1ZTgiLCJlbWFpbEFkZHJlc3MiOiJqb2huLm5ld2FydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTcyNjkzOTQsImV4cCI6MTc1NzM1NTc5NH0.TK0c_PdZtgLa0sEE8O6kvdotn0OxKxM1zaXwb8Oxmns",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2Q5MjY2M2QyYmVhYjgzNDQ1ZTgiLCJpYXQiOjE3NTcyNjkzOTQsImV4cCI6MTc1Nzg3NDE5NH0.jZuM7VHDayJgdhXTZBavrzAGqOL0M0_ltWnL3tCVFcY"
+            },
+            "verification": {
+                "verificationUrl": "http://localhost:3000/verify-email?token=73eb6d5b0bcecc5e1a75e40714527023e09b8cb23542065543319c919ed37f0b",
+                "verificationCode": "828215",
+                "message": "Please verify your email to activate your account"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:24:48.052Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:24:48.054Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:24:48.054Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:24:53.068Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:24:53.069Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:24:53.070Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:25:00.932Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:25:00.935Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:25:00.936Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T18:25:13.359Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bdce086d3f1f1d7ba3293e",
+                "accountId": "MV/L/01",
+                "firstName": "Music",
+                "lastName": "Label",
+                "emailAddress": "label@example.com",
+                "role": "user",
+                "userType": "label",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T18:25:12.968Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2UwODZkM2YxZjFkN2JhMzI5M2UiLCJlbWFpbEFkZHJlc3MiOiJsYWJlbEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJsYWJlbCIsImlhdCI6MTc1NzI2OTUxMywiZXhwIjoxNzU3MzU1OTEzfQ.4SoM8FgOfkWTOy_qyrrDwZEQcfzC5wQnjWJOypPWVj4",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2UwODZkM2YxZjFkN2JhMzI5M2UiLCJpYXQiOjE3NTcyNjk1MTMsImV4cCI6MTc1Nzg3NDMxM30.fdrWBsa6VClMBiVHi4mNuJFP0wEI3cxWRmWun0gMjn4"
+            },
+            "verification": {
+                "verificationUrl": "http://localhost:3000/verify-email?token=67396d570ee7d8bcd689ee61c46286a29813a0e9694f1934422b6035b56d69af",
+                "verificationCode": "535785",
+                "message": "Please verify your email to activate your account"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:26:51.850Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:26:51.852Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:26:51.853Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:27:20.195Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:27:20.204Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:27:20.205Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:27:42.079Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:27:42.080Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:27:42.081Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:28:12.133Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:28:12.136Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:28:12.136Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:28:30.458Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:28:30.461Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:28:30.461Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:28:42.343Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:28:42.345Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:28:42.345Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:28:57.587Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:28:57.589Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:28:57.590Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:29:36.686Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:29:36.692Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:29:36.692Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T18:29:57.397Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bdcf25833f4d0b67b17bed",
+                "accountId": "MV/A/04",
+                "firstName": "Test",
+                "lastName": "User",
+                "emailAddress": "testlogin@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T18:29:57.036Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2YyNTgzM2Y0ZDBiNjdiMTdiZWQiLCJlbWFpbEFkZHJlc3MiOiJ0ZXN0bG9naW5AZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsInVzZXJUeXBlIjoiYXJ0aXN0IiwiaWF0IjoxNzU3MjY5Nzk3LCJleHAiOjE3NTczNTYxOTd9.JtltThETGJTmfCXL77FwIDJM0Jr4Or5EIe8K_2Ft7qU",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2YyNTgzM2Y0ZDBiNjdiMTdiZWQiLCJpYXQiOjE3NTcyNjk3OTcsImV4cCI6MTc1Nzg3NDU5N30.vpHectNMkp5eFRQN4Nzl_M-Y-dXzDdpNq5KAECN9Eww"
+            },
+            "verification": {
+                "verificationUrl": "http://localhost:3000/verify-email?token=c176e9572082ec83e6faf2d0f628107d227c1a5c691308906c1c37afbcae6c8b",
+                "verificationCode": "577683",
+                "message": "Please verify your email to activate your account"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T18:30:28.053Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bdcf25833f4d0b67b17bed",
+                "accountId": "MV/A/04",
+                "firstName": "Test",
+                "lastName": "User",
+                "emailAddress": "testlogin@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T18:29:57.036Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2YyNTgzM2Y0ZDBiNjdiMTdiZWQiLCJlbWFpbEFkZHJlc3MiOiJ0ZXN0bG9naW5AZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsInVzZXJUeXBlIjoiYXJ0aXN0IiwiaWF0IjoxNzU3MjY5ODI4LCJleHAiOjE3NTczNTYyMjh9.1d4EpfKi4C1EiI6GAjPsNCzNvHPg7hc9fSpwXgaWhNU",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2YyNTgzM2Y0ZDBiNjdiMTdiZWQiLCJpYXQiOjE3NTcyNjk4MjgsImV4cCI6MTc1Nzg3NDYyOH0.rRk2AkHZgy_UR63nmG9xWwMDcVZJfa7pj6vhwYwbmr4"
+            },
+            "accountStatus": {
+                "emailVerified": false,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "verify_email",
+                "redirectTo": "/verify-email"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T18:30:38.273Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T18:30:38.275Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T18:30:38.275Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T18:33:59.804Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/refresh-token"
+        },
+        "message": "Token refreshed successfully",
+        "data": {
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2YyNTgzM2Y0ZDBiNjdiMTdiZWQiLCJlbWFpbEFkZHJlc3MiOiJ0ZXN0bG9naW5AZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsInVzZXJUeXBlIjoiYXJ0aXN0IiwiaWF0IjoxNzU3MjcwMDM5LCJleHAiOjE3NTczNTY0Mzl9.iVtUbszRg3mo_MUtwRN6I_b2H_bqF3IfK2wU9fqm3qc"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:17:58.207Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:17:58.211Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:17:58.212Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:18:44.586Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/self"
+        },
+        "message": "The operation has been successful",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:18:48.259Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/health"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "application": {
+                "environment": "development",
+                "uptime": "50.87 Seconds",
+                "memoryUsage": {
+                    "heapTotal": "32.81 MB",
+                    "heapUsed": "30.10 MB"
+                }
+            },
+            "system": {
+                "cpuUsage": [
+                    1.4052734375,
+                    2.326171875,
+                    3.02978515625
+                ],
+                "totalMemory": "16384.00 MB",
+                "freeMemory": "63.67 MB"
+            },
+            "timestamp": 1757279928259
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:18:52.892Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/auth/self"
+        },
+        "message": "Authentication service is running.",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:21:38.763Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/forgot-password"
+        },
+        "message": "If an account with this email exists, a password reset link has been sent",
+        "data": {
+            "resetUrl": "http://localhost:3000/reset-password?token=0fbb5d1dc2b12912846c21d3e1c3ea4b833d01099e8e1db9e9a56bc89aafe69a"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:22:09.533Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:22:09.535Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:22:09.536Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:22:32.715Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/forgot-password"
+        },
+        "message": "If an account with this email exists, a password reset link has been sent",
+        "data": {
+            "resetUrl": "http://localhost:3000/reset-password?token=b00e96ef84a85414f3a5f122593d5b34013fa096882a2c5109a2db257560c4c0"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:22:57.199Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:22:57.205Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:22:57.206Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:23:23.796Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/forgot-password"
+        },
+        "message": "If an account with this email exists, a password reset link has been sent",
+        "data": {
+            "resetUrl": "http://localhost:3000/reset-password?token=555d1dd9b3ecabdd4ca1a2c8e753acd04743e8b5da6d9742b6208beaf07aeef2"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:23:49.480Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:23:49.482Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:23:49.482Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:23:55.377Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:23:55.380Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:23:55.381Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:24:21.498Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/forgot-password"
+        },
+        "message": "If an account with this email exists, a password reset link has been sent",
+        "data": {
+            "resetUrl": "http://localhost:3000/reset-password?token=e2bd8632ff4cbc08fcb32d851a8872698ddd13030daf6a138b93113a5769e5bb"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:24:51.834Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:24:51.841Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:24:51.842Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:24:57.842Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:24:57.844Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:24:57.844Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:25:09.112Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bdcf25833f4d0b67b17bed",
+                "accountId": "MV/A/04",
+                "firstName": "Test",
+                "lastName": "User",
+                "emailAddress": "testlogin@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T18:29:57.036Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2YyNTgzM2Y0ZDBiNjdiMTdiZWQiLCJlbWFpbEFkZHJlc3MiOiJ0ZXN0bG9naW5AZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsInVzZXJUeXBlIjoiYXJ0aXN0IiwiaWF0IjoxNzU3MjgwMzA5LCJleHAiOjE3NTczNjY3MDl9.2s8_cf_b4fsWDNRRS4wSwuNG2FnHWIboHIDqKk83e3Y",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkY2YyNTgzM2Y0ZDBiNjdiMTdiZWQiLCJpYXQiOjE3NTcyODAzMDksImV4cCI6MTc1Nzg4NTEwOX0.rbiBgAyNH0vAurEk1lpREILnvRmT5pGG9C3r9OhkH_Q"
+            },
+            "accountStatus": {
+                "emailVerified": false,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "verify_email",
+                "redirectTo": "/verify-email"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:25:19.861Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/auth/profile"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "user": {
+                "_id": "68bdcf25833f4d0b67b17bed",
+                "accountId": "MV/A/04",
+                "firstName": "Test",
+                "lastName": "User",
+                "emailAddress": "testlogin@example.com",
+                "role": "user",
+                "userType": "artist",
+                "phoneNumber": {
+                    "isoCode": "IN",
+                    "countryCode": "91",
+                    "internationalNumber": "+91 98765 43299"
+                },
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T18:29:57.036Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "featureAccess": {
+                    "canUploadMusic": false,
+                    "canAccessAnalytics": false,
+                    "canManageDistribution": false,
+                    "uploadLimit": 0,
+                    "monthlyUploadsUsed": 0,
+                    "lastUploadReset": "2025-09-07T18:29:57.036Z"
+                },
+                "createdAt": "2025-09-07T18:29:57.039Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:25:53.094Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "PATCH",
+            "url": "/v1/auth/change-password"
+        },
+        "message": "Password changed successfully",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:26:08.298Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:26:08.303Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:26:08.303Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:26:11.834Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/subscription/self"
+        },
+        "message": "Subscription service is running.",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:26:16.009Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/subscription/plans"
+        },
+        "message": "The operation has been successful",
+        "data": []
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:26:49.175Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/admin/self"
+        },
+        "message": "Admin service is running.",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:27:25.658Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/aggregator/apply"
+        },
+        "message": "Aggregator application submitted successfully. We will review your application and contact you soon.",
+        "data": {
+            "application": {
+                "_id": "68bdf8bd42851d03a883000a",
+                "companyName": "Test Aggregator Company",
+                "emailAddress": "john@testaggregator.com",
+                "applicationStatus": "pending",
+                "createdAt": "2025-09-07T21:27:25.613Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:31:04.416Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:31:04.418Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:31:04.418Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:31:17.626Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/admin/create"
+        },
+        "message": "Admin user created successfully",
+        "data": {
+            "admin": {
+                "_id": "68bdf9a543a06c819a73a1d5",
+                "accountId": "MV/AD/03",
+                "firstName": "Fresh",
+                "lastName": "Admin",
+                "emailAddress": "fresh.admin@maheshwarivisuals.com",
+                "role": "admin",
+                "createdAt": "2025-09-07T21:31:17.195Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:31:25.913Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bdf9a543a06c819a73a1d5",
+                "accountId": "MV/AD/03",
+                "firstName": "Fresh",
+                "lastName": "Admin",
+                "emailAddress": "fresh.admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T21:31:17.192Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJlbWFpbEFkZHJlc3MiOiJmcmVzaC5hZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTcyODA2ODUsImV4cCI6MTc1NzM2NzA4NX0.ekJ4VPsLGbKJcyo_Wyz72NeHoiywSrhZefZAa82M9oA",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJpYXQiOjE3NTcyODA2ODUsImV4cCI6MTc1Nzg4NTQ4NX0.dNumw2fa3sO1vHqvb-HYZjt4KCifSc4XNKbgSjMb6vU"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:31:35.866Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/forgot-password"
+        },
+        "message": "If an account with this email exists, a password reset link has been sent",
+        "data": {
+            "resetUrl": "http://localhost:3000/reset-password?token=3c4ad40c8856cea42b54b51b242da888d7814b025ef549f518fc2b589de66863"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:33:24.156Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:33:24.158Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:33:24.158Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:33:33.430Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/forgot-password"
+        },
+        "message": "If an account with this email exists, a password reset link has been sent",
+        "data": {
+            "resetUrl": "http://localhost:3000/reset-password?token=190b9b4b566900aa5ae372758826fb1fe3273a758a8fb138f8ff463e5c4d9b58"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:33:57.675Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/reset-password"
+        },
+        "message": "Password reset successfully",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:34:18.545Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bdf9a543a06c819a73a1d5",
+                "accountId": "MV/AD/03",
+                "firstName": "Fresh",
+                "lastName": "Admin",
+                "emailAddress": "fresh.admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T21:31:17.192Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJlbWFpbEFkZHJlc3MiOiJmcmVzaC5hZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTcyODA4NTgsImV4cCI6MTc1NzM2NzI1OH0.8xJ-y7TXdcx2duzJJSqMTrcQqk4P_uebmXAhaDKAVqU",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJpYXQiOjE3NTcyODA4NTgsImV4cCI6MTc1Nzg4NTY1OH0.-HAhTDfO1EQGhcVmPdLrrSJFgO3unChAt9ZVBgS9Bjo"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:34:37.573Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:34:37.575Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:34:37.576Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:37:42.407Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:37:42.411Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:37:42.411Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:38:45.333Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/health"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "application": {
+                "environment": "development",
+                "uptime": "63.95 Seconds",
+                "memoryUsage": {
+                    "heapTotal": "32.81 MB",
+                    "heapUsed": "30.53 MB"
+                }
+            },
+            "system": {
+                "cpuUsage": [
+                    3.3798828125,
+                    3.53076171875,
+                    3.36181640625
+                ],
+                "totalMemory": "16384.00 MB",
+                "freeMemory": "635.34 MB"
+            },
+            "timestamp": 1757281125332
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-07T21:39:31.423Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-07T21:39:31.426Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-07T21:39:31.426Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:39:57.022Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bdf9a543a06c819a73a1d5",
+                "accountId": "MV/AD/03",
+                "firstName": "Fresh",
+                "lastName": "Admin",
+                "emailAddress": "fresh.admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T21:31:17.192Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJlbWFpbEFkZHJlc3MiOiJmcmVzaC5hZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTcyODExOTYsImV4cCI6MTc1NzM2NzU5Nn0.jAMXN3MDjlNi-TLwzG7FLwfSSoGL_i5N9A80L6flgaM",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJpYXQiOjE3NTcyODExOTYsImV4cCI6MTc1Nzg4NTk5Nn0.Bjg5OhYkQIkO3BjK5Y1qJwLGbBtjPgZoMoFu9lfVUM0"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:40:30.874Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/admin/plans"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "plans": [],
+            "totalPlans": 0
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:40:59.197Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/admin/users/stats"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "totalUsers": 8,
+            "activeSubscribers": 0,
+            "subscriptionRate": "0.00",
+            "usersByType": [
+                {
+                    "userType": "artist",
+                    "count": 4
+                },
+                {
+                    "userType": "label",
+                    "count": 1
+                },
+                {
+                    "userType": "aggregator",
+                    "count": 0
+                }
+            ],
+            "recentRegistrations": [
+                {
+                    "_id": "68bdf9a543a06c819a73a1d5",
+                    "fullName": "Fresh Admin",
+                    "emailAddress": "fresh.admin@maheshwarivisuals.com",
+                    "registeredAt": "2025-09-07T21:31:17.195Z"
+                },
+                {
+                    "_id": "68bdcf25833f4d0b67b17bed",
+                    "fullName": "Test User",
+                    "emailAddress": "testlogin@example.com",
+                    "userType": "artist",
+                    "registeredAt": "2025-09-07T18:29:57.039Z"
+                },
+                {
+                    "_id": "68bdce086d3f1f1d7ba3293e",
+                    "fullName": "Music Label",
+                    "emailAddress": "label@example.com",
+                    "userType": "label",
+                    "registeredAt": "2025-09-07T18:25:12.973Z"
+                },
+                {
+                    "_id": "68bdcd92663d2beab83445e8",
+                    "fullName": "John Artist",
+                    "emailAddress": "john.newartist@example.com",
+                    "userType": "artist",
+                    "registeredAt": "2025-09-07T18:23:14.050Z"
+                },
+                {
+                    "_id": "68bdc179c94816854336dd06",
+                    "fullName": "Jane Artist",
+                    "emailAddress": "jane.artist@example.com",
+                    "userType": "artist",
+                    "registeredAt": "2025-09-07T17:31:37.189Z"
+                },
+                {
+                    "_id": "68bdc1058a2552c0a6b53703",
+                    "fullName": "John Artist",
+                    "emailAddress": "john.artist@example.com",
+                    "userType": "artist",
+                    "registeredAt": "2025-09-07T17:29:41.021Z"
+                },
+                {
+                    "_id": "68bdbb14ef3bb3aacc9e98ce",
+                    "fullName": "System Admin",
+                    "emailAddress": "system.admin@maheshwarivisuals.com",
+                    "registeredAt": "2025-09-07T17:04:20.846Z"
+                },
+                {
+                    "_id": "68bdb996af187ec4705e7451",
+                    "fullName": "Admin User",
+                    "emailAddress": "admin@maheshwarivisuals.com",
+                    "registeredAt": "2025-09-07T16:57:58.186Z"
+                }
+            ]
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:40:59.271Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/admin/revenue/summary"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "total": {
+                "totalAmount": 0,
+                "totalTransactions": 0,
+                "avgTransactionValue": 0
+            },
+            "byPlan": [],
+            "byMonth": []
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:40:59.368Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/admin/aggregator/applications"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "applications": [
+                {
+                    "_id": "68bdf8bd42851d03a883000a",
+                    "firstName": "John",
+                    "lastName": "Doe",
+                    "emailAddress": "john@testaggregator.com",
+                    "phoneNumber": "919876543212",
+                    "companyName": "Test Aggregator Company",
+                    "websiteLink": "https://testaggregator.com",
+                    "instagramUrl": null,
+                    "facebookUrl": null,
+                    "linkedinUrl": null,
+                    "youtubeLink": null,
+                    "popularReleaseLinks": [],
+                    "popularArtistLinks": [],
+                    "associatedLabels": [],
+                    "totalReleases": 100,
+                    "releaseFrequency": "monthly",
+                    "monthlyReleasePlans": 0,
+                    "briefInfo": "We are a music aggregator specializing in independent artists distribution across major platforms.",
+                    "additionalServices": [],
+                    "howDidYouKnow": null,
+                    "howDidYouKnowOther": null,
+                    "applicationStatus": "pending",
+                    "adminNotes": null,
+                    "reviewedAt": null,
+                    "reviewedBy": null,
+                    "isAccountCreated": false,
+                    "createdAccountId": null,
+                    "createdAt": "2025-09-07T21:27:25.613Z",
+                    "updatedAt": "2025-09-07T21:27:25.613Z",
+                    "__v": 0
+                }
+            ],
+            "pagination": {
+                "currentPage": 1,
+                "totalPages": 1,
+                "totalApplications": 1,
+                "hasNextPage": false,
+                "hasPrevPage": false
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:43:36.170Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bdf9a543a06c819a73a1d5",
+                "accountId": "MV/AD/03",
+                "firstName": "Fresh",
+                "lastName": "Admin",
+                "emailAddress": "fresh.admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T21:31:17.192Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJlbWFpbEFkZHJlc3MiOiJmcmVzaC5hZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTcyODE0MTYsImV4cCI6MTc1NzM2NzgxNn0.ToFVDSkmIu2CPp3CeErmQ4w39Ran5T-GNSrRwO_Hjlc",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJpYXQiOjE3NTcyODE0MTYsImV4cCI6MTc1Nzg4NjIxNn0.rTzfp6WN-EFx3XxsP9Ff7fVLg6fGlaIzGS8sj7swgJ0"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:43:36.265Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/admin/subscriptions/stats"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "byPlan": [],
+            "byStatus": [
+                {
+                    "status": "inactive",
+                    "count": 8
+                }
+            ],
+            "growth": []
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:43:49.104Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bdf9a543a06c819a73a1d5",
+                "accountId": "MV/AD/03",
+                "firstName": "Fresh",
+                "lastName": "Admin",
+                "emailAddress": "fresh.admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T21:31:17.192Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJlbWFpbEFkZHJlc3MiOiJmcmVzaC5hZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTcyODE0MjksImV4cCI6MTc1NzM2NzgyOX0.VGkmR6wyBlHnFRZAdOWAVam5MYWLHS18M4E-yN3XaIg",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJpYXQiOjE3NTcyODE0MjksImV4cCI6MTc1Nzg4NjIyOX0.zHj7iIIdCFHlTkEzh1Zq3GjeF01CZCLVl7mDzLHriE8"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:44:20.043Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bdf9a543a06c819a73a1d5",
+                "accountId": "MV/AD/03",
+                "firstName": "Fresh",
+                "lastName": "Admin",
+                "emailAddress": "fresh.admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-07T21:31:17.192Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJlbWFpbEFkZHJlc3MiOiJmcmVzaC5hZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTcyODE0NjAsImV4cCI6MTc1NzM2Nzg2MH0.HPh2KCgBclOV6gjqyYSJufmbp0MCT5ibcF8QchMehzM",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJkZjlhNTQzYTA2YzgxOWE3M2ExZDUiLCJpYXQiOjE3NTcyODE0NjAsImV4cCI6MTc1Nzg4NjI2MH0.-HsCi7VUxr6GzioKtljdsp2BSpde8JV0dCJfxvza1Kg"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:46:45.377Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/subscription/self"
+        },
+        "message": "Subscription service is running.",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-07T21:46:45.413Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/subscription/plans"
+        },
+        "message": "The operation has been successful",
+        "data": []
+    }
+}

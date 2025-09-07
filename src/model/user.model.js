@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
       match: [
-        /^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$/,
+        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
         "Please provide a valid email address",
       ],
     },
@@ -53,15 +53,21 @@ const userSchema = new mongoose.Schema(
       _id: false,
       isoCode: {
         type: String,
-        required: [true, "ISO code is required"],
+        required: function () {
+          return this.role !== EUserRole.ADMIN;
+        },
       },
       countryCode: {
         type: String,
-        required: [true, "Country code is required"],
+        required: function () {
+          return this.role !== EUserRole.ADMIN;
+        },
       },
       internationalNumber: {
         type: String,
-        required: [true, "Phone number is required"],
+        required: function () {
+          return this.role !== EUserRole.ADMIN;
+        },
       },
     },
     accountConfirmation: {
@@ -88,27 +94,37 @@ const userSchema = new mongoose.Schema(
       _id: false,
       street: {
         type: String,
-        required: [true, "Street address is required"],
+        required: function () {
+          return this.role !== EUserRole.ADMIN;
+        },
         trim: true,
       },
       city: {
         type: String,
-        required: [true, "City is required"],
+        required: function () {
+          return this.role !== EUserRole.ADMIN;
+        },
         trim: true,
       },
       state: {
         type: String,
-        required: [true, "State is required"],
+        required: function () {
+          return this.role !== EUserRole.ADMIN;
+        },
         trim: true,
       },
       country: {
         type: String,
-        required: [true, "Country is required"],
+        required: function () {
+          return this.role !== EUserRole.ADMIN;
+        },
         trim: true,
       },
       pinCode: {
         type: String,
-        required: [true, "Pin code is required"],
+        required: function () {
+          return this.role !== EUserRole.ADMIN;
+        },
         trim: true,
       },
     },
@@ -119,6 +135,26 @@ const userSchema = new mongoose.Schema(
         return !this.googleAuth?.googleId;
       },
       minlength: [6, "Password must be at least 6 characters long"],
+    },
+
+    refreshTokens: [{
+      type: String,
+    }],
+
+    passwordReset: {
+      _id: false,
+      token: {
+        type: String,
+        default: null,
+      },
+      expiresAt: {
+        type: Date,
+        default: null,
+      },
+      isUsed: {
+        type: Boolean,
+        default: false,
+      },
     },
 
     role: {
@@ -628,30 +664,79 @@ const userSchema = new mongoose.Schema(
     },
 
 
-    passwordReset: {
-      _id: false,
-      token: {
-        type: String,
-        default: null,
-      },
-      expiry: {
-        type: Number,
-        default: null,
-      },
-      lastResetAt: {
-        type: Date,
-        default: null,
-      },
-    },
 
     consent: {
-      type: Boolean,
-      required: [true, "Consent is required"],
+      _id: false,
+      terms: {
+        type: Boolean,
+        required: function () {
+          return this.role !== EUserRole.ADMIN;
+        },
+      },
+      privacy: {
+        type: Boolean,
+        required: function () {
+          return this.role !== EUserRole.ADMIN;
+        },
+      },
+      marketing: {
+        type: Boolean,
+        default: false,
+      },
+      agreedAt: {
+        type: Date,
+        default: Date.now,
+      },
     },
 
     isActive: {
       type: Boolean,
       default: false,
+    },
+
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+
+    kycStatus: {
+      _id: false,
+      isCompleted: {
+        type: Boolean,
+        default: false,
+      },
+      status: {
+        type: String,
+        enum: ['pending', 'submitted', 'verified', 'rejected'],
+        default: 'pending',
+      },
+      submittedAt: {
+        type: Date,
+        default: null,
+      },
+      verifiedAt: {
+        type: Date,
+        default: null,
+      },
+      rejectedAt: {
+        type: Date,
+        default: null,
+      },
+      rejectionReason: {
+        type: String,
+        default: null,
+      },
+      documents: {
+        _id: false,
+        aadharCard: {
+          type: String,
+          default: null,
+        },
+        panCard: {
+          type: String,
+          default: null,
+        },
+      },
     },
 
     loginInfo: {
@@ -717,7 +802,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-userSchema.index({ emailAddress: 1 }, { unique: true });
 userSchema.index({ "phoneNumber.internationalNumber": 1 });
 userSchema.index({ userType: 1 });
 userSchema.index({ role: 1 });
@@ -745,17 +829,18 @@ userSchema.virtual("unreadNotificationsCount").get(function () {
   return this.userNotifications?.filter((n) => !n.isRead).length || 0;
 });
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password") || !this.password) return next();
-
-  try {
-    const salt = await bcrypt.genSalt(12);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error);
-  }
-});
+userSchema.pre('save', async function(next) {
+    if (!this.isModified('password') || !this.password) return next()
+    
+    try {
+        const salt = await bcrypt.genSalt(12)
+        this.password = await bcrypt.hash(this.password, salt)
+        next()
+    } catch (error) {
+        next(error)
+        
+    }
+})
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
   if (!this.password) return false;
@@ -864,7 +949,5 @@ userSchema.statics.findActiveSubscribers = function () {
     isActive: true,
   });
 };
-
-userSchema.index({ accountId: 1 });
 
 export default mongoose.model("User", userSchema);
