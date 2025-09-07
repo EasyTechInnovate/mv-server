@@ -554,7 +554,7 @@
 						"description": "Submit aggregator application for admin review"
 					},
 					"response": []
-				},
+				}
 			]
 		},
 		{
