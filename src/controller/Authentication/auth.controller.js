@@ -597,15 +597,15 @@ export default {
                 )
             }
 
-            // const existingAdmin = await User.findOne({ role: EUserRole.ADMIN })
-            // if (existingAdmin) {
-            //     return httpError(
-            //         next,
-            //         new Error(responseMessage.customMessage('An admin user already exists')),
-            //         req,
-            //         409
-            //     )
-            // }
+            const existingAdmin = await User.findOne({ role: EUserRole.ADMIN })
+            if (existingAdmin) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('An admin user already exists')),
+                    req,
+                    409
+                )
+            }
 
             const accountId = await quicker.generateAccountId('admin', User)
 
