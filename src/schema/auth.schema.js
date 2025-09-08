@@ -117,6 +117,22 @@ const createAdmin = z.object({
     })
 })
 
+const kycSubmit = z.object({
+    body: z.object({
+        aadharCard: z.string()
+            .trim()
+            .refine(val => /^\d{12}$/.test(val), {
+                message: 'Aadhaar must be exactly 12 digits'
+            }),
+        panCard: z.string()
+            .trim()
+            .toUpperCase()
+            .refine(val => /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(val), {
+                message: 'PAN must be valid (e.g., ABCDE1234F)'
+            })
+    })
+})
+
 export default {
     register,
     login,
@@ -126,5 +142,6 @@ export default {
     refreshToken,
     verifyEmail,
     resendVerification,
-    createAdmin
+    createAdmin,
+    kycSubmit
 }

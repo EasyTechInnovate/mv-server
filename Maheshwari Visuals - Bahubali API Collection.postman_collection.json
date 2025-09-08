@@ -1,10 +1,11 @@
 {
 	"info": {
-		"_postman_id": "8847f9f1-9b9d-4ca6-b24d-d92d2f21ff14",
+		"_postman_id": "35242e5a-c29d-4466-868e-a1533f2b1906",
 		"name": "Maheshwari Visuals - Bahubali API Collection",
 		"description": "Complete API collection for Maheshwari Visuals music distribution platform",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26372308"
+		"_exporter_id": "48230141",
+		"_collection_link": "https://snehapaddu08-4943886.postman.co/workspace/Sneha's-Workspace~a7ad18df-ec31-4ea6-8f36-de1ff64ca919/collection/48230141-35242e5a-c29d-4466-868e-a1533f2b1906?action=share&source=collection_link&creator=48230141"
 	},
 	"item": [
 		{
@@ -559,6 +560,39 @@
 							]
 						},
 						"description": "Create a new admin user (public endpoint - no authentication required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Submit KYC",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"kycStatus\": {\n    \"documents\": {\n      \"aadharNumber\": \"123456789012\",\n      \"panNumber\": \"ABCDE1234F\"\n    },\n    \"isCompleted\": true,\n    \"status\": \"approved\",\n    \"submittedAt\": \"2025-09-08T12:30:00Z\",\n    \"verifiedAt\": \"2025-09-08T12:35:00Z\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/kyc/submit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"kyc",
+								"submit"
+							]
+						},
+						"description": "Submit Aadhaar + PAN numbers for KYC verification (approved by default)"
 					},
 					"response": []
 				}

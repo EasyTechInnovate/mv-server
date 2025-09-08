@@ -5466,3 +5466,2396 @@
         "SERVER_URL": "http://localhost:5000"
     }
 }
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T09:01:46.195Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T09:01:46.204Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T09:01:46.206Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T09:05:27.050Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T09:05:27.060Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T09:05:27.062Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T09:05:58.276Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/self"
+        },
+        "message": "The operation has been successful",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T09:06:03.010Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/health"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "application": {
+                "environment": "development",
+                "uptime": "38.13 Seconds",
+                "memoryUsage": {
+                    "heapTotal": "32.87 MB",
+                    "heapUsed": "30.64 MB"
+                }
+            },
+            "system": {
+                "cpuUsage": [
+                    0,
+                    0,
+                    0
+                ],
+                "totalMemory": "16069.36 MB",
+                "freeMemory": "5537.54 MB"
+            },
+            "timestamp": 1757322363010
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T09:06:18.332Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/auth/self"
+        },
+        "message": "Authentication service is running.",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T09:23:00.802Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bea07390f73b732ea7f4d6",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T09:22:59.780Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTA3MzkwZjczYjczMmVhN2Y0ZDYiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMjMzODAsImV4cCI6MTc1NzQwOTc4MH0.ivPjtzYTXyjkddCbUtAnEybMOLogTLMqf4R5Ko5T64s",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTA3MzkwZjczYjczMmVhN2Y0ZDYiLCJpYXQiOjE3NTczMjMzODAsImV4cCI6MTc1NzkyODE4MH0.lVpuaJyyV7WicbqHoeKFjuEJH54dvX8a04x1xubEPDI"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T09:30:03.061Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bea21a90f73b732ea7f4e3",
+                "accountId": "MV/A/02",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artists@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T09:30:02.243Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTIxYTkwZjczYjczMmVhN2Y0ZTMiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdHNAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsInVzZXJUeXBlIjoiYXJ0aXN0IiwiaWF0IjoxNzU3MzIzODAzLCJleHAiOjE3NTc0MTAyMDN9.-WByVcXmATh2g3HHnx8t2QH3SY-7Ch5zwI3C_RcT8Ss",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTIxYTkwZjczYjczMmVhN2Y0ZTMiLCJpYXQiOjE3NTczMjM4MDMsImV4cCI6MTc1NzkyODYwM30.HqX5baqQVwG_GofjUm8VNzj8N4vAZ7kba_kT9GN6ZEA"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T09:33:42.840Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bea21a90f73b732ea7f4e3",
+                "accountId": "MV/A/02",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artists@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T09:30:02.243Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTIxYTkwZjczYjczMmVhN2Y0ZTMiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdHNAZXhhbXBsZS5jb20iLCJyb2xlIjoidXNlciIsInVzZXJUeXBlIjoiYXJ0aXN0IiwiaWF0IjoxNzU3MzI0MDIyLCJleHAiOjE3NTc0MTA0MjJ9.nNJDDEObbFlGeR4oMAGaBouex3yVz8I2kT31y7rSTyw",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTIxYTkwZjczYjczMmVhN2Y0ZTMiLCJpYXQiOjE3NTczMjQwMjIsImV4cCI6MTc1NzkyODgyMn0.VZMSxnlr7GTUNX4OZpncKaiyRgbthgWTqi-Cao-DVis"
+            },
+            "accountStatus": {
+                "emailVerified": false,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "verify_email",
+                "redirectTo": "/verify-email"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T09:57:32.675Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bea88b90f73b732ea7f4f1",
+                "accountId": "MV/L/01",
+                "firstName": "Music",
+                "lastName": "Label",
+                "emailAddress": "label@example.com",
+                "role": "user",
+                "userType": "label",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T09:57:31.850Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTg4YjkwZjczYjczMmVhN2Y0ZjEiLCJlbWFpbEFkZHJlc3MiOiJsYWJlbEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJsYWJlbCIsImlhdCI6MTc1NzMyNTQ1MiwiZXhwIjoxNzU3NDExODUyfQ.iOTVISm5pSMc74BKM87g1DWd6hAq2W7ntXQ6rBwurgw",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTg4YjkwZjczYjczMmVhN2Y0ZjEiLCJpYXQiOjE3NTczMjU0NTIsImV4cCI6MTc1NzkzMDI1Mn0.i446pcACok3me5EvNYARA7RZz6LqUG01J9gwt22Qz00"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T10:00:41.951Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T10:00:41.961Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T10:00:41.962Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:03:20.036Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bea9e734cf3f5b4f10cb79",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T10:03:19.507Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTllNzM0Y2YzZjViNGYxMGNiNzkiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMjU3OTksImV4cCI6MTc1NzQxMjE5OX0.X3IB6YZE7ptmVXxxbjOayxnu-VjE5OaO-JaWnprcyUk",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTllNzM0Y2YzZjViNGYxMGNiNzkiLCJpYXQiOjE3NTczMjU3OTksImV4cCI6MTc1NzkzMDU5OX0.qBNBxskvol5NSD3f9YlMGr7jftYIcxJLOTWWgqg6UC4"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:03:30.514Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bea9e734cf3f5b4f10cb79",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T10:03:19.507Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTllNzM0Y2YzZjViNGYxMGNiNzkiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMjU4MTAsImV4cCI6MTc1NzQxMjIxMH0.6dOv3vCVJGmB0Z7yfoEVUGlc2Ar9GgeYB9VgZE5BLkY",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTllNzM0Y2YzZjViNGYxMGNiNzkiLCJpYXQiOjE3NTczMjU4MTAsImV4cCI6MTc1NzkzMDYxMH0.oErewL_tFg76VZAVgLnJzGwh2KrAopul73BaknBPj58"
+            },
+            "accountStatus": {
+                "emailVerified": false,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "verify_email",
+                "redirectTo": "/verify-email"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:05:30.294Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/verify-email"
+        },
+        "message": "Email verified successfully",
+        "data": {
+            "user": {
+                "_id": "68bea9e734cf3f5b4f10cb79",
+                "accountId": "MV/A/01",
+                "emailAddress": "john.artist@example.com",
+                "isEmailVerified": true
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:05:44.541Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bea9e734cf3f5b4f10cb79",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T10:03:19.507Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTllNzM0Y2YzZjViNGYxMGNiNzkiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMjU5NDQsImV4cCI6MTc1NzQxMjM0NH0.MTABp80amrHXcZvJzBvIDzIq1Xcx3WjC4eRcr3P5a6E",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYTllNzM0Y2YzZjViNGYxMGNiNzkiLCJpYXQiOjE3NTczMjU5NDQsImV4cCI6MTc1NzkzMDc0NH0.6U2XrcKCAEYxJJLmyzVV9hrHSfgn0C1evY2OXTs5eN0"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:07:14.776Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/admin/create"
+        },
+        "message": "Admin user created successfully",
+        "data": {
+            "admin": {
+                "_id": "68beaad234cf3f5b4f10cb8c",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "createdAt": "2025-09-08T10:07:14.263Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:07:27.065Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68beaad234cf3f5b4f10cb8c",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T10:07:14.262Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYWFkMjM0Y2YzZjViNGYxMGNiOGMiLCJlbWFpbEFkZHJlc3MiOiJhZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTczMjYwNDcsImV4cCI6MTc1NzQxMjQ0N30.NV7whA_vHJ4u4VjbQc-zu7k9_8CJTKsJaEkBov9GhYk",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYWFkMjM0Y2YzZjViNGYxMGNiOGMiLCJpYXQiOjE3NTczMjYwNDcsImV4cCI6MTc1NzkzMDg0N30.vdts_HLAKHv-Hl4OkqDwqlcV69HmiZaOyGkwA1YA2P8"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:07:36.731Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/admin/plans?includeInactive=true"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "plans": [],
+            "totalPlans": 0
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:11:14.587Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/admin/plans"
+        },
+        "message": "The resource has been created successfully",
+        "data": {
+            "_id": "68beabc234cf3f5b4f10cb9a",
+            "planId": "maheshwari_best_value",
+            "name": "Maheshwari Best Value",
+            "description": "Best value plan with all essential features",
+            "price": {
+                "current": 1499,
+                "original": 1999
+            },
+            "currency": "INR",
+            "interval": "month",
+            "intervalCount": 1,
+            "features": {
+                "unlimitedReleases": true,
+                "artistProfile": true,
+                "collaborateWithOthers": true,
+                "metaContentId": true,
+                "youtubeContentId": true,
+                "analyticsDemo": true,
+                "spotifyDiscoveryMode": true,
+                "assistedPlaylists": true,
+                "preReleasePromo": true,
+                "freeUpcCode": true,
+                "freeIsrcCode": true,
+                "lifetimeAvailability": true,
+                "supportHours": "24_hours",
+                "businessHours": true,
+                "liveSupport": true,
+                "dailyArtistDistribution": true,
+                "worldwideAvailability": true,
+                "analyticsCenter": true,
+                "revenueShare": {
+                    "description": null
+                }
+            },
+            "isActive": true,
+            "isPopular": false,
+            "isBestValue": true,
+            "displayOrder": 2,
+            "limits": {
+                "maxUploads": -1,
+                "maxCollaborators": 10,
+                "maxDistributionChannels": 50
+            },
+            "trial": {
+                "enabled": true,
+                "days": 7
+            },
+            "discount": {
+                "enabled": false,
+                "percentage": 0,
+                "validUntil": null
+            },
+            "createdAt": "2025-09-08T10:11:14.416Z"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:15:02.924Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/logout"
+        },
+        "message": "Logged out successfully",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:15:12.162Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/logout-all"
+        },
+        "message": "Logged out from all devices successfully",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:15:28.584Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/resend-verification"
+        },
+        "message": "If an unverified account with this email exists, a verification email has been sent",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:15:56.036Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/aggregator/apply"
+        },
+        "message": "Aggregator application submitted successfully. We will review your application and contact you soon.",
+        "data": {
+            "application": {
+                "_id": "68beacdb34cf3f5b4f10cbab",
+                "companyName": "Music Distribution Co",
+                "emailAddress": "john.aggregator@example.com",
+                "applicationStatus": "pending",
+                "createdAt": "2025-09-08T10:15:55.835Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:17:30.906Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68beaad234cf3f5b4f10cb8c",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T10:07:14.262Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYWFkMjM0Y2YzZjViNGYxMGNiOGMiLCJlbWFpbEFkZHJlc3MiOiJhZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTczMjY2NTAsImV4cCI6MTc1NzQxMzA1MH0._izfmboGvnX2WAhh9vc1lghvYPHsu3ykS3vhxSf1Z6M",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYWFkMjM0Y2YzZjViNGYxMGNiOGMiLCJpYXQiOjE3NTczMjY2NTAsImV4cCI6MTc1NzkzMTQ1MH0.mM9i06mVJeFKhkgR5iZ61QJ-a03jN_1tWf_FvGmm25Y"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:17:41.801Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/subscription/plans"
+        },
+        "message": "The operation has been successful",
+        "data": [
+            {
+                "planId": "maheshwari_best_value",
+                "name": "Maheshwari Best Value",
+                "description": "Best value plan with all essential features",
+                "price": {
+                    "current": 1499,
+                    "original": 1999
+                },
+                "currency": "INR",
+                "interval": "month",
+                "features": {
+                    "revenueShare": {
+                        "description": null
+                    },
+                    "unlimitedReleases": true,
+                    "artistProfile": true,
+                    "collaborateWithOthers": true,
+                    "metaContentId": true,
+                    "youtubeContentId": true,
+                    "analyticsDemo": true,
+                    "spotifyDiscoveryMode": true,
+                    "assistedPlaylists": true,
+                    "preReleasePromo": true,
+                    "freeUpcCode": true,
+                    "freeIsrcCode": true,
+                    "lifetimeAvailability": true,
+                    "supportHours": "24_hours",
+                    "businessHours": true,
+                    "liveSupport": true,
+                    "dailyArtistDistribution": true,
+                    "worldwideAvailability": true,
+                    "analyticsCenter": true
+                },
+                "isPopular": false,
+                "isBestValue": true,
+                "discountedPrice": 1499
+            }
+        ]
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:23:45.396Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68beaeb034cf3f5b4f10cbb9",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T10:23:44.736Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYWViMDM0Y2YzZjViNGYxMGNiYjkiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMjcwMjUsImV4cCI6MTc1NzQxMzQyNX0.8KZIZM22EujwElkuTTvBIODALS87oG2Gx-GQM8eReAE",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYWViMDM0Y2YzZjViNGYxMGNiYjkiLCJpYXQiOjE3NTczMjcwMjUsImV4cCI6MTc1NzkzMTgyNX0.QTZfwXlWzAiq5bx1K9bO8buXJr6TdisgnuuvKF3b23g"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:25:07.895Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/admin/create"
+        },
+        "message": "Admin user created successfully",
+        "data": {
+            "admin": {
+                "_id": "68beaf0334cf3f5b4f10cbc3",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "createdAt": "2025-09-08T10:25:07.371Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:25:15.519Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68beaf0334cf3f5b4f10cbc3",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T10:25:07.370Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYWYwMzM0Y2YzZjViNGYxMGNiYzMiLCJlbWFpbEFkZHJlc3MiOiJhZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTczMjcxMTUsImV4cCI6MTc1NzQxMzUxNX0.DrPKKzTRLGVzZA2YnsNvN5x4B1WZ3kR4bqxeHIRVMC0",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYWYwMzM0Y2YzZjViNGYxMGNiYzMiLCJpYXQiOjE3NTczMjcxMTUsImV4cCI6MTc1NzkzMTkxNX0.itwGb1VMzJxOrou_efecqtjmrXm4qMXgaFWwotScHWg"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T10:25:26.666Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/subscription/plans"
+        },
+        "message": "The operation has been successful",
+        "data": [
+            {
+                "planId": "maheshwari_best_value",
+                "name": "Maheshwari Best Value",
+                "description": "Best value plan with all essential features",
+                "price": {
+                    "current": 1499,
+                    "original": 1999
+                },
+                "currency": "INR",
+                "interval": "month",
+                "features": {
+                    "revenueShare": {
+                        "description": null
+                    },
+                    "unlimitedReleases": true,
+                    "artistProfile": true,
+                    "collaborateWithOthers": true,
+                    "metaContentId": true,
+                    "youtubeContentId": true,
+                    "analyticsDemo": true,
+                    "spotifyDiscoveryMode": true,
+                    "assistedPlaylists": true,
+                    "preReleasePromo": true,
+                    "freeUpcCode": true,
+                    "freeIsrcCode": true,
+                    "lifetimeAvailability": true,
+                    "supportHours": "24_hours",
+                    "businessHours": true,
+                    "liveSupport": true,
+                    "dailyArtistDistribution": true,
+                    "worldwideAvailability": true,
+                    "analyticsCenter": true
+                },
+                "isPopular": false,
+                "isBestValue": true,
+                "discountedPrice": 1499
+            }
+        ]
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T11:10:00.945Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/admin/create"
+        },
+        "message": "Admin user created successfully",
+        "data": {
+            "admin": {
+                "_id": "68beb98834cf3f5b4f10cbda",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "createdAt": "2025-09-08T11:10:00.342Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T11:10:05.216Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68beb98834cf3f5b4f10cbda",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T11:10:00.340Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYjk4ODM0Y2YzZjViNGYxMGNiZGEiLCJlbWFpbEFkZHJlc3MiOiJhZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTczMjk4MDUsImV4cCI6MTc1NzQxNjIwNX0.c0uQ7_yz5_WkEPPvFEhSDv8zN_WnGwvxMzuiQTnmCyE",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYjk4ODM0Y2YzZjViNGYxMGNiZGEiLCJpYXQiOjE3NTczMjk4MDUsImV4cCI6MTc1NzkzNDYwNX0.8E5tdIz7PEuHa-mps625xPH_ZvGFqas38wfyUAZL8MY"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T11:22:16.877Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bebc6834cf3f5b4f10cbe4",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T11:22:16.337Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYmM2ODM0Y2YzZjViNGYxMGNiZTQiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMzA1MzYsImV4cCI6MTc1NzQxNjkzNn0.aB5S_jpPTsEzdZWqHn8Y2A5Iewfeg6YwGNEqFnestjw",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYmM2ODM0Y2YzZjViNGYxMGNiZTQiLCJpYXQiOjE3NTczMzA1MzYsImV4cCI6MTc1NzkzNTMzNn0.Iw9DwSpvLXduAWhyVrfv0Ebh2-EfpJ2vKI1DZtMfAVc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T11:22:23.812Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bebc6834cf3f5b4f10cbe4",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T11:22:16.337Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYmM2ODM0Y2YzZjViNGYxMGNiZTQiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMzA1NDMsImV4cCI6MTc1NzQxNjk0M30.EsNQkqDpB7qZCHYntupX5FjlSBYknNu97wJdwPomKGU",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlYmM2ODM0Y2YzZjViNGYxMGNiZTQiLCJpYXQiOjE3NTczMzA1NDMsImV4cCI6MTc1NzkzNTM0M30.WLnIpOpF__-iab_WdQzAWWBB-cmhv3kzcJ5MHEeh4h8"
+            },
+            "accountStatus": {
+                "emailVerified": false,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "verify_email",
+                "redirectTo": "/verify-email"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:29:24.461Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:29:24.468Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:29:24.469Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:29:26.396Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:29:26.405Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:29:26.407Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:29:55.351Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:29:55.359Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:29:55.360Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:34:15.271Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:34:15.278Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:34:15.279Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:38:40.090Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:38:40.097Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:38:40.098Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:38:43.367Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:38:43.376Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:38:43.378Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:38:45.078Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:38:45.088Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:38:45.090Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:38:51.993Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:38:52.001Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:38:52.002Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:39:37.931Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:39:37.940Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:39:37.941Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:42:47.973Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:42:47.982Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:42:47.983Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:42:59.642Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:42:59.650Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:42:59.651Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:43:08.596Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:43:08.605Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:43:08.607Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:47:51.075Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:47:51.086Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:47:51.087Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:47:56.168Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:47:56.173Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:47:56.175Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:48:01.649Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:48:01.657Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:48:01.658Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T12:49:45.775Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/admin/create"
+        },
+        "message": "Admin user created successfully",
+        "data": {
+            "admin": {
+                "_id": "68bed0e84c7fd45b7e887c99",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "createdAt": "2025-09-08T12:49:44.708Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T12:50:10.467Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bed0e84c7fd45b7e887c99",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T12:49:44.697Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDBlODRjN2ZkNDViN2U4ODdjOTkiLCJlbWFpbEFkZHJlc3MiOiJhZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTczMzU4MTAsImV4cCI6MTc1NzQyMjIxMH0.eWIdMq6kZQRtfEWXym6h-Kg4kYG06kKZAeHlLoqVaOI",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDBlODRjN2ZkNDViN2U4ODdjOTkiLCJpYXQiOjE3NTczMzU4MTAsImV4cCI6MTc1Nzk0MDYxMH0._cdpeQM4rWj8FjkjPOQ-6oSgGUtCuxw48b4Dp8glrlk"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:57:36.875Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:57:36.882Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:57:36.883Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:57:44.980Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:57:44.986Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:57:44.987Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:57:50.268Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:57:50.277Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:57:50.278Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T12:57:58.607Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T12:57:58.618Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T12:57:58.620Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T12:59:09.858Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/admin/create"
+        },
+        "message": "Admin user created successfully",
+        "data": {
+            "admin": {
+                "_id": "68bed31dc601bb23301c38bf",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "createdAt": "2025-09-08T12:59:09.025Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T12:59:16.902Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bed31dc601bb23301c38bf",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T12:59:09.011Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDMxZGM2MDFiYjIzMzAxYzM4YmYiLCJlbWFpbEFkZHJlc3MiOiJhZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTczMzYzNTYsImV4cCI6MTc1NzQyMjc1Nn0.c2NboXeIsihdbTAGpskX9mM6XQToeSdFYxGpawfULvM",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDMxZGM2MDFiYjIzMzAxYzM4YmYiLCJpYXQiOjE3NTczMzYzNTYsImV4cCI6MTc1Nzk0MTE1Nn0.usBzNZoCVE79eUZk9wSrnKp1RLe8Q35JplBVaWENCEk"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T13:00:28.261Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/admin/create"
+        },
+        "message": "Admin user created successfully",
+        "data": {
+            "admin": {
+                "_id": "68bed36bc601bb23301c38cb",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "createdAt": "2025-09-08T13:00:27.332Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T13:00:34.623Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bed36bc601bb23301c38cb",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T13:00:27.328Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDM2YmM2MDFiYjIzMzAxYzM4Y2IiLCJlbWFpbEFkZHJlc3MiOiJhZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTczMzY0MzQsImV4cCI6MTc1NzQyMjgzNH0.v6UIxgph0MAWJuHx_zK9_h_n4LUed8sQdyvAJf4InII",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDM2YmM2MDFiYjIzMzAxYzM4Y2IiLCJpYXQiOjE3NTczMzY0MzQsImV4cCI6MTc1Nzk0MTIzNH0.zaXAyjUBqQ0zzxWB-AAODDNW2gywDp6yo7JXLtSFP2w"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T13:02:50.659Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bed3fac601bb23301c38d5",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T13:02:50.151Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDNmYWM2MDFiYjIzMzAxYzM4ZDUiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMzY1NzAsImV4cCI6MTc1NzQyMjk3MH0.peUJk9ubXCiMgnIPcY5QGWeggvT-4X3KNzAJD-WW_6o",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDNmYWM2MDFiYjIzMzAxYzM4ZDUiLCJpYXQiOjE3NTczMzY1NzAsImV4cCI6MTc1Nzk0MTM3MH0.3AYDFPt6ZR0gUzvCPdEx5iph7qjKOMVbzmEx2OcA4Kg"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T13:02:56.210Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bed3fac601bb23301c38d5",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T13:02:50.151Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDNmYWM2MDFiYjIzMzAxYzM4ZDUiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMzY1NzYsImV4cCI6MTc1NzQyMjk3Nn0.2VIrXrokCRR4zuspWI483yRPKWl2vv_lHP1LHGTQnCU",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDNmYWM2MDFiYjIzMzAxYzM4ZDUiLCJpYXQiOjE3NTczMzY1NzYsImV4cCI6MTc1Nzk0MTM3Nn0.YbwMgKOwkraOPY7I3OBNXgggMgoFGNOh03iPjqGugdw"
+            },
+            "accountStatus": {
+                "emailVerified": false,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "verify_email",
+                "redirectTo": "/verify-email"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T13:08:59.850Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T13:08:59.860Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T13:08:59.861Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T13:10:11.217Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/admin/create"
+        },
+        "message": "Admin user created successfully",
+        "data": {
+            "admin": {
+                "_id": "68bed5b25ba6d2b33fe4daa4",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "createdAt": "2025-09-08T13:10:10.368Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T13:10:19.976Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bed5b25ba6d2b33fe4daa4",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T13:10:10.355Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDViMjViYTZkMmIzM2ZlNGRhYTQiLCJlbWFpbEFkZHJlc3MiOiJhZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTczMzcwMTksImV4cCI6MTc1NzQyMzQxOX0.HT6dSiDlwuTS8d3zfLPkMEVIKI5EXpM61geYz3jfvF8",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDViMjViYTZkMmIzM2ZlNGRhYTQiLCJpYXQiOjE3NTczMzcwMTksImV4cCI6MTc1Nzk0MTgxOX0.4xK9e1XhKOeEx9OFZb6CeIx3Xnt7l9qCdFIR3lD9HAg"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T13:11:14.197Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68bed5f15ba6d2b33fe4daaf",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T13:11:13.372Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDVmMTViYTZkMmIzM2ZlNGRhYWYiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMzcwNzQsImV4cCI6MTc1NzQyMzQ3NH0.fInBzHAH0yPfMjueY6WukZPbfoh3K_BAWDHkTg1aGGM",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDVmMTViYTZkMmIzM2ZlNGRhYWYiLCJpYXQiOjE3NTczMzcwNzQsImV4cCI6MTc1Nzk0MTg3NH0.-0Qfh8iBcnHduK_2wUrBL0HItkBCYgnPUJbcDMPQy8M"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-08T13:11:19.228Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68bed5f15ba6d2b33fe4daaf",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T13:11:13.372Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDVmMTViYTZkMmIzM2ZlNGRhYWYiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTczMzcwNzksImV4cCI6MTc1NzQyMzQ3OX0.tMOtvUqVqDAAp442EVz-CZ-GW5TJr6-683RIc-G1afs",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlZDVmMTViYTZkMmIzM2ZlNGRhYWYiLCJpYXQiOjE3NTczMzcwNzksImV4cCI6MTc1Nzk0MTg3OX0.ZPGp0AOSB3yE-1EUeDvXX0BXeo2WBMSbfzqtTph--JE"
+            },
+            "accountStatus": {
+                "emailVerified": false,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "verify_email",
+                "redirectTo": "/verify-email"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T13:12:10.139Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T13:12:10.149Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T13:12:10.151Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T13:13:40.345Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T13:13:40.356Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T13:13:40.357Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-08T13:16:02.842Z",
+    "meta": {
+        "CONNECTION_NAME": "maheshwar"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-08T13:16:02.854Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-08T13:16:02.856Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}

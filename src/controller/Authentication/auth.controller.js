@@ -148,7 +148,7 @@ export default {
             if (!user) {
                 return httpError(
                     next,
-                    new Error(responseMessage.customMessage('Invalid email or password')),
+                    new Error(responseMessage.customMessage('Invalid email or password 1')),
                     req,
                     401
                 )
