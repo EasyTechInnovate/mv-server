@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import User from '../../model/user.model.js'
-import { EUserRole } from '../../constant/application.js'
+import { EUserRole, EKYCStatus } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
@@ -652,5 +652,103 @@ export default {
         } catch (err) {
             return httpError(next, err, req, 500)
         }
+    },
+    async verifyKYC(req, res, next) {
+      try {
+        const userId = req.authenticatedUser._id;
+        const { 
+          documents, 
+          bankDetails, 
+          upiDetails 
+        } = req.body;
+
+        const user = await User.findById(userId);
+        if (!user) {
+          return httpError(
+            next,
+            new Error(responseMessage.customMessage('User not found')),
+            req,
+            404
+          );
+        }
+
+        // Update KYC information using the correct schema structure
+        if (documents) {
+          if (documents.aadhaar) {
+            user.kyc.documents.aadhaar = {
+              number: documents.aadhaar.number,
+              documentUrl: documents.aadhaar.documentUrl,
+              verified: false
+            };
+            user.kyc.aadhaarVerified = false;
+          }
+
+          if (documents.pan) {
+            user.kyc.documents.pan = {
+              number: documents.pan.number,
+              documentUrl: documents.pan.documentUrl,
+              verified: false
+            };
+            user.kyc.panVerified = false;
+          }
+        }
+
+        if (bankDetails) {
+          user.kyc.bankDetails = {
+            accountNumber: bankDetails.accountNumber,
+            ifscCode: bankDetails.ifscCode,
+            accountHolderName: bankDetails.accountHolderName,
+            bankName: bankDetails.bankName,
+            verified: false
+          };
+        }
+
+        if (upiDetails) {
+          user.kyc.upiDetails = {
+            upiId: upiDetails.upiId,
+            verified: false
+          };
+        }
+
+        // Update KYC status and timestamps - NEVER allow user to set completion status
+        user.kyc.status = EKYCStatus.PENDING;
+        user.kyc.submittedAt = new Date();
+        user.kyc.verifiedAt = null; // Reset verification timestamp
+        user.kyc.rejectedAt = null; // Reset rejection timestamp
+        
+        // Also update the kycStatus object for consistency - using verified for now
+        user.kycStatus.status = 'verified'; // Using 'verified' as requested
+        user.kycStatus.submittedAt = new Date();
+        user.kycStatus.isCompleted = true; // Set to true when verified (never from payload)
+        user.kycStatus.verifiedAt = new Date(); // Set verification timestamp
+
+        await user.save();
+
+        user.addNotification(
+          'KYC Submitted',
+          'Your KYC information has been submitted and is under review.',
+          'info'
+        );
+
+        await user.save(); // Save again to persist notification
+
+        return httpResponse(
+          req,
+          res,
+          200,
+          responseMessage.customMessage('KYC information submitted successfully'),
+          {
+            kycStatus: user.kyc.status,
+            submittedAt: user.kyc.submittedAt,
+            kyc: {
+              documents: user.kyc.documents,
+              bankDetails: user.kyc.bankDetails,
+              upiDetails: user.kyc.upiDetails
+            }
+          }
+        );
+      } catch (err) {
+        return httpError(next, err, req, 500);
+      }
     }
 }

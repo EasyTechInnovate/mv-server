@@ -81,17 +81,11 @@ router.route('/admin/create')
         authController.createAdmin
     )
 
-router.route('/kyc/submit')
+router.route('/verify-kyc')
   .post(
     authentication,
     validateRequest(authSchemas.kycSubmit),
-    authController.submitKyc
-  );
-
-router.route('/kyc/status')
-  .get(
-    authentication,
-    authController.getKycStatus
+    authController.verifyKYC
   );
 
   
