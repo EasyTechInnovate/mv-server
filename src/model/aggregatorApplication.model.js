@@ -132,7 +132,6 @@ const aggregatorApplicationSchema = new Schema(
     }
 )
 
-aggregatorApplicationSchema.index({ emailAddress: 1 })
 aggregatorApplicationSchema.index({ applicationStatus: 1 })
 aggregatorApplicationSchema.index({ createdAt: -1 })
 

@@ -1,26 +1,52 @@
 export const validateRequest = (schema, target = 'body') => {
     return async (req, res, next) => {
-        let dataToValidate;
+        let schemaData;
 
-        switch (target) {
-            case 'query':
-                dataToValidate = req.query || {};
-                break;
-            case 'params':
-                dataToValidate = req.params || {};
-                break;
-            case 'body':
-            default:
-                dataToValidate = req.body || {};
-                break;
+        // Check if schema expects multiple properties or specific single properties
+        const schemaKeys = Object.keys(schema.shape || {});
+        const hasMultipleTargets = schemaKeys.includes('params') && schemaKeys.includes('body');
+        const hasOnlyParams = schemaKeys.includes('params') && !schemaKeys.includes('body');
+        const hasOnlyQuery = schemaKeys.includes('query') && !schemaKeys.includes('body') && !schemaKeys.includes('params');
+
+        if (hasMultipleTargets) {
+            // For schemas that expect both params and body
+            schemaData = {
+                params: req.params || {},
+                body: req.body || {},
+                ...(schemaKeys.includes('query') && { query: req.query || {} })
+            };
+        } else if (hasOnlyParams) {
+            // For schemas that expect only params
+            schemaData = {
+                params: req.params || {}
+            };
+        } else if (hasOnlyQuery) {
+            // For schemas that expect only query
+            schemaData = {
+                query: req.query || {}
+            };
+        } else {
+            // Original single-target validation logic
+            let dataToValidate;
+            switch (target) {
+                case 'query':
+                    dataToValidate = req.query || {};
+                    break;
+                case 'params':
+                    dataToValidate = req.params || {};
+                    break;
+                case 'body':
+                default:
+                    dataToValidate = req.body || {};
+                    break;
+            }
+            schemaData = target === 'body' ? { body: dataToValidate } : { [target]: dataToValidate };
         }
 
-        console.log('Validating:', target, dataToValidate)
+        const validationType = hasMultipleTargets ? 'params+body' : hasOnlyParams ? 'params' : hasOnlyQuery ? 'query' : target;
+        console.log('Validating:', validationType, schemaData)
 
-        // For body validation, wrap the data in body property to match schema structure
-        const schemaData = target === 'body' ? { body: dataToValidate } : { [target]: dataToValidate };
         const result = schema.safeParse(schemaData);
-        
 
         if (!result.success) {
             console.log('Validation errors:', result.error.format())
@@ -40,17 +66,29 @@ export const validateRequest = (schema, target = 'body') => {
         }
 
         // Update req object with validated data
-        switch (target) {
-            case 'query':
-                Object.assign(req.query, result.data.query || {});
-                break;
-            case 'params':
-                Object.assign(req.params, result.data.params || {});
-                break;
-            case 'body':
-            default:
-                Object.assign(req.body, result.data.body || {});
-                break;
+        if (hasMultipleTargets) {
+            Object.assign(req.params, result.data.params || {});
+            Object.assign(req.body, result.data.body || {});
+            if (result.data.query) {
+                Object.assign(req.query, result.data.query);
+            }
+        } else if (hasOnlyParams) {
+            Object.assign(req.params, result.data.params || {});
+        } else if (hasOnlyQuery) {
+            Object.assign(req.query, result.data.query || {});
+        } else {
+            switch (target) {
+                case 'query':
+                    Object.assign(req.query, result.data.query || {});
+                    break;
+                case 'params':
+                    Object.assign(req.params, result.data.params || {});
+                    break;
+                case 'body':
+                default:
+                    Object.assign(req.body, result.data.body || {});
+                    break;
+            }
         }
 
         next();

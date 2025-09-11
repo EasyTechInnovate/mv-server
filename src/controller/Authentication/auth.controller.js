@@ -672,24 +672,42 @@ export default {
           );
         }
 
-        // Update KYC information using the correct schema structure
+        if (!user.isEmailVerified) {
+          return httpError(
+            next,
+            new Error(responseMessage.customMessage('Please verify your email address first')),
+            req,
+            400
+          );
+        }
+
+        if (user.kyc.status === EKYCStatus.VERIFIED) {
+          return httpError(
+            next,
+            new Error(responseMessage.customMessage('KYC already verified')),
+            req,
+            400
+          );
+        }
+
+        // Update KYC information using the correct schema structure - mark as verified immediately
         if (documents) {
           if (documents.aadhaar) {
             user.kyc.documents.aadhaar = {
               number: documents.aadhaar.number,
               documentUrl: documents.aadhaar.documentUrl,
-              verified: false
+              verified: true // Mark as verified immediately
             };
-            user.kyc.aadhaarVerified = false;
+            user.kyc.aadhaarVerified = true;
           }
 
           if (documents.pan) {
             user.kyc.documents.pan = {
               number: documents.pan.number,
               documentUrl: documents.pan.documentUrl,
-              verified: false
+              verified: true // Mark as verified immediately
             };
-            user.kyc.panVerified = false;
+            user.kyc.panVerified = true;
           }
         }
 
@@ -699,25 +717,25 @@ export default {
             ifscCode: bankDetails.ifscCode,
             accountHolderName: bankDetails.accountHolderName,
             bankName: bankDetails.bankName,
-            verified: false
+            verified: true // Mark as verified immediately
           };
         }
 
         if (upiDetails) {
           user.kyc.upiDetails = {
             upiId: upiDetails.upiId,
-            verified: false
+            verified: true // Mark as verified immediately
           };
         }
 
-        // Update KYC status and timestamps - NEVER allow user to set completion status
-        user.kyc.status = EKYCStatus.PENDING;
+        // Update KYC status and timestamps - mark as verified immediately
+        user.kyc.status = EKYCStatus.VERIFIED; // Mark as verified immediately
         user.kyc.submittedAt = new Date();
-        user.kyc.verifiedAt = null; // Reset verification timestamp
+        user.kyc.verifiedAt = new Date(); // Set verification timestamp immediately
         user.kyc.rejectedAt = null; // Reset rejection timestamp
         
-        // Also update the kycStatus object for consistency - using verified for now
-        user.kycStatus.status = 'verified'; // Using 'verified' as requested
+        // Also update the kycStatus object for consistency
+        user.kycStatus.status = 'verified';
         user.kycStatus.submittedAt = new Date();
         user.kycStatus.isCompleted = true; // Set to true when verified (never from payload)
         user.kycStatus.verifiedAt = new Date(); // Set verification timestamp
@@ -725,9 +743,9 @@ export default {
         await user.save();
 
         user.addNotification(
-          'KYC Submitted',
-          'Your KYC information has been submitted and is under review.',
-          'info'
+          'KYC Verified',
+          'Your KYC information has been successfully verified and approved.',
+          'success'
         );
 
         await user.save(); // Save again to persist notification
@@ -736,10 +754,12 @@ export default {
           req,
           res,
           200,
-          responseMessage.customMessage('KYC information submitted successfully'),
+          responseMessage.customMessage('KYC information verified successfully'),
           {
             kycStatus: user.kyc.status,
             submittedAt: user.kyc.submittedAt,
+            verifiedAt: user.kyc.verifiedAt,
+            isCompleted: user.kycStatus.isCompleted,
             kyc: {
               documents: user.kyc.documents,
               bankDetails: user.kyc.bankDetails,

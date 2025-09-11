@@ -62,6 +62,33 @@ export default {
         const accountId = `${prefix}${String(nextNumber).padStart(2, '0')}`
         return accountId
     },
+    generateReleaseId: async (releaseType, trackType, ReleaseModel) => {
+        const prefixes = {
+            'basic_single': 'RE-B-S-',
+            'basic_album': 'RE-B-A-',
+            'advance_single': 'RE-A-S-',
+            'advance_album': 'RE-A-A-'
+        }
+
+        const key = `${releaseType}_${trackType}`
+        const prefix = prefixes[key]
+        if (!prefix) {
+            throw new Error('Invalid release type or track type for release ID generation')
+        }
+
+        const latestRelease = await ReleaseModel.findOne({
+            releaseId: { $regex: `^${prefix.replace('-', '\\-')}` }
+        }).sort({ releaseId: -1 })
+
+        let nextNumber = 1
+        if (latestRelease && latestRelease.releaseId) {
+            const currentNumber = parseInt(latestRelease.releaseId.split('-').pop())
+            nextNumber = currentNumber + 1
+        }
+
+        const releaseId = `${prefix}${String(nextNumber).padStart(3, '0')}`
+        return releaseId
+    },
     getDomainFromUrl: (url) => {
         try {
             const parsedUrl = new URL(url)

@@ -564,7 +564,7 @@
 					"response": []
 				},
 				{
-					"name": "Submit KYC",
+					"name": "Verify KYC",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -579,20 +579,20 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"kycStatus\": {\n    \"documents\": {\n      \"aadharNumber\": \"123456789012\",\n      \"panNumber\": \"ABCDE1234F\"\n    },\n    \"isCompleted\": true,\n    \"status\": \"approved\",\n    \"submittedAt\": \"2025-09-08T12:30:00Z\",\n    \"verifiedAt\": \"2025-09-08T12:35:00Z\"\n  }\n}"
+							"raw": "{\n  \"documents\": {\n    \"aadhaar\": {\n      \"number\": \"1234-5678-9012\",\n      \"documentUrl\": \"https://example.com/aadhaar.pdf\"\n    },\n    \"pan\": {\n      \"number\": \"ABCDE1234F\",\n      \"documentUrl\": \"https://example.com/pan.pdf\"\n    }\n  },\n  \"bankDetails\": {\n    \"accountNumber\": \"1234567890\",\n    \"ifscCode\": \"HDFC0001234\",\n    \"accountHolderName\": \"User Name\",\n    \"bankName\": \"HDFC Bank\"\n  },\n  \"upiDetails\": {\n    \"upiId\": \"user@paytm\"\n  }\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/v1/kyc/submit",
+							"raw": "{{base_url}}/v1/auth/verify-kyc",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"v1",
-								"kyc",
-								"submit"
+								"auth",
+								"verify-kyc"
 							]
 						},
-						"description": "Submit Aadhaar + PAN numbers for KYC verification (approved by default)"
+						"description": "Submit KYC documents and details for immediate verification. Requires email verification to be completed first. Status is automatically set to verified upon successful submission."
 					},
 					"response": []
 				}
@@ -627,6 +627,366 @@
 							]
 						},
 						"description": "Submit aggregator application for admin review"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Basic Releases",
+			"item": [
+				{
+					"name": "Release Service Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/releases/self",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"self"
+							]
+						},
+						"description": "Check basic release service health"
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Release",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.releaseId) {",
+									"        pm.collectionVariables.set('releaseId', jsonData.data.releaseId);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"trackType\": \"single\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/releases/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"create"
+							]
+						},
+						"description": "Create a new basic release (single or album). Response includes next step guidance and step summary."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Step 1 - Cover Art & Release Info",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"coverArt\": {\n    \"imageUrl\": \"https://example.com/cover-art.jpg\",\n    \"imageSize\": 1024000,\n    \"imageFormat\": \"jpg\"\n  },\n  \"releaseInfo\": {\n    \"releaseName\": \"My Amazing Song\",\n    \"genre\": \"bollywood\",\n    \"labelName\": \"My Music Label\",\n    \"upc\": \"123456789012\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/releases/{{releaseId}}/step1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"{{releaseId}}",
+								"step1"
+							]
+						},
+						"description": "Update step 1 with cover art and release information. Response includes next step guidance and step completion status."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Step 2 - Audio Files & Track Info",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"tracks\": [\n    {\n      \"trackName\": \"My Amazing Song\",\n      \"genre\": \"bollywood\",\n      \"composerName\": \"John Composer\",\n      \"lyricistName\": \"Jane Lyricist\",\n      \"singerName\": \"Amazing Singer\",\n      \"producerName\": \"Top Producer\",\n      \"isrc\": \"USRC17607839\",\n      \"audioFiles\": [\n        {\n          \"format\": \"mp3\",\n          \"fileUrl\": \"https://example.com/song.mp3\",\n          \"fileSize\": 5242880,\n          \"duration\": 210\n        }\n      ],\n      \"previewTiming\": {\n        \"startTime\": 30,\n        \"endTime\": 60\n      },\n      \"callerTuneTiming\": {\n        \"startTime\": 45,\n        \"endTime\": 75\n      }\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/releases/{{releaseId}}/step2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"{{releaseId}}",
+								"step2"
+							]
+						},
+						"description": "Update step 2 with audio files and track information. Response includes next step guidance and completion status."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Step 3 - Release Settings",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"releaseDate\": \"2024-12-25T00:00:00Z\",\n  \"territorialRights\": {\n    \"hasRights\": true,\n    \"territories\": [\"india\", \"united_states\", \"united_kingdom\"]\n  },\n  \"partnerSelection\": {\n    \"hasPartners\": true,\n    \"partners\": [\"spotify\", \"apple_music\", \"youtube_music\", \"jiosaavn\"]\n  },\n  \"copyrights\": {\n    \"ownsCopyright\": true,\n    \"copyrightDocuments\": [\n      {\n        \"documentUrl\": \"https://example.com/copyright-cert.pdf\"\n      }\n    ]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/releases/{{releaseId}}/step3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"{{releaseId}}",
+								"step3"
+							]
+						},
+						"description": "Update step 3 with release date, territories, partners and copyright info"
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Release for Review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/releases/{{releaseId}}/submit",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"{{releaseId}}",
+								"submit"
+							]
+						},
+						"description": "Submit completed release for admin review"
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Releases",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/releases/my-releases?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"my-releases"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "draft",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get user's releases with pagination and optional status filter. Includes step progress and next step information for each release."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Release Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/releases/{{releaseId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"{{releaseId}}"
+							]
+						},
+						"description": "Get detailed information about a specific release"
+					},
+					"response": []
+				},
+				{
+					"name": "Request Release Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Need to update track listing\",\n  \"changes\": \"Want to add one more track to the album and update cover art\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/releases/{{releaseId}}/request-update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"{{releaseId}}",
+								"request-update"
+							]
+						},
+						"description": "Request update for a live/published release"
+					},
+					"response": []
+				},
+				{
+					"name": "Request Release Takedown",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Copyright issues resolved, want to remove from all platforms\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/releases/{{releaseId}}/request-takedown",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"{{releaseId}}",
+								"request-takedown"
+							]
+						},
+						"description": "Request takedown of a live/published release"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Release",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/releases/{{releaseId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"releases",
+								"{{releaseId}}"
+							]
+						},
+						"description": "Delete a release (not allowed for live releases)"
 					},
 					"response": []
 				}
@@ -1338,6 +1698,348 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Admin - Release Management",
+			"item": [
+				{
+					"name": "Release Service Health",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases/self",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases",
+								"self"
+							]
+						},
+						"description": "Check admin release service health"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Releases (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "submitted",
+									"disabled": true
+								},
+								{
+									"key": "trackType",
+									"value": "single",
+									"disabled": true
+								},
+								{
+									"key": "userId",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get all releases with admin filters (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Pending Reviews",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases/pending-reviews?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases",
+								"pending-reviews"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Get releases pending admin review (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Release Statistics",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases",
+								"stats"
+							]
+						},
+						"description": "Get release statistics and counts by status (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Release Details (Admin)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases/{{releaseId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases",
+								"{{releaseId}}"
+							]
+						},
+						"description": "Get detailed release information with admin data (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Approve Release for Review",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"notes\": \"Release looks good, approved for review process\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases/{{releaseId}}/approve",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases",
+								"{{releaseId}}",
+								"approve"
+							]
+						},
+						"description": "Approve submitted release for review (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Start Processing Release",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases/{{releaseId}}/start-processing",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases",
+								"{{releaseId}}",
+								"start-processing"
+							]
+						},
+						"description": "Start processing approved release (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Publish Release",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases/{{releaseId}}/publish",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases",
+								"{{releaseId}}",
+								"publish"
+							]
+						},
+						"description": "Publish processed release (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Go Live",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases/{{releaseId}}/go-live",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases",
+								"{{releaseId}}",
+								"go-live"
+							]
+						},
+						"description": "Make published release live (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Reject Release",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"reason\": \"Copyright documents are unclear. Please provide clearer documentation.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases/{{releaseId}}/reject",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases",
+								"{{releaseId}}",
+								"reject"
+							]
+						},
+						"description": "Reject release with reason (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Process Takedown Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{adminToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/releases/{{releaseId}}/process-takedown",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"releases",
+								"{{releaseId}}",
+								"process-takedown"
+							]
+						},
+						"description": "Process user takedown request (admin only)"
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -1394,6 +2096,11 @@
 		},
 		{
 			"key": "applicationId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "releaseId",
 			"value": "",
 			"type": "string"
 		}

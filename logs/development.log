@@ -7859,3 +7859,3275 @@
         "SERVER_URL": "http://localhost:5000"
     }
 }
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:33:01.840Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:33:01.842Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:33:01.842Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:33:11.439Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:33:11.445Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:33:11.446Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:33:56.951Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:33:56.954Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:33:56.955Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:34:30.348Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:34:30.350Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:34:30.350Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:34:38.494Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:34:38.496Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:34:38.496Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:34:51.647Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:34:51.649Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:34:51.650Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:34:54.585Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:34:54.588Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:34:54.589Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:34:59.962Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:34:59.966Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:34:59.967Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:05.645Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:05.649Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:05.650Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:10.546Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:10.548Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:10.548Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:11.663Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:11.666Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:11.666Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:13.708Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:13.711Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:13.712Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:15.414Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:15.419Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:15.420Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:24.294Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:24.298Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:24.299Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:34.061Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:34.063Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:34.064Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:35.622Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:35.627Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:35.627Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:37.244Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:37.246Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:37.247Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:38.633Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:38.638Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:38.638Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:35:41.387Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:35:41.391Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:35:41.392Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:36:01.467Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:36:01.469Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:36:01.469Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:36:02.594Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:36:02.598Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:36:02.599Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:36:05.839Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:36:05.841Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:36:05.842Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:36:07.024Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:36:07.026Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:36:07.026Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:36:08.093Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:36:08.097Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:36:08.098Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:36:13.056Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:36:13.061Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:36:13.061Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:36:16.062Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:36:16.066Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:36:16.066Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:36:18.225Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:36:18.230Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:36:18.231Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:36:24.481Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:36:24.486Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:36:24.487Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:37:41.127Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:37:41.133Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:37:41.134Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:37:43.815Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:37:43.819Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:37:43.820Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:37:46.720Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:37:46.723Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:37:46.723Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:37:48.292Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:37:48.296Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:37:48.297Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:38:48.253Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:38:48.256Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:38:48.257Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:38:50.236Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:38:50.239Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:38:50.239Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:38:55.712Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:38:55.715Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:38:55.715Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:38:56.915Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:38:56.920Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:38:56.920Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:39:01.736Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:39:01.741Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:39:01.741Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:39:03.822Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:39:03.825Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:39:03.826Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:39:32.091Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:39:32.093Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:39:32.094Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:39:40.464Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:39:40.468Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:39:40.469Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:39:44.426Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:39:44.429Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:39:44.429Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:39:45.559Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:39:45.563Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:39:45.563Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:39:47.473Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:39:47.475Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:39:47.475Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:39:49.510Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:39:49.514Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:39:49.514Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:43:13.482Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:43:13.484Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:43:13.485Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:44:27.290Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:44:27.292Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:44:27.293Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:44:42.911Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:44:42.913Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:44:42.914Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:44:53.423Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:44:53.425Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:44:53.425Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:44:59.734Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:44:59.736Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:44:59.737Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:45:06.761Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:45:06.763Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:45:06.763Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:45:09.259Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:45:09.264Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:45:09.264Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:45:12.617Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:45:12.620Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:45:12.621Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:45:30.645Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:45:30.647Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:45:30.648Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:45:39.731Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:45:39.733Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:45:39.733Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:45:43.633Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:45:43.638Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:45:43.639Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:45:48.258Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:45:48.263Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:45:48.264Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:45:51.297Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:45:51.299Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:45:51.299Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-09T07:45:53.184Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-09T07:45:53.188Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-09T07:45:53.189Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T10:50:30.726Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T10:50:30.728Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T10:50:30.728Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T10:50:34.770Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/auth/self"
+        },
+        "message": "Authentication service is running.",
+        "data": null
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T10:50:45.747Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68be9293e40241f8ce85954f",
+                "accountId": "MV/A/02",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-08T08:23:47.167Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlOTI5M2U0MDI0MWY4Y2U4NTk1NGYiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTc1ODc4NDUsImV4cCI6MTc1NzY3NDI0NX0.Nlt_jO4bsoaSEiu6840ohaOE2QJSw5u9odMpUPhditM",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGJlOTI5M2U0MDI0MWY4Y2U4NTk1NGYiLCJpYXQiOjE3NTc1ODc4NDUsImV4cCI6MTc1ODE5MjY0NX0.7wLluvwVeSR2e3y2tifsewMYpVlnpPWmlmjRwQqOa2c"
+            },
+            "accountStatus": {
+                "emailVerified": false,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "verify_email",
+                "redirectTo": "/verify-email"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T10:52:11.890Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/register"
+        },
+        "message": "Account created successfully",
+        "data": {
+            "user": {
+                "_id": "68c2a9db734a044b0cf1fece",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": false,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-11T10:52:11.572Z"
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYTlkYjczNGEwNDRiMGNmMWZlY2UiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTc1ODc5MzEsImV4cCI6MTc1NzY3NDMzMX0.xbRScruPEzRgJ2PVIrO11q7WS4itVYyi87smh8sVZfk",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYTlkYjczNGEwNDRiMGNmMWZlY2UiLCJpYXQiOjE3NTc1ODc5MzEsImV4cCI6MTc1ODE5MjczMX0.guAGnKm4lc0E9q-Aihy1m8JE5cbH-dkKfT6_qEvMWhw"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T10:53:49.496Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/verify-email"
+        },
+        "message": "Email verified successfully",
+        "data": {
+            "user": {
+                "_id": "68c2a9db734a044b0cf1fece",
+                "accountId": "MV/A/01",
+                "emailAddress": "john.artist@example.com",
+                "isEmailVerified": true
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T10:54:06.885Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68c2a9db734a044b0cf1fece",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-11T10:52:11.572Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYTlkYjczNGEwNDRiMGNmMWZlY2UiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTc1ODgwNDYsImV4cCI6MTc1NzY3NDQ0Nn0.WOCrXLo3DQiMCcRnGEoR1fYr0-wuvqnwN4l46o0NJFQ",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYTlkYjczNGEwNDRiMGNmMWZlY2UiLCJpYXQiOjE3NTc1ODgwNDYsImV4cCI6MTc1ODE5Mjg0Nn0.3K23QSkDZ1gvb896qftnmnhAx07js2NWmvclHUfpgpc"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T10:54:51.851Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/verify-kyc"
+        },
+        "message": "KYC information submitted successfully",
+        "data": {
+            "kycStatus": "pending",
+            "submittedAt": "2025-09-11T10:54:51.711Z",
+            "kyc": {
+                "documents": {
+                    "aadhaar": {
+                        "number": "1234-5678-9012",
+                        "documentUrl": "https://example.com/aadhaar.pdf",
+                        "verified": false
+                    },
+                    "pan": {
+                        "number": "ABCDE1234F",
+                        "documentUrl": "https://example.com/pan.pdf",
+                        "verified": false
+                    }
+                },
+                "bankDetails": {
+                    "accountNumber": null,
+                    "ifscCode": null,
+                    "accountHolderName": null,
+                    "bankName": null,
+                    "verified": false
+                },
+                "upiDetails": {
+                    "upiId": null,
+                    "verified": false
+                }
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T10:58:57.507Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T10:58:57.509Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T10:58:57.510Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T10:59:02.071Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T10:59:02.073Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T10:59:02.073Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T10:59:19.207Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T10:59:19.209Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T10:59:19.210Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T10:59:51.729Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T10:59:51.731Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T10:59:51.732Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T10:59:56.367Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T10:59:56.369Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T10:59:56.370Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T10:59:58.240Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T10:59:58.245Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T10:59:58.246Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:00:01.241Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:00:01.245Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:00:01.245Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:00:03.591Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:00:03.595Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:00:03.596Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:00:38.816Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:00:38.818Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:00:38.818Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:01:58.898Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:01:58.900Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:01:58.900Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:02:34.203Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68c2a9db734a044b0cf1fece",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-11T10:52:11.572Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": true,
+                    "status": "verified",
+                    "submittedAt": "2025-09-11T10:54:51.711Z",
+                    "verifiedAt": "2025-09-11T10:54:51.711Z",
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYTlkYjczNGEwNDRiMGNmMWZlY2UiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTc1ODg1NTQsImV4cCI6MTc1NzY3NDk1NH0.05cF9d4-U-pQrT1YxbDQIfmczFWVEK2ZH2s3_HzcO5k",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYTlkYjczNGEwNDRiMGNmMWZlY2UiLCJpYXQiOjE3NTc1ODg1NTQsImV4cCI6MTc1ODE5MzM1NH0.hZHdzq_FwJolFkyH0wpRHzGD76v1owaZgn7lObG_oaY"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": true,
+                "kycStatus": "verified",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "choose_subscription",
+                "redirectTo": "/subscription"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:04:38.100Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:04:38.102Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:04:38.102Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:04:53.976Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:04:53.982Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:04:53.982Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:05:00.762Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:05:00.764Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:05:00.764Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:05:26.671Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/admin/create"
+        },
+        "message": "Admin user created successfully",
+        "data": {
+            "admin": {
+                "_id": "68c2acf6ab46dbc01d1d6f3d",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "createdAt": "2025-09-11T11:05:26.277Z"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:05:40.217Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68c2acf6ab46dbc01d1d6f3d",
+                "accountId": "MV/AD/01",
+                "firstName": "Admin",
+                "lastName": "User",
+                "emailAddress": "admin@maheshwarivisuals.com",
+                "role": "admin",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-11T11:05:26.270Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": false,
+                    "status": "pending",
+                    "submittedAt": null,
+                    "verifiedAt": null,
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYWNmNmFiNDZkYmMwMWQxZDZmM2QiLCJlbWFpbEFkZHJlc3MiOiJhZG1pbkBtYWhlc2h3YXJpdmlzdWFscy5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NTc1ODg3NDAsImV4cCI6MTc1NzY3NTE0MH0.4GYi-9sjmLLzS-i9c6b3g5wPNFfKF4ZJY7YCaaDFJCg",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYWNmNmFiNDZkYmMwMWQxZDZmM2QiLCJpYXQiOjE3NTc1ODg3NDAsImV4cCI6MTc1ODE5MzU0MH0.Qev4lpoVOH7u-vOaI6lhm6QnSE-Bz1TWdQoRxSvthP0"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": false,
+                "kycStatus": "pending",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "complete_kyc",
+                "redirectTo": "/kyc"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:06:23.642Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:06:23.646Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:06:23.647Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:06:35.397Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/admin/plans"
+        },
+        "message": "The resource has been created successfully",
+        "data": {
+            "_id": "68c2ad3b6737bb2a4d200ff9",
+            "planId": "maheshwari_premium",
+            "name": "Maheshwari Premium",
+            "description": "Premium plan with all features",
+            "price": {
+                "current": 1999,
+                "original": 2499
+            },
+            "currency": "INR",
+            "interval": "month",
+            "intervalCount": 1,
+            "features": {
+                "unlimitedReleases": true,
+                "artistProfile": true,
+                "collaborateWithOthers": true,
+                "metaContentId": true,
+                "youtubeContentId": true,
+                "analyticsDemo": true,
+                "spotifyDiscoveryMode": true,
+                "assistedPlaylists": true,
+                "preReleasePromo": true,
+                "freeUpcCode": true,
+                "freeIsrcCode": true,
+                "lifetimeAvailability": true,
+                "supportHours": "24_hours",
+                "businessHours": true,
+                "liveSupport": true,
+                "dailyArtistDistribution": true,
+                "worldwideAvailability": true,
+                "analyticsCenter": true,
+                "revenueShare": {
+                    "description": null
+                }
+            },
+            "isActive": true,
+            "isPopular": false,
+            "isBestValue": true,
+            "displayOrder": 2,
+            "limits": {
+                "maxUploads": -1,
+                "maxCollaborators": 10,
+                "maxDistributionChannels": 50
+            },
+            "trial": {
+                "enabled": true,
+                "days": 7
+            },
+            "discount": {
+                "enabled": false,
+                "percentage": 0,
+                "validUntil": null
+            },
+            "createdAt": "2025-09-11T11:06:35.364Z"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:06:47.026Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68c2a9db734a044b0cf1fece",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-11T10:52:11.572Z"
+                },
+                "hasActiveSubscription": false,
+                "subscription": {
+                    "planId": null,
+                    "status": "inactive",
+                    "validFrom": null,
+                    "validUntil": null,
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": null,
+                    "lastPaymentDate": null,
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": true,
+                    "status": "verified",
+                    "submittedAt": "2025-09-11T10:54:51.711Z",
+                    "verifiedAt": "2025-09-11T10:54:51.711Z",
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYTlkYjczNGEwNDRiMGNmMWZlY2UiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTc1ODg4MDYsImV4cCI6MTc1NzY3NTIwNn0.WIO1ALVDrAYphWYknZ9o2dYRL2pljHbhMP7ZHaHeim0",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYTlkYjczNGEwNDRiMGNmMWZlY2UiLCJpYXQiOjE3NTc1ODg4MDYsImV4cCI6MTc1ODE5MzYwNn0.GkY_K0l9qexttMCCJ5JoX3Es0XoQ4fdgDAR_1iy6pEI"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": true,
+                "kycStatus": "verified",
+                "hasActiveSubscription": false,
+                "subscriptionStatus": "inactive",
+                "nextStep": "choose_subscription",
+                "redirectTo": "/subscription"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:07:47.364Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:07:47.366Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:07:47.367Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:08:31.692Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:08:31.696Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:08:31.697Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:08:39.064Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/subscription/create-payment-intent"
+        },
+        "message": "The resource has been created successfully",
+        "data": {
+            "transactionId": "TXN_1757588919016_6DMM16GNE",
+            "orderId": "order_TXN_1757588919016_6DMM16GNE",
+            "amount": 1999,
+            "currency": "INR",
+            "planId": "maheshwari_premium",
+            "planName": "Maheshwari Premium",
+            "razorpayOrderId": "razorpay_order_1757588919063"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:09:34.568Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/subscription/mock-verify-payment"
+        },
+        "message": "Mock payment verified and subscription activated",
+        "data": {
+            "subscription": {
+                "planId": "maheshwari_premium",
+                "status": "active",
+                "validUntil": "2025-10-11T11:09:34.521Z",
+                "planName": "Maheshwari Premium"
+            },
+            "transaction": {
+                "transactionId": "TXN_MOCK_1757588974450_FAFOZ5NEC",
+                "amount": 1999,
+                "status": "completed",
+                "isMockPayment": true
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:09:53.308Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/auth/login"
+        },
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "_id": "68c2a9db734a044b0cf1fece",
+                "accountId": "MV/A/01",
+                "firstName": "John",
+                "lastName": "Artist",
+                "emailAddress": "john.artist@example.com",
+                "role": "user",
+                "userType": "artist",
+                "isEmailVerified": true,
+                "profileCompletion": {
+                    "isComplete": false,
+                    "percentage": 0,
+                    "missingFields": [],
+                    "lastUpdated": "2025-09-11T10:52:11.572Z"
+                },
+                "hasActiveSubscription": true,
+                "subscription": {
+                    "planId": "maheshwari_premium",
+                    "status": "active",
+                    "validFrom": "2025-09-11T11:09:34.523Z",
+                    "validUntil": "2025-10-11T11:09:34.521Z",
+                    "autoRenewal": true,
+                    "razorpaySubscriptionId": "mock_sub_1757588974522",
+                    "lastPaymentDate": "2025-09-11T11:09:34.523Z",
+                    "nextPaymentDate": null
+                },
+                "kycStatus": {
+                    "documents": {
+                        "aadharCard": null,
+                        "panCard": null
+                    },
+                    "isCompleted": true,
+                    "status": "verified",
+                    "submittedAt": "2025-09-11T10:54:51.711Z",
+                    "verifiedAt": "2025-09-11T10:54:51.711Z",
+                    "rejectedAt": null,
+                    "rejectionReason": null
+                }
+            },
+            "tokens": {
+                "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYTlkYjczNGEwNDRiMGNmMWZlY2UiLCJlbWFpbEFkZHJlc3MiOiJqb2huLmFydGlzdEBleGFtcGxlLmNvbSIsInJvbGUiOiJ1c2VyIiwidXNlclR5cGUiOiJhcnRpc3QiLCJpYXQiOjE3NTc1ODg5OTMsImV4cCI6MTc1NzY3NTM5M30.dndXip23HWwvj44NhfSy1WG-qn84zRpiiJvc109JOfg",
+                "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OGMyYTlkYjczNGEwNDRiMGNmMWZlY2UiLCJpYXQiOjE3NTc1ODg5OTMsImV4cCI6MTc1ODE5Mzc5M30.jspCLnKFhJTCxC7FZgbLMjNhshqpYCc-n9CjGCrIXDY"
+            },
+            "accountStatus": {
+                "emailVerified": true,
+                "kycCompleted": true,
+                "kycStatus": "verified",
+                "hasActiveSubscription": true,
+                "subscriptionStatus": "active",
+                "nextStep": "dashboard",
+                "redirectTo": "/dashboard"
+            }
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:10:40.522Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:10:40.524Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:10:40.525Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:10:51.078Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:10:51.080Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:10:51.080Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:10:55.022Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:10:55.024Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:10:55.025Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:11:09.214Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:11:09.216Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:11:09.216Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:11:17.411Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:11:17.413Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:11:17.413Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:11:18.638Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/releases/create"
+        },
+        "message": "The resource has been created successfully",
+        "data": {
+            "releaseId": "RE/B/S/001",
+            "trackType": "single",
+            "currentStep": "cover_art_and_info",
+            "releaseStatus": "draft",
+            "completionPercentage": 0,
+            "nextStep": {
+                "nextStep": "step1",
+                "nextStepTitle": "Cover Art & Release Information",
+                "nextStepDescription": "Upload cover art and provide release details like name, genre, and label information",
+                "canProceedToNextStep": false,
+                "requiredFields": [
+                    "coverArt.imageUrl",
+                    "releaseInfo.releaseName",
+                    "releaseInfo.genre"
+                ]
+            },
+            "stepSummary": {
+                "step1": {
+                    "title": "Cover Art & Release Info",
+                    "isCompleted": false,
+                    "completedAt": null,
+                    "hasData": false
+                },
+                "step2": {
+                    "title": "Audio Files & Tracks",
+                    "isCompleted": false,
+                    "completedAt": null,
+                    "hasData": false,
+                    "trackCount": 0
+                },
+                "step3": {
+                    "title": "Release Settings",
+                    "isCompleted": false,
+                    "completedAt": null,
+                    "hasData": false
+                }
+            },
+            "message": "Release created successfully! Start by uploading cover art and providing release information."
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:19:48.990Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:19:48.994Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:19:48.995Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:19:54.523Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:19:54.528Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:19:54.529Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:20:00.712Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:20:00.719Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:20:00.719Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:20:26.255Z",
+    "meta": {
+        "success": true,
+        "statusCode": 201,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/releases/create"
+        },
+        "message": "The resource has been created successfully",
+        "data": {
+            "releaseId": "RE-B-S-001",
+            "trackType": "single",
+            "currentStep": "cover_art_and_info",
+            "releaseStatus": "draft",
+            "completionPercentage": 0,
+            "nextStep": {
+                "nextStep": "step1",
+                "nextStepTitle": "Cover Art & Release Information",
+                "nextStepDescription": "Upload cover art and provide release details like name, genre, and label information",
+                "canProceedToNextStep": false,
+                "requiredFields": [
+                    "coverArt.imageUrl",
+                    "releaseInfo.releaseName",
+                    "releaseInfo.genre"
+                ]
+            },
+            "stepSummary": {
+                "step1": {
+                    "title": "Cover Art & Release Info",
+                    "isCompleted": false,
+                    "completedAt": null,
+                    "hasData": false
+                },
+                "step2": {
+                    "title": "Audio Files & Tracks",
+                    "isCompleted": false,
+                    "completedAt": null,
+                    "hasData": false,
+                    "trackCount": 0
+                },
+                "step3": {
+                    "title": "Release Settings",
+                    "isCompleted": false,
+                    "completedAt": null,
+                    "hasData": false
+                }
+            },
+            "message": "Release created successfully! Start by uploading cover art and providing release information."
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:21:15.127Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:21:15.129Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:21:15.129Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:21:20.250Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:21:20.254Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:21:20.254Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:21:28.192Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:21:28.195Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:21:28.196Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:22:46.013Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:22:46.015Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:22:46.016Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:22:50.359Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:22:50.362Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:22:50.362Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:22:54.551Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:22:54.553Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:22:54.553Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:23:52.841Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:23:52.844Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:23:52.844Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:24:00.655Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "PATCH",
+            "url": "/v1/releases/RE-B-S-001/step1"
+        },
+        "message": "The resource has been updated successfully",
+        "data": {
+            "releaseId": "RE-B-S-001",
+            "currentStep": "audio_files_and_tracks",
+            "step1Completed": true,
+            "completionPercentage": 33,
+            "nextStep": {
+                "nextStep": "step2",
+                "nextStepTitle": "Audio Files & Track Information",
+                "nextStepDescription": "Upload audio files and provide track details like composer, lyricist, and singer information",
+                "canProceedToNextStep": true,
+                "requiredFields": [
+                    "tracks[].trackName",
+                    "tracks[].genre",
+                    "tracks[].audioFiles[]"
+                ]
+            },
+            "stepSummary": {
+                "step1": {
+                    "title": "Cover Art & Release Info",
+                    "isCompleted": true,
+                    "completedAt": "2025-09-11T11:24:00.616Z",
+                    "hasData": true
+                },
+                "step2": {
+                    "title": "Audio Files & Tracks",
+                    "isCompleted": false,
+                    "completedAt": null,
+                    "hasData": false,
+                    "trackCount": 0
+                },
+                "step3": {
+                    "title": "Release Settings",
+                    "isCompleted": false,
+                    "completedAt": null,
+                    "hasData": false
+                }
+            },
+            "message": "Step 1 completed! Ready to proceed to step 2."
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:24:20.681Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "PATCH",
+            "url": "/v1/releases/RE-B-S-001/step2"
+        },
+        "message": "The resource has been updated successfully",
+        "data": {
+            "releaseId": "RE-B-S-001",
+            "currentStep": "release_settings",
+            "step2Completed": true,
+            "tracksCount": 1,
+            "completionPercentage": 67,
+            "nextStep": {
+                "nextStep": "step3",
+                "nextStepTitle": "Release Settings",
+                "nextStepDescription": "Set release date, select territories, distribution partners, and provide copyright information",
+                "canProceedToNextStep": true,
+                "requiredFields": [
+                    "releaseDate",
+                    "territorialRights",
+                    "partnerSelection",
+                    "copyrights"
+                ]
+            },
+            "stepSummary": {
+                "step1": {
+                    "title": "Cover Art & Release Info",
+                    "isCompleted": true,
+                    "completedAt": "2025-09-11T11:24:00.616Z",
+                    "hasData": true
+                },
+                "step2": {
+                    "title": "Audio Files & Tracks",
+                    "isCompleted": true,
+                    "completedAt": "2025-09-11T11:24:20.640Z",
+                    "hasData": true,
+                    "trackCount": 1
+                },
+                "step3": {
+                    "title": "Release Settings",
+                    "isCompleted": false,
+                    "completedAt": null,
+                    "hasData": false
+                }
+            },
+            "message": "Step 2 completed! Ready to proceed to step 3."
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:24:48.858Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "PATCH",
+            "url": "/v1/releases/RE-B-S-001/step3"
+        },
+        "message": "The resource has been updated successfully",
+        "data": {
+            "releaseId": "RE-B-S-001",
+            "currentStep": "release_settings",
+            "step3Completed": true,
+            "readyForSubmission": true,
+            "completionPercentage": 100,
+            "nextStep": {
+                "nextStep": "submit",
+                "nextStepTitle": "Submit for Review",
+                "nextStepDescription": "All steps completed! Submit your release for admin review and processing",
+                "canProceedToNextStep": true,
+                "requiredFields": []
+            },
+            "stepSummary": {
+                "step1": {
+                    "title": "Cover Art & Release Info",
+                    "isCompleted": true,
+                    "completedAt": "2025-09-11T11:24:00.616Z",
+                    "hasData": true
+                },
+                "step2": {
+                    "title": "Audio Files & Tracks",
+                    "isCompleted": true,
+                    "completedAt": "2025-09-11T11:24:20.640Z",
+                    "hasData": true,
+                    "trackCount": 1
+                },
+                "step3": {
+                    "title": "Release Settings",
+                    "isCompleted": true,
+                    "completedAt": "2025-09-11T11:24:48.822Z",
+                    "hasData": true
+                }
+            },
+            "message": "Step 3 completed! All steps done. Ready to submit for review."
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:25:30.864Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:25:30.869Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:25:30.870Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:25:34.674Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:25:34.679Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:25:34.679Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:25:42.780Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:25:42.785Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:25:42.786Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:25:54.281Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "POST",
+            "url": "/v1/releases/RE-B-S-001/submit"
+        },
+        "message": "Release submitted for review successfully",
+        "data": {
+            "releaseId": "RE-B-S-001",
+            "releaseStatus": "submitted",
+            "submittedAt": "2025-09-11T11:25:54.243Z"
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:26:00.742Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "PATCH",
+            "url": "/v1/releases/RE-B-S-001/step3"
+        },
+        "message": "The resource has been updated successfully",
+        "data": {
+            "releaseId": "RE-B-S-001",
+            "currentStep": "release_settings",
+            "step3Completed": true,
+            "readyForSubmission": true,
+            "completionPercentage": 100,
+            "nextStep": {
+                "nextStep": null,
+                "nextStepTitle": "Release Complete",
+                "nextStepDescription": "Your release has been submitted and is being processed",
+                "canProceedToNextStep": false,
+                "requiredFields": []
+            },
+            "stepSummary": {
+                "step1": {
+                    "title": "Cover Art & Release Info",
+                    "isCompleted": true,
+                    "completedAt": "2025-09-11T11:24:00.616Z",
+                    "hasData": true
+                },
+                "step2": {
+                    "title": "Audio Files & Tracks",
+                    "isCompleted": true,
+                    "completedAt": "2025-09-11T11:24:20.640Z",
+                    "hasData": true,
+                    "trackCount": 1
+                },
+                "step3": {
+                    "title": "Release Settings",
+                    "isCompleted": true,
+                    "completedAt": "2025-09-11T11:24:48.822Z",
+                    "hasData": true
+                }
+            },
+            "message": "Step 3 completed! All steps done. Ready to submit for review."
+        }
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:27:54.459Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:27:54.461Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:27:54.462Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:28:05.713Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:28:05.715Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:28:05.715Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "DATABASE_CONNECTION",
+    "timestamp": "2025-09-11T11:28:20.318Z",
+    "meta": {
+        "CONNECTION_NAME": "bahubali"
+    }
+}
+{
+    "level": "INFO",
+    "message": "RATE_LIMITER_INITIATED",
+    "timestamp": "2025-09-11T11:28:20.320Z",
+    "meta": {}
+}
+{
+    "level": "INFO",
+    "message": "APPLICATION_STARTED",
+    "timestamp": "2025-09-11T11:28:20.320Z",
+    "meta": {
+        "PORT": 5000,
+        "SERVER_URL": "http://localhost:5000"
+    }
+}
+{
+    "level": "INFO",
+    "message": "CONTROLLER_RESPONSE",
+    "timestamp": "2025-09-11T11:28:39.845Z",
+    "meta": {
+        "success": true,
+        "statusCode": 200,
+        "request": {
+            "ip": "::1",
+            "method": "GET",
+            "url": "/v1/releases/my-releases?page=1&limit=10"
+        },
+        "message": "The operation has been successful",
+        "data": {
+            "releases": [
+                {
+                    "releaseId": "RE-B-S-001",
+                    "releaseName": "My Amazing Song",
+                    "trackType": "single",
+                    "releaseStatus": "submitted",
+                    "completionPercentage": 100,
+                    "nextStep": {
+                        "step": "step1",
+                        "title": "Cover Art & Release Information",
+                        "canProceed": false
+                    },
+                    "stepsCompleted": "3/3",
+                    "createdAt": "2025-09-11T11:20:26.220Z",
+                    "submittedAt": "2025-09-11T11:25:54.243Z"
+                }
+            ],
+            "pagination": {
+                "currentPage": 1,
+                "totalPages": 1,
+                "totalItems": 1,
+                "itemsPerPage": 10
+            }
+        }
+    }
+}
