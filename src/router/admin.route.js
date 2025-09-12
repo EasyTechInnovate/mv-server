@@ -1,12 +1,14 @@
 import { Router } from 'express'
 import adminController from '../controller/Admin/admin.controller.js'
 import adminReleasesController from '../controller/Admin/admin-releases.controller.js'
+import adminSublabelsController from '../controller/Admin/admin-sublabels.controller.js'
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
 import authorization from '../middleware/authorization.js'
 import adminSchemas from '../schema/admin.schema.js'
 import aggregatorSchemas from '../schema/aggregator.schema.js'
 import releaseSchemas from '../schema/release.schema.js'
+import sublabelSchemas from '../schema/sublabel.schema.js'
 import { EUserRole } from '../constant/application.js'
 
 const router = Router()
@@ -190,6 +192,70 @@ router.route('/releases/:releaseId/process-takedown')
         authorization([EUserRole.ADMIN]),
         validateRequest(releaseSchemas.releaseIdParam),
         adminReleasesController.processTakeDown
+    )
+
+router.route('/sublabels')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(sublabelSchemas.createSublabel),
+        adminSublabelsController.createSublabel
+    )
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(sublabelSchemas.getSublabels),
+        adminSublabelsController.getSublabels
+    )
+
+router.route('/sublabels/:id')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(sublabelSchemas.getSublabel),
+        adminSublabelsController.getSublabel
+    )
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(sublabelSchemas.updateSublabel),
+        adminSublabelsController.updateSublabel
+    )
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(sublabelSchemas.deleteSublabel),
+        adminSublabelsController.deleteSublabel
+    )
+
+router.route('/sublabels/:id/assign-user')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(sublabelSchemas.assignSublabelToUser),
+        adminSublabelsController.assignSublabelToUser
+    )
+
+router.route('/sublabels/:id/remove-user')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(sublabelSchemas.removeSublabelFromUser),
+        adminSublabelsController.removeSublabelFromUser
+    )
+
+router.route('/users/:userId/sublabels')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(sublabelSchemas.getUserSublabels),
+        adminSublabelsController.getUserSublabels
+    )
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(sublabelSchemas.toggleUserSublabels),
+        adminSublabelsController.toggleUserSublabels
     )
 
 export default router

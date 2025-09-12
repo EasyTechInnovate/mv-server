@@ -1,11 +1,12 @@
 import crypto from 'crypto'
 import User from '../../model/user.model.js'
-import { EUserRole, EKYCStatus } from '../../constant/application.js'
+import { EUserRole, EKYCStatus, EUserType } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
 import quicker from '../../util/quicker.js'
 import config from '../../config/config.js'
+import { assignDefaultSublabelToUser, createLabelSublabel } from '../../util/sublabelHelper.js'
 
 export default {
     async self (req, res, next) {
@@ -79,6 +80,14 @@ export default {
 
             const newUser = new User(userData)
             await newUser.save()
+
+            if (userType === EUserType.ARTIST) {
+                try {
+                    await assignDefaultSublabelToUser(newUser._id, userType)
+                } catch (error) {
+                    console.error('Failed to assign default sublabel to artist:', error)
+                }
+            }
 
             const payload = {
                 userId: newUser._id,

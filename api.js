@@ -123,6 +123,22 @@ const apiData = [
       { method: "POST", path: "/:releaseId/reject", description: "Reject release with reason" },
       { method: "POST", path: "/:releaseId/process-takedown", description: "Process takedown request" }
     ]
+  },
+  {
+    name: "Admin - Sublabels Management",
+    url: "/v1/admin/sublabels",
+    description: "Manage sublabels and user assignments",
+    endpoints: [
+      { method: "POST", path: "/", description: "Create new sublabel" },
+      { method: "GET", path: "/", description: "Get all sublabels with pagination & filters" },
+      { method: "GET", path: "/:id", description: "Get sublabel details with assigned users" },
+      { method: "PATCH", path: "/:id", description: "Update sublabel information" },
+      { method: "DELETE", path: "/:id", description: "Delete sublabel (if no users assigned)" },
+      { method: "POST", path: "/:id/assign-user", description: "Assign sublabel to user" },
+      { method: "POST", path: "/:id/remove-user", description: "Remove sublabel from user" },
+      { method: "GET", path: "/users/:userId/sublabels", description: "Get user's assigned sublabels" },
+      { method: "POST", path: "/users/:userId/sublabels", description: "Toggle user sublabels assignment" }
+    ]
   }
 ];
 

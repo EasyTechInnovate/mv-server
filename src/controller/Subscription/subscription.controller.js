@@ -2,11 +2,12 @@ import dayjs from 'dayjs'
 import SubscriptionPlan from '../../model/subscriptionPlan.model.js'
 import PaymentTransaction from '../../model/paymentTransaction.model.js'
 import User from '../../model/user.model.js'
-import { ESubscriptionStatus, EPaymentStatus } from '../../constant/application.js'
+import { ESubscriptionStatus, EPaymentStatus, EUserType } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
 import quicker from '../../util/quicker.js'
+import { createLabelSublabel } from '../../util/sublabelHelper.js'
 
 export default {
     async self (req, res, next) {
@@ -165,6 +166,14 @@ export default {
             
             await user.save()
 
+            if (user.userType === EUserType.LABELS) {
+                try {
+                    await createLabelSublabel(user._id, user.subscription.validFrom, user.subscription.validUntil)
+                } catch (error) {
+                    console.error('Failed to create label sublabel:', error)
+                }
+            }
+
             const responseData = {
                 subscription: {
                     planId: user.subscription.planId,
@@ -238,6 +247,14 @@ export default {
             )
             
             await user.save()
+
+            if (user.userType === EUserType.LABELS) {
+                try {
+                    await createLabelSublabel(user._id, user.subscription.validFrom, user.subscription.validUntil)
+                } catch (error) {
+                    console.error('Failed to create label sublabel:', error)
+                }
+            }
 
             const responseData = {
                 subscription: {

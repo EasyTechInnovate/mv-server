@@ -163,3 +163,11 @@ export const EReleaseStep = Object.freeze({
     AUDIO_FILES_AND_TRACKS: 'audio_files_and_tracks',
     RELEASE_SETTINGS: 'release_settings'
 });
+
+export const ESublabelMembershipStatus = Object.freeze({
+    ACTIVE: 'active',
+    INACTIVE: 'inactive',
+    PENDING: 'pending',
+    EXPIRED: 'expired',
+    SUSPENDED: 'suspended'
+});

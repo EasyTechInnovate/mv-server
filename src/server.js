@@ -3,6 +3,7 @@ import config from './config/config.js';
 import { initRateLimiter } from './config/rateLimiter.js';
 import databaseService from './service/databaseService.js';
 import logger from './util/logger.js';
+import { initializeDefaultSublabels } from './util/sublabelHelper.js';
 
 const server = app.listen(config.server.port);
 
@@ -17,6 +18,9 @@ const server = app.listen(config.server.port);
 
         initRateLimiter(connection);
         logger.info('RATE_LIMITER_INITIATED');
+
+        await initializeDefaultSublabels();
+        logger.info('DEFAULT_SUBLABELS_INITIALIZED');
 
         logger.info('APPLICATION_STARTED', {
             meta: {

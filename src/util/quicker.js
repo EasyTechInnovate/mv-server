@@ -89,6 +89,24 @@ export default {
         const releaseId = `${prefix}${String(nextNumber).padStart(3, '0')}`
         return releaseId
     },
+
+    generateSublabelId: async (SublabelModel) => {
+        const prefix = 'SUB-'
+        
+        const latestSublabel = await SublabelModel.findOne({
+            sublabelId: { $regex: `^${prefix}` }
+        }).sort({ sublabelId: -1 })
+
+        let nextNumber = 1
+        if (latestSublabel && latestSublabel.sublabelId) {
+            const currentNumber = parseInt(latestSublabel.sublabelId.split('-').pop())
+            nextNumber = currentNumber + 1
+        }
+
+        const sublabelId = `${prefix}${String(nextNumber).padStart(3, '0')}`
+        return sublabelId
+    },
+    
     getDomainFromUrl: (url) => {
         try {
             const parsedUrl = new URL(url)

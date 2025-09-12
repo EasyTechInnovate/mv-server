@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc.js";
@@ -571,6 +571,26 @@ const userSchema = new mongoose.Schema(
       },
     },
 
+    sublabels: [{
+      sublabel: {
+        type: Schema.Types.ObjectId,
+        ref: 'Sublabel',
+        required: true
+      },
+      assignedAt: {
+        type: Date,
+        default: Date.now
+      },
+      isDefault: {
+        type: Boolean,
+        default: false
+      },
+      isActive: {
+        type: Boolean,
+        default: true
+      }
+    }],
+
     profileCompletion: {
       _id: false,
       isComplete: {
@@ -808,6 +828,8 @@ userSchema.index({ role: 1 });
 userSchema.index({ isActive: 1 });
 userSchema.index({ "kyc.status": 1 });
 userSchema.index({ "subscription.status": 1 });
+userSchema.index({ "sublabels.sublabel": 1 });
+userSchema.index({ "sublabels.isActive": 1 });
 userSchema.index({ createdAt: -1 });
 userSchema.index({ userType: 1, isActive: 1 });
 userSchema.index({ role: 1, isActive: 1 });
