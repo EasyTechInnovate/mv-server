@@ -8,6 +8,10 @@ import {
   EKYCStatus,
   ESubscriptionStatus,
   ENotificationType,
+  ETeamRole,
+  EDepartment,
+  EModuleAccess,
+  ETeamMemberStatus,
 } from "../constant/application.js";
 
 dayjs.extend(utc);
@@ -54,19 +58,19 @@ const userSchema = new mongoose.Schema(
       isoCode: {
         type: String,
         required: function () {
-          return this.role !== EUserRole.ADMIN;
+          return this.role === EUserRole.USER;
         },
       },
       countryCode: {
         type: String,
         required: function () {
-          return this.role !== EUserRole.ADMIN;
+          return this.role === EUserRole.USER;
         },
       },
       internationalNumber: {
         type: String,
         required: function () {
-          return this.role !== EUserRole.ADMIN;
+          return this.role === EUserRole.USER;
         },
       },
     },
@@ -95,35 +99,35 @@ const userSchema = new mongoose.Schema(
       street: {
         type: String,
         required: function () {
-          return this.role !== EUserRole.ADMIN;
+          return this.role === EUserRole.USER;
         },
         trim: true,
       },
       city: {
         type: String,
         required: function () {
-          return this.role !== EUserRole.ADMIN;
+          return this.role === EUserRole.USER;
         },
         trim: true,
       },
       state: {
         type: String,
         required: function () {
-          return this.role !== EUserRole.ADMIN;
+          return this.role === EUserRole.USER;
         },
         trim: true,
       },
       country: {
         type: String,
         required: function () {
-          return this.role !== EUserRole.ADMIN;
+          return this.role === EUserRole.USER;
         },
         trim: true,
       },
       pinCode: {
         type: String,
         required: function () {
-          return this.role !== EUserRole.ADMIN;
+          return this.role === EUserRole.USER;
         },
         trim: true,
       },
@@ -132,7 +136,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: function () {
-        return !this.googleAuth?.googleId;
+        return !this.googleAuth?.googleId && !(this.role === EUserRole.TEAM_MEMBER && !this.isInvitationAccepted);
       },
       minlength: [6, "Password must be at least 6 characters long"],
     },
@@ -163,11 +167,53 @@ const userSchema = new mongoose.Schema(
       default: EUserRole.USER,
     },
 
+    teamRole: {
+      type: String,
+      enum: Object.values(ETeamRole),
+      required: function () {
+        return this.role === EUserRole.TEAM_MEMBER;
+      },
+    },
+
+    department: {
+      type: String,
+      enum: Object.values(EDepartment),
+      required: function () {
+        return this.role === EUserRole.TEAM_MEMBER;
+      },
+    },
+
+    moduleAccess: [{
+      type: String,
+      enum: Object.values(EModuleAccess),
+    }],
+
+    invitedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
+
+    isInvitationAccepted: {
+      type: Boolean,
+      default: false,
+    },
+
+    invitationToken: {
+      type: String,
+      default: null,
+    },
+
+    invitationExpiresAt: {
+      type: Date,
+      default: null,
+    },
+
     userType: {
       type: String,
       enum: Object.values(EUserType),
       required: function () {
-        return this.role !== EUserRole.ADMIN;
+        return this.role === EUserRole.USER;
       },
     },
 
@@ -209,7 +255,7 @@ const userSchema = new mongoose.Schema(
         type: String,
         required: function () {
           return (
-            this.userType === EUserType.ARTIST && this.role !== EUserRole.ADMIN
+            this.userType === EUserType.ARTIST && this.role === EUserRole.USER
           );
         },
         trim: true,
@@ -234,7 +280,7 @@ const userSchema = new mongoose.Schema(
         type: String,
         required: function () {
           return (
-            this.userType === EUserType.LABEL && this.role !== EUserRole.ADMIN
+            this.userType === EUserType.LABEL && this.role === EUserRole.USER
           );
         },
         trim: true,
@@ -285,7 +331,7 @@ const userSchema = new mongoose.Schema(
         required: function () {
           return (
             this.userType === EUserType.AGGREGATOR &&
-            this.role !== EUserRole.ADMIN
+            this.role === EUserRole.USER
           );
         },
         trim: true,
@@ -698,13 +744,13 @@ const userSchema = new mongoose.Schema(
       terms: {
         type: Boolean,
         required: function () {
-          return this.role !== EUserRole.ADMIN;
+          return this.role === EUserRole.USER;
         },
       },
       privacy: {
         type: Boolean,
         required: function () {
-          return this.role !== EUserRole.ADMIN;
+          return this.role === EUserRole.USER;
         },
       },
       marketing: {

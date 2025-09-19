@@ -13,6 +13,7 @@ import faqRouter from './faq.route.js';
 import testimonialRouter from './testimonial.route.js';
 import trendingLabelRouter from './trending-label.route.js';
 import companySettingsRouter from './company-settings.route.js';
+import teamMemberRouter from './team-member.route.js';
 
 const router = Router();
 
@@ -30,6 +31,7 @@ router.use('/faqs', faqRouter);
 router.use('/testimonials', testimonialRouter);
 router.use('/trending-labels', trendingLabelRouter);
 router.use('/company-settings', companySettingsRouter);
+router.use('/team-members', teamMemberRouter);
 
 
 export default router;

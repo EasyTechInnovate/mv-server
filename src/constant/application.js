@@ -6,6 +6,7 @@ export const EApplicationEnvironment = Object.freeze({
 export const EUserRole = Object.freeze({
     ADMIN: 'admin',
     USER: 'user',
+    TEAM_MEMBER: 'team_member'
 });
 
 export const EUserType = Object.freeze({
@@ -232,4 +233,41 @@ export const ETrendingLabelStatus = Object.freeze({
 export const ECompanySettingsStatus = Object.freeze({
     ACTIVE: 'active',
     INACTIVE: 'inactive'
+});
+
+export const ETeamRole = Object.freeze({
+    ADMIN: 'Admin',
+    CONTENT_MANAGER: 'Content Manager',
+    DEVELOPER: 'Developer',
+    MARKETING_HEAD: 'Marketing Head',
+    SUPPORT_SPECIALIST: 'Support Specialist'
+});
+
+export const EDepartment = Object.freeze({
+    MANAGEMENT: 'Management',
+    CONTENT: 'Content',
+    TECHNOLOGY: 'Technology',
+    MARKETING: 'Marketing',
+    SUPPORT: 'Support'
+});
+
+export const EModuleAccess = Object.freeze({
+    USER_MANAGEMENT: 'User Management',
+    ROYALTY_MANAGEMENT: 'Royalty Management',
+    ANALYTICS: 'Analytics',
+    FINANCIAL_REPORTS: 'Financial Reports',
+    BLOG_MANAGEMENT: 'Blog Management',
+    TEAM_MANAGEMENT: 'Team Management',
+    RELEASE_MANAGEMENT: 'Release Management',
+    MCN_MANAGEMENT: 'MCN Management',
+    CONTENT_MANAGEMENT: 'Content Management',
+    SUPPORT_TICKETS: 'Support Tickets',
+    SYSTEM_SETTINGS: 'System Settings',
+    MERCH_MANAGEMENT: 'Merch Management'
+});
+
+export const ETeamMemberStatus = Object.freeze({
+    ACTIVE: 'active',
+    INACTIVE: 'inactive',
+    PENDING: 'pending'
 });

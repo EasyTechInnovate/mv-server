@@ -41,7 +41,8 @@ export default {
             'artist': 'MV/A/',
             'label': 'MV/L/',
             'aggregator': 'MV/AG/',
-            'admin': 'MV/AD/'
+            'admin': 'MV/AD/',
+            'team_member': 'MV/TM/'
         }
 
         const prefix = prefixes[userType]

@@ -314,6 +314,34 @@ const apiData = [
     ]
   },
   {
+    name: "Admin - Team Member Management",
+    url: "/v1/admin/team-members",
+    description: "Admin management of team members with invitations, roles, and permissions",
+    endpoints: [
+      { method: "POST", path: "/invite", description: "Invite new team member" },
+      { method: "GET", path: "/", description: "Get all team members with pagination and filtering" },
+      { method: "GET", path: "/stats", description: "Get team member statistics" },
+      { method: "GET", path: "/:teamMemberId", description: "Get team member details by ID" },
+      { method: "PUT", path: "/:teamMemberId", description: "Update team member information" },
+      { method: "PATCH", path: "/:teamMemberId/status", description: "Update team member status (active/inactive)" },
+      { method: "POST", path: "/:teamMemberId/resend-invitation", description: "Resend invitation to team member" },
+      { method: "DELETE", path: "/:teamMemberId", description: "Delete team member (soft delete)" }
+    ]
+  },
+  {
+    name: "Team Member",
+    url: "/v1/team-members",
+    description: "Team member self-service endpoints for profile and account management",
+    endpoints: [
+      { method: "GET", path: "/self", description: "Team member service health check" },
+      { method: "POST", path: "/accept-invitation", description: "Accept team member invitation" },
+      { method: "GET", path: "/invitation/:invitationToken", description: "Get invitation details" },
+      { method: "GET", path: "/profile", description: "Get team member profile" },
+      { method: "PUT", path: "/profile", description: "Update team member profile" },
+      { method: "PATCH", path: "/change-password", description: "Change team member password" }
+    ]
+  },
+  {
     name: "Company Settings",
     url: "/v1/company-settings",
     description: "Public access to company information for website display",

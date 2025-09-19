@@ -5547,6 +5547,485 @@
 			]
 		},
 		{
+			"name": "Public - Team Members",
+			"item": [
+				{
+					"name": "Accept Team Invitation",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"invitationToken\": \"abc123def456\",\n  \"password\": \"SecurePass123!\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/team-members/accept-invitation",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"team-members",
+								"accept-invitation"
+							]
+						},
+						"description": "Accept team member invitation and set password"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Invitation Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/team-members/invitation/{{invitation_token}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"team-members",
+								"invitation",
+								"{{invitation_token}}"
+							]
+						},
+						"description": "Get invitation details by token"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Team Member Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/team-members/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"team-members",
+								"profile"
+							]
+						},
+						"description": "Get authenticated team member profile"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Team Member Profile",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/team-members/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"team-members",
+								"profile"
+							]
+						},
+						"description": "Update team member profile information"
+					},
+					"response": []
+				},
+				{
+					"name": "Change Team Member Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"currentPassword\": \"OldPass123!\",\n  \"newPassword\": \"NewSecurePass123!\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/team-members/change-password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"team-members",
+								"change-password"
+							]
+						},
+						"description": "Change team member password"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - Team Management",
+			"item": [
+				{
+					"name": "Invite Team Member",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"emailAddress\": \"john.doe@company.com\",\n  \"teamRole\": \"Content Manager\",\n  \"department\": \"Content\",\n  \"moduleAccess\": [\n    \"Content Management\",\n    \"Blog Management\",\n    \"Release Management\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/team-members",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"team-members"
+							]
+						},
+						"description": "Invite new team member (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Team Members",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/team-members?page=1&limit=10&search=john&teamRole=Content Manager&department=Content&status=active",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"team-members"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number for pagination"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of items per page"
+								},
+								{
+									"key": "search",
+									"value": "john",
+									"disabled": true,
+									"description": "Search in name or email"
+								},
+								{
+									"key": "teamRole",
+									"value": "Content Manager",
+									"disabled": true,
+									"description": "Filter by team role"
+								},
+								{
+									"key": "department",
+									"value": "Content",
+									"disabled": true,
+									"description": "Filter by department"
+								},
+								{
+									"key": "status",
+									"value": "active",
+									"disabled": true,
+									"description": "Filter by status (active/inactive/pending)"
+								}
+							]
+						},
+						"description": "Get all team members with pagination and filtering (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Team Member by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/team-members/{{team_member_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"team-members",
+								"{{team_member_id}}"
+							]
+						},
+						"description": "Get specific team member by ID (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Team Member",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Smith\",\n  \"teamRole\": \"Marketing Head\",\n  \"department\": \"Marketing\",\n  \"moduleAccess\": [\n    \"Content Management\",\n    \"Blog Management\",\n    \"Analytics\",\n    \"User Management\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/team-members/{{team_member_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"team-members",
+								"{{team_member_id}}"
+							]
+						},
+						"description": "Update team member information (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Team Member Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"isActive\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/team-members/{{team_member_id}}/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"team-members",
+								"{{team_member_id}}",
+								"status"
+							]
+						},
+						"description": "Update team member active status (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Team Member",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/team-members/{{team_member_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"team-members",
+								"{{team_member_id}}"
+							]
+						},
+						"description": "Delete team member by ID (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Resend Team Member Invitation",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/team-members/{{team_member_id}}/resend-invitation",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"team-members",
+								"{{team_member_id}}",
+								"resend-invitation"
+							]
+						},
+						"description": "Resend invitation to pending team member (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Team Statistics",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/team-members/statistics",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"team-members",
+								"statistics"
+							]
+						},
+						"description": "Get team member statistics and analytics (admin only)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Admin - User Management",
 			"item": [
 				{
@@ -6197,6 +6676,16 @@
 		},
 		{
 			"key": "trending_label_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "team_member_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "invitation_token",
 			"value": "",
 			"type": "string"
 		}

@@ -10,9 +10,11 @@ import adminTestimonialController from '../controller/Testimonial/admin-testimon
 import adminTrendingLabelController from '../controller/TrendingLabel/admin-trending-label.controller.js'
 import adminAnalyticsController from '../controller/Admin/admin-analytics.controller.js'
 import adminCompanySettingsController from '../controller/CompanySettings/admin-company-settings.controller.js'
+import adminTeamMemberController from '../controller/TeamMember/admin-team-member.controller.js'
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
 import authorization from '../middleware/authorization.js'
+import moduleAuthorization from '../middleware/moduleAuthorization.js'
 import adminSchemas from '../schema/admin.schema.js'
 import aggregatorSchemas from '../schema/aggregator.schema.js'
 import releaseSchemas from '../schema/release.schema.js'
@@ -25,6 +27,7 @@ import faqSchemas from '../schema/faq.schema.js'
 import testimonialSchemas from '../schema/testimonial.schema.js'
 import trendingLabelSchemas from '../schema/trending-label.schema.js'
 import companySettingsSchemas from '../schema/company-settings.schema.js'
+import teamMemberSchemas from '../schema/team-member.schema.js'
 import { uploadFiles } from '../middleware/multerHandler.js'
 
 const router = Router()
@@ -34,12 +37,14 @@ router.route('/self').get(adminController.self)
 router.route('/plans')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         adminController.getAllPlans
     )
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         validateRequest(adminSchemas.createPlan),
         adminController.createPlan
     )
@@ -47,74 +52,85 @@ router.route('/plans')
 router.route('/plans/:planId')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         adminController.getPlanById
     )
     .put(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         validateRequest(adminSchemas.updatePlan),
         adminController.updatePlan
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         adminController.deletePlan
     )
 
 router.route('/plans/:planId/activate')
     .patch(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         adminController.activatePlan
     )
 
 router.route('/plans/:planId/deactivate')
     .patch(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         adminController.deactivatePlan
     )
 
 router.route('/revenue/summary')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminController.getRevenueSummary
     )
 
 router.route('/users/stats')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
         adminController.getUserStats
     )
 
 router.route('/subscriptions/stats')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
         adminController.getSubscriptionStats
     )
 
 router.route('/aggregator/applications')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('MCN Management'),
         adminController.getAllAggregatorApplications
     )
 
 router.route('/aggregator/applications/:applicationId')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('MCN Management'),
         adminController.getAggregatorApplication
     )
 
 router.route('/aggregator/applications/:applicationId/review')
     .patch(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('MCN Management'),
         validateRequest(aggregatorSchemas.reviewApplication),
         adminController.reviewAggregatorApplication
     )
@@ -122,7 +138,8 @@ router.route('/aggregator/applications/:applicationId/review')
 router.route('/aggregator/applications/:applicationId/create-account')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('MCN Management'),
         validateRequest(aggregatorSchemas.createAggregatorAccount),
         adminController.createAggregatorAccount
     )
@@ -132,7 +149,8 @@ router.route('/releases/self').get(adminReleasesController.self)
 router.route('/releases')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(releaseSchemas.getReleases),
         adminReleasesController.getAllReleases
     )
@@ -180,7 +198,8 @@ router.route('/releases/:releaseId/start-processing')
 router.route('/releases/:releaseId/publish')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(releaseSchemas.releaseIdParam),
         adminReleasesController.publishRelease
     )
@@ -188,7 +207,8 @@ router.route('/releases/:releaseId/publish')
 router.route('/releases/:releaseId/go-live')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(releaseSchemas.releaseIdParam),
         adminReleasesController.goLive
     )
@@ -196,7 +216,8 @@ router.route('/releases/:releaseId/go-live')
 router.route('/releases/:releaseId/reject')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(releaseSchemas.releaseIdParam),
         validateRequest(releaseSchemas.rejectRelease),
         adminReleasesController.rejectRelease
@@ -205,7 +226,8 @@ router.route('/releases/:releaseId/reject')
 router.route('/releases/:releaseId/process-takedown')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(releaseSchemas.releaseIdParam),
         adminReleasesController.processTakeDown
     )
@@ -213,7 +235,8 @@ router.route('/releases/:releaseId/process-takedown')
 router.route('/advanced-releases')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.adminGetReleases, 'query'),
         adminAdvanceReleaseController.getAllReleases
     )
@@ -221,28 +244,32 @@ router.route('/advanced-releases')
 router.route('/advanced-releases/self')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         adminAdvanceReleaseController.self
     )
 
 router.route('/advanced-releases/pending-reviews')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         adminAdvanceReleaseController.getPendingReviews
     )
 
 router.route('/advanced-releases/stats')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
         adminAdvanceReleaseController.getReleaseStats
     )
 
 router.route('/advanced-releases/:releaseId')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.getReleaseById),
         adminAdvanceReleaseController.getReleaseById
     )
@@ -250,7 +277,8 @@ router.route('/advanced-releases/:releaseId')
 router.route('/advanced-releases/:releaseId/approve')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.getReleaseById),
         validateRequest(advancedReleaseSchemas.adminNotes),
         adminAdvanceReleaseController.approveForReview
@@ -259,7 +287,8 @@ router.route('/advanced-releases/:releaseId/approve')
 router.route('/advanced-releases/:releaseId/start-processing')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.getReleaseById),
         adminAdvanceReleaseController.startProcessing
     )
@@ -267,7 +296,8 @@ router.route('/advanced-releases/:releaseId/start-processing')
 router.route('/advanced-releases/:releaseId/publish')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.getReleaseById),
         adminAdvanceReleaseController.publishRelease
     )
@@ -275,7 +305,8 @@ router.route('/advanced-releases/:releaseId/publish')
 router.route('/advanced-releases/:releaseId/go-live')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.getReleaseById),
         adminAdvanceReleaseController.goLive
     )
@@ -283,7 +314,8 @@ router.route('/advanced-releases/:releaseId/go-live')
 router.route('/advanced-releases/:releaseId/reject')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.rejectRelease),
         adminAdvanceReleaseController.rejectRelease
     )
@@ -291,7 +323,8 @@ router.route('/advanced-releases/:releaseId/reject')
 router.route('/advanced-releases/:releaseId/process-takedown')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.getReleaseById),
         adminAdvanceReleaseController.processTakeDown
     )
@@ -299,7 +332,8 @@ router.route('/advanced-releases/:releaseId/process-takedown')
 router.route('/advanced-releases/:releaseId/provide-upc')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.provideUPC),
         adminAdvanceReleaseController.provideUPC
     )
@@ -307,7 +341,8 @@ router.route('/advanced-releases/:releaseId/provide-upc')
 router.route('/advanced-releases/:releaseId/provide-isrc')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.provideISRC),
         adminAdvanceReleaseController.provideISRC
     )
@@ -315,13 +350,15 @@ router.route('/advanced-releases/:releaseId/provide-isrc')
 router.route('/sublabels')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(sublabelSchemas.createSublabel),
         adminSublabelsController.createSublabel
     )
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(sublabelSchemas.getSublabels),
         adminSublabelsController.getSublabels
     )
@@ -329,19 +366,22 @@ router.route('/sublabels')
 router.route('/sublabels/:id')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(sublabelSchemas.getSublabel),
         adminSublabelsController.getSublabel
     )
     .patch(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(sublabelSchemas.updateSublabel),
         adminSublabelsController.updateSublabel
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(sublabelSchemas.deleteSublabel),
         adminSublabelsController.deleteSublabel
     )
@@ -349,7 +389,8 @@ router.route('/sublabels/:id')
 router.route('/sublabels/:id/assign-user')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         validateRequest(sublabelSchemas.assignSublabelToUser),
         adminSublabelsController.assignSublabelToUser
     )
@@ -357,7 +398,8 @@ router.route('/sublabels/:id/assign-user')
 router.route('/sublabels/:id/remove-user')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         validateRequest(sublabelSchemas.removeSublabelFromUser),
         adminSublabelsController.removeSublabelFromUser
     )
@@ -365,13 +407,15 @@ router.route('/sublabels/:id/remove-user')
 router.route('/users/:userId/sublabels')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         validateRequest(sublabelSchemas.getUserSublabels),
         adminSublabelsController.getUserSublabels
     )
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         validateRequest(sublabelSchemas.toggleUserSublabels),
         adminSublabelsController.toggleUserSublabels
     )
@@ -380,13 +424,15 @@ router.route('/users/:userId/sublabels')
 router.route('/months')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(monthManagementSchemas.createMonthSchema),
         adminMonthManagementController.createMonth
     )
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(monthManagementSchemas.getAllMonthsSchema),
         adminMonthManagementController.getAllMonths
     )
@@ -394,14 +440,16 @@ router.route('/months')
 router.route('/months/stats')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
         adminMonthManagementController.getMonthStats
     )
 
 router.route('/months/type/:type')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(monthManagementSchemas.getMonthsByTypeSchema),
         adminMonthManagementController.getMonthsByType
     )
@@ -409,19 +457,22 @@ router.route('/months/type/:type')
 router.route('/months/:id')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(monthManagementSchemas.monthParamsSchema),
         adminMonthManagementController.getMonthById
     )
     .patch(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(monthManagementSchemas.updateMonthSchema),
         adminMonthManagementController.updateMonth
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(monthManagementSchemas.monthParamsSchema),
         adminMonthManagementController.deleteMonth
     )
@@ -429,7 +480,8 @@ router.route('/months/:id')
 router.route('/months/:id/toggle-status')
     .patch(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(monthManagementSchemas.monthParamsSchema),
         adminMonthManagementController.toggleMonthStatus
     )
@@ -438,7 +490,8 @@ router.route('/months/:id/toggle-status')
 router.route('/reports/upload')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         uploadFiles,
         validateRequest(reportSchemas.uploadReportSchema),
         adminReportController.uploadReport
@@ -447,7 +500,8 @@ router.route('/reports/upload')
 router.route('/reports')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(reportSchemas.getReportsSchema),
         adminReportController.getReports
     )
@@ -455,14 +509,16 @@ router.route('/reports')
 router.route('/reports/stats')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
         adminReportController.getReportStats
     )
 
 router.route('/reports/month/:monthId')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(reportSchemas.getReportsByMonthSchema),
         adminReportController.getReportsByMonth
     )
@@ -470,13 +526,15 @@ router.route('/reports/month/:monthId')
 router.route('/reports/:id')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(reportSchemas.reportParamsSchema),
         adminReportController.getReportById
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(reportSchemas.reportParamsSchema),
         adminReportController.deleteReport
     )
@@ -484,7 +542,8 @@ router.route('/reports/:id')
 router.route('/reports/:id/data')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         validateRequest(reportSchemas.getReportDataSchema),
         adminReportController.getReportData
     )
@@ -493,13 +552,15 @@ router.route('/reports/:id/data')
 router.route('/faqs')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(faqSchemas.createFAQSchema),
         adminFAQController.createFAQ
     )
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(faqSchemas.getFAQsSchema, 'query'),
         adminFAQController.getAllFAQs
     )
@@ -507,26 +568,30 @@ router.route('/faqs')
 router.route('/faqs/self')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         adminFAQController.self
     )
 
 router.route('/faqs/:faqId')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(faqSchemas.getFAQByIdSchema),
         adminFAQController.getFAQById
     )
     .put(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(faqSchemas.updateFAQSchema),
         adminFAQController.updateFAQ
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(faqSchemas.deleteFAQSchema),
         adminFAQController.deleteFAQ
     )
@@ -535,13 +600,15 @@ router.route('/faqs/:faqId')
 router.route('/testimonials')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(testimonialSchemas.createTestimonialSchema),
         adminTestimonialController.createTestimonial
     )
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(testimonialSchemas.getTestimonialsSchema, 'query'),
         adminTestimonialController.getAllTestimonials
     )
@@ -549,33 +616,38 @@ router.route('/testimonials')
 router.route('/testimonials/self')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         adminTestimonialController.self
     )
 
 router.route('/testimonials/stats')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
         adminTestimonialController.getTestimonialStats
     )
 
 router.route('/testimonials/:testimonialId')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(testimonialSchemas.getTestimonialByIdSchema),
         adminTestimonialController.getTestimonialById
     )
     .put(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(testimonialSchemas.updateTestimonialSchema),
         adminTestimonialController.updateTestimonial
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(testimonialSchemas.deleteTestimonialSchema),
         adminTestimonialController.deleteTestimonial
     )
@@ -584,13 +656,15 @@ router.route('/testimonials/:testimonialId')
 router.route('/trending-labels')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(trendingLabelSchemas.createTrendingLabelSchema),
         adminTrendingLabelController.createTrendingLabel
     )
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(trendingLabelSchemas.getTrendingLabelsSchema, 'query'),
         adminTrendingLabelController.getAllTrendingLabels
     )
@@ -598,33 +672,38 @@ router.route('/trending-labels')
 router.route('/trending-labels/self')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         adminTrendingLabelController.self
     )
 
 router.route('/trending-labels/stats')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
         adminTrendingLabelController.getTrendingLabelStats
     )
 
 router.route('/trending-labels/:labelId')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(trendingLabelSchemas.getTrendingLabelByIdSchema),
         adminTrendingLabelController.getTrendingLabelById
     )
     .put(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(trendingLabelSchemas.updateTrendingLabelSchema),
         adminTrendingLabelController.updateTrendingLabel
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Content Management'),
         validateRequest(trendingLabelSchemas.deleteTrendingLabelSchema),
         adminTrendingLabelController.deleteTrendingLabel
     )
@@ -633,14 +712,16 @@ router.route('/trending-labels/:labelId')
 router.route('/users')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         adminAnalyticsController.getAllUsers
     )
 
 router.route('/analytics/self')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
         adminAnalyticsController.self
     )
 
@@ -648,13 +729,15 @@ router.route('/analytics/self')
 router.route('/company-settings')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         validateRequest(companySettingsSchemas.createCompanySettingsSchema),
         adminCompanySettingsController.createCompanySettings
     )
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         validateRequest(companySettingsSchemas.getCompanySettingsSchema, 'query'),
         adminCompanySettingsController.getCompanySettings
     )
@@ -662,33 +745,38 @@ router.route('/company-settings')
 router.route('/company-settings/self')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         adminCompanySettingsController.self
     )
 
 router.route('/company-settings/setup-status')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         adminCompanySettingsController.getSetupStatus
     )
 
 router.route('/company-settings/:settingsId')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         validateRequest(companySettingsSchemas.getCompanySettingsByIdSchema),
         adminCompanySettingsController.getCompanySettingsById
     )
     .put(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         validateRequest(companySettingsSchemas.updateCompanySettingsSchema),
         adminCompanySettingsController.updateCompanySettings
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         validateRequest(companySettingsSchemas.deleteCompanySettingsSchema),
         adminCompanySettingsController.deleteCompanySettings
     )
@@ -696,7 +784,8 @@ router.route('/company-settings/:settingsId')
 router.route('/company-settings/:settingsId/youtube-links')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         validateRequest(companySettingsSchemas.addYoutubeLinkSchema),
         adminCompanySettingsController.addYoutubeLink
     )
@@ -704,9 +793,74 @@ router.route('/company-settings/:settingsId/youtube-links')
 router.route('/company-settings/:settingsId/youtube-links/:linkIndex')
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
         validateRequest(companySettingsSchemas.removeYoutubeLinkSchema),
         adminCompanySettingsController.removeYoutubeLink
+    )
+
+router.route('/team-members')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(teamMemberSchemas.inviteTeamMemberSchema),
+        adminTeamMemberController.inviteTeamMember
+    )
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(teamMemberSchemas.getAllTeamMembersSchema, 'query'),
+        adminTeamMemberController.getAllTeamMembers
+    )
+
+router.route('/team-members/self')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        adminTeamMemberController.self
+    )
+
+router.route('/team-members/statistics')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        adminTeamMemberController.getTeamStatistics
+    )
+
+router.route('/team-members/:teamMemberId')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(teamMemberSchemas.getTeamMemberByIdSchema),
+        adminTeamMemberController.getTeamMemberById
+    )
+    .put(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(teamMemberSchemas.updateTeamMemberSchema),
+        adminTeamMemberController.updateTeamMember
+    )
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(teamMemberSchemas.getTeamMemberByIdSchema),
+        adminTeamMemberController.deleteTeamMember
+    )
+
+router.route('/team-members/:teamMemberId/status')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(teamMemberSchemas.updateTeamMemberStatusSchema),
+        adminTeamMemberController.updateTeamMemberStatus
+    )
+
+router.route('/team-members/:teamMemberId/resend-invitation')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(teamMemberSchemas.resendInvitationSchema),
+        adminTeamMemberController.resendInvitation
     )
 
 export default router
