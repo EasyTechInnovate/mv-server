@@ -11,6 +11,7 @@ import adminTrendingLabelController from '../controller/TrendingLabel/admin-tren
 import adminAnalyticsController from '../controller/Admin/admin-analytics.controller.js'
 import adminCompanySettingsController from '../controller/CompanySettings/admin-company-settings.controller.js'
 import adminTeamMemberController from '../controller/TeamMember/admin-team-member.controller.js'
+import adminSupportTicketController from '../controller/SupportTicket/admin-support-ticket.controller.js'
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
 import authorization from '../middleware/authorization.js'
@@ -28,6 +29,19 @@ import testimonialSchemas from '../schema/testimonial.schema.js'
 import trendingLabelSchemas from '../schema/trending-label.schema.js'
 import companySettingsSchemas from '../schema/company-settings.schema.js'
 import teamMemberSchemas from '../schema/team-member.schema.js'
+import {
+    getTicketsSchema,
+    getTicketByIdSchema,
+    updateTicketSchema,
+    addResponseSchema,
+    addInternalNoteSchema,
+    assignTicketSchema,
+    updateTicketStatusSchema,
+    updateTicketPrioritySchema,
+    escalateTicketSchema,
+    getTicketStatsSchema,
+    bulkUpdateTicketsSchema
+} from '../schema/support-ticket.schema.js'
 import { uploadFiles } from '../middleware/multerHandler.js'
 
 const router = Router()
@@ -861,6 +875,121 @@ router.route('/team-members/:teamMemberId/resend-invitation')
         authorization([EUserRole.ADMIN]),
         validateRequest(teamMemberSchemas.resendInvitationSchema),
         adminTeamMemberController.resendInvitation
+    )
+
+// Support Ticket Management Routes
+router.route('/support-tickets')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(getTicketsSchema),
+        adminSupportTicketController.getAllTickets
+    )
+
+router.route('/support-tickets/self')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        adminSupportTicketController.self
+    )
+
+router.route('/support-tickets/stats')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
+        validateRequest(getTicketStatsSchema),
+        adminSupportTicketController.getTicketStats
+    )
+
+router.route('/support-tickets/my-assigned')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(getTicketsSchema),
+        adminSupportTicketController.getMyAssignedTickets
+    )
+
+router.route('/support-tickets/bulk-update')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(bulkUpdateTicketsSchema),
+        adminSupportTicketController.bulkUpdateTickets
+    )
+
+router.route('/support-tickets/:ticketId')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(getTicketByIdSchema),
+        adminSupportTicketController.getTicketById
+    )
+    .put(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(updateTicketSchema),
+        adminSupportTicketController.updateTicket
+    )
+
+router.route('/support-tickets/:ticketId/assign')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(assignTicketSchema),
+        adminSupportTicketController.assignTicket
+    )
+
+router.route('/support-tickets/:ticketId/status')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(updateTicketStatusSchema),
+        adminSupportTicketController.updateTicketStatus
+    )
+
+router.route('/support-tickets/:ticketId/priority')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(updateTicketPrioritySchema),
+        adminSupportTicketController.updateTicketPriority
+    )
+
+router.route('/support-tickets/:ticketId/response')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(addResponseSchema),
+        adminSupportTicketController.addResponse
+    )
+
+router.route('/support-tickets/:ticketId/internal-note')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(addInternalNoteSchema),
+        adminSupportTicketController.addInternalNote
+    )
+
+router.route('/support-tickets/:ticketId/escalate')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
+        validateRequest(escalateTicketSchema),
+        adminSupportTicketController.escalateTicket
     )
 
 export default router

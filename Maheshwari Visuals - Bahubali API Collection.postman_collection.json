@@ -6580,6 +6580,738 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Support Tickets",
+			"item": [
+				{
+					"name": "Service Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/support-tickets/self",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"support-tickets",
+								"self"
+							]
+						},
+						"description": "Support tickets service health check"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Support Ticket",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.data && jsonData.data.ticketId) {",
+									"        pm.collectionVariables.set('ticket_id', jsonData.data.ticketId);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"subject\": \"Technical issue with my account\",\n    \"description\": \"I'm experiencing difficulty accessing certain features in my account dashboard. The settings page keeps loading indefinitely and I can't update my profile information.\",\n    \"category\": \"Technical\",\n    \"priority\": \"medium\",\n    \"contactEmail\": \"user@example.com\",\n    \"attachments\": [\n        {\n            \"fileName\": \"screenshot.png\",\n            \"fileUrl\": \"https://example.com/files/screenshot.png\",\n            \"fileSize\": 125000\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/support-tickets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"support-tickets"
+							]
+						},
+						"description": "Create a new support ticket (requires authentication)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Tickets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/support-tickets/my-tickets?status=open&page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"support-tickets",
+								"my-tickets"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "open",
+									"description": "Filter by ticket status (open, in_progress, resolved, closed)"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number for pagination"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Number of tickets per page"
+								}
+							]
+						},
+						"description": "Get all tickets created by the authenticated user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Ticket Stats",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/support-tickets/my-stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"support-tickets",
+								"my-stats"
+							]
+						},
+						"description": "Get ticket statistics for the authenticated user"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ticket by ID (Guest)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/support-tickets/guest/{{ticket_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"support-tickets",
+								"guest",
+								"{{ticket_id}}"
+							]
+						},
+						"description": "Get ticket details for guest users (no authentication required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ticket by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/support-tickets/{{ticket_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"support-tickets",
+								"{{ticket_id}}"
+							]
+						},
+						"description": "Get ticket details for authenticated users"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Response to Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Thank you for your quick response. I've tried the suggested solution but I'm still facing the same issue. Could you please provide additional guidance?\",\n    \"attachments\": [\n        {\n            \"filename\": \"error_screenshot.png\",\n            \"url\": \"https://example.com/screenshots/error.png\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/support-tickets/{{ticket_id}}/response",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"support-tickets",
+								"{{ticket_id}}",
+								"response"
+							]
+						},
+						"description": "Add a response to an existing ticket"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Satisfaction Rating",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rating\": 5,\n    \"feedback\": \"Excellent support! The team was very helpful and resolved my issue quickly. Very satisfied with the service.\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/support-tickets/{{ticket_id}}/rating",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"support-tickets",
+								"{{ticket_id}}",
+								"rating"
+							]
+						},
+						"description": "Add satisfaction rating for resolved ticket"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin - Support Tickets",
+			"item": [
+				{
+					"name": "Admin Service Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets/self",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets",
+								"self"
+							]
+						},
+						"description": "Admin support tickets service health check"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Tickets (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets?status=open&priority=high&category=technical&assignedTo=admin&page=1&limit=10&sortBy=createdAt&sortOrder=desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "open",
+									"description": "Filter by status (open, in_progress, resolved, closed)"
+								},
+								{
+									"key": "priority",
+									"value": "high",
+									"description": "Filter by priority (low, medium, high, urgent)"
+								},
+								{
+									"key": "category",
+									"value": "technical",
+									"description": "Filter by category"
+								},
+								{
+									"key": "assignedTo",
+									"value": "admin",
+									"description": "Filter by assigned admin ID"
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"description": "Page number"
+								},
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Items per page"
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt",
+									"description": "Sort field"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc",
+									"description": "Sort order (asc, desc)"
+								}
+							]
+						},
+						"description": "Get all support tickets with filtering and pagination (admin access required)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ticket Statistics (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets/stats?timeframe=month",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets",
+								"stats"
+							],
+							"query": [
+								{
+									"key": "timeframe",
+									"value": "month",
+									"description": "Timeframe for statistics (day, week, month, year)"
+								}
+							]
+						},
+						"description": "Get comprehensive ticket statistics for admin dashboard"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detailed Analytics (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets/analytics?startDate=2024-01-01&endDate=2024-12-31",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets",
+								"analytics"
+							],
+							"query": [
+								{
+									"key": "startDate",
+									"value": "2024-01-01",
+									"description": "Start date for analytics period (YYYY-MM-DD)"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-12-31",
+									"description": "End date for analytics period (YYYY-MM-DD)"
+								}
+							]
+						},
+						"description": "Get detailed analytics including trends, performance metrics, and insights"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Ticket by ID (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets/{{ticket_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets",
+								"{{ticket_id}}"
+							]
+						},
+						"description": "Get detailed ticket information including internal notes and admin metadata"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Ticket (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"subject\": \"Upload Issue - File Format Problem (Updated)\",\n    \"description\": \"Updated description: The user is having trouble uploading MP3 files. Investigation shows it's related to bitrate requirements.\",\n    \"status\": \"in_progress\",\n    \"priority\": \"high\",\n    \"category\": \"technical\",\n    \"tags\": [\"upload\", \"mp3\", \"bitrate\"],\n    \"estimatedResolutionTime\": \"2024-12-25T10:00:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets/{{ticket_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets",
+								"{{ticket_id}}"
+							]
+						},
+						"description": "Update ticket details including status, priority, and metadata"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Ticket (Admin)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets/{{ticket_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets",
+								"{{ticket_id}}"
+							]
+						},
+						"description": "Permanently delete a support ticket (admin only)"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Admin Response",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"message\": \"Thank you for contacting support. I've reviewed your upload issue and found that the problem is related to the audio file bitrate. Please ensure your MP3 files are encoded at 320kbps or lower. Here's a guide to help: [link to guide]\",\n    \"isPublic\": true,\n    \"attachments\": [\n        {\n            \"filename\": \"audio_encoding_guide.pdf\",\n            \"url\": \"https://support.maheshwarivisuals.com/guides/audio-encoding.pdf\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets/{{ticket_id}}/response",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets",
+								"{{ticket_id}}",
+								"response"
+							]
+						},
+						"description": "Add an admin response to the ticket (visible to customer)"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Internal Note",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"note\": \"Customer confirmed the issue started after the recent app update. Check if there are any known issues with the new upload module. Escalate to dev team if needed.\",\n    \"priority\": \"high\",\n    \"tags\": [\"app-update\", \"dev-escalation\"]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets/{{ticket_id}}/internal-note",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets",
+								"{{ticket_id}}",
+								"internal-note"
+							]
+						},
+						"description": "Add internal note for admin team collaboration (not visible to customer)"
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"assignedTo\": \"admin_user_id_123\",\n    \"reason\": \"Assigning to technical specialist for audio encoding issues\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets/{{ticket_id}}/assign",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets",
+								"{{ticket_id}}",
+								"assign"
+							]
+						},
+						"description": "Assign ticket to a specific admin or team member"
+					},
+					"response": []
+				},
+				{
+					"name": "Escalate Ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"escalationLevel\": \"level_2\",\n    \"reason\": \"Customer is frustrated and this is affecting multiple users. Needs senior technical review.\",\n    \"escalatedTo\": \"senior_admin_id_456\",\n    \"priority\": \"urgent\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/admin/support-tickets/{{ticket_id}}/escalate",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"admin",
+								"support-tickets",
+								"{{ticket_id}}",
+								"escalate"
+							]
+						},
+						"description": "Escalate ticket to higher priority level and assign to senior team member"
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -6686,6 +7418,11 @@
 		},
 		{
 			"key": "invitation_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ticket_id",
 			"value": "",
 			"type": "string"
 		}

@@ -342,6 +342,38 @@ const apiData = [
     ]
   },
   {
+    name: "Support Tickets",
+    url: "/v1/support-tickets",
+    description: "Authenticated user support ticket submission and management system",
+    endpoints: [
+      { method: "GET", path: "/self", description: "Support ticket service health check" },
+      { method: "POST", path: "/", description: "Create new support ticket (requires authentication)" },
+      { method: "GET", path: "/my-tickets", description: "Get authenticated user's tickets with pagination and filters" },
+      { method: "GET", path: "/my-stats", description: "Get authenticated user's ticket statistics" },
+      { method: "GET", path: "/:ticketId", description: "Get ticket details by ID (authenticated)" },
+      { method: "POST", path: "/:ticketId/response", description: "Add response to ticket" },
+      { method: "POST", path: "/:ticketId/rating", description: "Add satisfaction rating to ticket" }
+    ]
+  },
+  {
+    name: "Admin - Support Ticket Management",
+    url: "/v1/admin/support-tickets",
+    description: "Admin and team member support ticket management with full CRUD operations",
+    endpoints: [
+      { method: "GET", path: "/self", description: "Admin support ticket service health check" },
+      { method: "GET", path: "/", description: "Get all tickets with advanced filtering, search and pagination" },
+      { method: "GET", path: "/stats", description: "Get comprehensive ticket statistics and metrics" },
+      { method: "GET", path: "/analytics", description: "Get detailed ticket analytics and performance data" },
+      { method: "GET", path: "/:ticketId", description: "Get ticket details by ID with full admin view" },
+      { method: "PUT", path: "/:ticketId", description: "Update ticket information and status" },
+      { method: "DELETE", path: "/:ticketId", description: "Delete ticket (admin only)" },
+      { method: "POST", path: "/:ticketId/response", description: "Add admin response to ticket" },
+      { method: "POST", path: "/:ticketId/internal-note", description: "Add internal note to ticket (admin view only)" },
+      { method: "PATCH", path: "/:ticketId/assign", description: "Assign ticket to department or team member" },
+      { method: "PATCH", path: "/:ticketId/escalate", description: "Escalate ticket to higher level" }
+    ]
+  },
+  {
     name: "Company Settings",
     url: "/v1/company-settings",
     description: "Public access to company information for website display",

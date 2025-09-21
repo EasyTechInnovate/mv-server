@@ -53,7 +53,7 @@ const trendingLabelSchema = new Schema({
     timestamps: true
 })
 
-trendingLabelSchema.index({ labelNumber: 1 })
+// labelNumber index is automatically created by unique: true
 trendingLabelSchema.index({ status: 1 })
 trendingLabelSchema.index({ monthlyStreams: -1 })
 trendingLabelSchema.index({ totalReleases: -1 })

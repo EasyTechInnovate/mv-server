@@ -93,7 +93,7 @@ export default {
 
     generateSublabelId: async (SublabelModel) => {
         const prefix = 'SUB-'
-        
+
         const latestSublabel = await SublabelModel.findOne({
             sublabelId: { $regex: `^${prefix}` }
         }).sort({ sublabelId: -1 })
@@ -106,6 +106,23 @@ export default {
 
         const sublabelId = `${prefix}${String(nextNumber).padStart(3, '0')}`
         return sublabelId
+    },
+
+    generateTicketId: async (TicketModel) => {
+        const prefix = 'TKT-'
+
+        const latestTicket = await TicketModel.findOne({
+            ticketId: { $regex: `^${prefix}` }
+        }).sort({ ticketId: -1 })
+
+        let nextNumber = 1
+        if (latestTicket && latestTicket.ticketId) {
+            const currentNumber = parseInt(latestTicket.ticketId.split('-').pop())
+            nextNumber = currentNumber + 1
+        }
+
+        const ticketId = `${prefix}${String(nextNumber).padStart(6, '0')}`
+        return ticketId
     },
     
     getDomainFromUrl: (url) => {
