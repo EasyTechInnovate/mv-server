@@ -4,17 +4,19 @@ export const validateRequest = (schema, target = 'body') => {
 
         // Check if schema expects multiple properties or specific single properties
         const schemaKeys = Object.keys(schema.shape || {});
-        const hasMultipleTargets = schemaKeys.includes('params') && schemaKeys.includes('body');
-        const hasOnlyParams = schemaKeys.includes('params') && !schemaKeys.includes('body');
+        const hasMultipleTargets = (schemaKeys.includes('params') && schemaKeys.includes('body')) ||
+                                   (schemaKeys.includes('params') && schemaKeys.includes('query')) ||
+                                   (schemaKeys.includes('body') && schemaKeys.includes('query')) ||
+                                   (schemaKeys.includes('params') && schemaKeys.includes('body') && schemaKeys.includes('query'));
+        const hasOnlyParams = schemaKeys.includes('params') && !schemaKeys.includes('body') && !schemaKeys.includes('query');
         const hasOnlyQuery = schemaKeys.includes('query') && !schemaKeys.includes('body') && !schemaKeys.includes('params');
 
         if (hasMultipleTargets) {
-            // For schemas that expect both params and body
-            schemaData = {
-                params: req.params || {},
-                body: req.body || {},
-                ...(schemaKeys.includes('query') && { query: req.query || {} })
-            };
+            // For schemas that expect multiple targets (params, body, query)
+            schemaData = {};
+            if (schemaKeys.includes('params')) schemaData.params = req.params || {};
+            if (schemaKeys.includes('body')) schemaData.body = req.body || {};
+            if (schemaKeys.includes('query')) schemaData.query = req.query || {};
         } else if (hasOnlyParams) {
             // For schemas that expect only params
             schemaData = {
@@ -43,7 +45,7 @@ export const validateRequest = (schema, target = 'body') => {
             schemaData = target === 'body' ? { body: dataToValidate } : { [target]: dataToValidate };
         }
 
-        const validationType = hasMultipleTargets ? 'params+body' : hasOnlyParams ? 'params' : hasOnlyQuery ? 'query' : target;
+        const validationType = hasMultipleTargets ? 'multiple_targets' : hasOnlyParams ? 'params' : hasOnlyQuery ? 'query' : target;
         console.log('Validating:', validationType, schemaData)
 
         const result = schema.safeParse(schemaData);
@@ -67,11 +69,9 @@ export const validateRequest = (schema, target = 'body') => {
 
         // Update req object with validated data
         if (hasMultipleTargets) {
-            Object.assign(req.params, result.data.params || {});
-            Object.assign(req.body, result.data.body || {});
-            if (result.data.query) {
-                Object.assign(req.query, result.data.query);
-            }
+            if (result.data.params) Object.assign(req.params, result.data.params);
+            if (result.data.body) Object.assign(req.body, result.data.body);
+            if (result.data.query) Object.assign(req.query, result.data.query);
         } else if (hasOnlyParams) {
             Object.assign(req.params, result.data.params || {});
         } else if (hasOnlyQuery) {

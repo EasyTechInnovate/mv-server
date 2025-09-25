@@ -2977,7 +2977,7 @@
 			]
 		},
 		{
-			"name": "Reports",
+			"name": "Reports & Analytics",
 			"item": [
 				{
 					"name": "Get Available Reports",
@@ -3215,6 +3215,109 @@
 								}
 							]
 						}
+					}
+				},
+				{
+					"name": "📊 Analytics Dashboard (Complete)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/reports/analytics/dashboard?timeframe=last_30_days&groupBy=day&topTracksLimit=10&countriesLimit=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"reports",
+								"analytics",
+								"dashboard"
+							],
+							"query": [
+								{
+									"key": "timeframe",
+									"value": "last_30_days",
+									"description": "Options: last_7_days, last_30_days, last_90_days, last_6_months, last_year"
+								},
+								{
+									"key": "groupBy",
+									"value": "day",
+									"description": "Chart grouping: day, week, month, year"
+								},
+								{
+									"key": "topTracksLimit",
+									"value": "10",
+									"description": "Number of top tracks to return (1-50)"
+								},
+								{
+									"key": "countriesLimit",
+									"value": "20",
+									"description": "Number of countries to return (1-50)"
+								}
+							]
+						},
+						"description": "🎯 COMPREHENSIVE ANALYTICS DASHBOARD\n\nGet all analytics data in one API call - perfect for royalty, bonus, and streaming data management:\n\n📊 OVERVIEW METRICS:\n• Total streams & growth %\n• Total revenue & growth %\n• Countries reached\n• Active listeners\n\n📈 TIME SERIES CHARTS:\n• Streams over time\n• Revenue over time\n\n🎵 TOP CONTENT:\n• Top performing tracks\n\n🌍 DISTRIBUTION DATA:\n• Platform distribution (Spotify, YouTube, Apple Music, Amazon, Netease, Resso)\n• Country distribution\n\n👥 AUDIENCE INSIGHTS:\n• Listeners by country\n• Listeners by platform\n\n💰 REVENUE BREAKDOWN:\n• Revenue by platform\n• Total revenue metrics\n\nEverything filtered by your accountId - all your music analytics in one efficient call!",
+						"response": []
+					}
+				},
+				{
+					"name": "💰 Royalty Dashboard (Complete)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/reports/royalty/dashboard?timeframe=last_30_days",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"reports",
+								"royalty",
+								"dashboard"
+							],
+							"query": [
+								{
+									"key": "timeframe",
+									"value": "last_30_days",
+									"description": "Options: last_7_days, last_30_days, last_90_days, last_6_months, last_year, custom"
+								},
+								{
+									"key": "startDate",
+									"value": "",
+									"description": "Required when timeframe=custom (ISO 8601 format)",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "",
+									"description": "Required when timeframe=custom (ISO 8601 format)",
+									"disabled": true
+								}
+							]
+						},
+						"description": "🎯 COMPREHENSIVE ROYALTY DASHBOARD\n\nGet all royalty and bonus royalty data in one API call - perfect for managing both ROYALTY and BONUS_ROYALTY together:\n\n💰 OVERVIEW METRICS:\n• Total earnings (regular + bonus)\n• This month money & growth %\n• Bonus royalty totals\n• Regular royalty totals\n\n📈 TRENDS OVER TIME:\n• Monthly royalty trends\n• Monthly bonus royalty trends\n\n🔍 COMPOSITION ANALYSIS:\n• Regular vs bonus breakdown\n• Percentage distribution\n• Bonus royalty composition\n\n📊 PERFORMANCE METRICS:\n• Average Monthly (Regular & Bonus)\n• Best Month (Regular & Bonus)\n• Growth Rate (Regular & Bonus)\n\n🎵 PLATFORM DATA:\n• Revenue by Platform (Regular & Bonus)\n• Platform Performance\n• Bonus Revenue by Platform\n• Bonus Platform Performance\n\n🏆 TOP EARNING TRACKS:\n• Top Earning Tracks (Regular)\n• Top Earning Tracks for Bonuses\n\nEverything filtered by your accountId following the same pattern as analytics dashboard - all your royalty data in one efficient call!",
+						"response": []
 					}
 				}
 			]

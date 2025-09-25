@@ -1,6 +1,8 @@
 import ReportData from '../../model/report-data.model.js'
 import MonthManagement from '../../model/month-management.model.js'
-import { EReportType, EReportStatus } from '../../constant/application.js'
+import Analytics from '../../model/analytics.model.js'
+import Royalty from '../../model/royalty.model.js'
+import { EReportType, EReportStatus, EAnalyticsTimeframe, ERoyaltyTimeframe } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
@@ -363,6 +365,330 @@ export default {
                     }
                 )
             }
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
+    },
+
+    // Analytics endpoint - comprehensive dashboard data
+    async getAnalyticsDashboard(req, res, next) {
+        try {
+            const {
+                timeframe = EAnalyticsTimeframe.LAST_30_DAYS,
+                groupBy = 'day',
+                topTracksLimit = 10,
+                countriesLimit = 20
+            } = req.query
+            const userAccountId = req.authenticatedUser.accountId
+
+            const timeframeConfig = {
+                [EAnalyticsTimeframe.LAST_7_DAYS]: { days: 7 },
+                [EAnalyticsTimeframe.LAST_30_DAYS]: { days: 30 },
+                [EAnalyticsTimeframe.LAST_90_DAYS]: { days: 90 },
+                [EAnalyticsTimeframe.LAST_6_MONTHS]: { months: 6 },
+                [EAnalyticsTimeframe.LAST_YEAR]: { months: 12 }
+            }
+
+            const config = timeframeConfig[timeframe]
+            const endDate = new Date()
+            const startDate = new Date()
+
+            if (config.days) {
+                startDate.setDate(endDate.getDate() - config.days)
+            } else if (config.months) {
+                startDate.setMonth(endDate.getMonth() - config.months)
+            }
+
+            const previousPeriodLength = endDate - startDate
+            const previousStartDate = new Date(startDate.getTime() - previousPeriodLength)
+            const previousEndDate = new Date(startDate)
+
+            const [
+                // Overview metrics
+                totalStreams,
+                totalRevenue,
+                countriesCount,
+                activeListeners,
+                previousPeriodStreams,
+                previousPeriodRevenue,
+
+                // Time series data
+                streamsOverTime,
+                revenueOverTime,
+
+                // Distribution data
+                topTracks,
+                platformDistribution,
+                countryDistribution,
+
+                // Additional insights
+                listenersByCountry,
+                listenersByPlatform,
+                revenueByPlatform
+            ] = await Promise.all([
+                // Overview metrics
+                Analytics.getUserTotalStreams(userAccountId, { startDate, endDate }),
+                Analytics.getUserTotalRevenue(userAccountId, { startDate, endDate }),
+                Analytics.getUserCountriesReached(userAccountId, { startDate, endDate }),
+                Analytics.getUserActiveListeners(userAccountId, { startDate, endDate }),
+                Analytics.getUserTotalStreams(userAccountId, { startDate: previousStartDate, endDate: previousEndDate }),
+                Analytics.getUserTotalRevenue(userAccountId, { startDate: previousStartDate, endDate: previousEndDate }),
+
+                // Time series data
+                Analytics.getUserStreamsOverTime(userAccountId, { startDate, endDate, groupBy }),
+                Analytics.getUserRevenueOverTime(userAccountId, { startDate, endDate, groupBy }),
+
+                // Distribution data
+                Analytics.getUserTopTracks(userAccountId, { startDate, endDate, limit: parseInt(topTracksLimit) }),
+                Analytics.getUserPlatformDistribution(userAccountId, { startDate, endDate }),
+                Analytics.getUserCountryDistribution(userAccountId, { startDate, endDate, limit: parseInt(countriesLimit) }),
+
+                // Additional insights
+                Analytics.getUserListenersByCountry(userAccountId, { startDate, endDate, limit: 10 }),
+                Analytics.getUserListenersByPlatform(userAccountId, { startDate, endDate }),
+                Analytics.getUserRevenueBySources(userAccountId, { startDate, endDate })
+            ])
+
+            const streamsGrowth = previousPeriodStreams > 0
+                ? ((totalStreams - previousPeriodStreams) / previousPeriodStreams * 100).toFixed(2)
+                : totalStreams > 0 ? 100 : 0
+
+            const revenueGrowth = previousPeriodRevenue > 0
+                ? ((totalRevenue - previousPeriodRevenue) / previousPeriodRevenue * 100).toFixed(2)
+                : totalRevenue > 0 ? 100 : 0
+
+            const dashboardData = {
+                timeframe,
+                periodStart: startDate,
+                periodEnd: endDate,
+
+                // Overview section
+                overview: {
+                    totalStreams,
+                    streamsGrowth: parseFloat(streamsGrowth),
+                    totalRevenue: parseFloat(totalRevenue.toFixed(2)),
+                    revenueGrowth: parseFloat(revenueGrowth),
+                    countriesReached: countriesCount,
+                    activeListeners
+                },
+
+                // Charts data
+                charts: {
+                    streamsOverTime: {
+                        groupBy,
+                        data: streamsOverTime
+                    },
+                    revenueOverTime: {
+                        groupBy,
+                        data: revenueOverTime
+                    }
+                },
+
+                // Top content
+                topTracks: {
+                    limit: parseInt(topTracksLimit),
+                    tracks: topTracks
+                },
+
+                // Distribution data
+                distribution: {
+                    platforms: platformDistribution,
+                    countries: {
+                        limit: parseInt(countriesLimit),
+                        data: countryDistribution
+                    }
+                },
+
+                // Audience insights
+                audience: {
+                    listenersByCountry,
+                    listenersByPlatform
+                },
+
+                // Revenue breakdown
+                revenue: {
+                    byPlatform: revenueByPlatform,
+                    total: parseFloat(totalRevenue.toFixed(2))
+                }
+            }
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, dashboardData)
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
+    },
+
+    // Royalty Management - Comprehensive Dashboard API
+    async getRoyaltyDashboard(req, res, next) {
+        try {
+            const {
+                timeframe = ERoyaltyTimeframe.LAST_30_DAYS,
+                startDate,
+                endDate
+            } = req.query
+            const userAccountId = req.authenticatedUser.accountId
+
+            // Handle custom timeframe
+            let dateFilter = {}
+            if (timeframe === ERoyaltyTimeframe.CUSTOM && startDate && endDate) {
+                dateFilter.start = new Date(startDate)
+                dateFilter.end = new Date(endDate)
+            } else {
+                const timeframeConfig = {
+                    [ERoyaltyTimeframe.LAST_7_DAYS]: { days: 7 },
+                    [ERoyaltyTimeframe.LAST_30_DAYS]: { days: 30 },
+                    [ERoyaltyTimeframe.LAST_90_DAYS]: { days: 90 },
+                    [ERoyaltyTimeframe.LAST_6_MONTHS]: { months: 6 },
+                    [ERoyaltyTimeframe.LAST_YEAR]: { months: 12 }
+                }
+                const config = timeframeConfig[timeframe]
+                const endDate = new Date()
+                const startDate = new Date()
+
+                if (config.days) {
+                    startDate.setDate(endDate.getDate() - config.days)
+                } else if (config.months) {
+                    startDate.setMonth(endDate.getMonth() - config.months)
+                }
+
+                dateFilter.start = startDate
+                dateFilter.end = endDate
+            }
+
+            // Get all royalty data in parallel
+            const [
+                totalEarnings,
+                thisMonthEarnings,
+                monthlyRoyaltyTrends,
+                royaltyComposition,
+                performanceMetrics,
+                monthlyBonusRoyaltyTrends,
+                bonusRoyaltyComposition,
+                bonusPerformanceMetrics,
+                revenueByPlatform,
+                platformPerformance,
+                topEarningTracks,
+                bonusRevenueByPlatform,
+                bonusPlatformPerformance,
+                topBonusEarningTracks
+            ] = await Promise.all([
+                Royalty.getUserTotalEarnings(userAccountId, dateFilter),
+                Royalty.getUserThisMonthEarnings(userAccountId),
+                Royalty.getUserMonthlyRoyaltyTrends(userAccountId, dateFilter),
+                Royalty.getUserRoyaltyComposition(userAccountId, dateFilter),
+                Royalty.getUserPerformanceMetrics(userAccountId, dateFilter),
+                Royalty.getUserBonusRoyaltyTrends(userAccountId, dateFilter),
+                Royalty.getUserBonusRoyaltyComposition(userAccountId, dateFilter),
+                Royalty.getUserBonusPerformanceMetrics(userAccountId, dateFilter),
+                Royalty.getUserRevenueByPlatform(userAccountId, dateFilter),
+                Royalty.getUserPlatformPerformance(userAccountId, dateFilter),
+                Royalty.getUserTopEarningTracks(userAccountId, dateFilter, 10),
+                Royalty.getUserBonusRoyaltyByPlatform(userAccountId, dateFilter),
+                Royalty.getUserBonusPlatformPerformance(userAccountId, dateFilter),
+                Royalty.getUserTopBonusEarningTracks(userAccountId, dateFilter, 10)
+            ])
+
+            // Comprehensive dashboard data in one response
+            const dashboardData = {
+                // Overview metrics
+                overview: {
+                    totalEarnings: parseFloat(totalEarnings.regularRoyalty + totalEarnings.bonusRoyalty),
+                    regularRoyalty: parseFloat(totalEarnings.regularRoyalty),
+                    bonusRoyalty: parseFloat(totalEarnings.bonusRoyalty),
+                    thisMonthMoney: parseFloat(thisMonthEarnings.total),
+                    thisMonthRegular: parseFloat(thisMonthEarnings.regular),
+                    thisMonthBonus: parseFloat(thisMonthEarnings.bonus),
+                    growthPercent: parseFloat(thisMonthEarnings.growthPercent || 0)
+                },
+
+                // Trends over time
+                trends: {
+                    monthlyRoyaltyTrends: monthlyRoyaltyTrends.map(item => ({
+                        month: item._id,
+                        regularRoyalty: parseFloat(item.regularRoyalty),
+                        totalEarnings: parseFloat(item.totalEarnings)
+                    })),
+                    monthlyBonusRoyaltyTrends: monthlyBonusRoyaltyTrends.map(item => ({
+                        month: item._id,
+                        bonusRoyalty: parseFloat(item.bonusRoyalty),
+                        totalEarnings: parseFloat(item.totalEarnings)
+                    }))
+                },
+
+                // Composition analysis
+                composition: {
+                    royalty: {
+                        regular: parseFloat(royaltyComposition.regular || 0),
+                        bonus: parseFloat(royaltyComposition.bonus || 0),
+                        percentage: {
+                            regular: parseFloat(royaltyComposition.regularPercentage || 0),
+                            bonus: parseFloat(royaltyComposition.bonusPercentage || 0)
+                        }
+                    },
+                    bonusRoyalty: {
+                        composition: bonusRoyaltyComposition,
+                        percentage: bonusRoyaltyComposition.percentage || {}
+                    }
+                },
+
+                // Performance metrics
+                performance: {
+                    regular: {
+                        averageMonthly: parseFloat(performanceMetrics.averageMonthly || 0),
+                        bestMonth: {
+                            month: performanceMetrics.bestMonth?.month || null,
+                            amount: parseFloat(performanceMetrics.bestMonth?.amount || 0)
+                        },
+                        growthRate: parseFloat(performanceMetrics.growthRate || 0)
+                    },
+                    bonus: {
+                        averageMonthly: parseFloat(bonusPerformanceMetrics.averageMonthly || 0),
+                        bestMonth: {
+                            month: bonusPerformanceMetrics.bestMonth?.month || null,
+                            amount: parseFloat(bonusPerformanceMetrics.bestMonth?.amount || 0)
+                        },
+                        growthRate: parseFloat(bonusPerformanceMetrics.growthRate || 0)
+                    }
+                },
+
+                // Platform data
+                platforms: {
+                    regular: {
+                        revenue: revenueByPlatform.map(item => ({
+                            platform: item._id,
+                            revenue: parseFloat(item.revenue),
+                            percentage: parseFloat(item.percentage)
+                        })),
+                        performance: platformPerformance
+                    },
+                    bonus: {
+                        revenue: bonusRevenueByPlatform.map(item => ({
+                            platform: item._id,
+                            revenue: parseFloat(item.revenue),
+                            percentage: parseFloat(item.percentage)
+                        })),
+                        performance: bonusPlatformPerformance
+                    }
+                },
+
+                // Top earning tracks
+                topTracks: {
+                    regular: topEarningTracks.map(track => ({
+                        trackTitle: track._id,
+                        revenue: parseFloat(track.revenue),
+                        streams: track.streams || 0,
+                        artist: track.artist || 'Unknown'
+                    })),
+                    bonus: topBonusEarningTracks.map(track => ({
+                        trackTitle: track._id,
+                        revenue: parseFloat(track.revenue),
+                        streams: track.streams || 0,
+                        artist: track.artist || 'Unknown'
+                    }))
+                }
+            }
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, dashboardData)
         } catch (err) {
             httpError(next, err, req, 500)
         }

@@ -2,7 +2,11 @@ import { Router } from 'express'
 import userReportController from '../controller/Reports/user-report.controller.js'
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
+import authorization from '../middleware/authorization.js'
 import reportSchemas from '../schema/report.schema.js'
+import { getAnalyticsDashboardSchema } from '../schema/analytics.schema.js'
+import royaltySchemas from '../schema/royalty.schema.js'
+import { EUserRole } from '../constant/application.js'
 
 const router = Router()
 
@@ -46,6 +50,26 @@ router.route('/:id/search')
         authentication,
         validateRequest(reportSchemas.searchReportDataSchema),
         userReportController.searchReportData
+    )
+
+// Analytics dashboard - comprehensive data in one endpoint
+router.route('/analytics/dashboard')
+    .get(
+        authentication,
+        authorization([EUserRole.USER, EUserRole.TEAM_MEMBER]),
+        validateRequest(getAnalyticsDashboardSchema),
+        userReportController.getAnalyticsDashboard
+    )
+
+// Royalty Management Routes
+
+// Royalty dashboard - comprehensive data in one endpoint (following analytics pattern)
+router.route('/royalty/dashboard')
+    .get(
+        authentication,
+        authorization([EUserRole.USER, EUserRole.TEAM_MEMBER]),
+        validateRequest(royaltySchemas.royaltyDashboardQuery),
+        userReportController.getRoyaltyDashboard
     )
 
 export default router

@@ -374,6 +374,15 @@ const apiData = [
     ]
   },
   {
+    name: "Reports & Analytics",
+    url: "/v1/reports",
+    description: "Comprehensive analytics dashboard and reporting system for streaming data, revenue, and performance metrics",
+    endpoints: [
+      { method: "GET", path: "/analytics/dashboard", description: "Get complete analytics dashboard in one API call - includes overview metrics, time series charts, top tracks, platform/country distribution, audience insights, and revenue breakdown. Supports timeframe filtering (last 7 days to 1 year) and customizable limits for tracks and countries." },
+      { method: "GET", path: "/royalty/dashboard", description: "Get complete royalty management dashboard in one API call - includes total earnings (regular + bonus), this month money, monthly trends, composition analysis, performance metrics (average monthly, best month, growth rate), platform revenue breakdown, and top earning tracks for both regular and bonus royalties. Supports timeframe filtering and custom date ranges." }
+    ]
+  },
+  {
     name: "Company Settings",
     url: "/v1/company-settings",
     description: "Public access to company information for website display",
