@@ -1,0 +1,5 @@
+FROM nginx:stable-alpine
+
+# We won't use environment variable for config, as we'll mount it in docker-compose
+EXPOSE 80 443
+CMD ["nginx", "-g", "daemon off;"]
