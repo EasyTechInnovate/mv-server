@@ -19,6 +19,7 @@ services:
       - ../nodemon.json:/usr/src/app/nodemon.json
     networks:
       - queue-net
+      - proxy-network
     profiles:
       - development
 
@@ -38,6 +39,7 @@ services:
       - "5000"
     networks:
       - prod-net
+      - proxy-network
     profiles:
       - production
 
@@ -55,6 +57,7 @@ services:
       - "5001:5000"
     networks:
       - qa-net
+      - proxy-network
     profiles:
       - qa
 
@@ -65,3 +68,5 @@ networks:
     driver: bridge
   qa-net:
     driver: bridge
+  proxy-network:
+    external: true
