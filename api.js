@@ -130,14 +130,15 @@ const apiData = [
     description: "Advanced release management with comprehensive metadata",
     endpoints: [
       { method: "GET", path: "/self", description: "Advanced release service health check" },
-      { method: "POST", path: "/create", description: "Create new advanced release" },
+      { method: "GET", path: "/sublabels", description: "Get user's available sublabels for label selection" },
+      { method: "POST", path: "/create", description: "Create new advanced release (single, album, mini_album, ringtone_release)" },
       { method: "PATCH", path: "/:releaseId/step1", description: "Update step 1 - Cover art & release info" },
       { method: "PATCH", path: "/:releaseId/step2", description: "Update step 2 - Tracks & audio files" },
       { method: "PATCH", path: "/:releaseId/step3", description: "Update step 3 - Delivery & rights" },
       { method: "POST", path: "/:releaseId/submit", description: "Submit release for review" },
-      { method: "GET", path: "/my-releases", description: "Get user's advanced releases" },
+      { method: "GET", path: "/my-releases", description: "Get user's advanced releases with pagination and filters" },
       { method: "GET", path: "/:releaseId", description: "Get advanced release details" },
-      { method: "DELETE", path: "/:releaseId", description: "Delete advanced release" },
+      { method: "DELETE", path: "/:releaseId", description: "Delete advanced release (soft delete)" },
       { method: "POST", path: "/:releaseId/request-update", description: "Request release update" },
       { method: "POST", path: "/:releaseId/request-takedown", description: "Request release takedown" }
     ]
@@ -284,7 +285,7 @@ const apiData = [
     description: "Public access to trending music labels and their statistics",
     endpoints: [
       { method: "GET", path: "/self", description: "Trending label service health check" },
-      { method: "GET", path: "/", description: "Get active trending labels with sorting options" },
+      { method: "GET", path: "/active", description: "Get active trending labels with sorting options" },
       { method: "GET", path: "/top", description: "Get top 5 trending labels by monthly streams" },
       { method: "GET", path: "/stats", description: "Get aggregate statistics for all active labels" },
       { method: "GET", path: "/categories", description: "Get trending labels categorized by streams, releases, artists" }
@@ -292,7 +293,7 @@ const apiData = [
   },
   {
     name: "Admin - Trending Label Management",
-    url: "/v1/admin/trending-labels",
+    url: "/v1/trending-labels/admin",
     description: "Admin management of trending labels with full CRUD operations",
     endpoints: [
       { method: "GET", path: "/self", description: "Admin trending label service health check" },
@@ -300,8 +301,34 @@ const apiData = [
       { method: "GET", path: "/", description: "Get all trending labels with pagination and sorting" },
       { method: "GET", path: "/stats", description: "Get trending label statistics and top performers" },
       { method: "GET", path: "/:labelId", description: "Get trending label details by ID" },
-      { method: "PUT", path: "/:labelId", description: "Update existing trending label" },
+      { method: "PATCH", path: "/:labelId", description: "Update existing trending label" },
       { method: "DELETE", path: "/:labelId", description: "Delete trending label" }
+    ]
+  },
+  {
+    name: "Trending Artists",
+    url: "/v1/trending-artists",
+    description: "Public access to trending music artists and their performance statistics",
+    endpoints: [
+      { method: "GET", path: "/self", description: "Trending artist service health check" },
+      { method: "GET", path: "/active", description: "Get active trending artists with sorting options" },
+      { method: "GET", path: "/top", description: "Get top 5 trending artists by monthly streams" },
+      { method: "GET", path: "/stats", description: "Get aggregate statistics for all active artists" },
+      { method: "GET", path: "/categories", description: "Get trending artists categorized by streams and releases" }
+    ]
+  },
+  {
+    name: "Admin - Trending Artist Management",
+    url: "/v1/trending-artists/admin",
+    description: "Admin management of trending artists with full CRUD operations",
+    endpoints: [
+      { method: "GET", path: "/self", description: "Admin trending artist service health check" },
+      { method: "POST", path: "/", description: "Create new trending artist" },
+      { method: "GET", path: "/", description: "Get all trending artists with pagination, search and sorting" },
+      { method: "GET", path: "/stats", description: "Get trending artist statistics and top performers" },
+      { method: "GET", path: "/:artistId", description: "Get trending artist details by ID" },
+      { method: "PATCH", path: "/:artistId", description: "Update existing trending artist" },
+      { method: "DELETE", path: "/:artistId", description: "Delete trending artist" }
     ]
   },
   {

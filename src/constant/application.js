@@ -230,6 +230,11 @@ export const ETrendingLabelStatus = Object.freeze({
     INACTIVE: 'inactive'
 });
 
+export const ETrendingArtistStatus = Object.freeze({
+    ACTIVE: 'active',
+    INACTIVE: 'inactive'
+});
+
 export const ECompanySettingsStatus = Object.freeze({
     ACTIVE: 'active',
     INACTIVE: 'inactive'
