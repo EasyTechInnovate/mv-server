@@ -764,3 +764,22 @@ export const EFanLinkPlatform = Object.freeze({
     GAANA: 'gaana',
     HUNGAMA: 'hungama'
 });
+
+export const EMVProductionStatus = Object.freeze({
+    PENDING: 'pending',
+    ACCEPT: 'accept',
+    REJECT: 'reject'
+});
+
+export const ELocationPreference = Object.freeze({
+    INDOOR_STUDIO: 'indoor_studio',
+    OUTDOOR_AND_NATURAL: 'outdoor_and_natural',
+    URBAN_AND_STREET: 'urban_and_street',
+    OTHER: 'other'
+});
+
+export const ERevenueSharingModel = Object.freeze({
+    FLAT_BUYOUT: 'flat_buyout',
+    REVENUE_SPLIT: 'revenue_split',
+    HYBRID: 'hybrid'
+});

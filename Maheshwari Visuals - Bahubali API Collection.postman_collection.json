@@ -9472,6 +9472,485 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "MV Production",
+			"item": [
+				{
+					"name": "MV Production Service Health Check",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/self",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"self"
+							]
+						},
+						"description": "Health check for MV Production service"
+					},
+					"response": []
+				},
+				{
+					"name": "Create MV Production Request",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"ownerInfo\": {\n    \"copyrightOwnerName\": \"John Doe\",\n    \"mobileNumber\": \"+91-9876543210\",\n    \"emailOfCopyrightHolder\": \"john@example.com\"\n  },\n  \"projectOverview\": {\n    \"projectTitle\": \"My Music Video Project\",\n    \"artistName\": \"Artist Name\",\n    \"labelName\": \"Label Name\",\n    \"releaseTimeline\": \"Q1 2025\",\n    \"genres\": [\"pop\", \"electronic\"],\n    \"mood\": \"energetic\",\n    \"isPartOfAlbumOrEP\": false,\n    \"language\": \"hindi\",\n    \"theme\": \"love\",\n    \"locationPreference\": [\"indoor_studio\", \"urban_and_street\"]\n  },\n  \"budgetRequestAndOwnershipProposal\": {\n    \"totalBudgetRequested\": 500000,\n    \"proposedOwnershipDilution\": 20,\n    \"breakdown\": {\n      \"preProduction\": 100000,\n      \"shootDay\": 250000,\n      \"postProduction\": 120000,\n      \"miscellaneousContingency\": 30000\n    },\n    \"willContributePersonalFunds\": true,\n    \"personalFundsAmount\": 100000,\n    \"revenueSharingModelProposed\": \"revenue_split\"\n  },\n  \"marketingAndDistributionPlan\": {\n    \"willBeReleasedViaMVDistribution\": true,\n    \"anyBrandOrMerchTieIns\": false,\n    \"brandOrMerchTieInsDescription\": null,\n    \"planToRunAdsOrInfluencerCampaigns\": true\n  },\n  \"legalAndOwnershipDeclaration\": {\n    \"confirmFullCreativeOwnership\": true,\n    \"agreeToCreditMVProduction\": true,\n    \"agreeToShareFinalAssets\": true,\n    \"requireNDAOrCustomAgreement\": false\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production"
+							]
+						},
+						"description": "Create a new MV Production request (user endpoint)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get User MV Productions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production?page=1&limit=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "pending",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Get user's own MV Production requests"
+					},
+					"response": []
+				},
+				{
+					"name": "Get MV Production by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/{{production_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"{{production_id}}"
+							]
+						},
+						"description": "Get specific MV Production request by ID (user's own)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update MV Production",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"projectOverview\": {\n    \"projectTitle\": \"Updated Project Title\",\n    \"artistName\": \"Artist Name\",\n    \"labelName\": \"Label Name\",\n    \"releaseTimeline\": \"Q2 2025\",\n    \"genres\": [\"pop\"],\n    \"mood\": \"romantic\",\n    \"isPartOfAlbumOrEP\": true,\n    \"language\": \"hindi\",\n    \"theme\": \"love\",\n    \"locationPreference\": [\"outdoor_and_natural\"]\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/{{production_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"{{production_id}}"
+							]
+						},
+						"description": "Update MV Production request (only if status is pending)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete MV Production",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{authToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/{{production_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"{{production_id}}"
+							]
+						},
+						"description": "Delete MV Production request (only if status is pending)"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin - MV Production Service Health Check",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/admin/self",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"admin",
+								"self"
+							]
+						},
+						"description": "Health check for MV Production admin service"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin - Get All MV Productions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/admin?page=1&limit=10&sortBy=createdAt&sortOrder=desc",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "status",
+									"value": "pending",
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "project title",
+									"disabled": true
+								},
+								{
+									"key": "sortBy",
+									"value": "createdAt"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								}
+							]
+						},
+						"description": "Get all MV Production requests with filtering and pagination (admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin - Get MV Production Stats",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/admin/stats",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"admin",
+								"stats"
+							]
+						},
+						"description": "Get MV Production statistics (admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin - Get MV Production by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/admin/{{production_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"admin",
+								"{{production_id}}"
+							]
+						},
+						"description": "Get MV Production by ID (admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin - Update MV Production",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"budgetRequestAndOwnershipProposal\": {\n    \"totalBudgetRequested\": 600000,\n    \"proposedOwnershipDilution\": 25,\n    \"breakdown\": {\n      \"preProduction\": 120000,\n      \"shootDay\": 300000,\n      \"postProduction\": 150000,\n      \"miscellaneousContingency\": 30000\n    },\n    \"willContributePersonalFunds\": true,\n    \"personalFundsAmount\": 150000,\n    \"revenueSharingModelProposed\": \"hybrid\"\n  }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/admin/{{production_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"admin",
+								"{{production_id}}"
+							]
+						},
+						"description": "Update MV Production request (admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin - Update MV Production Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"accept\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/admin/{{production_id}}/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"admin",
+								"{{production_id}}",
+								"status"
+							]
+						},
+						"description": "Update MV Production status - accept or reject (admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin - Delete MV Production",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{adminToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/v1/mv-production/admin/{{production_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"v1",
+								"mv-production",
+								"admin",
+								"{{production_id}}"
+							]
+						},
+						"description": "Delete MV Production request (admin)"
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -9594,6 +10073,11 @@
 		{
 			"key": "custom_url",
 			"value": "my-test-link",
+			"type": "string"
+		},
+		{
+			"key": "production_id",
+			"value": "",
 			"type": "string"
 		}
 	]

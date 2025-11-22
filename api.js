@@ -520,6 +520,26 @@ const apiData = [
       { method: "GET", path: "/check-availability/:customUrl", description: "Check if custom URL is available for use" },
       { method: "GET", path: "/link/:customUrl", description: "Get fan link by custom URL (public endpoint with click tracking)" }
     ]
+  },
+  {
+    name: "MV Production",
+    url: "/v1/mv-production",
+    description: "Music video production budget requests - users submit proposals, admin approves/rejects",
+    endpoints: [
+      { method: "GET", path: "/self", description: "MV Production service health check" },
+      { method: "POST", path: "/", description: "Submit MV Production budget request with project details" },
+      { method: "GET", path: "/", description: "Get user's own MV Production requests with pagination" },
+      { method: "GET", path: "/:productionId", description: "Get specific MV Production request by ID" },
+      { method: "PATCH", path: "/:productionId", description: "Update MV Production request (only if pending)" },
+      { method: "DELETE", path: "/:productionId", description: "Delete MV Production request (only if pending)" },
+      { method: "GET", path: "/admin/self", description: "Admin MV Production service health check" },
+      { method: "GET", path: "/admin", description: "Get all MV Production requests with filtering and pagination" },
+      { method: "GET", path: "/admin/stats", description: "Get MV Production statistics (pending, accepted, rejected counts)" },
+      { method: "GET", path: "/admin/:productionId", description: "Get MV Production request details (admin)" },
+      { method: "PATCH", path: "/admin/:productionId", description: "Update MV Production request (admin)" },
+      { method: "PATCH", path: "/admin/:productionId/status", description: "Update MV Production status - approve or reject" },
+      { method: "DELETE", path: "/admin/:productionId", description: "Delete MV Production request (admin)" }
+    ]
   }
 ];
 
