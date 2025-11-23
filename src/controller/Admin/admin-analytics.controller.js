@@ -35,7 +35,7 @@ export default {
 
             const [users, totalCount] = await Promise.all([
                 User.find(filter)
-                    .select('_id personalInfo.firstName personalInfo.lastName emailAddress userType role isActive createdAt')
+                    .select('-password -verificationToken -refreshTokens -__v')
                     .sort({ createdAt: -1 })
                     .skip(skip)
                     .limit(limitNumber)
