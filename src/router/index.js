@@ -20,6 +20,7 @@ import mcnRouter from './mcn.route.js';
 import marketingRouter from './marketing.route.js';
 import fanLinkRouter from './fan-link.route.js';
 import mvProductionRouter from './mv-production.route.js';
+import merchStoreRouter from './merch-store.route.js';
 import uploadRoutes from './upload.route.js';
 
 const router = Router();
@@ -45,6 +46,7 @@ router.use('/mcn', mcnRouter);
 router.use('/marketing', marketingRouter);
 router.use('/fan-links', fanLinkRouter);
 router.use('/mv-production', mvProductionRouter);
+router.use('/merch-store', merchStoreRouter);
 router.use('/upload', uploadRoutes)
 
 

@@ -835,3 +835,32 @@ export const ERevenueSharingModel = Object.freeze({
     REVENUE_SPLIT: 'revenue_split',
     HYBRID: 'hybrid'
 });
+
+// Merch Store Enums
+export const EMerchStoreStatus = Object.freeze({
+    PENDING: 'pending',
+    APPROVED: 'approved',
+    REJECTED: 'rejected',
+    DESIGN_PENDING: 'design_pending',
+    DESIGN_SUBMITTED: 'design_submitted',
+    DESIGN_APPROVED: 'design_approved',
+    DESIGN_REJECTED: 'design_rejected'
+});
+
+export const EMerchProductType = Object.freeze({
+    T_SHIRT: 't_shirt',
+    HOODIE: 'hoodie',
+    SIPPER_BOTTLE: 'sipper_bottle',
+    POSTERS: 'posters',
+    TOTE_BAGS: 'tote_bags',
+    STICKERS: 'stickers',
+    OTHER: 'other'
+});
+
+export const EMerchMarketingChannel = Object.freeze({
+    INSTAGRAM: 'instagram',
+    YOUTUBE: 'youtube',
+    EMAIL_NEWSLETTER: 'email_newsletter',
+    LIVE_EVENTS: 'live_events',
+    OTHER: 'other'
+});

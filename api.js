@@ -540,6 +540,27 @@ const apiData = [
       { method: "PATCH", path: "/admin/:productionId/status", description: "Update MV Production status - approve or reject" },
       { method: "DELETE", path: "/admin/:productionId", description: "Delete MV Production request (admin)" }
     ]
+  },
+  {
+    name: "Merch Store",
+    url: "/v1/merch-store",
+    description: "Artist merchandise store applications - submit designs, admin approval workflow with two-phase process (application approval → design submission → design approval)",
+    endpoints: [
+      { method: "GET", path: "/self", description: "Merch Store service health check" },
+      { method: "POST", path: "/", description: "Submit new merch store application with artist info, product preferences, marketing plan, and legal consents" },
+      { method: "GET", path: "/", description: "Get user's merch store applications with pagination, filtering, and search" },
+      { method: "GET", path: "/:storeId", description: "Get specific merch store application by ID" },
+      { method: "PATCH", path: "/:storeId", description: "Update merch store application (only if pending or rejected)" },
+      { method: "POST", path: "/:storeId/designs", description: "Submit designs (minimum 5 required) after application approval" },
+      { method: "DELETE", path: "/:storeId", description: "Delete merch store application (only if pending, rejected, or design_rejected)" },
+      { method: "GET", path: "/admin/self", description: "Admin Merch Store service health check" },
+      { method: "GET", path: "/admin", description: "Get all merch store applications with filtering, search, and pagination" },
+      { method: "GET", path: "/admin/stats", description: "Get merch store statistics (pending, approved, rejected, design states counts)" },
+      { method: "GET", path: "/admin/:storeId", description: "Get merch store application details (admin)" },
+      { method: "PATCH", path: "/admin/:storeId", description: "Update merch store application (admin)" },
+      { method: "PATCH", path: "/admin/:storeId/status", description: "Update merch store status - approve/reject application or approve/reject designs with admin notes" },
+      { method: "DELETE", path: "/admin/:storeId", description: "Delete merch store application (admin)" }
+    ]
   }
 ];
 
