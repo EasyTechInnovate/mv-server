@@ -59,6 +59,8 @@ export default {
             const tickets = await SupportTicket.find(filter)
                 .populate('userId', 'firstName lastName emailAddress accountId')
                 .populate('assignedTo', 'firstName lastName emailAddress teamRole department')
+                .populate('responses.respondedBy', 'firstName lastName emailAddress role teamRole')
+                .populate('internalNotes.addedBy', 'firstName lastName emailAddress role teamRole')
                 .sort(sortOptions)
                 .skip(skip)
                 .limit(parseInt(limit));
