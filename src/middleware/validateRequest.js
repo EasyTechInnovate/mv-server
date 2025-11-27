@@ -100,6 +100,7 @@ export const validateRequest = (schema, target = 'body') => {
                     break;
                 case 'body':
                 default:
+                    req.body = req.body || {};
                     Object.assign(req.body, result.data.body || {});
                     break;
             }

@@ -21,8 +21,9 @@ const royaltySchema = new mongoose.Schema({
     },
     platform: {
         type: String,
-        enum: Object.values(EStreamingPlatform),
-        required: true
+        // enum: Object.values(EStreamingPlatform), // Commented out to allow any platform value from CSV
+        required: true,
+        trim: true
     },
     monthId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -583,6 +584,169 @@ royaltySchema.statics.getUserTopBonusEarningTracks = async function(userAccountI
         },
         { $sort: { bonusRoyalty: -1 } },
         { $limit: limit }
+    ])
+}
+
+// Get bonus royalty composition
+royaltySchema.statics.getUserBonusRoyaltyComposition = async function(userAccountId, timeframe = {}) {
+    const matchStage = { userAccountId, royaltyType: 'bonus' }
+
+    if (timeframe.start || timeframe.end) {
+        matchStage.createdAt = {}
+        if (timeframe.start) matchStage.createdAt.$gte = new Date(timeframe.start)
+        if (timeframe.end) matchStage.createdAt.$lte = new Date(timeframe.end)
+    }
+
+    const result = await this.aggregate([
+        { $match: matchStage },
+        {
+            $group: {
+                _id: null,
+                totalBonus: { $sum: '$bonusRoyalty' },
+                totalRegular: { $sum: '$regularRoyalty' },
+                totalEarnings: { $sum: '$totalEarnings' }
+            }
+        }
+    ])
+
+    if (!result || result.length === 0) {
+        return {
+            totalBonus: 0,
+            totalRegular: 0,
+            totalEarnings: 0,
+            percentage: { bonus: 0, regular: 0 }
+        }
+    }
+
+    const data = result[0]
+    return {
+        totalBonus: data.totalBonus || 0,
+        totalRegular: data.totalRegular || 0,
+        totalEarnings: data.totalEarnings || 0,
+        percentage: {
+            bonus: data.totalEarnings > 0 ? ((data.totalBonus / data.totalEarnings) * 100).toFixed(2) : 0,
+            regular: data.totalEarnings > 0 ? ((data.totalRegular / data.totalEarnings) * 100).toFixed(2) : 0
+        }
+    }
+}
+
+// Get bonus royalty performance metrics
+royaltySchema.statics.getUserBonusPerformanceMetrics = async function(userAccountId, timeframe = {}) {
+    const matchStage = { userAccountId, royaltyType: 'bonus' }
+
+    if (timeframe.start || timeframe.end) {
+        matchStage.createdAt = {}
+        if (timeframe.start) matchStage.createdAt.$gte = new Date(timeframe.start)
+        if (timeframe.end) matchStage.createdAt.$lte = new Date(timeframe.end)
+    }
+
+    const result = await this.aggregate([
+        { $match: matchStage },
+        {
+            $group: {
+                _id: { year: '$reportYear', month: '$reportMonth' },
+                totalBonus: { $sum: '$bonusRoyalty' },
+                totalEarnings: { $sum: '$totalEarnings' }
+            }
+        },
+        { $sort: { '_id.year': 1, '_id.month': 1 } }
+    ])
+
+    if (!result || result.length === 0) {
+        return {
+            averageMonthly: 0,
+            bestMonth: { month: null, amount: 0 },
+            growthRate: 0
+        }
+    }
+
+    const totalBonus = result.reduce((sum, r) => sum + r.totalBonus, 0)
+    const averageMonthly = result.length > 0 ? totalBonus / result.length : 0
+
+    const bestMonth = result.reduce((best, current) => {
+        return current.totalBonus > best.totalBonus ? current : best
+    }, result[0])
+
+    let growthRate = 0
+    if (result.length >= 2) {
+        const firstMonth = result[0].totalBonus
+        const lastMonth = result[result.length - 1].totalBonus
+        if (firstMonth > 0) {
+            growthRate = ((lastMonth - firstMonth) / firstMonth * 100).toFixed(2)
+        }
+    }
+
+    return {
+        averageMonthly,
+        bestMonth: {
+            month: `${bestMonth._id.month}-${bestMonth._id.year}`,
+            amount: bestMonth.totalBonus
+        },
+        growthRate: parseFloat(growthRate)
+    }
+}
+
+// Get platform performance for regular royalty
+royaltySchema.statics.getUserPlatformPerformance = async function(userAccountId, timeframe = {}) {
+    const matchStage = { userAccountId, royaltyType: 'regular' }
+
+    if (timeframe.start || timeframe.end) {
+        matchStage.createdAt = {}
+        if (timeframe.start) matchStage.createdAt.$gte = new Date(timeframe.start)
+        if (timeframe.end) matchStage.createdAt.$lte = new Date(timeframe.end)
+    }
+
+    return await this.aggregate([
+        { $match: matchStage },
+        {
+            $group: {
+                _id: '$platform',
+                totalRevenue: { $sum: '$regularRoyalty' },
+                totalUnits: { $sum: '$totalUnits' },
+                uniqueTracks: { $addToSet: '$trackTitle' }
+            }
+        },
+        {
+            $project: {
+                platform: '$_id',
+                totalRevenue: 1,
+                totalUnits: 1,
+                trackCount: { $size: '$uniqueTracks' }
+            }
+        },
+        { $sort: { totalRevenue: -1 } }
+    ])
+}
+
+// Get platform performance for bonus royalty
+royaltySchema.statics.getUserBonusPlatformPerformance = async function(userAccountId, timeframe = {}) {
+    const matchStage = { userAccountId, royaltyType: 'bonus' }
+
+    if (timeframe.start || timeframe.end) {
+        matchStage.createdAt = {}
+        if (timeframe.start) matchStage.createdAt.$gte = new Date(timeframe.start)
+        if (timeframe.end) matchStage.createdAt.$lte = new Date(timeframe.end)
+    }
+
+    return await this.aggregate([
+        { $match: matchStage },
+        {
+            $group: {
+                _id: '$platform',
+                totalRevenue: { $sum: '$bonusRoyalty' },
+                totalUnits: { $sum: '$totalUnits' },
+                uniqueTracks: { $addToSet: '$trackTitle' }
+            }
+        },
+        {
+            $project: {
+                platform: '$_id',
+                totalRevenue: 1,
+                totalUnits: 1,
+                trackCount: { $size: '$uniqueTracks' }
+            }
+        },
+        { $sort: { totalRevenue: -1 } }
     ])
 }
 

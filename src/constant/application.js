@@ -365,7 +365,8 @@ export const EStreamingPlatform = Object.freeze({
     SOUNDCLOUD: 'SoundCloud',
     JIOSAAVN: 'JioSaavn',
     WYNK: 'Wynk',
-    GAANA: 'Gaana'
+    GAANA: 'Gaana',
+    SEVEN_DIGITAL: '7Digital'
 });
 
 export const EUsageType = Object.freeze({

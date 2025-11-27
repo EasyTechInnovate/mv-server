@@ -582,10 +582,10 @@ export default {
                 Royalty.getUserBonusPerformanceMetrics(userAccountId, dateFilter),
                 Royalty.getUserRevenueByPlatform(userAccountId, dateFilter),
                 Royalty.getUserPlatformPerformance(userAccountId, dateFilter),
-                Royalty.getUserTopEarningTracks(userAccountId, dateFilter, 10),
+                Royalty.getUserTopEarningTracks(userAccountId, 10, dateFilter),
                 Royalty.getUserBonusRoyaltyByPlatform(userAccountId, dateFilter),
                 Royalty.getUserBonusPlatformPerformance(userAccountId, dateFilter),
-                Royalty.getUserTopBonusEarningTracks(userAccountId, dateFilter, 10)
+                Royalty.getUserTopBonusEarningTracks(userAccountId, 10, dateFilter)
             ])
 
             // Comprehensive dashboard data in one response

@@ -21,8 +21,9 @@ const analyticsSchema = new mongoose.Schema({
     },
     platform: {
         type: String,
-        enum: Object.values(EStreamingPlatform),
-        required: true
+        // enum: Object.values(EStreamingPlatform), // Commented out to allow any platform value from CSV
+        required: true,
+        trim: true
     },
     monthId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -95,9 +96,10 @@ const analyticsSchema = new mongoose.Schema({
     },
     usageType: {
         type: String,
-        enum: Object.values(EUsageType),
+        // enum: Object.values(EUsageType), // Commented out to allow any usage type from CSV
         required: true,
-        default: EUsageType.STREAM
+        default: 'Stream',
+        trim: true
     },
     // Revenue calculation (will be calculated based on platform rates)
     estimatedRevenue: {

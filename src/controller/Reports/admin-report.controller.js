@@ -1,6 +1,9 @@
 import fs from 'fs'
 import ReportData from '../../model/report-data.model.js'
 import MonthManagement from '../../model/month-management.model.js'
+import Analytics from '../../model/analytics.model.js'
+import Royalty from '../../model/royalty.model.js'
+// import MCN from '../../model/mcn.model.js'
 import { EReportType, EReportStatus } from '../../constant/application.js'
 import { processCsvFile, calculateReportSummary, validateCsvHeaders } from '../../util/csvProcessor.js'
 import responseMessage from '../../constant/responseMessage.js'
@@ -85,7 +88,7 @@ const adminReportController = {
 
     async processCsvInBackground(reportId, filePath, reportType) {
         try {
-            const reportData = await ReportData.findById(reportId)
+            const reportData = await ReportData.findById(reportId).populate('monthId')
             if (!reportData) return
 
             reportData.updateStatus(EReportStatus.PROCESSING)
@@ -93,15 +96,151 @@ const adminReportController = {
 
             const csvData = await processCsvFile(filePath, reportType)
             const summary = calculateReportSummary(csvData, reportType)
+
+            // Store parsed data in ReportData
             reportData.data[reportType === EReportType.BONUS_ROYALTY ? 'bonusRoyalty' : reportType] = csvData
             reportData.totalRecords = csvData.length
             reportData.processedRecords = csvData.length
             reportData.summary = summary
-            reportData.updateStatus(EReportStatus.COMPLETED)
 
+            // Insert data into proper collections for dashboard queries
+            let insertedCount = 0
+            const monthId = reportData.monthId._id
+            const month = reportData.monthId.month
+
+            if (reportType === EReportType.ANALYTICS) {
+                // Clear existing analytics for this month
+                await Analytics.deleteMany({ monthId })
+
+                // Insert new analytics records
+                const analyticsRecords = csvData.map(record => ({
+                    userAccountId: record.accountId,
+                    licensee: record.licensee,
+                    licensor: record.licensor,
+                    platform: record.musicService,
+                    monthId,
+                    accountId: record.accountId,
+                    labelName: record.label,
+                    artistName: record.artist,
+                    albumTitle: record.albumTitle,
+                    trackTitle: record.trackTitle || record.productTitle || record.albumTitle || 'Unknown',
+                    productTitle: record.productTitle,
+                    volVersion: record.volVersion,
+                    upc: record.upc,
+                    catalogNumber: record.catNo,
+                    isrc: record.isrc,
+                    totalUnits: record.totalUnits || 0,
+                    countryCode: (record.countryOfSale || 'XX').substring(0, 2).toUpperCase(),
+                    usageType: record.usageType,
+                    reportMonth: month.split('-')[0],
+                    reportYear: parseInt('20' + month.split('-')[1])
+                }))
+
+                const result = await Analytics.insertMany(analyticsRecords)
+                insertedCount = result.length
+
+            } else if (reportType === EReportType.ROYALTY) {
+                // Clear existing royalty for this month
+                await Royalty.deleteMany({ monthId, royaltyType: 'regular' })
+
+                // Insert new royalty records
+                const royaltyRecords = csvData.map(record => ({
+                    userAccountId: record.accountId,
+                    licensee: record.licensee,
+                    licensor: record.licensor,
+                    platform: record.musicService,
+                    monthId,
+                    accountId: record.accountId,
+                    labelName: record.label,
+                    artistName: record.artist,
+                    albumTitle: record.albumTitle,
+                    trackTitle: record.trackTitle || record.productTitle || record.albumTitle || 'Unknown',
+                    productTitle: record.productTitle,
+                    volVersion: record.volVersion,
+                    upc: record.upc,
+                    catalogNumber: record.catNo,
+                    isrc: record.isrc,
+                    royaltyType: 'regular',
+                    totalUnits: record.totalUnits || 0,
+                    countryCode: (record.countryOfSale || 'XX').substring(0, 2).toUpperCase(),
+                    regularRoyalty: Math.max(0, record.royalty || 0),
+                    bonusRoyalty: 0,
+                    totalEarnings: Math.max(0, record.royalty || 0),
+                    reportMonth: month.split('-')[0],
+                    reportYear: parseInt('20' + month.split('-')[1])
+                }))
+
+                const result = await Royalty.insertMany(royaltyRecords)
+                insertedCount = result.length
+
+            } else if (reportType === EReportType.BONUS_ROYALTY) {
+                // Clear existing bonus royalty for this month
+                await Royalty.deleteMany({ monthId, royaltyType: 'bonus' })
+
+                // Insert new bonus royalty records
+                const bonusRecords = csvData.map(record => ({
+                    userAccountId: record.accountId,
+                    licensee: record.licensee,
+                    licensor: record.licensor,
+                    platform: record.musicService,
+                    monthId,
+                    accountId: record.accountId,
+                    labelName: record.label,
+                    artistName: record.artist,
+                    albumTitle: record.albumTitle,
+                    trackTitle: record.trackTitle || record.productTitle || record.albumTitle || 'Unknown',
+                    productTitle: record.productTitle,
+                    volVersion: record.volVersion,
+                    upc: record.upc,
+                    catalogNumber: record.catNo,
+                    isrc: record.isrc,
+                    royaltyType: 'bonus',
+                    totalUnits: record.totalUnits || 0,
+                    countryCode: (record.countryOfSale || 'XX').substring(0, 2).toUpperCase(),
+                    regularRoyalty: Math.max(0, record.royalty || 0),
+                    bonusRoyalty: Math.max(0, record.bonus || 0),
+                    totalEarnings: Math.max(0, (record.bonus || 0) + (record.royalty || 0)),
+                    reportMonth: month.split('-')[0],
+                    reportYear: parseInt('20' + month.split('-')[1])
+                }))
+
+                const result = await Royalty.insertMany(bonusRecords)
+                insertedCount = result.length
+            }
+            // else if (reportType === EReportType.MCN) {
+            //     // Clear existing MCN for this month
+            //     await MCN.deleteMany({ monthId })
+
+            //     // Insert new MCN records
+            //     const mcnRecords = csvData.map(record => ({
+            //         userAccountId: record.accountId,
+            //         licensee: record.licensee,
+            //         licensor: record.licensor,
+            //         assetChannelId: record.assetChannelId,
+            //         youtubeChannelName: record.youtubeChannelName,
+            //         monthId,
+            //         accountId: record.accountId,
+            //         revenueSharePercent: record.revenueSharePercent || 0,
+            //         youtubePayoutUsd: record.youtubePayoutUsd || 0,
+            //         mvCommission: record.mvCommission || 0,
+            //         revenueUsd: record.revenueUsd || 0,
+            //         conversionRate: record.conversionRate || 0,
+            //         payoutRevenueInr: record.payoutRevenueInr || 0,
+            //         reportMonth: month.split('-')[0],
+            //         reportYear: parseInt('20' + month.split('-')[1])
+            //     }))
+
+            //     const result = await MCN.insertMany(mcnRecords)
+            //     insertedCount = result.length
+            // }
+
+            reportData.updateStatus(EReportStatus.COMPLETED)
             await reportData.save()
 
+            console.log(`✅ Inserted ${insertedCount} ${reportType} records into collection`)
+
         } catch (error) {
+            console.error('❌ CSV Processing Error:', error)
             const reportData = await ReportData.findById(reportId)
             if (reportData) {
                 reportData.updateStatus(EReportStatus.FAILED, error.message)
