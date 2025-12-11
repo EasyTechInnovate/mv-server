@@ -1,36 +1,14 @@
 version: "3.9"
 
 services:
-  # Development environment
-
-  server:
-    container_name: bahubali-server
-    build:
-      context: ..
-      dockerfile: ./Docker/Dockerfile.server
-      target: server-development
-    ports:
-      - "5000:5000"
-    env_file:
-      - ../.env.development
-    volumes:
-      - ../src:/usr/src/app/src
-      - ../package.json:/usr/src/app/package.json
-      - ../nodemon.json:/usr/src/app/nodemon.json
-    networks:
-      - queue-net
-      - proxy-network
-    profiles:
-      - development
-
   # Production environment
 
-  prod-server:
-    container_name: bahubali-prod-server
+  server:
+    container_name: server
     build:
       context: ..
       dockerfile: ./Docker/Dockerfile.server
-      target: server-production
+      target: server
     env_file:
       - ../.env.production
     ports:
@@ -43,30 +21,10 @@ services:
     profiles:
       - production
 
-  # QA environment
-
-  qa-server:
-    container_name: bahubali-qa-server
-    build:
-      context: ..
-      dockerfile: ./Docker/Dockerfile.server
-      target: server-qa
-    env_file:
-      - ../.env.qa
-    ports:
-      - "5001:5000"
-    networks:
-      - qa-net
-      - proxy-network
-    profiles:
-      - qa
-
 networks:
   queue-net:
     driver: bridge
   prod-net:
-    driver: bridge
-  qa-net:
     driver: bridge
   proxy-network:
     external: true

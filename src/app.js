@@ -17,9 +17,7 @@ const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:8000',
     'http://localhost:8001',
-    'https://prod-fd-md.manishdashsharma.site',
-    'https://qa-fd-md.manishdashsharma.site',
-    'https://mv.easytechinnovate.site'
+    'https://mv.manishdashsharma.com'
 ]
 
 
