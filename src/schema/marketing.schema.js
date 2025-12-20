@@ -45,7 +45,10 @@ const createPlaylistPitchingSchema = z.object({
         language: z.enum(Object.values(EMusicLanguage)),
         theme: z.enum(Object.values(EMusicTheme)),
         selectedStore: z.enum(Object.values(EStreamingPlatform)),
-        trackLink: z.string().url('Invalid track URL')
+        trackLinks: z.array(z.object({
+            platform: z.enum(Object.values(EStreamingPlatform)),
+            url: z.string().url('Invalid track URL')
+        })).min(1, 'At least one track link is required')
     })
 })
 

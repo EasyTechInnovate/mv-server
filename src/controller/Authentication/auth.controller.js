@@ -500,6 +500,8 @@ export default {
                     hasActiveSubscription: user.hasActiveSubscription,
                     subscription: user.subscription,
                     featureAccess: user.featureAccess,
+                    socialMedia: user.socialMedia,
+                    kyc: user.kyc,
                     createdAt: user.createdAt
                 }
             }

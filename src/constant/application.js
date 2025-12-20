@@ -366,7 +366,8 @@ export const EStreamingPlatform = Object.freeze({
     JIOSAAVN: 'JioSaavn',
     WYNK: 'Wynk',
     GAANA: 'Gaana',
-    SEVEN_DIGITAL: '7Digital'
+    SEVEN_DIGITAL: '7Digital',
+    SELECT_ALL: 'Select All'
 });
 
 export const EUsageType = Object.freeze({
@@ -739,34 +740,49 @@ export const EMusicGenres = Object.freeze({
 });
 
 export const EMusicMood = Object.freeze({
-    EMOTIONAL: 'emotional',
-    ENERGETIC: 'energetic',
+    UPLIFTING: 'uplifting',
+    MELANCHOLIC: 'melancholic',
+    EUPHORIC: 'euphoric',
+    NOSTALGIC: 'nostalgic',
     ROMANTIC: 'romantic',
+    CINEMATIC: 'cinematic',
     AGGRESSIVE: 'aggressive',
-    CALM: 'calm',
-    HAPPY: 'happy',
-    SAD: 'sad',
-    MOTIVATIONAL: 'motivational',
-    RELAXING: 'relaxing',
-    INTENSE: 'intense',
-    GENRE_SPECIFIC: 'genre_specific',
-    FEATURED: 'featured',
-    EDITORIAL: 'editorial'
+    CHILL_MELLOW: 'chill_mellow',
+    DARK_MOODY: 'dark_moody',
+    HOPEFUL: 'hopeful',
+    TENSE_SUSPENSEFUL: 'tense_suspenseful',
+    PLAYFUL_QUIRKY: 'playful_quirky',
+    ENERGETIC_HIGH_TEMPO: 'energetic_high_tempo',
+    INSPIRATIONAL: 'inspirational',
+    MYSTERIOUS: 'mysterious',
+    SAD_REFLECTIVE: 'sad_reflective',
+    SPIRITUAL_DEVOTIONAL: 'spiritual_devotional',
+    GROOVY_FUNKY: 'groovy_funky',
+    TRIBAL_ROOTED: 'tribal_rooted',
+    ANTHEMIC_EPIC: 'anthemic_epic'
 });
 
 export const EMusicTheme = Object.freeze({
-    LOVE: 'love',
-    HEARTBREAK: 'heartbreak',
-    FRIENDSHIP: 'friendship',
-    PARTY: 'party',
-    CELEBRATION: 'celebration',
-    INSPIRATION: 'inspiration',
-    NATURE: 'nature',
-    SPIRITUAL: 'spiritual',
-    ADVENTURE: 'adventure',
-    NOSTALGIA: 'nostalgia',
-    FREEDOM: 'freedom',
-    STRUGGLE: 'struggle'
+    LOVE_ROMANCE: 'love_romance',
+    HEARTBREAK_HEALING: 'heartbreak_healing',
+    REBELLION_RESISTANCE: 'rebellion_resistance',
+    CELEBRATION_PARTY: 'celebration_party',
+    SPIRITUAL_DEVOTIONAL: 'spiritual_devotional',
+    COMING_OF_AGE: 'coming_of_age',
+    FRIENDSHIP_BROTHERHOOD: 'friendship_brotherhood',
+    NATURE_ENVIRONMENT: 'nature_environment',
+    FESTIVAL_TRADITION: 'festival_tradition',
+    IDENTITY_SELF_DISCOVERY: 'identity_self_discovery',
+    URBAN_LIFE_HUSTLE: 'urban_life_hustle',
+    NOSTALGIA_MEMORY: 'nostalgia_memory',
+    HOPE_RESILIENCE: 'hope_resilience',
+    JOURNEY_TRAVEL: 'journey_travel',
+    FAMILY_LEGACY: 'family_legacy',
+    SOCIAL_JUSTICE_AWARENESS: 'social_justice_awareness',
+    FANTASY_IMAGINATION: 'fantasy_imagination',
+    RITUAL_CULTURE: 'ritual_culture',
+    EMPOWERMENT_CONFIDENCE: 'empowerment_confidence',
+    MYSTERY_SUSPENSE: 'mystery_suspense'
 });
 
 export const EMusicLanguage = Object.freeze({
