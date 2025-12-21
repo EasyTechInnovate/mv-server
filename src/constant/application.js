@@ -709,10 +709,10 @@ export const ESyncProjectSuitability = Object.freeze({
     TRAILERS: 'trailers',
     PODCASTS: 'podcasts',
     CORPORATE_FILMS: 'corporate_films',
+    FASHION_OR_PRODUCT_LAUNCH: 'fashion_or_product_launch',
     GAMING_ANIMATION: 'gaming_animation',
-    SHORT_FILMS_STUDENT: 'short_films_student',
-    FASHION_PRODUCT_LAUNCH: 'fashion_product_launch',
-    FESTIVAL_DOCUMENTARIES: 'festival_documentaries'
+    FESTIVAL_DOCUMENTARIES: 'festival_documentaries',
+    SHORT_FILMS_STUDENT_PROJECTS: 'short_films_student_projects'
 });
 
 export const EMusicGenres = Object.freeze({

@@ -78,7 +78,8 @@ const syncSubmissionSchema = new mongoose.Schema(
             trim: true
         },
         isFullyClearedForSync: {
-            type: Boolean,
+            type: String,
+            enum: ['true', 'false', 'unsure'],
             required: true
         },
         proAffiliation: {

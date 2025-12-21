@@ -71,11 +71,18 @@ const playlistPitchingSchema = new mongoose.Schema(
             enum: Object.values(EStreamingPlatform),
             required: true
         },
-        trackLink: {
-            type: String,
-            required: true,
-            trim: true
-        },
+        trackLinks: [{
+            platform: {
+                type: String,
+                enum: Object.values(EStreamingPlatform),
+                required: true
+            },
+            url: {
+                type: String,
+                required: true,
+                trim: true
+            }
+        }],
         status: {
             type: String,
             enum: Object.values(EMarketingSubmissionStatus),

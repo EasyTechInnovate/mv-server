@@ -23,7 +23,7 @@ const createSyncSubmissionSchema = z.object({
         theme: z.enum(Object.values(EMusicTheme)),
         masterRightsOwner: z.string().min(1, 'Master rights owner is required').max(200),
         publishingRightsOwner: z.string().min(1, 'Publishing rights owner is required').max(200),
-        isFullyClearedForSync: z.boolean(),
+        isFullyClearedForSync: z.union([z.boolean(), z.literal('unsure')]),
         proAffiliation: z.enum(Object.values(EPROAffiliation)),
         trackLinks: z.array(z.object({
             platform: z.string().min(1, 'Platform name is required').max(100),

@@ -8712,7 +8712,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"trackName\": \"Sample Track\",\n  \"artistName\": \"Sample Artist\",\n  \"labelName\": \"Sample Label\",\n  \"isrc\": \"USRC17607839\",\n  \"genres\": [\"pop\", \"electronic\"],\n  \"mood\": \"energetic\",\n  \"isVocalsPresent\": true,\n  \"language\": \"english\",\n  \"theme\": \"love\",\n  \"masterRightsOwner\": \"Sample Label\",\n  \"publishingRightsOwner\": \"Sample Publisher\",\n  \"isFullyClearedForSync\": true,\n  \"proAffiliation\": \"ascap\",\n  \"trackLinks\": [\n    {\n      \"platform\": \"Spotify\",\n      \"url\": \"https://open.spotify.com/track/example\"\n    }\n  ],\n  \"projectSuitability\": [\"ad_campaigns\", \"ott_web_series\"]\n}"
+              "raw": "{\n  \"trackName\": \"Sample Track\",\n  \"artistName\": \"Sample Artist\",\n  \"labelName\": \"Sample Label\",\n  \"isrc\": \"USRC17607839\",\n  \"genres\": [\"pop\", \"electronic\"],\n  \"mood\": \"energetic\",\n  \"isVocalsPresent\": true,\n  \"language\": \"english\",\n  \"theme\": \"love\",\n  \"masterRightsOwner\": \"Sample Label\",\n  \"publishingRightsOwner\": \"Sample Publisher\",\n  \"isFullyClearedForSync\": \"unsure\",\n  \"proAffiliation\": \"ascap\",\n  \"trackLinks\": [\n    {\n      \"platform\": \"Spotify\",\n      \"url\": \"https://open.spotify.com/track/example\"\n    }\n  ],\n  \"projectSuitability\": [\"ad_campaigns\", \"ott_web_series\"]\n}"
             },
             "url": {
               "raw": "{{base_url}}/v1/marketing/sync/submit",
@@ -8752,7 +8752,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"trackName\": \"Sample Track\",\n  \"artistName\": \"Sample Artist\",\n  \"labelName\": \"Sample Label\",\n  \"isrc\": \"USRC17607839\",\n  \"genres\": [\"pop\", \"electronic\"],\n  \"mood\": \"energetic\",\n  \"isVocalsPresent\": true,\n  \"language\": \"english\",\n  \"theme\": \"love\",\n  \"selectedStore\": \"Spotify\",\n  \"trackLink\": \"https://open.spotify.com/track/example\"\n}"
+              "raw": "{\n  \"trackName\": \"Sample Track\",\n  \"artistName\": \"Sample Artist\",\n  \"labelName\": \"Sample Label\",\n  \"isrc\": \"USRC17607839\",\n  \"genres\": [\"pop\", \"electronic\"],\n  \"mood\": \"energetic\",\n  \"isVocalsPresent\": true,\n  \"language\": \"english\",\n  \"theme\": \"love\",\n  \"selectedStore\": \"Spotify\",\n  \"trackLinks\": [\n    {\n      \"platform\": \"Spotify\",\n      \"url\": \"https://open.spotify.com/track/example\"\n    }\n  ]\n}"
             },
             "url": {
               "raw": "{{base_url}}/v1/marketing/playlist-pitching/submit",
