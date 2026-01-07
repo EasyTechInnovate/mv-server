@@ -14,7 +14,7 @@ export default {
 
     createFAQ: async (req, res, next) => {
         try {
-            const { question, answer, category, status, displayOrder } = req.body
+            const { question,  answer, category, status, displayOrder } = req.body
 
             const existingFAQ = await FAQModel.findOne({
                 category,
