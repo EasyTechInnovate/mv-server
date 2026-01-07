@@ -76,6 +76,11 @@ const toggleUserSublabels = z.object({
 const getUserSublabels = z.object({
     params: z.object({
         userId: z.string().min(1, 'User ID is required')
+    }),
+    query: z.object({
+        page: z.string().regex(/^\d+$/, 'Page must be a number').optional(),
+        limit: z.string().regex(/^\d+$/, 'Limit must be a number').optional(),
+        search: z.string().optional()
     })
 })
 

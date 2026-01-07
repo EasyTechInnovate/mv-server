@@ -56,6 +56,14 @@ export default {
                 MCNRequest.countDocuments(filter)
             ])
 
+            const requestIds = requests.map(request => request._id)
+            const channels = await MCNChannel.find({ mcnRequestId: { $in: requestIds } }).select('mcnRequestId').lean()
+            const createdChannelRequestIds = new Set(channels.map(channel => channel.mcnRequestId.toString()))
+
+            requests.forEach(request => {
+                request.isChannelCreated = createdChannelRequestIds.has(request._id.toString())
+            })
+
             const pagination = {
                 totalCount,
                 totalPages: Math.ceil(totalCount / limitNumber),
@@ -207,7 +215,7 @@ export default {
             const limitNumber = parseInt(limit)
             const skip = (pageNumber - 1) * limitNumber
 
-            let filter = { isActive: true }
+            let filter = {}
 
             if (status && Object.values(EMCNChannelStatus).includes(status)) {
                 filter.status = status

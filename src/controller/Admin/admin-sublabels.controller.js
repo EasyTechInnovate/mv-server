@@ -481,10 +481,10 @@ export default {
 
     async getUserSublabels(req, res, next) {
         try {
-            const { userId } = req.params
+            const { userId } = req.params;
+            const { page = 1, limit = 10, search } = req.query;
 
-            const user = await User.findById(userId)
-                .populate('sublabels.sublabel', 'name membershipStatus contractStartDate contractEndDate')
+            const user = await User.findById(userId);
 
             if (!user) {
                 return httpError(
@@ -492,10 +492,45 @@ export default {
                     new Error(responseMessage.ERROR.NOT_FOUND('User')),
                     req,
                     404
-                )
+                );
             }
 
-            const activeSublabels = user.sublabels.filter(sub => sub.isActive)
+            const activeSublabelIds = user.sublabels
+                .filter(sub => sub.isActive)
+                .map(sub => sub.sublabel);
+
+            const filter = {
+                _id: { $in: activeSublabelIds }
+            };
+
+            if (search) {
+                filter.name = { $regex: search, $options: 'i' };
+            }
+
+            const pageNum = parseInt(page);
+            const limitNum = parseInt(limit);
+            const skip = (pageNum - 1) * limitNum;
+
+            const [sublabels, total] = await Promise.all([
+                Sublabel.find(filter)
+                    .sort({ createdAt: -1 })
+                    .skip(skip)
+                    .limit(limitNum)
+                    .lean(),
+                Sublabel.countDocuments(filter)
+            ]);
+            
+            const sublabelsWithAssignmentData = sublabels.map(sl => {
+                const assignment = user.sublabels.find(s => s.sublabel.equals(sl._id));
+                return {
+                    id: sl._id,
+                    name: sl.name,
+                    membershipStatus: sl.membershipStatus,
+                    isDefault: assignment ? assignment.isDefault : false,
+                    assignedAt: assignment ? assignment.assignedAt : null,
+                };
+            });
+
 
             return httpResponse(
                 req,
@@ -506,21 +541,18 @@ export default {
                     user: {
                         id: user._id,
                         name: `${user.firstName} ${user.lastName}`,
-                        userType: user.userType
                     },
-                    sublabels: activeSublabels.map(sub => ({
-                        id: sub.sublabel._id,
-                        name: sub.sublabel.name,
-                        membershipStatus: sub.sublabel.membershipStatus,
-                        contractStartDate: sub.sublabel.contractStartDate,
-                        contractEndDate: sub.sublabel.contractEndDate,
-                        isDefault: sub.isDefault,
-                        assignedAt: sub.assignedAt
-                    }))
+                    sublabels: sublabelsWithAssignmentData,
+                    pagination: {
+                        currentPage: pageNum,
+                        totalPages: Math.ceil(total / limitNum),
+                        totalItems: total,
+                        itemsPerPage: limitNum
+                    }
                 }
-            )
+            );
         } catch (err) {
-            return httpError(next, err, req, 500)
+            return httpError(next, err, req, 500);
         }
     }
 }

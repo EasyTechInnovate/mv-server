@@ -16,13 +16,39 @@ export default {
 
     async getAllReleases(req, res, next) {
         try {
-            const { page = 1, limit = 10, status, trackType, userId } = req.query;
+            const { page = 1, limit = 10, status, trackType, userId, search } = req.query;
 
             const query = { isActive: true };
             if (status) query.releaseStatus = status;
             if (trackType) query.trackType = trackType;
             if (userId) query.userId = userId;
 
+            if (search) {
+                const searchRegex = new RegExp(search, 'i');
+
+                const orConditions = [
+                    { releaseId: { $regex: searchRegex } },
+                    { 'step1.releaseInfo.releaseName': { $regex: searchRegex } },
+                ];
+
+                // Only search by artist name if a specific user filter is not already applied
+                if (!userId) {
+                    const userQuery = {
+                        $or: [
+                            { firstName: { $regex: searchRegex } },
+                            { lastName: { $regex: searchRegex } },
+                        ]
+                    };
+                    const matchingUsers = await User.find(userQuery).select('_id');
+                    if (matchingUsers.length > 0) {
+                        const userIds = matchingUsers.map(user => user._id);
+                        orConditions.push({ userId: { $in: userIds } });
+                    }
+                }
+                
+                query.$or = orConditions;
+            }
+        
             const releases = await BasicRelease.find(query)
                 .populate('userId', 'firstName lastName emailAddress userType')
                 .sort({ createdAt: -1 })

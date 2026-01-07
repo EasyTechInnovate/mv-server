@@ -66,8 +66,7 @@ export default {
             const skip = (pageNumber - 1) * limitNumber
 
             let filter = {
-                userAccountId,
-                isActive: true
+                userAccountId
             }
 
             if (status && Object.values(EMCNRequestStatus).includes(status)) {
@@ -147,7 +146,6 @@ export default {
 
             let filter = {
                 userAccountId,
-                isActive: true
             }
 
             if (status) {
