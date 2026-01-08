@@ -713,9 +713,6 @@ export default {
         )
       }
 
-      const salt = await bcrypt.genSalt(12)
-      const hashedPassword = await bcrypt.hash(password, salt)
-      
       const accountId = await quicker.generateAccountId(EUserType.AGGREGATOR, User)
 
       const aggregatorUser = new User({
@@ -723,10 +720,26 @@ export default {
         lastName: application.lastName,
         accountId,
         emailAddress: application.emailAddress,
-        password: hashedPassword,
+        password: password,
         role: EUserRole.USER,
         userType: EUserType.AGGREGATOR,
-        phoneNumber: application.phoneNumber,
+        phoneNumber: {
+          isoCode: 'IN',
+          countryCode: '+91',
+          internationalNumber: application.phoneNumber
+        },
+        address: {
+          street: application.companyName || 'N/A',
+          city: 'N/A',
+          state: 'N/A',
+          country: 'India',
+          pinCode: '000000'
+        },
+        consent: {
+          terms: true,
+          privacy: true,
+          marketing: false
+        },
         companyName: application.companyName,
         isActive: true,
         isEmailVerified: true,
