@@ -500,11 +500,14 @@ export default {
             ])
 
             const releasesWithNextStep = releases.map(release => {
-                const nextStepInfo = getNextStepInfo(release)
-                const stepSummary = getStepSummary(release)
-                
+                const trackCount = release.step2?.tracks?.length || 0
+                const releaseWithTrackCount = { ...release, trackCount }
+                const nextStepInfo = getNextStepInfo(releaseWithTrackCount)
+                const stepSummary = getStepSummary(releaseWithTrackCount)
+
                 return {
                     ...release,
+                    trackCount,
                     completionPercentage: Math.round((release.completedSteps / release.totalSteps) * 100),
                     nextStep: nextStepInfo,
                     stepSummary

@@ -103,26 +103,27 @@ export default {
         }
     },
 
-    updateMVProductionStatus: async (req, res, next) => {
+    reviewMVProduction: async (req, res, next) => {
         try {
             const { productionId } = req.params;
-            const { status } = req.body;
+            const { action, rejectionReason, adminNotes } = req.body;
+            const reviewerId = req.authenticatedUser._id;
 
-            const existingProduction = await MVProductionModel.findById(productionId);
+            const production = await MVProductionModel.findById(productionId);
 
-            if (!existingProduction) {
-                return httpError(next, responseMessage.ERROR.NOT_FOUND(), req, 404);
+            if (!production) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('MV Production submission')), req, 404);
             }
 
-            const updatedProduction = await MVProductionModel.findByIdAndUpdate(
-                productionId,
-                { status },
-                { new: true, runValidators: true }
-            )
-                .populate('userId', 'firstName lastName emailAddress accountId')
-                .lean();
-
-            httpResponse(req, res, 200, responseMessage.SUCCESS, updatedProduction);
+            if (action === 'approve' || action === 'accept') {
+                await production.approve(reviewerId, adminNotes);
+                httpResponse(req, res, 200, responseMessage.customMessage('MV Production submission approved successfully'), production);
+            } else if (action === 'reject') {
+                await production.reject(reviewerId, rejectionReason, adminNotes);
+                httpResponse(req, res, 200, responseMessage.customMessage('MV Production submission rejected successfully'), production);
+            } else {
+                return httpError(next, new Error('Invalid action. Use "approve" or "reject"'), req, 400);
+            }
         } catch (error) {
             httpError(next, error, req, 500);
         }

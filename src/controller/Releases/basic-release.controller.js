@@ -486,7 +486,7 @@ export default {
                 .sort({ createdAt: -1 })
                 .limit(limit * 1)
                 .skip((page - 1) * limit)
-                .select('releaseId step1.releaseInfo.releaseName trackType releaseStatus completedSteps totalSteps createdAt submittedAt');
+                .select('releaseId step1.releaseInfo.releaseName step2.tracks trackType releaseStatus completedSteps totalSteps createdAt submittedAt');
 
             const total = await BasicRelease.countDocuments(query);
 
@@ -502,6 +502,7 @@ export default {
                             releaseId: release.releaseId,
                             releaseName: release.releaseTitle,
                             trackType: release.trackType,
+                            trackCount: release.step2?.tracks?.length || 0,
                             releaseStatus: release.releaseStatus,
                             completionPercentage: release.completionPercentage,
                             currentStep: release.currentStep,

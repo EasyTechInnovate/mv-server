@@ -12,6 +12,7 @@ import adminAnalyticsController from '../controller/Admin/admin-analytics.contro
 import adminCompanySettingsController from '../controller/CompanySettings/admin-company-settings.controller.js'
 import adminTeamMemberController from '../controller/TeamMember/admin-team-member.controller.js'
 import adminSupportTicketController from '../controller/SupportTicket/admin-support-ticket.controller.js'
+import adminPayoutController from '../controller/Admin/admin-payout.controller.js'
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
 import authorization from '../middleware/authorization.js'
@@ -990,6 +991,55 @@ router.route('/support-tickets/:ticketId/escalate')
         moduleAuthorization('Support Tickets'),
         validateRequest(escalateTicketSchema),
         adminSupportTicketController.escalateTicket
+    )
+
+router.route('/payout-requests')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminPayoutController.getAllPayoutRequests
+    )
+
+router.route('/payout-requests/pending')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminPayoutController.getPendingPayoutRequests
+    )
+
+router.route('/payout-requests/stats')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminPayoutController.getPayoutStats
+    )
+
+router.route('/payout-requests/:requestId')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminPayoutController.getPayoutRequestById
+    )
+
+router.route('/payout-requests/:requestId/approve')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminPayoutController.approvePayoutRequest
+    )
+
+router.route('/payout-requests/:requestId/reject')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminPayoutController.rejectPayoutRequest
+    )
+
+router.route('/payout-requests/:requestId/mark-paid')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminPayoutController.markPayoutAsPaid
     )
 
 export default router

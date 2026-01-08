@@ -196,12 +196,11 @@ export default {
 
             const submission = await SyncSubmission.findOne({
                 _id: submissionId,
-                status: EMarketingSubmissionStatus.PENDING,
                 isActive: true
             })
 
             if (!submission) {
-                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Pending sync submission')), req, 404)
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Sync submission')), req, 404)
             }
 
             if (action === 'approve') {
@@ -236,12 +235,11 @@ export default {
 
             const submission = await PlaylistPitching.findOne({
                 _id: submissionId,
-                status: EMarketingSubmissionStatus.PENDING,
                 isActive: true
             })
 
             if (!submission) {
-                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Pending playlist pitching submission')), req, 404)
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Playlist pitching submission')), req, 404)
             }
 
             if (action === 'approve') {
@@ -487,6 +485,120 @@ export default {
             }
 
             httpResponse(req, res, 200, responseMessage.SUCCESS, stats)
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
+    },
+
+    async updatePlaylistPitchingSubmission(req, res, next) {
+        try {
+            const { submissionId } = req.params
+            const updateData = req.body
+
+            const submission = await PlaylistPitching.findOne({
+                _id: submissionId,
+                isActive: true
+            })
+
+            if (!submission) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Playlist pitching submission')), req, 404)
+            }
+
+            Object.assign(submission, updateData)
+            await submission.save()
+
+            httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Playlist pitching submission updated successfully'),
+                submission
+            )
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
+    },
+
+    async deletePlaylistPitchingSubmission(req, res, next) {
+        try {
+            const { submissionId } = req.params
+
+            const submission = await PlaylistPitching.findOne({
+                _id: submissionId,
+                isActive: true
+            })
+
+            if (!submission) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Playlist pitching submission')), req, 404)
+            }
+
+            submission.isActive = false
+            await submission.save()
+
+            httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Playlist pitching submission deleted successfully'),
+                null
+            )
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
+    },
+
+    async updateSyncSubmission(req, res, next) {
+        try {
+            const { submissionId } = req.params
+            const updateData = req.body
+
+            const submission = await SyncSubmission.findOne({
+                _id: submissionId,
+                isActive: true
+            })
+
+            if (!submission) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Sync submission')), req, 404)
+            }
+
+            Object.assign(submission, updateData)
+            await submission.save()
+
+            httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Sync submission updated successfully'),
+                submission
+            )
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
+    },
+
+    async deleteSyncSubmission(req, res, next) {
+        try {
+            const { submissionId } = req.params
+
+            const submission = await SyncSubmission.findOne({
+                _id: submissionId,
+                isActive: true
+            })
+
+            if (!submission) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Sync submission')), req, 404)
+            }
+
+            submission.isActive = false
+            await submission.save()
+
+            httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Sync submission deleted successfully'),
+                null
+            )
         } catch (err) {
             httpError(next, err, req, 500)
         }

@@ -158,4 +158,32 @@ router.route('/admin/stats')
         adminMarketingController.getMarketingStats
     )
 
+router.route('/admin/playlist-pitching/submissions/:submissionId')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
+        adminMarketingController.updatePlaylistPitchingSubmission
+    )
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
+        adminMarketingController.deletePlaylistPitchingSubmission
+    )
+
+router.route('/admin/sync/submissions/:submissionId')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
+        adminMarketingController.updateSyncSubmission
+    )
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
+        adminMarketingController.deleteSyncSubmission
+    )
+
 export default router

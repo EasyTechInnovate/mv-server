@@ -881,3 +881,17 @@ export const EMerchMarketingChannel = Object.freeze({
     LIVE_EVENTS: 'live_events',
     OTHER: 'other'
 });
+
+export const EPayoutStatus = Object.freeze({
+    PENDING: 'pending',
+    APPROVED: 'approved',
+    PAID: 'paid',
+    REJECTED: 'rejected',
+    CANCELLED: 'cancelled'
+});
+
+export const EPayoutMethod = Object.freeze({
+    BANK_TRANSFER: 'bank_transfer',
+    UPI: 'upi',
+    CHEQUE: 'cheque'
+});

@@ -67,6 +67,7 @@ export default {
                         releaseId: release.releaseId,
                         releaseName: release.releaseTitle,
                         trackType: release.trackType,
+                        trackCount: release.step2?.tracks?.length || 0,
                         releaseStatus: release.releaseStatus,
                         completionPercentage: release.completionPercentage,
                         stepsCompleted: `${release.completedSteps}/${release.totalSteps}`,

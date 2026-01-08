@@ -9126,6 +9126,156 @@
           "response": []
         },
         {
+          "name": "Update Playlist Pitching Submission",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trackName\": \"Updated Track Name\",\n  \"adminNotes\": \"Updated by admin\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/marketing/admin/playlist-pitching/submissions/{{submission_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "marketing",
+                "admin",
+                "playlist-pitching",
+                "submissions",
+                "{{submission_id}}"
+              ]
+            },
+            "description": "Update playlist pitching submission details"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Playlist Pitching Submission",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/marketing/admin/playlist-pitching/submissions/{{submission_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "marketing",
+                "admin",
+                "playlist-pitching",
+                "submissions",
+                "{{submission_id}}"
+              ]
+            },
+            "description": "Delete playlist pitching submission (soft delete)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Sync Submission",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trackName\": \"Updated Track Name\",\n  \"adminNotes\": \"Updated by admin\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/marketing/admin/sync/submissions/{{submission_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "marketing",
+                "admin",
+                "sync",
+                "submissions",
+                "{{submission_id}}"
+              ]
+            },
+            "description": "Update sync submission details"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Sync Submission",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{authToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/v1/marketing/admin/sync/submissions/{{submission_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "marketing",
+                "admin",
+                "sync",
+                "submissions",
+                "{{submission_id}}"
+              ]
+            },
+            "description": "Delete sync submission (soft delete)"
+          },
+          "response": []
+        },
+        {
           "name": "Get Marketing Statistics",
           "request": {
             "auth": {
@@ -9879,7 +10029,7 @@
           "response": []
         },
         {
-          "name": "Admin - Update MV Production Status",
+          "name": "Admin - Review MV Production (Approve)",
           "request": {
             "auth": {
               "type": "bearer",
@@ -9891,7 +10041,7 @@
                 }
               ]
             },
-            "method": "PATCH",
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
@@ -9900,10 +10050,10 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"status\": \"accept\"\n}"
+              "raw": "{\n  \"action\": \"approve\",\n  \"adminNotes\": \"MV Production approved\"\n}"
             },
             "url": {
-              "raw": "{{base_url}}/v1/mv-production/admin/{{production_id}}/status",
+              "raw": "{{base_url}}/v1/mv-production/admin/{{production_id}}/review",
               "host": [
                 "{{base_url}}"
               ],
@@ -9912,10 +10062,51 @@
                 "mv-production",
                 "admin",
                 "{{production_id}}",
-                "status"
+                "review"
               ]
             },
-            "description": "Update MV Production status - accept or reject (admin)"
+            "description": "Review and approve MV Production request"
+          },
+          "response": []
+        },
+        {
+          "name": "Admin - Review MV Production (Reject)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"reject\",\n  \"rejectionReason\": \"Does not meet requirements\",\n  \"adminNotes\": \"Please revise and resubmit\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/mv-production/admin/{{production_id}}/review",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "mv-production",
+                "admin",
+                "{{production_id}}",
+                "review"
+              ]
+            },
+            "description": "Review and reject MV Production request with reason"
           },
           "response": []
         },
@@ -10516,6 +10707,492 @@
               ]
             },
             "description": "Delete merch store application (admin)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Wallet Management",
+      "item": [
+        {
+          "name": "Get My Wallet",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/wallet/my-wallet",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "wallet",
+                "my-wallet"
+              ]
+            },
+            "description": "Get user's wallet balance and details"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Wallet Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/wallet/my-wallet/details",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "wallet",
+                "my-wallet",
+                "details"
+              ]
+            },
+            "description": "Get detailed wallet breakdown with earnings and deductions"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payout Request Management",
+      "item": [
+        {
+          "name": "Create Payout Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1000,\n  \"payoutMethod\": \"bank_transfer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/payout-requests/create",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "payout-requests",
+                "create"
+              ]
+            },
+            "description": "Create a new payout request"
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Payout Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/payout-requests/my-requests?page=1&limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "payout-requests",
+                "my-requests"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get user's payout requests with pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payout Request by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/payout-requests/:requestId",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "payout-requests",
+                ":requestId"
+              ],
+              "variable": [
+                {
+                  "key": "requestId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Get payout request details by request ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Payout Request",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Changed my mind\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/payout-requests/:requestId/cancel",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "payout-requests",
+                ":requestId",
+                "cancel"
+              ],
+              "variable": [
+                {
+                  "key": "requestId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Cancel a pending payout request"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin - Payout Management",
+      "item": [
+        {
+          "name": "Get All Payout Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/admin/payout-requests?page=1&limit=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "admin",
+                "payout-requests"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "pending",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get all payout requests with pagination and filters"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pending Payout Requests",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/admin/payout-requests/pending?limit=50",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "admin",
+                "payout-requests",
+                "pending"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            },
+            "description": "Get pending payout requests with summary"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payout Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/admin/payout-requests/stats",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "admin",
+                "payout-requests",
+                "stats"
+              ]
+            },
+            "description": "Get payout statistics and recent payouts"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payout Request by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/admin/payout-requests/:requestId",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "admin",
+                "payout-requests",
+                ":requestId"
+              ],
+              "variable": [
+                {
+                  "key": "requestId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Get payout request details with user wallet info"
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Payout Request",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"adminNotes\": \"Approved for payment\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/admin/payout-requests/:requestId/approve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "admin",
+                "payout-requests",
+                ":requestId",
+                "approve"
+              ],
+              "variable": [
+                {
+                  "key": "requestId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Approve a pending payout request"
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Payout Request",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Invalid bank details\",\n  \"adminNotes\": \"User needs to update bank information\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/admin/payout-requests/:requestId/reject",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "admin",
+                "payout-requests",
+                ":requestId",
+                "reject"
+              ],
+              "variable": [
+                {
+                  "key": "requestId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Reject a payout request"
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Payout as Paid",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transactionReference\": \"TXN123456789\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/admin/payout-requests/:requestId/mark-paid",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "admin",
+                "payout-requests",
+                ":requestId",
+                "mark-paid"
+              ],
+              "variable": [
+                {
+                  "key": "requestId",
+                  "value": ""
+                }
+              ]
+            },
+            "description": "Mark an approved payout request as paid"
           },
           "response": []
         }

@@ -25,11 +25,11 @@ router.route('/admin/stats').get(
     adminMVProductionController.getMVProductionStats
 );
 
-router.route('/admin/:productionId/status').patch(
+router.route('/admin/:productionId/review').post(
     authentication,
     authorization(['admin']),
-    validateRequest(mvProductionSchemas.updateMVProductionStatus),
-    adminMVProductionController.updateMVProductionStatus
+    validateRequest(mvProductionSchemas.getMVProductionById),
+    adminMVProductionController.reviewMVProduction
 );
 
 router.route('/admin/:productionId')

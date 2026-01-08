@@ -3,6 +3,8 @@ import ReportData from '../../model/report-data.model.js'
 import MonthManagement from '../../model/month-management.model.js'
 import Analytics from '../../model/analytics.model.js'
 import Royalty from '../../model/royalty.model.js'
+import Wallet from '../../model/wallet.model.js'
+import User from '../../model/user.model.js'
 // import MCN from '../../model/mcn.model.js'
 import { EReportType, EReportStatus } from '../../constant/application.js'
 import { processCsvFile, calculateReportSummary, validateCsvHeaders } from '../../util/csvProcessor.js'
@@ -166,6 +168,7 @@ const adminReportController = {
                     regularRoyalty: Math.max(0, record.royalty || 0),
                     bonusRoyalty: 0,
                     totalEarnings: Math.max(0, record.royalty || 0),
+                    maheshwariVisualsCommission: Math.max(0, record.maheshwariVisualsCommission || 0),
                     reportMonth: month.split('-')[0],
                     reportYear: parseInt('20' + month.split('-')[1])
                 }))
@@ -200,6 +203,7 @@ const adminReportController = {
                     regularRoyalty: Math.max(0, record.royalty || 0),
                     bonusRoyalty: Math.max(0, record.bonus || 0),
                     totalEarnings: Math.max(0, (record.bonus || 0) + (record.royalty || 0)),
+                    maheshwariVisualsCommission: Math.max(0, record.maheshwariVisualsCommission || 0),
                     reportMonth: month.split('-')[0],
                     reportYear: parseInt('20' + month.split('-')[1])
                 }))
@@ -207,6 +211,40 @@ const adminReportController = {
                 const result = await Royalty.insertMany(bonusRecords)
                 insertedCount = result.length
             }
+
+            if (reportType === EReportType.ROYALTY || reportType === EReportType.BONUS_ROYALTY) {
+                const userEarnings = await Royalty.aggregate([
+                    { $match: { monthId } },
+                    {
+                        $group: {
+                            _id: '$userAccountId',
+                            totalEarnings: { $sum: '$totalEarnings' },
+                            regularRoyalty: { $sum: '$regularRoyalty' },
+                            bonusRoyalty: { $sum: '$bonusRoyalty' },
+                            commission: { $sum: '$maheshwariVisualsCommission' }
+                        }
+                    }
+                ])
+
+                for (const earnings of userEarnings) {
+                    const user = await User.findOne({ accountId: earnings._id })
+                    if (user) {
+                        let wallet = await Wallet.findByUserId(user._id)
+                        if (!wallet) {
+                            wallet = await Wallet.createWallet(user._id, user.accountId)
+                        }
+                        await wallet.updateEarnings({
+                            totalEarnings: earnings.totalEarnings,
+                            regularRoyalty: earnings.regularRoyalty,
+                            bonusRoyalty: earnings.bonusRoyalty,
+                            commission: earnings.commission,
+                            month: reportData.monthId.month
+                        })
+                        console.log(`✅ Updated wallet for user ${user.accountId}: +${earnings.totalEarnings} INR`)
+                    }
+                }
+            }
+
             // else if (reportType === EReportType.MCN) {
             //     // Clear existing MCN for this month
             //     await MCN.deleteMany({ monthId })

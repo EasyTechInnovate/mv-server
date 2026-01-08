@@ -115,6 +115,11 @@ const royaltySchema = new mongoose.Schema({
         min: 0,
         default: 0
     },
+    maheshwariVisualsCommission: {
+        type: Number,
+        min: 0,
+        default: 0
+    },
     // Additional metadata for revenue calculation
     rate: {
         type: Number,

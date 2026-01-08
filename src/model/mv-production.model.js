@@ -197,6 +197,30 @@ const mvProductionSchema = new Schema(
             type: String,
             enum: Object.values(EMVProductionStatus),
             default: EMVProductionStatus.PENDING
+        },
+        reviewedBy: {
+            type: String,
+            default: null
+        },
+        reviewedAt: {
+            type: Date,
+            default: null
+        },
+        approvedAt: {
+            type: Date,
+            default: null
+        },
+        rejectedAt: {
+            type: Date,
+            default: null
+        },
+        rejectionReason: {
+            type: String,
+            default: null
+        },
+        adminNotes: {
+            type: String,
+            default: null
         }
     },
     {
@@ -208,6 +232,26 @@ mvProductionSchema.index({ userId: 1, status: 1 });
 mvProductionSchema.index({ accountId: 1 });
 mvProductionSchema.index({ status: 1 });
 mvProductionSchema.index({ createdAt: -1 });
+
+mvProductionSchema.methods.approve = function(reviewerId, adminNotes = null) {
+    this.status = EMVProductionStatus.ACCEPT
+    this.reviewedBy = reviewerId
+    this.reviewedAt = new Date()
+    this.approvedAt = new Date()
+    this.adminNotes = adminNotes
+    this.rejectionReason = null
+    return this.save()
+}
+
+mvProductionSchema.methods.reject = function(reviewerId, rejectionReason, adminNotes = null) {
+    this.status = EMVProductionStatus.REJECT
+    this.reviewedBy = reviewerId
+    this.reviewedAt = new Date()
+    this.rejectedAt = new Date()
+    this.rejectionReason = rejectionReason
+    this.adminNotes = adminNotes
+    return this.save()
+}
 
 const MVProduction = mongoose.model('MVProduction', mvProductionSchema);
 
