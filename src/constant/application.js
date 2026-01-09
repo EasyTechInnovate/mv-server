@@ -329,6 +329,21 @@ export const ETeamMemberStatus = Object.freeze({
     PENDING: 'pending'
 });
 
+export const ENormalTicketCategory = Object.freeze({
+    GENERAL_QUESTIONS: 'General Questions',
+    WITHDRAWAL_QUESTIONS: 'Withdrawal Questions',
+    SUBSCRIPTION_RELATED: 'Subscription Related',
+    PAYMENT_AND_REFUNDS: 'Payment and Refunds',
+    OWNERSHIP_COPYRIGHT_ISSUES: 'Ownership/Copyright Related Issues',
+    ACCOUNT_DELETION_CANCELLATION: 'Account Deletion/Membership Cancellation',
+    COPYRIGHT_CLAIMS: 'Copyright Claims - YouTube, Meta, etc',
+    OAC_REQUESTS: 'OAC Requests',
+    CONNECT_SOCIAL_MEDIA: 'Connect/Correct Social Media Profiles',
+    ARTIFICIAL_STREAMING: 'Artificial Streaming/Infringement',
+    RELEASE_ISSUES: 'Release - Delivery, Takedown, Edit',
+    OTHER: 'Other'
+});
+
 export const ETicketCategory = Object.freeze({
     TECHNICAL: 'Technical',
     BILLING: 'Billing',
@@ -348,6 +363,16 @@ export const ETicketStatus = Object.freeze({
     PENDING: 'pending',
     RESOLVED: 'resolved',
     CLOSED: 'closed'
+});
+
+export const ETicketType = Object.freeze({
+    NORMAL: 'Normal',
+    META_CLAIM_RELEASE: 'Meta Claim Release',
+    YOUTUBE_CLAIM_RELEASE: 'Youtube Claim release',
+    YOUTUBE_MANUAL_CLAIM: 'Youtube Manual Claim',
+    META_PROFILE_MAPPING: 'Meta Profile/Page Mapping',
+    YOUTUBE_OAC_MAPPING: 'Youtube Channel OAC / Release Mapping',
+    META_MANUAL_CLAIM: 'Meta Manual Claiming Form'
 });
 
 // Analytics related enums

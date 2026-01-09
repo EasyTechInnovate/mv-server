@@ -19,11 +19,9 @@ export default {
         try {
             const {
                 subject,
-                description,
-                category,
                 priority,
-                contactEmail,
-                attachments
+                ticketType,
+                details,
             } = req.body;
 
             const ticketId = await quicker.generateTicketId(SupportTicket);
@@ -31,12 +29,10 @@ export default {
             const ticketData = {
                 ticketId,
                 subject,
-                description,
-                category,
                 priority,
-                contactEmail: contactEmail || req.authenticatedUser.emailAddress,
+                ticketType,
+                details,
                 userId: req.authenticatedUser._id,
-                attachments: attachments || []
             };
 
             const ticket = new SupportTicket(ticketData);
@@ -65,7 +61,6 @@ export default {
                 page = 1,
                 limit = 10,
                 status,
-                category,
                 priority,
                 search,
                 sortBy = 'lastActivityAt',
@@ -80,13 +75,11 @@ export default {
             const filter = { userId };
 
             if (status) filter.status = status;
-            if (category) filter.category = category;
             if (priority) filter.priority = priority;
 
             if (search) {
                 filter.$or = [
                     { subject: { $regex: search, $options: 'i' } },
-                    { description: { $regex: search, $options: 'i' } },
                     { ticketId: { $regex: search, $options: 'i' } }
                 ];
             }

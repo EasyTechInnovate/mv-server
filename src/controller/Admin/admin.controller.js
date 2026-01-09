@@ -548,24 +548,35 @@ export default {
     }
   },
 
-  async getAllAggregatorApplications(req, res, next) {
+    async getAllAggregatorApplications(req, res, next) {
     try {
-      const { status, page = 1, limit = 10 } = req.query
+      const { status, page = 1, limit = 10, search } = req.query;
 
-      const query = {}
+      const query = {};
       if (status) {
-        query.applicationStatus = status
+        query.applicationStatus = status;
       }
 
-      const skip = (page - 1) * limit
+      if (search) {
+        const searchRegex = new RegExp(search, "i");
+        query.$or = [
+          { firstName: searchRegex },
+          { lastName: searchRegex },
+          { emailAddress: searchRegex },
+          { companyName: searchRegex },
+        ];
+      }
+
+      const skip = (page - 1) * limit;
       const applications = await AggregatorApplication.find(query)
-        .populate('reviewedBy', 'firstName lastName emailAddress')
-        .populate('createdAccountId', 'firstName lastName emailAddress')
+        .populate("reviewedBy", "firstName lastName emailAddress")
+        .populate("createdAccountId", "firstName lastName emailAddress")
         .sort({ createdAt: -1 })
         .skip(skip)
-        .limit(parseInt(limit))
+        .limit(parseInt(limit));
 
-      const totalApplications = await AggregatorApplication.countDocuments(query)
+      const totalApplications =
+        await AggregatorApplication.countDocuments(query);
 
       const responseData = {
         applications,
@@ -574,13 +585,13 @@ export default {
           totalPages: Math.ceil(totalApplications / limit),
           totalApplications,
           hasNextPage: page * limit < totalApplications,
-          hasPrevPage: page > 1
-        }
-      }
+          hasPrevPage: page > 1,
+        },
+      };
 
-      return httpResponse(req, res, 200, responseMessage.SUCCESS, responseData)
+      return httpResponse(req, res, 200, responseMessage.SUCCESS, responseData);
     } catch (err) {
-      return httpError(next, err, req, 500)
+      return httpError(next, err, req, 500);
     }
   },
 

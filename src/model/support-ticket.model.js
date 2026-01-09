@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { ETicketCategory, ETicketPriority, ETicketStatus, EDepartment } from '../constant/application.js'
+import { ETicketPriority, ETicketStatus, EDepartment, ETicketType } from '../constant/application.js';
 
 const ticketResponseSchema = new mongoose.Schema({
     message: {
@@ -33,7 +33,7 @@ const ticketResponseSchema = new mongoose.Schema({
 }, {
     timestamps: true,
     _id: true
-})
+});
 
 const supportTicketSchema = new mongoose.Schema({
     ticketId: {
@@ -48,15 +48,13 @@ const supportTicketSchema = new mongoose.Schema({
         trim: true,
         maxlength: [200, 'Subject must be less than 200 characters']
     },
-    description: {
+    ticketType: {
         type: String,
-        required: true,
-        trim: true,
-        maxlength: [5000, 'Description must be less than 5000 characters']
+        enum: Object.values(ETicketType),
+        required: true
     },
-    category: {
-        type: String,
-        enum: Object.values(ETicketCategory),
+    details: {
+        type: mongoose.Schema.Types.Mixed,
         required: true
     },
     priority: {
@@ -70,12 +68,6 @@ const supportTicketSchema = new mongoose.Schema({
         enum: Object.values(ETicketStatus),
         required: true,
         default: ETicketStatus.OPEN
-    },
-    contactEmail: {
-        type: String,
-        required: true,
-        trim: true,
-        lowercase: true
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -181,11 +173,10 @@ const supportTicketSchema = new mongoose.Schema({
 })
 
 // ticketId index is automatically created by unique: true
-supportTicketSchema.index({ userId: 1 })
-supportTicketSchema.index({ status: 1 })
-supportTicketSchema.index({ priority: 1 })
-supportTicketSchema.index({ category: 1 })
-supportTicketSchema.index({ assignedTo: 1 })
+supportTicketSchema.index({ userId: 1 });
+supportTicketSchema.index({ status: 1 });
+supportTicketSchema.index({ priority: 1 });
+supportTicketSchema.index({ assignedTo: 1 });
 supportTicketSchema.index({ assignedDepartment: 1 })
 supportTicketSchema.index({ createdAt: -1 })
 supportTicketSchema.index({ lastActivityAt: -1 })
