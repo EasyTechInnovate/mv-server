@@ -43,7 +43,7 @@ export default {
 
     getAllFAQs: async (req, res, next) => {
         try {
-            const { page = 1, limit = 10, category, status } = req.query
+            const { page = 1, limit = 10, category, status, search } = req.query
             const pageNumber = parseInt(page)
             const limitNumber = parseInt(limit)
             const skip = (pageNumber - 1) * limitNumber
@@ -51,6 +51,12 @@ export default {
             const filter = {}
             if (category) filter.category = category
             if (status !== undefined) filter.status = status === 'true'
+            if (search) {
+                filter.$or = [
+                    { question: { $regex: search, $options: 'i' } },
+                    { answer: { $regex: search, $options: 'i' } }
+                ]
+            }
 
             const [faqs, totalCount] = await Promise.all([
                 FAQModel.find(filter)
@@ -162,6 +168,26 @@ export default {
             httpResponse(req, res, 200, responseMessage.SUCCESS, deletedFAQ)
         } catch (error) {
             httpError(next, error, req, 500)
+        }
+    },
+
+    getFAQStats: async (req, res, next) => {
+        try {
+            const [total, published, draft, categories] = await Promise.all([
+                FAQModel.countDocuments(),
+                FAQModel.countDocuments({ status: true }),
+                FAQModel.countDocuments({ status: false }),
+                FAQModel.distinct('category')
+            ]);
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, {
+                total,
+                published,
+                draft,
+                categories: categories.length
+            });
+        } catch (error) {
+            httpError(next, error, req, 500);
         }
     }
 }

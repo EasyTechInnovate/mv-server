@@ -588,6 +588,14 @@ router.route('/faqs/self')
         adminFAQController.self
     )
 
+router.route('/faqs/stats')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
+        adminFAQController.getFAQStats
+    )
+
 router.route('/faqs/:faqId')
     .get(
         authentication,
