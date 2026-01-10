@@ -213,7 +213,8 @@ const updateTicketSchema = z.object({
         assignedDepartment: z.enum(Object.values(EDepartment), {
             errorMap: () => ({ message: 'Invalid department' })
         }).optional().nullable(),
-        tags: z.array(z.string().trim().toLowerCase()).optional()
+        tags: z.array(z.string().trim().toLowerCase()).optional(),
+        details: z.any().optional(),
     })
 })
 
