@@ -149,7 +149,7 @@ const syncSubmissionSchema = new mongoose.Schema(
 
 syncSubmissionSchema.index({ userId: 1, status: 1 })
 syncSubmissionSchema.index({ userAccountId: 1, status: 1 })
-syncSubmissionSchema.index({ trackName: 'text', artistName: 'text', labelName: 'text' })
+syncSubmissionSchema.index({ trackName: 'text', artistName: 'text', labelName: 'text' }, { default_language: 'none', language_override: 'textLanguage' })
 syncSubmissionSchema.index({ createdAt: -1 })
 syncSubmissionSchema.index({ status: 1, createdAt: -1 })
 

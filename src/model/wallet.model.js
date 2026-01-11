@@ -5,14 +5,12 @@ const walletSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
-        unique: true,
-        index: true
+        unique: true
     },
     accountId: {
         type: String,
         required: true,
-        trim: true,
-        index: true
+        trim: true
     },
     totalEarnings: {
         type: Number,
@@ -73,7 +71,6 @@ const walletSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 })
 
-walletSchema.index({ userId: 1 })
 walletSchema.index({ accountId: 1 })
 walletSchema.index({ availableBalance: -1 })
 walletSchema.index({ isActive: 1 })

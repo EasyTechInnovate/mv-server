@@ -127,7 +127,7 @@ const playlistPitchingSchema = new mongoose.Schema(
 
 playlistPitchingSchema.index({ userId: 1, status: 1 })
 playlistPitchingSchema.index({ userAccountId: 1, status: 1 })
-playlistPitchingSchema.index({ trackName: 'text', artistName: 'text', labelName: 'text' })
+playlistPitchingSchema.index({ trackName: 'text', artistName: 'text', labelName: 'text' }, { default_language: 'none', language_override: 'textLanguage' })
 playlistPitchingSchema.index({ createdAt: -1 })
 playlistPitchingSchema.index({ status: 1, createdAt: -1 })
 playlistPitchingSchema.index({ selectedStore: 1 })

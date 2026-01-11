@@ -5,14 +5,12 @@ const payoutRequestSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
-        index: true
+        required: true
     },
     accountId: {
         type: String,
         required: true,
-        trim: true,
-        index: true
+        trim: true
     },
     requestId: {
         type: String,
@@ -86,7 +84,6 @@ const payoutRequestSchema = new mongoose.Schema({
 
 payoutRequestSchema.index({ userId: 1, status: 1 })
 payoutRequestSchema.index({ accountId: 1 })
-payoutRequestSchema.index({ requestId: 1 }, { unique: true })
 payoutRequestSchema.index({ status: 1 })
 payoutRequestSchema.index({ requestedAt: -1 })
 payoutRequestSchema.index({ createdAt: -1 })
