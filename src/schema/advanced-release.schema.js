@@ -3,6 +3,7 @@ import {
     EAdvancedReleaseType, 
     EReleasePricingTier, 
     EMusicGenre,
+    EMusicLanguage,
     ETerritories,
     EDistributionPartners 
 } from '../constant/application.js'
@@ -27,7 +28,16 @@ const trackSchema = z.object({
     primaryGenre: z.enum(Object.values(EMusicGenre)),
     secondaryGenre: z.enum(Object.values(EMusicGenre)).optional(),
     hasHumanVocals: z.boolean().default(true),
+    language: z.enum(Object.values(EMusicLanguage)).optional(),
     isAvailableForDownload: z.boolean().default(true)
+}).refine(data => {
+    if (data.hasHumanVocals && !data.language) {
+        return false;
+    }
+    return true;
+}, {
+    message: 'Language is required when vocals are present',
+    path: ['language']
 })
 
 const createAdvancedRelease = z.object({

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import {
     EMarketingSubmissionStatus,
-    EMusicGenres,
+    EMusicGenre,
     EMusicMood,
     EMusicTheme,
     EMusicLanguage,
@@ -16,10 +16,10 @@ const createSyncSubmissionSchema = z.object({
         artistName: z.string().min(1, 'Artist name is required').max(200),
         labelName: z.string().min(1, 'Label name is required').max(200),
         isrc: z.string().min(12, 'ISRC must be at least 12 characters').max(12, 'ISRC must be exactly 12 characters'),
-        genres: z.array(z.enum(Object.values(EMusicGenres))).min(1, 'At least one genre is required'),
+        genres: z.array(z.enum(Object.values(EMusicGenre))).min(1, 'At least one genre is required'),
         mood: z.enum(Object.values(EMusicMood)),
         isVocalsPresent: z.boolean(),
-        language: z.enum(Object.values(EMusicLanguage)),
+        language: z.enum(Object.values(EMusicLanguage)).optional(),
         theme: z.enum(Object.values(EMusicTheme)),
         masterRightsOwner: z.string().min(1, 'Master rights owner is required').max(200),
         publishingRightsOwner: z.string().min(1, 'Publishing rights owner is required').max(200),
@@ -30,6 +30,14 @@ const createSyncSubmissionSchema = z.object({
             url: z.string().url('Invalid track URL')
         })).min(1, 'At least one track link is required'),
         projectSuitability: z.array(z.enum(Object.values(ESyncProjectSuitability))).min(1, 'At least one project suitability is required')
+    }).refine(data => {
+        if (data.isVocalsPresent && !data.language) {
+            return false;
+        }
+        return true;
+    }, {
+        message: 'Language is required when vocals are present',
+        path: ['language']
     })
 })
 
@@ -39,19 +47,26 @@ const createPlaylistPitchingSchema = z.object({
         artistName: z.string().min(1, 'Artist name is required').max(200),
         labelName: z.string().min(1, 'Label name is required').max(200),
         isrc: z.string().min(12, 'ISRC must be at least 12 characters').max(12, 'ISRC must be exactly 12 characters'),
-        genres: z.array(z.enum(Object.values(EMusicGenres))).min(1, 'At least one genre is required'),
+        genres: z.array(z.enum(Object.values(EMusicGenre))).min(1, 'At least one genre is required'),
         mood: z.enum(Object.values(EMusicMood)),
         isVocalsPresent: z.boolean(),
-        language: z.enum(Object.values(EMusicLanguage)),
+        language: z.enum(Object.values(EMusicLanguage)).optional(),
         theme: z.enum(Object.values(EMusicTheme)),
         selectedStore: z.enum(Object.values(EStreamingPlatform)),
         trackLinks: z.array(z.object({
             platform: z.enum(Object.values(EStreamingPlatform)),
             url: z.string().url('Invalid track URL')
         })).min(1, 'At least one track link is required')
+    }).refine(data => {
+        if (data.isVocalsPresent && !data.language) {
+            return false;
+        }
+        return true;
+    }, {
+        message: 'Language is required when vocals are present',
+        path: ['language']
     })
 })
-
 const getMarketingSubmissionsSchema = z.object({
     query: z.object({
         page: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1)).optional().default('1'),

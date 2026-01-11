@@ -6,6 +6,7 @@ import {
     EReleasePricingTier,
     EAdvancedReleaseStep,
     EMusicGenre,
+    EMusicLanguage,
     ETerritories,
     EDistributionPartners
 } from '../constant/application.js'
@@ -91,6 +92,11 @@ const trackSchema = new Schema({
     hasHumanVocals: {
         type: Boolean,
         default: true
+    },
+    language: {
+        type: String,
+        enum: Object.values(EMusicLanguage),
+        required: false
     },
     vocalType: {
         type: String,

@@ -78,6 +78,7 @@ export default {
 
             const [requests, totalCount] = await Promise.all([
                 MCNRequest.find(filter)
+                    .populate('userId', 'firstName lastName')
                     .sort(sortObj)
                     .skip(skip)
                     .limit(limitNumber)
@@ -158,6 +159,7 @@ export default {
             const [channels, totalCount] = await Promise.all([
                 MCNChannel.find(filter)
                     .populate('mcnRequestId', 'youtubeChannelName youtubeChannelId subscriberCount')
+                    .populate('userId', 'firstName lastName')
                     .sort(sortObj)
                     .skip(skip)
                     .limit(limitNumber)

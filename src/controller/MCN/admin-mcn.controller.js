@@ -299,8 +299,7 @@ export default {
             const updateData = req.body
 
             const channel = await MCNChannel.findOne({
-                _id: channelId,
-                isActive: true
+                _id: channelId
             })
 
             if (!channel) {

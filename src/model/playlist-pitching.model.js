@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import {
     EMarketingSubmissionStatus,
-    EMusicGenres,
+    EMusicGenre,
     EMusicMood,
     EMusicTheme,
     EMusicLanguage,
@@ -44,10 +44,9 @@ const playlistPitchingSchema = new mongoose.Schema(
         },
         genres: [{
             type: String,
-            enum: Object.values(EMusicGenres),
+            enum: Object.values(EMusicGenre),
             required: true
-        }],
-        mood: {
+        }],        mood: {
             type: String,
             enum: Object.values(EMusicMood),
             required: true
@@ -59,7 +58,7 @@ const playlistPitchingSchema = new mongoose.Schema(
         language: {
             type: String,
             enum: Object.values(EMusicLanguage),
-            required: true
+            required: false
         },
         theme: {
             type: String,

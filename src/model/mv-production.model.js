@@ -3,7 +3,7 @@ import {
     EMVProductionStatus,
     ELocationPreference,
     ERevenueSharingModel,
-    EMusicGenres,
+    EMusicGenre,
     EMusicMood,
     EMusicLanguage,
     EMusicTheme
@@ -69,10 +69,9 @@ const mvProductionSchema = new Schema(
             },
             genres: [{
                 type: String,
-                enum: Object.values(EMusicGenres),
+                enum: Object.values(EMusicGenre),
                 required: true
-            }],
-            mood: {
+            }],            mood: {
                 type: String,
                 enum: Object.values(EMusicMood),
                 required: true
