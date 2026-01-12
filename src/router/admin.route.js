@@ -247,6 +247,15 @@ router.route('/releases/:releaseId/process-takedown')
         adminReleasesController.processTakeDown
     )
 
+router.route('/releases/:releaseId/audio-footprinting')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(releaseSchemas.releaseIdParam),
+        adminReleasesController.saveAudioFootprinting
+    )
+
 router.route('/advanced-releases')
     .get(
         authentication,
@@ -360,6 +369,15 @@ router.route('/advanced-releases/:releaseId/provide-isrc')
         moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.provideISRC),
         adminAdvanceReleaseController.provideISRC
+    )
+
+router.route('/advanced-releases/:releaseId/audio-footprinting')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(advancedReleaseSchemas.getReleaseById),
+        adminAdvanceReleaseController.saveAudioFootprinting
     )
 
 router.route('/sublabels')

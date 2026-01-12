@@ -692,5 +692,169 @@ export default {
         } catch (err) {
             httpError(next, err, req, 500)
         }
+    },
+
+    async getMCNDashboard(req, res, next) {
+        try {
+            const {
+                timeframe = ERoyaltyTimeframe.LAST_30_DAYS,
+                startDate,
+                endDate
+            } = req.query
+            const userAccountId = req.authenticatedUser.accountId
+
+            // Handle custom timeframe
+            let dateFilter = {}
+            if (timeframe === ERoyaltyTimeframe.CUSTOM && startDate && endDate) {
+                dateFilter.createdAt = {
+                    $gte: new Date(startDate),
+                    $lte: new Date(endDate)
+                }
+            } else {
+                const timeframeConfig = {
+                    [ERoyaltyTimeframe.LAST_7_DAYS]: { days: 7 },
+                    [ERoyaltyTimeframe.LAST_30_DAYS]: { days: 30 },
+                    [ERoyaltyTimeframe.LAST_90_DAYS]: { days: 90 },
+                    [ERoyaltyTimeframe.LAST_6_MONTHS]: { months: 6 },
+                    [ERoyaltyTimeframe.LAST_YEAR]: { months: 12 }
+                }
+                const config = timeframeConfig[timeframe]
+                const end = new Date()
+                const start = new Date()
+
+                if (config.days) {
+                    start.setDate(end.getDate() - config.days)
+                } else if (config.months) {
+                    start.setMonth(end.getMonth() - config.months)
+                }
+
+                dateFilter.createdAt = {
+                    $gte: start,
+                    $lte: end
+                }
+            }
+
+            // Get MCN data
+            const MCN = (await import('../../model/mcn.model.js')).default
+
+            const [
+                totalEarnings,
+                monthlyTrends,
+                channelPerformance,
+                overallStats
+            ] = await Promise.all([
+                // Total earnings for user
+                MCN.aggregate([
+                    { $match: { userAccountId, isActive: true, ...dateFilter } },
+                    {
+                        $group: {
+                            _id: null,
+                            totalPayoutInr: { $sum: '$payoutRevenueInr' },
+                            totalRevenueUsd: { $sum: '$revenueUsd' },
+                            totalMvCommission: { $sum: '$mvCommission' },
+                            totalYoutubePayoutUsd: { $sum: '$youtubePayoutUsd' },
+                            channelCount: { $sum: 1 },
+                            avgRevenueShare: { $avg: '$revenueSharePercent' }
+                        }
+                    }
+                ]),
+                // Monthly trends
+                MCN.aggregate([
+                    { $match: { userAccountId, isActive: true, ...dateFilter } },
+                    {
+                        $group: {
+                            _id: { month: '$reportMonth', year: '$reportYear' },
+                            totalPayoutInr: { $sum: '$payoutRevenueInr' },
+                            totalRevenueUsd: { $sum: '$revenueUsd' },
+                            totalMvCommission: { $sum: '$mvCommission' },
+                            channels: { $sum: 1 }
+                        }
+                    },
+                    { $sort: { '_id.year': -1, '_id.month': -1 } },
+                    { $limit: 12 }
+                ]),
+                // Channel-wise performance
+                MCN.aggregate([
+                    { $match: { userAccountId, isActive: true, ...dateFilter } },
+                    {
+                        $group: {
+                            _id: {
+                                channelId: '$assetChannelId',
+                                channelName: '$youtubeChannelName'
+                            },
+                            totalPayoutInr: { $sum: '$payoutRevenueInr' },
+                            totalRevenueUsd: { $sum: '$revenueUsd' },
+                            totalMvCommission: { $sum: '$mvCommission' },
+                            avgRevenueShare: { $avg: '$revenueSharePercent' },
+                            months: { $sum: 1 }
+                        }
+                    },
+                    { $sort: { totalPayoutInr: -1 } },
+                    { $limit: 10 }
+                ]),
+                // Overall stats (all time)
+                MCN.aggregate([
+                    { $match: { userAccountId, isActive: true } },
+                    {
+                        $group: {
+                            _id: null,
+                            allTimeTotalPayoutInr: { $sum: '$payoutRevenueInr' },
+                            allTimeTotalRevenueUsd: { $sum: '$revenueUsd' },
+                            allTimeTotalMvCommission: { $sum: '$mvCommission' },
+                            uniqueChannels: { $addToSet: '$assetChannelId' }
+                        }
+                    }
+                ])
+            ])
+
+            const earnings = totalEarnings[0] || {
+                totalPayoutInr: 0,
+                totalRevenueUsd: 0,
+                totalMvCommission: 0,
+                totalYoutubePayoutUsd: 0,
+                channelCount: 0,
+                avgRevenueShare: 0
+            }
+
+            const stats = overallStats[0] || {
+                allTimeTotalPayoutInr: 0,
+                allTimeTotalRevenueUsd: 0,
+                allTimeTotalMvCommission: 0,
+                uniqueChannels: []
+            }
+
+            const dashboardData = {
+                overview: {
+                    totalPayoutInr: parseFloat(earnings.totalPayoutInr || 0),
+                    totalRevenueUsd: parseFloat(earnings.totalRevenueUsd || 0),
+                    totalMvCommission: parseFloat(earnings.totalMvCommission || 0),
+                    totalYoutubePayoutUsd: parseFloat(earnings.totalYoutubePayoutUsd || 0),
+                    activeChannels: earnings.channelCount || 0,
+                    avgRevenueShare: parseFloat(earnings.avgRevenueShare || 0),
+                    allTimeEarnings: parseFloat(stats.allTimeTotalPayoutInr || 0),
+                    totalUniqueChannels: stats.uniqueChannels?.length || 0
+                },
+                trends: monthlyTrends.map(item => ({
+                    month: `${item._id.month}-${item._id.year}`,
+                    payoutInr: parseFloat(item.totalPayoutInr || 0),
+                    revenueUsd: parseFloat(item.totalRevenueUsd || 0),
+                    mvCommission: parseFloat(item.totalMvCommission || 0),
+                    channels: item.channels || 0
+                })),
+                topChannels: channelPerformance.map(channel => ({
+                    channelId: channel._id.channelId,
+                    channelName: channel._id.channelName,
+                    totalPayoutInr: parseFloat(channel.totalPayoutInr || 0),
+                    totalRevenueUsd: parseFloat(channel.totalRevenueUsd || 0),
+                    mvCommission: parseFloat(channel.totalMvCommission || 0),
+                    avgRevenueShare: parseFloat(channel.avgRevenueShare || 0),
+                    months: channel.months || 0
+                }))
+            }
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, dashboardData)
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
     }
 }

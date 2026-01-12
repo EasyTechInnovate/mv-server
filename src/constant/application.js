@@ -470,7 +470,8 @@ export const EAdvancedReleaseStep = Object.freeze({
 export const EMonthManagementType = Object.freeze({
     ANALYTICS: 'analytics',
     ROYALTY: 'royalty',
-    BONUS: 'bonus'
+    BONUS: 'bonus',
+    MCN: 'mcn'
 });
 
 export const EReportType = Object.freeze({

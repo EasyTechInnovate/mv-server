@@ -72,4 +72,13 @@ router.route('/royalty/dashboard')
         userReportController.getRoyaltyDashboard
     )
 
+// MCN dashboard - comprehensive MCN royalty data in one endpoint
+router.route('/mcn/dashboard')
+    .get(
+        authentication,
+        authorization([EUserRole.USER, EUserRole.TEAM_MEMBER]),
+        validateRequest(royaltySchemas.royaltyDashboardQuery),
+        userReportController.getMCNDashboard
+    )
+
 export default router

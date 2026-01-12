@@ -402,7 +402,33 @@ const advancedReleaseSchema = new Schema({
         min: 0,
         max: 3
     },
-    
+
+    audioFootprinting: [{
+        matchPercentage: { type: Number, min: 0, max: 100, default: null },
+        title: { type: String, trim: true, default: null },
+        label: { type: String, trim: true, default: null },
+        artists: { type: [String], default: [] },
+        album: { type: String, trim: true, default: null },
+        releaseDate: { type: String, default: null },
+        durationMs: { type: Number, default: null },
+        matchTime: {
+            startMs: { type: Number, default: null },
+            dbStartMs: { type: Number, default: null },
+            dbEndMs: { type: Number, default: null }
+        },
+        externalIds: {
+            isrc: { type: String, trim: true, uppercase: true, default: null },
+            upc: { type: String, trim: true, default: null }
+        },
+        streamingLinks: {
+            spotify: { type: String, trim: true, default: null },
+            deezer: { type: String, trim: true, default: null }
+        },
+        genres: { type: [String], default: [] },
+        checkedAt: { type: Date, default: Date.now },
+        checkedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }
+    }],
+
     isActive: {
         type: Boolean,
         default: true

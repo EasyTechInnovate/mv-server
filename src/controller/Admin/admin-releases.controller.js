@@ -512,5 +512,47 @@ export default {
         } catch (err) {
             return httpError(next, err, req, 500);
         }
+    },
+
+    async saveAudioFootprinting(req, res, next) {
+        try {
+            const { releaseId } = req.params
+            const { footprintingData } = req.body
+            const adminId = req.authenticatedUser._id
+
+            if (!footprintingData || !Array.isArray(footprintingData)) {
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('footprintingData must be an array')), req, 400)
+            }
+
+            const release = await BasicRelease.findOne({ _id: releaseId, isActive: true })
+
+            if (!release) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Release')), req, 404)
+            }
+
+            // Add checkedBy and checkedAt to each footprinting entry
+            const processedData = footprintingData.map(data => ({
+                ...data,
+                checkedBy: adminId,
+                checkedAt: new Date()
+            }))
+
+            // Append new footprinting data
+            release.audioFootprinting.push(...processedData)
+            await release.save()
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Audio footprinting data saved successfully'),
+                {
+                    releaseId: release._id,
+                    totalFootprints: release.audioFootprinting.length
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
     }
 };

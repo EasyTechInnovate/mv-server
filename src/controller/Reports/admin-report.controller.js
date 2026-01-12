@@ -5,7 +5,7 @@ import Analytics from '../../model/analytics.model.js'
 import Royalty from '../../model/royalty.model.js'
 import Wallet from '../../model/wallet.model.js'
 import User from '../../model/user.model.js'
-// import MCN from '../../model/mcn.model.js'
+import MCN from '../../model/mcn.model.js'
 import { EReportType, EReportStatus } from '../../constant/application.js'
 import { processCsvFile, calculateReportSummary, validateCsvHeaders } from '../../util/csvProcessor.js'
 import responseMessage from '../../constant/responseMessage.js'
@@ -210,6 +210,32 @@ const adminReportController = {
 
                 const result = await Royalty.insertMany(bonusRecords)
                 insertedCount = result.length
+
+            } else if (reportType === EReportType.MCN) {
+                // Clear existing MCN for this month
+                await MCN.deleteMany({ monthId })
+
+                // Insert new MCN records
+                const mcnRecords = csvData.map(record => ({
+                    userAccountId: record.accountId,
+                    licensee: record.licensee,
+                    licensor: record.licensor,
+                    assetChannelId: record.assetChannelId,
+                    youtubeChannelName: record.youtubeChannelName,
+                    monthId,
+                    accountId: record.accountId,
+                    revenueSharePercent: record.revenueSharePercent || 0,
+                    youtubePayoutUsd: record.youtubePayoutUsd || 0,
+                    mvCommission: record.mvCommission || 0,
+                    revenueUsd: record.revenueUsd || 0,
+                    conversionRate: record.conversionRate || 0,
+                    payoutRevenueInr: record.payoutRevenueInr || 0,
+                    reportMonth: month.split('-')[0],
+                    reportYear: parseInt('20' + month.split('-')[1])
+                }))
+
+                const result = await MCN.insertMany(mcnRecords)
+                insertedCount = result.length
             }
 
             if (reportType === EReportType.ROYALTY || reportType === EReportType.BONUS_ROYALTY) {
@@ -245,32 +271,35 @@ const adminReportController = {
                 }
             }
 
-            // else if (reportType === EReportType.MCN) {
-            //     // Clear existing MCN for this month
-            //     await MCN.deleteMany({ monthId })
+            // Update wallets for MCN earnings
+            if (reportType === EReportType.MCN) {
+                const userEarnings = await MCN.aggregate([
+                    { $match: { monthId } },
+                    {
+                        $group: {
+                            _id: '$userAccountId',
+                            totalEarnings: { $sum: '$payoutRevenueInr' },
+                            mvCommission: { $sum: '$mvCommission' }
+                        }
+                    }
+                ])
 
-            //     // Insert new MCN records
-            //     const mcnRecords = csvData.map(record => ({
-            //         userAccountId: record.accountId,
-            //         licensee: record.licensee,
-            //         licensor: record.licensor,
-            //         assetChannelId: record.assetChannelId,
-            //         youtubeChannelName: record.youtubeChannelName,
-            //         monthId,
-            //         accountId: record.accountId,
-            //         revenueSharePercent: record.revenueSharePercent || 0,
-            //         youtubePayoutUsd: record.youtubePayoutUsd || 0,
-            //         mvCommission: record.mvCommission || 0,
-            //         revenueUsd: record.revenueUsd || 0,
-            //         conversionRate: record.conversionRate || 0,
-            //         payoutRevenueInr: record.payoutRevenueInr || 0,
-            //         reportMonth: month.split('-')[0],
-            //         reportYear: parseInt('20' + month.split('-')[1])
-            //     }))
-
-            //     const result = await MCN.insertMany(mcnRecords)
-            //     insertedCount = result.length
-            // }
+                for (const earnings of userEarnings) {
+                    const user = await User.findOne({ accountId: earnings._id })
+                    if (user) {
+                        let wallet = await Wallet.findByUserId(user._id)
+                        if (!wallet) {
+                            wallet = await Wallet.createWallet(user._id, user.accountId)
+                        }
+                        await wallet.updateEarnings({
+                            mcnRoyalty: earnings.totalEarnings,
+                            commission: earnings.mvCommission,
+                            month: reportData.monthId.month
+                        })
+                        console.log(`✅ Updated wallet for user ${user.accountId}: +${earnings.totalEarnings} INR (MCN)`)
+                    }
+                }
+            }
 
             reportData.updateStatus(EReportStatus.COMPLETED)
             await reportData.save()

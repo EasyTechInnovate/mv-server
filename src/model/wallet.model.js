@@ -27,6 +27,11 @@ const walletSchema = new mongoose.Schema({
         default: 0,
         min: 0
     },
+    mcnRoyalty: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
     totalCommission: {
         type: Number,
         default: 0,
@@ -88,6 +93,7 @@ walletSchema.methods.updateEarnings = function(earnings) {
     this.totalEarnings += earnings.totalEarnings || 0
     this.regularRoyalty += earnings.regularRoyalty || 0
     this.bonusRoyalty += earnings.bonusRoyalty || 0
+    this.mcnRoyalty += earnings.mcnRoyalty || 0
     this.totalCommission += earnings.commission || 0
     this.availableBalance = this.totalEarnings - this.totalCommission
     this.withdrawableBalance = this.availableBalance - this.pendingPayout - this.totalPaidOut
