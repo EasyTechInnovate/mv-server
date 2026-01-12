@@ -9,8 +9,8 @@ import {
 } from '../constant/application.js'
 
 const contributorSchema = z.object({
-    year: z.number().min(1900, 'Year must be from 1900 onwards').max(new Date().getFullYear() + 10, 'Year cannot be too far in future'),
-    text: z.string().trim().min(1, 'Text is required').max(200, 'Text too long')
+    profession: z.string().trim().min(1, 'Profession/role is required').max(100, 'Profession/role too long'),
+    contributors: z.string().trim().min(1, 'Contributor name is required').max(200, 'Contributor name too long')
 })
 
 const trackSchema = z.object({

@@ -18,7 +18,7 @@ const contributorSchema = new Schema({
         trim: true,
         maxlength: 100
     },
-    text: {
+    contributors: {
         type: String,
         required: true,
         trim: true,
