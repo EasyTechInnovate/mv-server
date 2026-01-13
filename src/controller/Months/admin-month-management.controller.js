@@ -201,20 +201,69 @@ export default {
 
     async getMonthsByType(req, res, next) {
         try {
-            const { type } = req.params
-            const { includeInactive = false } = req.query
+            const { type } = req.params;
+            const { includeInactive = false } = req.query;
 
             if (!Object.values(EMonthManagementType).includes(type)) {
-                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('month type')), req, 400)
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('month type')), req, 400);
             }
 
-            const filter = { type }
+            const matchStage = { type };
             if (!includeInactive) {
-                filter.isActive = true
+                matchStage.isActive = true;
             }
 
-            const months = await MonthManagement.find(filter)
-                .sort({ createdAt: -1 })
+            const months = await MonthManagement.aggregate([
+                { $match: matchStage },
+                {
+                    $lookup: {
+                        from: 'reportdatas',
+                        let: { monthId: '$_id' },
+                        pipeline: [
+                            {
+                                $match: {
+                                    $expr: {
+                                        $and: [
+                                            { $eq: ['$monthId', '$$monthId'] },
+                                            { $eq: ['$reportType', type] },
+                                            { $eq: ['$isActive', true] }
+                                        ]
+                                    }
+                                }
+                            },
+                            { $project: { _id: 1, status: 1 } }
+                        ],
+                        as: 'report'
+                    }
+                },
+                {
+                    $addFields: {
+                        reportDetails: {
+                            $cond: {
+                                if: { $gt: [{ $size: '$report' }, 0] },
+                                then: {
+                                    isSubmitted: true,
+                                    reportId: { $arrayElemAt: ['$report._id', 0] },
+                                    status: { $arrayElemAt: ['$report.status', 0] }
+                                },
+                                else: {
+                                    isSubmitted: false,
+                                    reportId: null,
+                                    status: null
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    $project: {
+                        report: 0 
+                    }
+                },
+                {
+                    $sort: { createdAt: -1 }
+                }
+            ]);
 
             httpResponse(
                 req,
@@ -222,9 +271,9 @@ export default {
                 200,
                 responseMessage.SUCCESS,
                 months
-            )
+            );
         } catch (err) {
-            httpError(next, err, req, 500)
+            httpError(next, err, req, 500);
         }
     },
 
