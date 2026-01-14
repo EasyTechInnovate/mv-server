@@ -151,10 +151,9 @@ payoutRequestSchema.statics.getUserPendingAmount = async function(userId) {
     return result[0] || { totalAmount: 0, count: 0 }
 }
 
-payoutRequestSchema.pre('save', async function(next) {
+payoutRequestSchema.pre('validate', function(next) {
     if (this.isNew && !this.requestId) {
-        const count = await this.constructor.countDocuments()
-        this.requestId = `PAYOUT-${Date.now()}-${(count + 1).toString().padStart(5, '0')}`
+        this.requestId = `PAYOUT-${Date.now()}-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`
     }
     next()
 })

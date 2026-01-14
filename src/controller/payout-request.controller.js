@@ -80,7 +80,9 @@ const payoutRequestController = {
                 limit = 10,
                 status,
                 sortBy = 'createdAt',
-                sortOrder = 'desc'
+                sortOrder = 'desc',
+                month, // Re-added: month filter
+                year    // Re-added: year filter
             } = req.query
 
             const pageNumber = parseInt(page)
@@ -90,6 +92,21 @@ const payoutRequestController = {
             const filter = { userId, isActive: true }
             if (status) {
                 filter.status = status
+            }
+
+            // Re-added: Filter by month and year
+            if (month && year) {
+                // Construct dates in UTC to match MongoDB's storage
+                const startOfMonth = new Date(Date.UTC(parseInt(year), parseInt(month) - 1, 1, 0, 0, 0));
+                const endOfMonth = new Date(Date.UTC(parseInt(year), parseInt(month) - 1, 1, 0, 0, 0));
+                endOfMonth.setUTCMonth(endOfMonth.getUTCMonth() + 1); // Go to next month
+                endOfMonth.setUTCDate(0); // Set day to 0, which gets last day of previous month (the desired month)
+                endOfMonth.setUTCHours(23, 59, 59, 999); // Set to end of day in UTC
+
+                filter.requestedAt = {
+                    $gte: startOfMonth,
+                    $lte: endOfMonth
+                };
             }
 
             const sortObj = {}
