@@ -91,7 +91,8 @@ const submitDesigns = z.object({
     }),
     body: z.object({
         designs: z.array(z.object({
-            designLink: z.string().url('Invalid design link').max(1000)
+            designLink: z.string().url('Invalid design link').max(1000),
+            designName: z.string().max(200).optional()
         })).min(5, 'Minimum 5 designs are required')
     })
 });
@@ -127,6 +128,15 @@ const getMerchStores = z.object({
     })
 });
 
+const getApprovedDesigns = z.object({
+    query: z.object({
+        page: z.string().optional().transform(val => val ? parseInt(val) : 1),
+        limit: z.string().optional().transform(val => val ? parseInt(val) : 10),
+        sortBy: z.enum(['uploadedAt', 'designName', 'artistName']).default('uploadedAt'),
+        sortOrder: z.enum(['asc', 'desc']).default('desc')
+    })
+});
+
 const getMerchStoreById = z.object({
     params: z.object({
         storeId: z.string().min(1, 'Store ID is required')
@@ -145,6 +155,7 @@ export const merchStoreSchema = {
     submitDesigns,
     updateStatus,
     getMerchStores,
+    getApprovedDesigns,
     getMerchStoreById,
     deleteMerchStore
 };

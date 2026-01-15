@@ -176,6 +176,7 @@ export default {
 
             existingMerchStore.designs = designs.map(design => ({
                 designLink: design.designLink,
+                designName: design.designName || '',
                 uploadedAt: new Date()
             }));
             existingMerchStore.status = EMerchStoreStatus.DESIGN_SUBMITTED;
@@ -210,6 +211,79 @@ export default {
             await MerchStore.deleteOne({ _id: storeId });
 
             httpResponse(req, res, 200, responseMessage.SUCCESS, 'Merch store deleted successfully');
+        } catch (error) {
+            httpError(next, error, req, 500);
+        }
+    },
+
+    getApprovedDesigns: async (req, res, next) => {
+        try {
+            const userId = req.authenticatedUser._id;
+            const { page = 1, limit = 10, sortBy = 'uploadedAt', sortOrder = 'desc' } = req.query;
+            const pageNumber = parseInt(page);
+            const limitNumber = parseInt(limit);
+            const skip = (pageNumber - 1) * limitNumber;
+
+            // Use aggregation to flatten designs and filter approved ones
+            const pipeline = [
+                // Match merch stores for this user
+                { $match: { userId } },
+                // Unwind designs array to flatten it
+                { $unwind: { path: '$designs', preserveNullAndEmptyArrays: false } },
+                // Filter only approved designs
+                { $match: { 'designs.status': 'approved' } },
+                // Project the fields we need
+                {
+                    $project: {
+                        _id: '$designs._id',
+                        designLink: '$designs.designLink',
+                        designName: '$designs.designName',
+                        status: '$designs.status',
+                        products: '$designs.products',
+                        uploadedAt: '$designs.uploadedAt',
+                        adminNotes: '$designs.adminNotes',
+                        artistName: '$artistInfo.artistName',
+                        accountId: '$accountId',
+                        storeId: '$_id'
+                    }
+                }
+            ];
+
+            // Add sorting
+            const sortOptions = {};
+            if (sortBy === 'artistName') {
+                sortOptions['artistName'] = sortOrder === 'asc' ? 1 : -1;
+            } else if (sortBy === 'designName') {
+                sortOptions['designName'] = sortOrder === 'asc' ? 1 : -1;
+            } else {
+                sortOptions['uploadedAt'] = sortOrder === 'asc' ? 1 : -1;
+            }
+            pipeline.push({ $sort: sortOptions });
+
+            // Get total count before pagination
+            const countPipeline = [...pipeline, { $count: 'total' }];
+            const countResult = await MerchStore.aggregate(countPipeline);
+            const totalCount = countResult.length > 0 ? countResult[0].total : 0;
+
+            // Add pagination
+            pipeline.push({ $skip: skip });
+            pipeline.push({ $limit: limitNumber });
+
+            // Execute the aggregation
+            const designs = await MerchStore.aggregate(pipeline);
+
+            const pagination = {
+                currentPage: pageNumber,
+                totalPages: Math.ceil(totalCount / limitNumber),
+                totalCount,
+                hasNextPage: pageNumber < Math.ceil(totalCount / limitNumber),
+                hasPrevPage: pageNumber > 1
+            };
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, {
+                designs,
+                pagination
+            });
         } catch (error) {
             httpError(next, error, req, 500);
         }

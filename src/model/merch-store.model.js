@@ -105,6 +105,38 @@ const merchStoreSchema = new Schema(
                 trim: true,
                 maxlength: 1000
             },
+            designName: {
+                type: String,
+                trim: true,
+                maxlength: 200
+            },
+            status: {
+                type: String,
+                enum: ['pending', 'approved', 'rejected'],
+                default: 'pending'
+            },
+            rejectionReason: {
+                type: String,
+                trim: true,
+                maxlength: 1000
+            },
+            adminNotes: {
+                type: String,
+                trim: true,
+                maxlength: 1000
+            },
+            products: [{
+                name: {
+                    type: String,
+                    required: true,
+                    trim: true
+                },
+                link: {
+                    type: String,
+                    required: true,
+                    trim: true
+                }
+            }],
             uploadedAt: {
                 type: Date,
                 default: Date.now

@@ -204,5 +204,154 @@ export default {
         } catch (error) {
             httpError(next, error, req, 500);
         }
+    },
+
+    updateDesignStatus: async (req, res, next) => {
+        try {
+            const { storeId, designId } = req.params;
+            const { status, rejectionReason, adminNotes } = req.body;
+
+            const merchStore = await MerchStore.findById(storeId);
+            if (!merchStore) {
+                return httpError(next, responseMessage.ERROR.NOT_FOUND('Merch store not found'), req, 404);
+            }
+
+            const design = merchStore.designs.id(designId);
+            if (!design) {
+                return httpError(next, responseMessage.ERROR.NOT_FOUND('Design not found'), req, 404);
+            }
+
+            design.status = status;
+            if (rejectionReason) design.rejectionReason = rejectionReason;
+            if (adminNotes) design.adminNotes = adminNotes;
+
+            await merchStore.save();
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, merchStore);
+        } catch (error) {
+            httpError(next, error, req, 500);
+        }
+    },
+
+    manageDesignProducts: async (req, res, next) => {
+        try {
+            const { storeId, designId } = req.params;
+            const { products } = req.body; // Array of { name, link }
+
+            const merchStore = await MerchStore.findById(storeId);
+            if (!merchStore) {
+                return httpError(next, responseMessage.ERROR.NOT_FOUND('Merch store not found'), req, 404);
+            }
+
+            const design = merchStore.designs.id(designId);
+            if (!design) {
+                return httpError(next, responseMessage.ERROR.NOT_FOUND('Design not found'), req, 404);
+            }
+
+            design.products = products;
+
+            await merchStore.save();
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, merchStore);
+        } catch (error) {
+            httpError(next, error, req, 500);
+        }
+    },
+
+    updateDesignName: async (req, res, next) => {
+        try {
+            const { storeId, designId } = req.params;
+            const { designName } = req.body;
+
+            const merchStore = await MerchStore.findById(storeId);
+            if (!merchStore) {
+                return httpError(next, responseMessage.ERROR.NOT_FOUND('Merch store not found'), req, 404);
+            }
+
+            const design = merchStore.designs.id(designId);
+            if (!design) {
+                return httpError(next, responseMessage.ERROR.NOT_FOUND('Design not found'), req, 404);
+            }
+
+            design.designName = designName;
+
+            await merchStore.save();
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, merchStore);
+        } catch (error) {
+            httpError(next, error, req, 500);
+        }
+    },
+
+    getListedProducts: async (req, res, next) => {
+        try {
+            const { page = 1, limit = 10, search } = req.query;
+            const pageNumber = parseInt(page);
+            const limitNumber = parseInt(limit);
+            const skip = (pageNumber - 1) * limitNumber;
+
+            const pipeline = [
+                {
+                    $match: {
+                        'designs.status': 'approved'
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'userId',
+                        foreignField: '_id',
+                        as: 'userInfo'
+                    }
+                },
+                {
+                    $unwind: '$userInfo'
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        artistName: '$artistInfo.artistName',
+                        accountId: 1,
+                        email: '$userInfo.emailAddress',
+                        firstName: '$userInfo.firstName',
+                        lastName: '$userInfo.lastName',
+                        approvedDesignsCount: {
+                            $size: {
+                                $filter: {
+                                    input: '$designs',
+                                    as: 'design',
+                                    cond: { $eq: ['$$design.status', 'approved'] }
+                                }
+                            }
+                        }
+                    }
+                }
+            ];
+
+            if (search) {
+                pipeline.push({
+                    $match: {
+                        $or: [
+                            { artistName: { $regex: search, $options: 'i' } },
+                            { accountId: { $regex: search, $options: 'i' } },
+                            { email: { $regex: search, $options: 'i' } }
+                        ]
+                    }
+                });
+            }
+
+            pipeline.push(
+                { $sort: { approvedDesignsCount: -1 } },
+                { $skip: skip },
+                { $limit: limitNumber }
+            );
+
+            const result = await MerchStore.aggregate(pipeline);
+            // Note: Pagination for aggregation is simple here, for real production count might need facet
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, result);
+        } catch (error) {
+            httpError(next, error, req, 500);
+        }
     }
 };

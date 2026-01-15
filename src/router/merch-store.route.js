@@ -25,6 +25,12 @@ router.route('/admin/stats').get(
     adminMerchStoreController.getStats
 );
 
+router.route('/admin/listed-products').get(
+    authentication,
+    authorization(['admin']),
+    adminMerchStoreController.getListedProducts
+);
+
 router.route('/admin/:storeId/status').patch(
     authentication,
     authorization(['admin']),
@@ -52,6 +58,26 @@ router.route('/admin/:storeId')
         adminMerchStoreController.deleteMerchStore
     );
 
+
+
+router.route('/admin/:storeId/designs/:designId/status').patch(
+    authentication,
+    authorization(['admin']),
+    adminMerchStoreController.updateDesignStatus
+);
+
+router.route('/admin/:storeId/designs/:designId/products').patch(
+    authentication,
+    authorization(['admin']),
+    adminMerchStoreController.manageDesignProducts
+);
+
+router.route('/admin/:storeId/designs/:designId/name').patch(
+    authentication,
+    authorization(['admin']),
+    adminMerchStoreController.updateDesignName
+);
+
 router.route('/admin')
     .get(
         authentication,
@@ -71,6 +97,12 @@ router.route('/')
         validateRequest(merchStoreSchema.getMerchStores, 'query'),
         userMerchStoreController.getUserMerchStores
     );
+
+router.route('/approved-designs').get(
+    authentication,
+    validateRequest(merchStoreSchema.getApprovedDesigns, 'query'),
+    userMerchStoreController.getApprovedDesigns
+);
 
 router.route('/:storeId/designs').post(
     authentication,
