@@ -45,10 +45,10 @@ export default {
                         orConditions.push({ userId: { $in: userIds } });
                     }
                 }
-                
+
                 query.$or = orConditions;
             }
-        
+
             const releases = await BasicRelease.find(query)
                 .populate('userId', 'firstName lastName emailAddress userType')
                 .sort({ createdAt: -1 })
@@ -524,7 +524,7 @@ export default {
                 return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('footprintingData must be an array')), req, 400)
             }
 
-            const release = await BasicRelease.findOne({ _id: releaseId, isActive: true })
+            const release = await BasicRelease.findOne({ releaseId: releaseId, isActive: true })
 
             if (!release) {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Release')), req, 404)

@@ -39,7 +39,7 @@ const syncSubmissionSchema = new mongoose.Schema(
         },
         isrc: {
             type: String,
-            required: true,
+            required: false,
             trim: true,
             uppercase: true
         },
@@ -85,7 +85,7 @@ const syncSubmissionSchema = new mongoose.Schema(
         proAffiliation: {
             type: String,
             enum: Object.values(EPROAffiliation),
-            required: true
+            required: false
         },
         trackLinks: [{
             platform: {
@@ -153,7 +153,7 @@ syncSubmissionSchema.index({ trackName: 'text', artistName: 'text', labelName: '
 syncSubmissionSchema.index({ createdAt: -1 })
 syncSubmissionSchema.index({ status: 1, createdAt: -1 })
 
-syncSubmissionSchema.methods.approve = function(reviewerId, adminNotes = null) {
+syncSubmissionSchema.methods.approve = function (reviewerId, adminNotes = null) {
     this.status = EMarketingSubmissionStatus.APPROVED
     this.reviewedBy = reviewerId
     this.reviewedAt = new Date()
@@ -162,7 +162,7 @@ syncSubmissionSchema.methods.approve = function(reviewerId, adminNotes = null) {
     return this.save()
 }
 
-syncSubmissionSchema.methods.reject = function(reviewerId, rejectionReason, adminNotes = null) {
+syncSubmissionSchema.methods.reject = function (reviewerId, rejectionReason, adminNotes = null) {
     this.status = EMarketingSubmissionStatus.REJECTED
     this.reviewedBy = reviewerId
     this.reviewedAt = new Date()
@@ -172,17 +172,17 @@ syncSubmissionSchema.methods.reject = function(reviewerId, rejectionReason, admi
     return this.save()
 }
 
-syncSubmissionSchema.statics.getUserSubmissions = function(userAccountId, page = 1, limit = 10) {
+syncSubmissionSchema.statics.getUserSubmissions = function (userAccountId, page = 1, limit = 10) {
     const skip = (page - 1) * limit
     return Promise.all([
         this.find({
             userAccountId,
             isActive: true
         })
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .lean(),
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean(),
         this.countDocuments({
             userAccountId,
             isActive: true
@@ -190,7 +190,7 @@ syncSubmissionSchema.statics.getUserSubmissions = function(userAccountId, page =
     ])
 }
 
-syncSubmissionSchema.statics.getSubmissionStats = function() {
+syncSubmissionSchema.statics.getSubmissionStats = function () {
     return this.aggregate([
         { $match: { isActive: true } },
         {
@@ -202,18 +202,18 @@ syncSubmissionSchema.statics.getSubmissionStats = function() {
     ])
 }
 
-syncSubmissionSchema.statics.getPendingSubmissions = function(page = 1, limit = 10) {
+syncSubmissionSchema.statics.getPendingSubmissions = function (page = 1, limit = 10) {
     const skip = (page - 1) * limit
     return Promise.all([
         this.find({
             status: EMarketingSubmissionStatus.PENDING,
             isActive: true
         })
-        .populate('userId', 'firstName lastName email accountId')
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .lean(),
+            .populate('userId', 'firstName lastName email accountId')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean(),
         this.countDocuments({
             status: EMarketingSubmissionStatus.PENDING,
             isActive: true

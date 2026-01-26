@@ -26,7 +26,8 @@ const createMVProduction = z.object({
             isPartOfAlbumOrEP: z.boolean(),
             language: z.enum(Object.values(EMusicLanguage)),
             theme: z.enum(Object.values(EMusicTheme)),
-            locationPreference: z.array(z.enum(Object.values(ELocationPreference))).min(1, 'At least one location preference is required')
+            locationPreference: z.array(z.enum(Object.values(ELocationPreference))).min(1, 'At least one location preference is required'),
+            customLocationDescription: z.string().trim().max(500, 'Custom location description too long').optional()
         }),
         budgetRequestAndOwnershipProposal: z.object({
             totalBudgetRequested: z.number().min(0, 'Total budget cannot be negative'),
@@ -76,7 +77,8 @@ const updateMVProduction = z.object({
             isPartOfAlbumOrEP: z.boolean(),
             language: z.enum(Object.values(EMusicLanguage)),
             theme: z.enum(Object.values(EMusicTheme)),
-            locationPreference: z.array(z.enum(Object.values(ELocationPreference))).min(1, 'At least one location preference is required')
+            locationPreference: z.array(z.enum(Object.values(ELocationPreference))).min(1, 'At least one location preference is required'),
+            customLocationDescription: z.string().trim().max(500, 'Custom location description too long').optional()
         }).optional(),
         budgetRequestAndOwnershipProposal: z.object({
             totalBudgetRequested: z.number().min(0, 'Total budget cannot be negative'),

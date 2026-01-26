@@ -17,7 +17,8 @@ const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:8000',
     'http://localhost:8001',
-    'https://mv.manishdashsharma.com'
+    'https://mv.manishdashsharma.com',
+    'https://acr-mv.manishdashsharma.com'
 ]
 
 

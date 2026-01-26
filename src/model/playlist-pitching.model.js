@@ -38,7 +38,7 @@ const playlistPitchingSchema = new mongoose.Schema(
         },
         isrc: {
             type: String,
-            required: true,
+            required: false,
             trim: true,
             uppercase: true
         },
@@ -46,7 +46,7 @@ const playlistPitchingSchema = new mongoose.Schema(
             type: String,
             enum: Object.values(EMusicGenre),
             required: true
-        }],        mood: {
+        }], mood: {
             type: String,
             enum: Object.values(EMusicMood),
             required: true
@@ -132,7 +132,7 @@ playlistPitchingSchema.index({ createdAt: -1 })
 playlistPitchingSchema.index({ status: 1, createdAt: -1 })
 playlistPitchingSchema.index({ selectedStore: 1 })
 
-playlistPitchingSchema.methods.approve = function(reviewerId, adminNotes = null) {
+playlistPitchingSchema.methods.approve = function (reviewerId, adminNotes = null) {
     this.status = EMarketingSubmissionStatus.APPROVED
     this.reviewedBy = reviewerId
     this.reviewedAt = new Date()
@@ -141,7 +141,7 @@ playlistPitchingSchema.methods.approve = function(reviewerId, adminNotes = null)
     return this.save()
 }
 
-playlistPitchingSchema.methods.reject = function(reviewerId, rejectionReason, adminNotes = null) {
+playlistPitchingSchema.methods.reject = function (reviewerId, rejectionReason, adminNotes = null) {
     this.status = EMarketingSubmissionStatus.REJECTED
     this.reviewedBy = reviewerId
     this.reviewedAt = new Date()
@@ -151,17 +151,17 @@ playlistPitchingSchema.methods.reject = function(reviewerId, rejectionReason, ad
     return this.save()
 }
 
-playlistPitchingSchema.statics.getUserSubmissions = function(userAccountId, page = 1, limit = 10) {
+playlistPitchingSchema.statics.getUserSubmissions = function (userAccountId, page = 1, limit = 10) {
     const skip = (page - 1) * limit
     return Promise.all([
         this.find({
             userAccountId,
             isActive: true
         })
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .lean(),
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean(),
         this.countDocuments({
             userAccountId,
             isActive: true
@@ -169,7 +169,7 @@ playlistPitchingSchema.statics.getUserSubmissions = function(userAccountId, page
     ])
 }
 
-playlistPitchingSchema.statics.getSubmissionStats = function() {
+playlistPitchingSchema.statics.getSubmissionStats = function () {
     return this.aggregate([
         { $match: { isActive: true } },
         {
@@ -181,18 +181,18 @@ playlistPitchingSchema.statics.getSubmissionStats = function() {
     ])
 }
 
-playlistPitchingSchema.statics.getPendingSubmissions = function(page = 1, limit = 10) {
+playlistPitchingSchema.statics.getPendingSubmissions = function (page = 1, limit = 10) {
     const skip = (page - 1) * limit
     return Promise.all([
         this.find({
             status: EMarketingSubmissionStatus.PENDING,
             isActive: true
         })
-        .populate('userId', 'firstName lastName email accountId')
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .lean(),
+            .populate('userId', 'firstName lastName email accountId')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean(),
         this.countDocuments({
             status: EMarketingSubmissionStatus.PENDING,
             isActive: true
@@ -200,18 +200,18 @@ playlistPitchingSchema.statics.getPendingSubmissions = function(page = 1, limit 
     ])
 }
 
-playlistPitchingSchema.statics.getSubmissionsByStore = function(store, page = 1, limit = 10) {
+playlistPitchingSchema.statics.getSubmissionsByStore = function (store, page = 1, limit = 10) {
     const skip = (page - 1) * limit
     return Promise.all([
         this.find({
             selectedStore: store,
             isActive: true
         })
-        .populate('userId', 'firstName lastName email accountId')
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit)
-        .lean(),
+            .populate('userId', 'firstName lastName email accountId')
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .lean(),
         this.countDocuments({
             selectedStore: store,
             isActive: true

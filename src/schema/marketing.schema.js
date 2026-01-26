@@ -15,7 +15,7 @@ const createSyncSubmissionSchema = z.object({
         trackName: z.string().min(1, 'Track name is required').max(200),
         artistName: z.string().min(1, 'Artist name is required').max(200),
         labelName: z.string().min(1, 'Label name is required').max(200),
-        isrc: z.string().min(12, 'ISRC must be at least 12 characters').max(12, 'ISRC must be exactly 12 characters'),
+        isrc: z.string().min(12, 'ISRC must be at least 12 characters').max(12, 'ISRC must be exactly 12 characters').optional().or(z.literal('')),
         genres: z.array(z.enum(Object.values(EMusicGenre))).min(1, 'At least one genre is required'),
         mood: z.enum(Object.values(EMusicMood)),
         isVocalsPresent: z.boolean(),
@@ -24,7 +24,7 @@ const createSyncSubmissionSchema = z.object({
         masterRightsOwner: z.string().min(1, 'Master rights owner is required').max(200),
         publishingRightsOwner: z.string().min(1, 'Publishing rights owner is required').max(200),
         isFullyClearedForSync: z.union([z.boolean(), z.literal('unsure')]),
-        proAffiliation: z.enum(Object.values(EPROAffiliation)),
+        proAffiliation: z.enum(Object.values(EPROAffiliation)).optional().or(z.literal('')),
         trackLinks: z.array(z.object({
             platform: z.string().min(1, 'Platform name is required').max(100),
             url: z.string().url('Invalid track URL')
@@ -46,7 +46,7 @@ const createPlaylistPitchingSchema = z.object({
         trackName: z.string().min(1, 'Track name is required').max(200),
         artistName: z.string().min(1, 'Artist name is required').max(200),
         labelName: z.string().min(1, 'Label name is required').max(200),
-        isrc: z.string().min(12, 'ISRC must be at least 12 characters').max(12, 'ISRC must be exactly 12 characters'),
+        isrc: z.string().min(12, 'ISRC must be at least 12 characters').max(12, 'ISRC must be exactly 12 characters').optional().or(z.literal('')),
         genres: z.array(z.enum(Object.values(EMusicGenre))).min(1, 'At least one genre is required'),
         mood: z.enum(Object.values(EMusicMood)),
         isVocalsPresent: z.boolean(),

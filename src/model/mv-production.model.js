@@ -71,7 +71,7 @@ const mvProductionSchema = new Schema(
                 type: String,
                 enum: Object.values(EMusicGenre),
                 required: true
-            }],            mood: {
+            }], mood: {
                 type: String,
                 enum: Object.values(EMusicMood),
                 required: true
@@ -95,7 +95,13 @@ const mvProductionSchema = new Schema(
                 type: String,
                 enum: Object.values(ELocationPreference),
                 required: true
-            }]
+            }],
+            customLocationDescription: {
+                type: String,
+                trim: true,
+                maxlength: 500,
+                default: null
+            }
         },
         budgetRequestAndOwnershipProposal: {
             totalBudgetRequested: {
@@ -232,7 +238,7 @@ mvProductionSchema.index({ accountId: 1 });
 mvProductionSchema.index({ status: 1 });
 mvProductionSchema.index({ createdAt: -1 });
 
-mvProductionSchema.methods.approve = function(reviewerId, adminNotes = null) {
+mvProductionSchema.methods.approve = function (reviewerId, adminNotes = null) {
     this.status = EMVProductionStatus.ACCEPT
     this.reviewedBy = reviewerId
     this.reviewedAt = new Date()
@@ -242,7 +248,7 @@ mvProductionSchema.methods.approve = function(reviewerId, adminNotes = null) {
     return this.save()
 }
 
-mvProductionSchema.methods.reject = function(reviewerId, rejectionReason, adminNotes = null) {
+mvProductionSchema.methods.reject = function (reviewerId, rejectionReason, adminNotes = null) {
     this.status = EMVProductionStatus.REJECT
     this.reviewedBy = reviewerId
     this.reviewedAt = new Date()
