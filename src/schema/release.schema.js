@@ -4,7 +4,8 @@ import {
     EMusicGenre, 
     EAudioFormat, 
     ETerritories, 
-    EDistributionPartners 
+    EDistributionPartners,
+    EMusicLanguage
 } from '../constant/application.js'
 
 const createRelease = z.object({
@@ -35,6 +36,7 @@ const updateStep1 = z.object({
 const trackSchema = z.object({
     trackName: z.string().trim().min(1, 'Track name is required').max(200, 'Track name too long'),
     genre: z.enum(Object.values(EMusicGenre)),
+    language: z.enum(Object.values(EMusicLanguage)).optional(),
     composerName: z.string().trim().max(100, 'Composer name too long').optional(),
     lyricistName: z.string().trim().max(100, 'Lyricist name too long').optional(),
     singerName: z.string().trim().max(100, 'Singer name too long').optional(),

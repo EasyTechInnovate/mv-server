@@ -7,7 +7,8 @@ import {
   EAudioFormat,
   ETerritories,
   EDistributionPartners,
-  EReleaseStep
+  EReleaseStep,
+  EMusicLanguage
 } from '../constant/application.js';
 
 const trackSchema = new mongoose.Schema({
@@ -92,6 +93,11 @@ const trackSchema = new mongoose.Schema({
       min: [0, 'End time cannot be negative'],
       default: 30
     }
+  },
+  language: {
+    type: String,
+    enum: Object.values(EMusicLanguage),
+    required: false
   }
 }, {
   timestamps: true

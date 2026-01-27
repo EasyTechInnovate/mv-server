@@ -272,7 +272,8 @@ export default {
                     isrc: track.isrc,
                     audioFiles: track.audioFiles,
                     previewTiming: track.previewTiming || { startTime: 0, endTime: 30 },
-                    callerTuneTiming: track.callerTuneTiming || { startTime: 0, endTime: 30 }
+                    callerTuneTiming: track.callerTuneTiming || { startTime: 0, endTime: 30 },
+                    language: track.language
                 }));
             }
 

@@ -16,7 +16,7 @@ export default {
 
     async getAllReleases(req, res, next) {
         try {
-            const { page = 1, limit = 10, status, trackType, userId, search } = req.query;
+            const { page = 1, limit = 10, status, trackType, userId, search, isExport } = req.query;
 
             const query = { isActive: true };
             if (status) query.releaseStatus = status;
@@ -49,13 +49,49 @@ export default {
                 query.$or = orConditions;
             }
 
-            const releases = await BasicRelease.find(query)
+            let releasesQuery = BasicRelease.find(query)
                 .populate('userId', 'firstName lastName emailAddress userType')
                 .sort({ createdAt: -1 })
                 .limit(limit * 1)
                 .skip((page - 1) * limit);
 
+            if (isExport === 'true') {
+                // For export, we need ALL details. Populate everything.
+                releasesQuery = releasesQuery
+                    .populate('adminReview.reviewedBy', 'firstName lastName emailAddress')
+            }
+
+            const releases = await releasesQuery;
+
             const total = await BasicRelease.countDocuments(query);
+
+            let releasesData = [];
+
+            if (isExport === 'true') {
+                // Return full rich object for export mapping
+                releasesData = releases;
+            } else {
+                // Return simplified list for table view
+                releasesData = releases.map(release => ({
+                    releaseId: release.releaseId,
+                    releaseName: release.releaseTitle,
+                    trackType: release.trackType,
+                    trackCount: release.step2?.tracks?.length || 0,
+                    releaseStatus: release.releaseStatus,
+                    completionPercentage: release.completionPercentage,
+                    stepsCompleted: `${release.completedSteps}/${release.totalSteps}`,
+                    isReadyForSubmission: release.isReadyForSubmission,
+                    user: {
+                        name: `${release.userId.firstName} ${release.userId.lastName}`,
+                        email: release.userId.emailAddress,
+                        userType: release.userId.userType
+                    },
+                    createdAt: release.createdAt,
+                    submittedAt: release.submittedAt,
+                    publishedAt: release.publishedAt,
+                    liveAt: release.liveAt
+                }));
+            }
 
             return httpResponse(
                 req,
@@ -63,25 +99,7 @@ export default {
                 200,
                 responseMessage.SUCCESS,
                 {
-                    releases: releases.map(release => ({
-                        releaseId: release.releaseId,
-                        releaseName: release.releaseTitle,
-                        trackType: release.trackType,
-                        trackCount: release.step2?.tracks?.length || 0,
-                        releaseStatus: release.releaseStatus,
-                        completionPercentage: release.completionPercentage,
-                        stepsCompleted: `${release.completedSteps}/${release.totalSteps}`,
-                        isReadyForSubmission: release.isReadyForSubmission,
-                        user: {
-                            name: `${release.userId.firstName} ${release.userId.lastName}`,
-                            email: release.userId.emailAddress,
-                            userType: release.userId.userType
-                        },
-                        createdAt: release.createdAt,
-                        submittedAt: release.submittedAt,
-                        publishedAt: release.publishedAt,
-                        liveAt: release.liveAt
-                    })),
+                    releases: releasesData,
                     pagination: {
                         currentPage: parseInt(page),
                         totalPages: Math.ceil(total / limit),
