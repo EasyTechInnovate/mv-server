@@ -88,6 +88,37 @@ router.route('/verify-kyc')
     authController.verifyKYC
   );
 
-  
+// Profile Management
+router.route('/profile')
+    .patch(
+        authentication,
+        authController.updateProfile
+    )
+
+// Social Media
+router.route('/social-media')
+    .patch(
+        authentication,
+        authController.updateSocialMedia
+    )
+
+// Sessions Management
+router.route('/sessions')
+    .get(
+        authentication,
+        authController.getSessions
+    )
+
+router.route('/sessions/:sessionId')
+    .delete(
+        authentication,
+        authController.revokeSession
+    )
+
+router.route('/sessions/revoke-all')
+    .post(
+        authentication,
+        authController.revokeAllOtherSessions
+    )
 
 export default router

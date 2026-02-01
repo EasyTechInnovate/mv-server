@@ -711,10 +711,10 @@ export default {
     async verifyKYC(req, res, next) {
       try {
         const userId = req.authenticatedUser._id;
-        const { 
-          documents, 
-          bankDetails, 
-          upiDetails 
+        const {
+          documents,
+          bankDetails,
+          upiDetails
         } = req.body;
 
         const user = await User.findById(userId);
@@ -788,7 +788,7 @@ export default {
         user.kyc.submittedAt = new Date();
         user.kyc.verifiedAt = new Date(); // Set verification timestamp immediately
         user.kyc.rejectedAt = null; // Reset rejection timestamp
-        
+
         // Also update the kycStatus object for consistency
         user.kycStatus.status = 'verified';
         user.kycStatus.submittedAt = new Date();
@@ -825,5 +825,339 @@ export default {
       } catch (err) {
         return httpError(next, err, req, 500);
       }
+    },
+
+    // Update Profile API
+    async updateProfile(req, res, next) {
+        try {
+            const userId = req.authenticatedUser._id
+            const {
+                firstName,
+                lastName,
+                phoneNumber,
+                address,
+                profile,
+                artistData,
+                labelData,
+                aggregatorData
+            } = req.body
+
+            const user = await User.findById(userId)
+            if (!user) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('User not found')),
+                    req,
+                    404
+                )
+            }
+
+            // Update basic info
+            if (firstName) user.firstName = firstName
+            if (lastName) user.lastName = lastName
+
+            // Update phone number
+            if (phoneNumber) {
+                const { countryCode, isoCode, internationalNumber } = quicker.parsePhoneNumber(`+${phoneNumber}`)
+                if (countryCode && isoCode && internationalNumber) {
+                    user.phoneNumber = { countryCode, isoCode, internationalNumber }
+                }
+            }
+
+            // Update address
+            if (address) {
+                if (address.street !== undefined) user.address.street = address.street
+                if (address.city !== undefined) user.address.city = address.city
+                if (address.state !== undefined) user.address.state = address.state
+                if (address.country !== undefined) user.address.country = address.country
+                if (address.pinCode !== undefined) user.address.pinCode = address.pinCode
+            }
+
+            // Update profile
+            if (profile) {
+                if (profile.photo !== undefined) user.profile.photo = profile.photo
+                if (profile.bio !== undefined) user.profile.bio = profile.bio
+                if (profile.primaryGenre !== undefined) user.profile.primaryGenre = profile.primaryGenre
+                if (profile.location) {
+                    if (profile.location.lat !== undefined) user.profile.location.lat = profile.location.lat
+                    if (profile.location.long !== undefined) user.profile.location.long = profile.location.long
+                    if (profile.location.address !== undefined) user.profile.location.address = profile.location.address
+                }
+            }
+
+            // Update artist data (only for artists)
+            if (artistData && user.userType === EUserType.ARTIST) {
+                if (artistData.artistName !== undefined) user.artistData.artistName = artistData.artistName
+                if (artistData.youtubeLink !== undefined) user.artistData.youtubeLink = artistData.youtubeLink
+                if (artistData.instagramLink !== undefined) user.artistData.instagramLink = artistData.instagramLink
+                if (artistData.facebookLink !== undefined) user.artistData.facebookLink = artistData.facebookLink
+            }
+
+            // Update label data (only for labels)
+            if (labelData && user.userType === EUserType.LABEL) {
+                if (labelData.labelName !== undefined) user.labelData.labelName = labelData.labelName
+                if (labelData.youtubeLink !== undefined) user.labelData.youtubeLink = labelData.youtubeLink
+                if (labelData.websiteLink !== undefined) user.labelData.websiteLink = labelData.websiteLink
+                if (labelData.popularReleaseLink !== undefined) user.labelData.popularReleaseLink = labelData.popularReleaseLink
+                if (labelData.popularArtistLinks !== undefined) user.labelData.popularArtistLinks = labelData.popularArtistLinks
+                if (labelData.totalReleases !== undefined) user.labelData.totalReleases = labelData.totalReleases
+                if (labelData.releaseFrequency !== undefined) user.labelData.releaseFrequency = labelData.releaseFrequency
+                if (labelData.monthlyReleasePlans !== undefined) user.labelData.monthlyReleasePlans = labelData.monthlyReleasePlans
+                if (labelData.briefInfo !== undefined) user.labelData.briefInfo = labelData.briefInfo
+            }
+
+            // Update aggregator data (only for aggregators)
+            if (aggregatorData && user.userType === EUserType.AGGREGATOR) {
+                if (aggregatorData.companyName !== undefined) user.aggregatorData.companyName = aggregatorData.companyName
+                if (aggregatorData.youtubeLink !== undefined) user.aggregatorData.youtubeLink = aggregatorData.youtubeLink
+                if (aggregatorData.websiteLink !== undefined) user.aggregatorData.websiteLink = aggregatorData.websiteLink
+                if (aggregatorData.instagramUrl !== undefined) user.aggregatorData.instagramUrl = aggregatorData.instagramUrl
+                if (aggregatorData.facebookUrl !== undefined) user.aggregatorData.facebookUrl = aggregatorData.facebookUrl
+                if (aggregatorData.linkedinUrl !== undefined) user.aggregatorData.linkedinUrl = aggregatorData.linkedinUrl
+                if (aggregatorData.popularReleaseLinks !== undefined) user.aggregatorData.popularReleaseLinks = aggregatorData.popularReleaseLinks
+                if (aggregatorData.popularArtistLinks !== undefined) user.aggregatorData.popularArtistLinks = aggregatorData.popularArtistLinks
+                if (aggregatorData.associatedLabels !== undefined) user.aggregatorData.associatedLabels = aggregatorData.associatedLabels
+                if (aggregatorData.totalReleases !== undefined) user.aggregatorData.totalReleases = aggregatorData.totalReleases
+                if (aggregatorData.releaseFrequency !== undefined) user.aggregatorData.releaseFrequency = aggregatorData.releaseFrequency
+                if (aggregatorData.monthlyReleasePlans !== undefined) user.aggregatorData.monthlyReleasePlans = aggregatorData.monthlyReleasePlans
+                if (aggregatorData.briefInfo !== undefined) user.aggregatorData.briefInfo = aggregatorData.briefInfo
+            }
+
+            // Recalculate profile completion
+            user.calculateProfileCompletion()
+
+            await user.save()
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Profile updated successfully'),
+                {
+                    user: {
+                        _id: user._id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        phoneNumber: user.phoneNumber,
+                        address: user.address,
+                        profile: user.profile,
+                        artistData: user.artistData,
+                        labelData: user.labelData,
+                        aggregatorData: user.aggregatorData,
+                        profileCompletion: user.profileCompletion
+                    }
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    // Update Social Media API
+    async updateSocialMedia(req, res, next) {
+        try {
+            const userId = req.authenticatedUser._id
+            const {
+                spotify,
+                instagram,
+                youtube,
+                tiktok,
+                linkedin,
+                website,
+                facebook,
+                twitter
+            } = req.body
+
+            const user = await User.findById(userId)
+            if (!user) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('User not found')),
+                    req,
+                    404
+                )
+            }
+
+            // Update social media links
+            if (spotify !== undefined) user.socialMedia.spotify = spotify
+            if (instagram !== undefined) user.socialMedia.instagram = instagram
+            if (youtube !== undefined) user.socialMedia.youtube = youtube
+            if (tiktok !== undefined) user.socialMedia.tiktok = tiktok
+            if (linkedin !== undefined) user.socialMedia.linkedin = linkedin
+            if (website !== undefined) user.socialMedia.website = website
+            if (facebook !== undefined) user.socialMedia.facebook = facebook
+            if (twitter !== undefined) user.socialMedia.twitter = twitter
+
+            await user.save()
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Social media links updated successfully'),
+                {
+                    socialMedia: user.socialMedia
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    // Get Active Sessions API
+    async getSessions(req, res, next) {
+        try {
+            const userId = req.authenticatedUser._id
+            const currentToken = req.headers.authorization?.split(' ')[1]
+
+            const user = await User.findById(userId).select('refreshTokens lastLoginAt loginInfo')
+            if (!user) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('User not found')),
+                    req,
+                    404
+                )
+            }
+
+            // Get session info from refresh tokens
+            const sessions = user.refreshTokens.map((token, index) => {
+                // Decode token to get creation time (if possible)
+                let createdAt = null
+                try {
+                    const decoded = quicker.verifyToken(token, config.auth.jwtRefreshSecret)
+                    createdAt = decoded.iat ? new Date(decoded.iat * 1000) : null
+                } catch (e) {
+                    // Token might be expired or invalid
+                }
+
+                return {
+                    sessionId: index,
+                    isCurrentSession: token === currentToken,
+                    createdAt: createdAt,
+                    lastActivity: index === user.refreshTokens.length - 1 ? user.loginInfo?.lastLogin : null
+                }
+            })
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.SUCCESS,
+                {
+                    totalSessions: user.refreshTokens.length,
+                    sessions: sessions,
+                    loginInfo: {
+                        lastLogin: user.loginInfo?.lastLogin,
+                        loginCount: user.loginInfo?.loginCount,
+                        lastLoginIP: user.loginInfo?.lastLoginIP
+                    }
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    // Revoke Session API
+    async revokeSession(req, res, next) {
+        try {
+            const userId = req.authenticatedUser._id
+            const { sessionId } = req.params
+            const currentToken = req.headers.authorization?.split(' ')[1]
+
+            const user = await User.findById(userId)
+            if (!user) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('User not found')),
+                    req,
+                    404
+                )
+            }
+
+            const sessionIndex = parseInt(sessionId)
+            if (isNaN(sessionIndex) || sessionIndex < 0 || sessionIndex >= user.refreshTokens.length) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('Invalid session ID')),
+                    req,
+                    400
+                )
+            }
+
+            // Check if trying to revoke current session
+            if (user.refreshTokens[sessionIndex] === currentToken) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('Cannot revoke current session. Use logout instead.')),
+                    req,
+                    400
+                )
+            }
+
+            // Remove the session
+            user.refreshTokens.splice(sessionIndex, 1)
+            await user.save()
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Session revoked successfully'),
+                {
+                    remainingSessions: user.refreshTokens.length
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    // Revoke All Other Sessions API
+    async revokeAllOtherSessions(req, res, next) {
+        try {
+            const userId = req.authenticatedUser._id
+            const { refreshToken } = req.body
+
+            const user = await User.findById(userId)
+            if (!user) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('User not found')),
+                    req,
+                    404
+                )
+            }
+
+            // Keep only the current session's refresh token
+            if (refreshToken && user.refreshTokens.includes(refreshToken)) {
+                user.refreshTokens = [refreshToken]
+            } else {
+                // If no valid refresh token provided, clear all
+                user.refreshTokens = []
+            }
+
+            await user.save()
+
+            user.addNotification(
+                'Sessions Revoked',
+                'All other sessions have been logged out successfully.',
+                'info'
+            )
+            await user.save()
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('All other sessions have been revoked successfully'),
+                {
+                    remainingSessions: user.refreshTokens.length
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
     }
 }

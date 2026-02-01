@@ -595,6 +595,157 @@
             "description": "Submit KYC documents and details for immediate verification. Requires email verification to be completed first. Status is automatically set to verified upon successful submission."
           },
           "response": []
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"firstName\": \"John\",\n    \"lastName\": \"Doe\",\n    \"phoneNumber\": \"919876543210\",\n    \"address\": {\n        \"street\": \"123 Main Street\",\n        \"city\": \"Mumbai\",\n        \"state\": \"Maharashtra\",\n        \"country\": \"India\",\n        \"pinCode\": \"400001\"\n    },\n    \"profile\": {\n        \"photo\": \"https://example.com/photo.jpg\",\n        \"bio\": \"Music artist from Mumbai\",\n        \"primaryGenre\": \"Pop\"\n    },\n    \"artistData\": {\n        \"artistName\": \"John Music\",\n        \"youtubeLink\": \"https://youtube.com/@johnmusic\",\n        \"instagramLink\": \"https://instagram.com/johnmusic\",\n        \"facebookLink\": \"https://facebook.com/johnmusic\"\n    }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/auth/profile",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "profile"
+              ]
+            },
+            "description": "Update user profile information including basic info, address, profile details, and user type specific data (artistData, labelData, aggregatorData)"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Social Media",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"spotify\": \"https://open.spotify.com/artist/123\",\n    \"instagram\": \"https://instagram.com/username\",\n    \"youtube\": \"https://youtube.com/@username\",\n    \"tiktok\": \"https://tiktok.com/@username\",\n    \"linkedin\": \"https://linkedin.com/in/username\",\n    \"website\": \"https://mywebsite.com\",\n    \"facebook\": \"https://facebook.com/username\",\n    \"twitter\": \"https://twitter.com/username\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/auth/social-media",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "social-media"
+              ]
+            },
+            "description": "Update user social media links"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Active Sessions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/auth/sessions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "sessions"
+              ]
+            },
+            "description": "Get list of all active sessions for the authenticated user"
+          },
+          "response": []
+        },
+        {
+          "name": "Revoke Session",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/v1/auth/sessions/0",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "sessions",
+                "0"
+              ]
+            },
+            "description": "Revoke a specific session by session ID. Cannot revoke current session."
+          },
+          "response": []
+        },
+        {
+          "name": "Revoke All Other Sessions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"refreshToken\": \"your_current_refresh_token\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/auth/sessions/revoke-all",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "auth",
+                "sessions",
+                "revoke-all"
+              ]
+            },
+            "description": "Revoke all sessions except the current one. Pass current refresh token to keep current session active."
+          },
+          "response": []
         }
       ]
     },
@@ -2793,6 +2944,47 @@
               ]
             },
             "description": "Save audio footprinting data for basic release. Frontend calls external API and sends result here."
+          },
+          "response": []
+        },
+        {
+          "name": "Edit Release (Basic)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{adminToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trackType\": \"single\",\n  \"step1\": {\n    \"coverArt\": {\n      \"imageUrl\": \"https://example.com/cover.jpg\",\n      \"imageSize\": 1024,\n      \"imageFormat\": \"jpg\"\n    },\n    \"releaseInfo\": {\n      \"releaseName\": \"Updated Song Name\",\n      \"genre\": \"POP\",\n      \"labelName\": \"Label XYZ\",\n      \"upc\": \"123456789012\"\n    }\n  },\n  \"step2\": {\n    \"tracks\": [\n      {\n        \"trackName\": \"Track 1\",\n        \"genre\": \"POP\",\n        \"composerName\": \"Composer Name\",\n        \"lyricistName\": \"Lyricist Name\",\n        \"singerName\": \"Singer Name\",\n        \"producerName\": \"Producer Name\"\n      }\n    ]\n  },\n  \"step3\": {\n    \"releaseDate\": \"2026-03-01\",\n    \"territorialRights\": {\n      \"hasRights\": true,\n      \"territories\": [\"WORLDWIDE\"]\n    },\n    \"partnerSelection\": {\n      \"hasPartners\": true,\n      \"partners\": [\"SPOTIFY\", \"APPLE_MUSIC\"]\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/admin/releases/{{releaseId}}/edit",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "v1",
+                "admin",
+                "releases",
+                "{{releaseId}}",
+                "edit"
+              ]
+            },
+            "description": "Edit/Update a basic release. Admin can update step1 (coverArt, releaseInfo), step2 (tracks), step3 (distribution settings), and trackType."
           },
           "response": []
         },

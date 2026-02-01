@@ -572,5 +572,89 @@ export default {
         } catch (err) {
             return httpError(next, err, req, 500)
         }
+    },
+
+    async editRelease(req, res, next) {
+        try {
+            const adminId = req.authenticatedUser._id
+            const { releaseId } = req.params
+            const { step1, step2, step3, trackType } = req.body
+
+            const release = await BasicRelease.findOne({ releaseId, isActive: true })
+
+            if (!release) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('Release')),
+                    req,
+                    404
+                )
+            }
+
+            // Update trackType if provided
+            if (trackType) {
+                release.trackType = trackType
+            }
+
+            // Update step1 - Cover Art & Release Info
+            if (step1) {
+                if (step1.coverArt) {
+                    if (step1.coverArt.imageUrl !== undefined) release.step1.coverArt.imageUrl = step1.coverArt.imageUrl
+                    if (step1.coverArt.imageSize !== undefined) release.step1.coverArt.imageSize = step1.coverArt.imageSize
+                    if (step1.coverArt.imageFormat !== undefined) release.step1.coverArt.imageFormat = step1.coverArt.imageFormat
+                }
+                if (step1.releaseInfo) {
+                    if (step1.releaseInfo.releaseName !== undefined) release.step1.releaseInfo.releaseName = step1.releaseInfo.releaseName
+                    if (step1.releaseInfo.genre !== undefined) release.step1.releaseInfo.genre = step1.releaseInfo.genre
+                    if (step1.releaseInfo.labelName !== undefined) release.step1.releaseInfo.labelName = step1.releaseInfo.labelName
+                    if (step1.releaseInfo.upc !== undefined) release.step1.releaseInfo.upc = step1.releaseInfo.upc
+                }
+            }
+
+            // Update step2 - Tracks
+            if (step2 && step2.tracks) {
+                release.step2.tracks = step2.tracks
+            }
+
+            // Update step3 - Distribution Settings
+            if (step3) {
+                if (step3.releaseDate !== undefined) release.step3.releaseDate = step3.releaseDate
+                if (step3.territorialRights) {
+                    if (step3.territorialRights.hasRights !== undefined) release.step3.territorialRights.hasRights = step3.territorialRights.hasRights
+                    if (step3.territorialRights.territories !== undefined) release.step3.territorialRights.territories = step3.territorialRights.territories
+                }
+                if (step3.partnerSelection) {
+                    if (step3.partnerSelection.hasPartners !== undefined) release.step3.partnerSelection.hasPartners = step3.partnerSelection.hasPartners
+                    if (step3.partnerSelection.partners !== undefined) release.step3.partnerSelection.partners = step3.partnerSelection.partners
+                }
+                if (step3.copyrights) {
+                    if (step3.copyrights.ownsCopyright !== undefined) release.step3.copyrights.ownsCopyright = step3.copyrights.ownsCopyright
+                    if (step3.copyrights.copyrightDocuments !== undefined) release.step3.copyrights.copyrightDocuments = step3.copyrights.copyrightDocuments
+                }
+            }
+
+            // Track admin edit
+            release.adminReview.reviewedBy = adminId
+            release.adminReview.reviewedAt = new Date()
+
+            await release.save()
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Release updated successfully'),
+                {
+                    releaseId: release.releaseId,
+                    trackType: release.trackType,
+                    step1: release.step1,
+                    step2: release.step2,
+                    step3: release.step3,
+                    updatedAt: release.updatedAt
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
     }
 };

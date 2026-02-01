@@ -256,6 +256,15 @@ router.route('/releases/:releaseId/audio-footprinting')
         adminReleasesController.saveAudioFootprinting
     )
 
+router.route('/releases/:releaseId/edit')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(releaseSchemas.releaseIdParam),
+        adminReleasesController.editRelease
+    )
+
 router.route('/advanced-releases')
     .get(
         authentication,

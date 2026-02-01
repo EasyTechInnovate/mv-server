@@ -107,6 +107,117 @@ export default {
         }
     },
 
+    async getUserBonusRoyaltySummary(userAccountId) {
+        try {
+            const bonusReports = await ReportData.find({
+                reportType: EReportType.BONUS_ROYALTY,
+                status: EReportStatus.COMPLETED,
+                isActive: true
+            })
+
+            let totalRecords = 0
+            let totalUnits = 0
+            let totalRevenue = 0
+            let totalBonus = 0
+            let totalRoyalty = 0
+            let totalIncome = 0
+            let totalCommission = 0
+            let trackDetails = []
+            let platformBreakdown = new Map()
+            let monthlyBreakdown = new Map()
+
+            bonusReports.forEach(report => {
+                if (report.data?.bonusRoyalty) {
+                    const userRecords = report.data.bonusRoyalty.filter(
+                        record => record.accountId === userAccountId
+                    )
+
+                    userRecords.forEach(record => {
+                        totalRecords += 1
+                        totalUnits += record.totalUnits || 0
+                        totalBonus += record.bonus || 0
+                        totalRoyalty += record.royalty || 0
+                        totalIncome += record.income || 0
+                        totalCommission += record.maheshwariVisualsCommission || 0
+
+                        // Track details
+                        if (record.trackTitle) {
+                            trackDetails.push({
+                                trackTitle: record.trackTitle,
+                                artist: record.artist,
+                                albumTitle: record.albumTitle,
+                                musicService: record.musicService,
+                                bonus: record.bonus || 0,
+                                royalty: record.royalty || 0,
+                                totalUnits: record.totalUnits || 0,
+                                month: record.month
+                            })
+                        }
+
+                        // Platform breakdown
+                        const platform = record.musicService || 'Unknown'
+                        const platformData = platformBreakdown.get(platform) || {
+                            platform,
+                            bonus: 0,
+                            royalty: 0,
+                            totalUnits: 0,
+                            trackCount: 0
+                        }
+                        platformData.bonus += record.bonus || 0
+                        platformData.royalty += record.royalty || 0
+                        platformData.totalUnits += record.totalUnits || 0
+                        platformData.trackCount += 1
+                        platformBreakdown.set(platform, platformData)
+
+                        // Monthly breakdown
+                        const month = record.month || 'Unknown'
+                        const monthData = monthlyBreakdown.get(month) || {
+                            month,
+                            bonus: 0,
+                            royalty: 0,
+                            totalUnits: 0,
+                            trackCount: 0
+                        }
+                        monthData.bonus += record.bonus || 0
+                        monthData.royalty += record.royalty || 0
+                        monthData.totalUnits += record.totalUnits || 0
+                        monthData.trackCount += 1
+                        monthlyBreakdown.set(month, monthData)
+                    })
+                }
+            })
+
+            totalRevenue = totalBonus + totalRoyalty
+
+            // Sort track details by bonus (descending)
+            trackDetails.sort((a, b) => b.bonus - a.bonus)
+            const topTracks = trackDetails.slice(0, 10)
+
+            // Convert maps to arrays and sort
+            const platformData = Array.from(platformBreakdown.values())
+                .sort((a, b) => b.bonus - a.bonus)
+
+            const monthlyData = Array.from(monthlyBreakdown.values())
+                .sort((a, b) => a.month.localeCompare(b.month))
+
+            return {
+                totalRecords,
+                totalUnits,
+                totalBonus,
+                totalRoyalty,
+                totalRevenue,
+                totalIncome,
+                totalCommission,
+                topTracks,
+                platformBreakdown: platformData,
+                monthlyBreakdown: monthlyData,
+                reportsCount: bonusReports.length
+            }
+        } catch (error) {
+            throw error
+        }
+    },
+
     async getMcnSummary() {
         try {
             const mcnReports = await ReportData.find({

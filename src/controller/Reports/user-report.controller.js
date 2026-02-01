@@ -2,6 +2,7 @@ import ReportData from '../../model/report-data.model.js'
 import MonthManagement from '../../model/month-management.model.js'
 import Analytics from '../../model/analytics.model.js'
 import Royalty from '../../model/royalty.model.js'
+import reportQuickerController from './report-quicker.controller.js'
 import { EReportType, EReportStatus, EAnalyticsTimeframe, ERoyaltyTimeframe } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
@@ -570,7 +571,8 @@ export default {
                 topEarningTracks,
                 bonusRevenueByPlatform,
                 bonusPlatformPerformance,
-                topBonusEarningTracks
+                topBonusEarningTracks,
+                bonusRoyaltyReportSummary
             ] = await Promise.all([
                 Royalty.getUserTotalEarnings(userAccountId, dateFilter),
                 Royalty.getUserThisMonthEarnings(userAccountId),
@@ -585,7 +587,8 @@ export default {
                 Royalty.getUserTopEarningTracks(userAccountId, 10, dateFilter),
                 Royalty.getUserBonusRoyaltyByPlatform(userAccountId, dateFilter),
                 Royalty.getUserBonusPlatformPerformance(userAccountId, dateFilter),
-                Royalty.getUserTopBonusEarningTracks(userAccountId, 10, dateFilter)
+                Royalty.getUserTopBonusEarningTracks(userAccountId, 10, dateFilter),
+                reportQuickerController.getUserBonusRoyaltySummary(userAccountId)
             ])
 
             // Comprehensive dashboard data in one response
@@ -685,6 +688,23 @@ export default {
                         streams: track.streams || 0,
                         artist: track.artist || 'Unknown'
                     }))
+                },
+
+                // Bonus Royalty Report Summary (from uploaded CSV reports)
+                bonusRoyaltyReports: {
+                    summary: {
+                        totalRecords: bonusRoyaltyReportSummary.totalRecords || 0,
+                        totalUnits: bonusRoyaltyReportSummary.totalUnits || 0,
+                        totalBonus: parseFloat(bonusRoyaltyReportSummary.totalBonus || 0),
+                        totalRoyalty: parseFloat(bonusRoyaltyReportSummary.totalRoyalty || 0),
+                        totalRevenue: parseFloat(bonusRoyaltyReportSummary.totalRevenue || 0),
+                        totalIncome: parseFloat(bonusRoyaltyReportSummary.totalIncome || 0),
+                        totalCommission: parseFloat(bonusRoyaltyReportSummary.totalCommission || 0),
+                        reportsCount: bonusRoyaltyReportSummary.reportsCount || 0
+                    },
+                    topTracks: bonusRoyaltyReportSummary.topTracks || [],
+                    platformBreakdown: bonusRoyaltyReportSummary.platformBreakdown || [],
+                    monthlyBreakdown: bonusRoyaltyReportSummary.monthlyBreakdown || []
                 }
             }
 
