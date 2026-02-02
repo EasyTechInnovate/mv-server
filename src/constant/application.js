@@ -1013,6 +1013,7 @@ export const EMusicTheme = Object.freeze({
 });
 
 export const EMusicLanguage = Object.freeze({
+    INSTRUMENTAL: 'instrumental',
     AFRIKAANS: 'afrikaans',
     ALBANIAN: 'albanian',
     AMHARIC: 'amharic',
