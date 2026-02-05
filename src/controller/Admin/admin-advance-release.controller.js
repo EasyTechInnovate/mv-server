@@ -581,7 +581,7 @@ export default {
                 return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('footprintingData must be an array')), req, 400)
             }
 
-            const release = await AdvancedRelease.findOne({ _id: releaseId, isActive: true })
+            const release = await AdvancedRelease.findOne({ releaseId: releaseId, isActive: true })
 
             if (!release) {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Release')), req, 404)
@@ -594,7 +594,18 @@ export default {
                 checkedAt: new Date()
             }))
 
-            // Append new footprinting data
+            // For each new footprint, remove any existing footprint for the same trackId
+            // This prevents duplicates when re-checking the same track
+            processedData.forEach(newFootprint => {
+                if (newFootprint.trackId) {
+                    // Remove existing footprint for this track
+                    release.audioFootprinting = release.audioFootprinting.filter(
+                        existing => existing.trackId?.toString() !== newFootprint.trackId.toString()
+                    )
+                }
+            })
+
+            // Add new footprinting data
             release.audioFootprinting.push(...processedData)
             await release.save()
 

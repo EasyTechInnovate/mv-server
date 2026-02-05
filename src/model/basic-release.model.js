@@ -333,6 +333,8 @@ const releaseSchema = new mongoose.Schema({
     max: 3
   },
   audioFootprinting: [{
+    trackId: { type: mongoose.Schema.Types.ObjectId, default: null },
+    trackName: { type: String, trim: true, default: null },
     matchPercentage: { type: Number, min: 0, max: 100, default: null },
     title: { type: String, trim: true, default: null },
     label: { type: String, trim: true, default: null },

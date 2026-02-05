@@ -404,6 +404,8 @@ const advancedReleaseSchema = new Schema({
     },
 
     audioFootprinting: [{
+        trackId: { type: Schema.Types.ObjectId, default: null },
+        trackName: { type: String, trim: true, default: null },
         matchPercentage: { type: Number, min: 0, max: 100, default: null },
         title: { type: String, trim: true, default: null },
         label: { type: String, trim: true, default: null },
