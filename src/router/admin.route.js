@@ -256,6 +256,32 @@ router.route('/releases/:releaseId/audio-footprinting')
         adminReleasesController.saveAudioFootprinting
     )
 
+router.route('/releases/edit-requests')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        adminReleasesController.getEditRequests
+    )
+
+router.route('/releases/:releaseId/approve-edit')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(releaseSchemas.releaseIdParam),
+        adminReleasesController.approveEditRequest
+    )
+
+router.route('/releases/:releaseId/reject-edit')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(releaseSchemas.releaseIdParam),
+        adminReleasesController.rejectEditRequest
+    )
+
 router.route('/releases/:releaseId/edit')
     .patch(
         authentication,
@@ -387,6 +413,32 @@ router.route('/advanced-releases/:releaseId/audio-footprinting')
         moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.getReleaseById),
         adminAdvanceReleaseController.saveAudioFootprinting
+    )
+
+router.route('/advanced-releases/edit-requests')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        adminAdvanceReleaseController.getEditRequests
+    )
+
+router.route('/advanced-releases/:releaseId/approve-edit')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(advancedReleaseSchemas.getReleaseById),
+        adminAdvanceReleaseController.approveEditRequest
+    )
+
+router.route('/advanced-releases/:releaseId/reject-edit')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(advancedReleaseSchemas.getReleaseById),
+        adminAdvanceReleaseController.rejectEditRequest
     )
 
 router.route('/sublabels')

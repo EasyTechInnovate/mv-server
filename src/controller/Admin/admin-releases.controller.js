@@ -667,5 +667,154 @@ export default {
         } catch (err) {
             return httpError(next, err, req, 500)
         }
+    },
+
+    async getEditRequests(req, res, next) {
+        try {
+            const { page = 1, limit = 10 } = req.query
+
+            const query = {
+                isActive: true,
+                'updateRequest.requestedAt': { $exists: true, $ne: null }
+            }
+
+            const releases = await BasicRelease.find(query)
+                .populate('userId', 'firstName lastName emailAddress accountId')
+                .sort({ 'updateRequest.requestedAt': -1 })
+                .limit(limit * 1)
+                .skip((page - 1) * limit)
+                .lean()
+
+            const count = await BasicRelease.countDocuments(query)
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Edit requests fetched successfully'),
+                {
+                    releases,
+                    totalPages: Math.ceil(count / limit),
+                    currentPage: page,
+                    totalItems: count
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    async approveEditRequest(req, res, next) {
+        try {
+            const { releaseId } = req.params
+            const adminId = req.authenticatedUser._id
+
+            const release = await BasicRelease.findOne({ releaseId, isActive: true })
+
+            if (!release) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('Release')),
+                    req,
+                    404
+                )
+            }
+
+            if (!release.updateRequest?.requestedAt) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('No edit request found for this release')),
+                    req,
+                    404
+                )
+            }
+
+            // Move release back to draft so user can edit
+            release.releaseStatus = EReleaseStatus.DRAFT
+            
+            // Clear update request
+            release.updateRequest.requestedAt = null
+            release.updateRequest.requestReason = null
+            release.updateRequest.requestedChanges = null
+
+            await release.save()
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Edit request approved - Release moved to draft'),
+                {
+                    releaseId: release.releaseId,
+                    releaseStatus: release.releaseStatus
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    async rejectEditRequest(req, res, next) {
+        try {
+            const { releaseId } = req.params
+            const { reason } = req.body
+
+            if (!reason || !reason.trim()) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.COMMON.INVALID_PARAMETERS('Rejection reason is required')),
+                    req,
+                    400
+                )
+            }
+
+            const release = await BasicRelease.findOne({ releaseId, isActive: true })
+
+            if (!release) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('Release')),
+                    req,
+                    404
+                )
+            }
+
+            if (!release.updateRequest?.requestedAt) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('No edit request found for this release')),
+                    req,
+                    404
+                )
+            }
+
+            // Clear update request and keep original status
+            release.updateRequest.requestedAt = null
+            release.updateRequest.requestReason = null
+            release.updateRequest.requestedChanges = null
+            
+            // If status was update_request, revert to LIVE
+            if (release.releaseStatus === EReleaseStatus.UPDATE_REQUEST) {
+                release.releaseStatus = EReleaseStatus.LIVE
+            }
+
+            await release.save()
+
+            // TODO: Send notification to user about rejection with reason
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Edit request rejected'),
+                {
+                    releaseId: release.releaseId,
+                    releaseStatus: release.releaseStatus,
+                    rejectionReason: reason
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
     }
 };
