@@ -709,6 +709,91 @@ export default {
         }
     },
 
+    async editRelease(req, res, next) {
+        try {
+            const adminId = req.authenticatedUser._id
+            const { releaseId } = req.params
+            const { step1, step2, step3 } = req.body
+
+            const release = await AdvancedRelease.findOne({ releaseId, isActive: true })
+
+            if (!release) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('Release')),
+                    req,
+                    404
+                )
+            }
+
+            // Update step1 - Cover Art & Release Info
+            if (step1) {
+                if (step1.coverArt) {
+                    release.step1.coverArt = {
+                        ...release.step1.coverArt,
+                        ...step1.coverArt
+                    }
+                }
+                if (step1.releaseInfo) {
+                    release.step1.releaseInfo = {
+                        ...release.step1.releaseInfo,
+                        ...step1.releaseInfo
+                    }
+                }
+            }
+
+            // Update step2 - Tracks
+            if (step2 && step2.tracks) {
+                release.step2.tracks = step2.tracks
+            }
+
+            // Update step3 - Delivery & Rights
+            if (step3) {
+                if (step3.deliveryDetails) {
+                    release.step3.deliveryDetails = {
+                        ...release.step3.deliveryDetails,
+                        ...step3.deliveryDetails
+                    }
+                }
+                if (step3.territorialRights) {
+                    release.step3.territorialRights = {
+                        ...release.step3.territorialRights,
+                        ...step3.territorialRights
+                    }
+                }
+                if (step3.distributionPartners) {
+                    release.step3.distributionPartners = step3.distributionPartners
+                }
+                if (step3.copyrightOptions) {
+                    release.step3.copyrightOptions = {
+                        ...release.step3.copyrightOptions,
+                        ...step3.copyrightOptions
+                    }
+                }
+            }
+
+            // Track admin edit
+            if (!release.adminReview) release.adminReview = {}
+            release.adminReview.reviewedBy = adminId
+            release.adminReview.reviewedAt = new Date()
+
+            await release.save()
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Release updated successfully'),
+                {
+                    releaseId: release.releaseId,
+                    updatedAt: release.updatedAt
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
     async rejectEditRequest(req, res, next) {
         try {
             const { releaseId } = req.params

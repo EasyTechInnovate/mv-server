@@ -440,6 +440,15 @@ router.route('/advanced-releases/:releaseId/reject-edit')
         validateRequest(advancedReleaseSchemas.getReleaseById),
         adminAdvanceReleaseController.rejectEditRequest
     )
+ 
+ router.route('/advanced-releases/:releaseId/edit')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(advancedReleaseSchemas.getReleaseById),
+        adminAdvanceReleaseController.editRelease
+    )
 
 router.route('/sublabels')
     .post(
