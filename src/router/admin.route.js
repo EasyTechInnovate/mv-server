@@ -291,6 +291,14 @@ router.route('/releases/:releaseId/edit')
         adminReleasesController.editRelease
     )
 
+router.route('/releases/create-for-user')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        adminReleasesController.createForUser
+    )
+
 router.route('/advanced-releases')
     .get(
         authentication,
@@ -448,6 +456,14 @@ router.route('/advanced-releases/:releaseId/reject-edit')
         moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.getReleaseById),
         adminAdvanceReleaseController.editRelease
+    )
+
+router.route('/advanced-releases/create-for-user')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        adminAdvanceReleaseController.createForUser
     )
 
 router.route('/sublabels')

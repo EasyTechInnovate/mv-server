@@ -24,6 +24,7 @@ import merchStoreRouter from './merch-store.route.js';
 import uploadRoutes from './upload.route.js';
 import walletRouter from './wallet.route.js';
 import payoutRequestRouter from './payout-request.route.js';
+import dashboardRouter from './dashboard.route.js';
 
 const router = Router();
 
@@ -52,6 +53,7 @@ router.use('/merch-store', merchStoreRouter);
 router.use('/upload', uploadRoutes)
 router.use('/wallet', walletRouter);
 router.use('/payout-requests', payoutRequestRouter);
+router.use('/dashboard', dashboardRouter);
 
 
 export default router;

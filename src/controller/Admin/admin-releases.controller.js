@@ -1,9 +1,10 @@
 import BasicRelease from '../../model/basic-release.model.js'
 import User from '../../model/user.model.js'
-import { EReleaseStatus } from '../../constant/application.js'
+import { EReleaseStatus, EReleaseStep } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
+import quicker from '../../util/quicker.js'
 
 export default {
     async self(req, res, next) {
@@ -792,7 +793,7 @@ export default {
             release.updateRequest.requestedAt = null
             release.updateRequest.requestReason = null
             release.updateRequest.requestedChanges = null
-            
+
             // If status was update_request, revert to LIVE
             if (release.releaseStatus === EReleaseStatus.UPDATE_REQUEST) {
                 release.releaseStatus = EReleaseStatus.LIVE
@@ -811,6 +812,95 @@ export default {
                     releaseId: release.releaseId,
                     releaseStatus: release.releaseStatus,
                     rejectionReason: reason
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    async createForUser(req, res, next) {
+        try {
+            const adminId = req.authenticatedUser._id
+            const { userId, trackType, step1, step2, step3 } = req.body
+
+            if (!userId || !trackType) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('userId and trackType are required')),
+                    req,
+                    400
+                )
+            }
+
+            const user = await User.findById(userId)
+            if (!user) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('User')),
+                    req,
+                    404
+                )
+            }
+
+            const releaseId = await quicker.generateReleaseId('basic', trackType, BasicRelease)
+
+            const release = new BasicRelease({
+                userId,
+                releaseId,
+                trackType,
+                releaseStatus: EReleaseStatus.SUBMITTED,
+                currentStep: EReleaseStep.RELEASE_SETTINGS,
+                submittedAt: new Date()
+            })
+
+            // Populate step1
+            if (step1) {
+                if (step1.coverArt) {
+                    release.step1.coverArt = step1.coverArt
+                }
+                if (step1.releaseInfo) {
+                    release.step1.releaseInfo = step1.releaseInfo
+                }
+                release.step1.isCompleted = true
+                release.step1.completedAt = new Date()
+            }
+
+            // Populate step2
+            if (step2 && step2.tracks) {
+                release.step2.tracks = step2.tracks
+                release.step2.isCompleted = true
+                release.step2.completedAt = new Date()
+            }
+
+            // Populate step3
+            if (step3) {
+                if (step3.releaseDate) release.step3.releaseDate = step3.releaseDate
+                if (step3.territorialRights) release.step3.territorialRights = step3.territorialRights
+                if (step3.partnerSelection) release.step3.partnerSelection = step3.partnerSelection
+                if (step3.copyrights) release.step3.copyrights = step3.copyrights
+                release.step3.isCompleted = true
+                release.step3.completedAt = new Date()
+            }
+
+            release.completedSteps = 3
+            release.adminReview.reviewedBy = adminId
+            release.adminReview.reviewedAt = new Date()
+
+            await release.save()
+
+            return httpResponse(
+                req,
+                res,
+                201,
+                responseMessage.customMessage('Release created for user successfully'),
+                {
+                    releaseId: release.releaseId,
+                    userId: user._id,
+                    userName: `${user.firstName} ${user.lastName}`,
+                    trackType: release.trackType,
+                    releaseStatus: release.releaseStatus,
+                    createdAt: release.createdAt
                 }
             )
         } catch (err) {
