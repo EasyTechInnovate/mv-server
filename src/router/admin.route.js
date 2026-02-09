@@ -185,6 +185,14 @@ router.route('/releases/stats')
         adminReleasesController.getReleaseStats
     )
 
+router.route('/releases/edit-requests')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        adminReleasesController.getEditRequests
+    )
+
 router.route('/releases/:releaseId')
     .get(
         authentication,
@@ -247,6 +255,24 @@ router.route('/releases/:releaseId/process-takedown')
         adminReleasesController.processTakeDown
     )
 
+router.route('/releases/:releaseId/reject-takedown')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(releaseSchemas.releaseIdParam),
+        adminReleasesController.rejectTakeDown
+    )
+
+router.route('/releases/:releaseId/revert-takedown')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(releaseSchemas.releaseIdParam),
+        adminReleasesController.revertTakeDown
+    )
+
 router.route('/releases/:releaseId/audio-footprinting')
     .post(
         authentication,
@@ -256,13 +282,8 @@ router.route('/releases/:releaseId/audio-footprinting')
         adminReleasesController.saveAudioFootprinting
     )
 
-router.route('/releases/edit-requests')
-    .get(
-        authentication,
-        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('Release Management'),
-        adminReleasesController.getEditRequests
-    )
+// Moved to before /releases/:releaseId
+// router.route('/releases/edit-requests') ... refactored to top
 
 router.route('/releases/:releaseId/approve-edit')
     .post(
@@ -332,6 +353,22 @@ router.route('/advanced-releases/stats')
         adminAdvanceReleaseController.getReleaseStats
     )
 
+router.route('/advanced-releases/edit-requests')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        adminAdvanceReleaseController.getEditRequests
+    )
+
+router.route('/advanced-releases/create-for-user')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        adminAdvanceReleaseController.createForUser
+    )
+
 router.route('/advanced-releases/:releaseId')
     .get(
         authentication,
@@ -396,6 +433,24 @@ router.route('/advanced-releases/:releaseId/process-takedown')
         adminAdvanceReleaseController.processTakeDown
     )
 
+router.route('/advanced-releases/:releaseId/reject-takedown')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(advancedReleaseSchemas.getReleaseById),
+        adminAdvanceReleaseController.rejectTakeDown
+    )
+
+router.route('/advanced-releases/:releaseId/revert-takedown')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
+        validateRequest(advancedReleaseSchemas.getReleaseById),
+        adminAdvanceReleaseController.revertTakeDown
+    )
+
 router.route('/advanced-releases/:releaseId/provide-upc')
     .post(
         authentication,
@@ -423,13 +478,7 @@ router.route('/advanced-releases/:releaseId/audio-footprinting')
         adminAdvanceReleaseController.saveAudioFootprinting
     )
 
-router.route('/advanced-releases/edit-requests')
-    .get(
-        authentication,
-        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('Release Management'),
-        adminAdvanceReleaseController.getEditRequests
-    )
+// Moved to before /advanced-releases/:releaseId
 
 router.route('/advanced-releases/:releaseId/approve-edit')
     .post(
@@ -458,13 +507,7 @@ router.route('/advanced-releases/:releaseId/reject-edit')
         adminAdvanceReleaseController.editRelease
     )
 
-router.route('/advanced-releases/create-for-user')
-    .post(
-        authentication,
-        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('Release Management'),
-        adminAdvanceReleaseController.createForUser
-    )
+// Moved to before /advanced-releases/:releaseId
 
 router.route('/sublabels')
     .post(

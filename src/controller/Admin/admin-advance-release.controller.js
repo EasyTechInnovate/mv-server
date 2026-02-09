@@ -459,7 +459,8 @@ export default {
             }
 
             release.processTakedown(adminId)
-            release.isActive = false
+            release.releaseStatus = EReleaseStatus.TAKEN_DOWN // New status
+            // release.isActive = false // KEEP ACTIVE
             await release.save()
 
             return httpResponse(
@@ -469,7 +470,107 @@ export default {
                 responseMessage.customMessage('Takedown processed successfully'),
                 {
                     releaseId: release.releaseId,
-                    processedAt: release.takeDown.processedAt
+                    processedAt: release.takeDown.processedAt,
+                    releaseStatus: release.releaseStatus
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    async rejectTakeDown(req, res, next) {
+        try {
+            const adminId = req.authenticatedUser._id
+            const { releaseId } = req.params
+            const { reason } = req.body
+
+            const release = await AdvancedRelease.findOne({ releaseId, isActive: true })
+            if (!release) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('Release')),
+                    req,
+                    404
+                )
+            }
+
+            if (release.releaseStatus !== EReleaseStatus.TAKE_DOWN) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('Only take down requests can be rejected')),
+                    req,
+                    400
+                )
+            }
+
+            // Revert to LIVE
+            release.releaseStatus = EReleaseStatus.LIVE
+            
+             // Clear/Reset takeDown object but keep track if needed
+             // For now, simple reset to allow future requests
+            release.takeDown = undefined
+
+            // Log rejection in admin notes or history?
+            if (!release.adminReview) release.adminReview = {}
+            release.adminReview.reviewedBy = adminId
+            release.adminReview.reviewedAt = new Date()
+            release.adminReview.adminNotes = `Takedown request rejected: ${reason || 'No reason provided'}`
+
+            await release.save()
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Takedown request rejected - Release is Live again'),
+                {
+                    releaseId: release.releaseId,
+                    releaseStatus: release.releaseStatus
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    async revertTakeDown(req, res, next) {
+        try {
+            const adminId = req.authenticatedUser._id
+            const { releaseId } = req.params
+
+            const release = await AdvancedRelease.findOne({ releaseId, isActive: true })
+            if (!release) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('Release')),
+                    req,
+                    404
+                )
+            }
+
+            if (release.releaseStatus !== EReleaseStatus.TAKEN_DOWN) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('Only taken down releases can be restored')),
+                    req,
+                    400
+                )
+            }
+
+            release.releaseStatus = EReleaseStatus.LIVE
+            release.takeDown = undefined // Clear previous takedown info
+            
+            await release.save()
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Release restored to Live successfully'),
+                {
+                    releaseId: release.releaseId,
+                    releaseStatus: release.releaseStatus
                 }
             )
         } catch (err) {

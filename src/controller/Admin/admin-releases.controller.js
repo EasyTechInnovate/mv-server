@@ -457,10 +457,11 @@ export default {
                 );
             }
 
-            if (release.releaseStatus !== EReleaseStatus.TAKE_DOWN) {
+            // Only allow if in TAKE_DOWN status (or LIVE if forcing, but usually TAKE_DOWN)
+            if (release.releaseStatus !== EReleaseStatus.TAKE_DOWN && release.releaseStatus !== EReleaseStatus.LIVE) {
                 return httpError(
                     next,
-                    new Error(responseMessage.customMessage('Only take down requests can be processed')),
+                    new Error(responseMessage.customMessage('Release is not in a valid state for takedown processing')),
                     req,
                     400
                 );
@@ -468,7 +469,8 @@ export default {
 
             release.takeDown.processedAt = new Date();
             release.takeDown.processedBy = adminId;
-            release.isActive = false;
+            release.releaseStatus = EReleaseStatus.TAKEN_DOWN; // New status
+            // release.isActive = false; // KEEP ACTIVE so it shows in admin list
             await release.save();
 
             return httpResponse(
@@ -480,6 +482,99 @@ export default {
                     releaseId: release.releaseId,
                     releaseStatus: release.releaseStatus,
                     takeDown: release.takeDown
+                }
+            );
+        } catch (err) {
+            return httpError(next, err, req, 500);
+        }
+    },
+
+    async rejectTakeDown(req, res, next) {
+        try {
+            const { releaseId } = req.params;
+            const { reason } = req.body; // Optional reason
+
+            const release = await BasicRelease.findOne({ releaseId, isActive: true });
+            if (!release) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('Release')),
+                    req,
+                    404
+                );
+            }
+
+            if (release.releaseStatus !== EReleaseStatus.TAKE_DOWN) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('Only take down requests can be rejected')),
+                    req,
+                    400
+                );
+            }
+
+            // Revert to LIVE
+            release.releaseStatus = EReleaseStatus.LIVE;
+            
+            // Clear takedown data but keep history if needed? 
+            // For now, let's keep request data but mark as rejected? 
+            // Or just clear it to allow fresh request. Clearing is simpler for state.
+            release.takeDown = undefined; 
+
+            await release.save();
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Take down request rejected - Release is Live again'),
+                {
+                    releaseId: release.releaseId,
+                    releaseStatus: release.releaseStatus
+                }
+            );
+        } catch (err) {
+            return httpError(next, err, req, 500);
+        }
+    },
+
+    async revertTakeDown(req, res, next) {
+        try {
+            const adminId = req.authenticatedUser._id;
+            const { releaseId } = req.params;
+
+            const release = await BasicRelease.findOne({ releaseId, isActive: true });
+            if (!release) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('Release')),
+                    req,
+                    404
+                );
+            }
+
+            if (release.releaseStatus !== EReleaseStatus.TAKEN_DOWN) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('Only taken down releases can be restored')),
+                    req,
+                    400
+                );
+            }
+
+            release.releaseStatus = EReleaseStatus.LIVE;
+            release.takeDown = undefined; // Clear previous takedown info
+            
+            await release.save();
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Release restored to Live successfully'),
+                {
+                    releaseId: release.releaseId,
+                    releaseStatus: release.releaseStatus
                 }
             );
         } catch (err) {

@@ -70,7 +70,8 @@ export const EReleaseStatus = Object.freeze({
     LIVE: 'live',
     REJECTED: 'rejected',
     TAKE_DOWN: 'take_down',
-    UPDATE_REQUEST: 'update_request'
+    UPDATE_REQUEST: 'update_request',
+    TAKEN_DOWN: 'taken_down'
 });
 
 export const EMusicGenre = Object.freeze({

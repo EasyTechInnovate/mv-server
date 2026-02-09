@@ -176,7 +176,7 @@ const getMyReleases = z.object({
     query: z.object({
         page: z.string().regex(/^\d+$/, 'Page must be a number').optional(),
         limit: z.string().regex(/^\d+$/, 'Limit must be a number').optional(),
-        status: z.enum(['draft', 'submitted', 'under_review', 'processing', 'published', 'live', 'rejected']).optional(),
+        status: z.enum(['draft', 'submitted', 'under_review', 'processing', 'published', 'live', 'rejected', 'take_down', 'update_request', 'taken_down']).optional(),
         releaseType: z.enum(Object.values(EAdvancedReleaseType)).optional(),
         search: z.string().optional(),
         sortBy: z.enum(['createdAt', 'updatedAt', 'releaseName']).default('createdAt'),
@@ -189,7 +189,7 @@ const adminGetReleases = z.object({
     query: z.object({
         page: z.string().regex(/^\d+$/, 'Page must be a number').optional(),
         limit: z.string().regex(/^\d+$/, 'Limit must be a number').optional(),
-        status: z.enum(['draft', 'submitted', 'under_review', 'processing', 'published', 'live', 'rejected']).optional(),
+        status: z.enum(['draft', 'submitted', 'under_review', 'processing', 'published', 'live', 'rejected', 'take_down', 'update_request', 'taken_down']).optional(),
         releaseType: z.enum(Object.values(EAdvancedReleaseType)).optional(),
         userId: z.string().optional(),
         search: z.string().optional(),

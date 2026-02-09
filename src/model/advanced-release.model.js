@@ -539,6 +539,7 @@ advancedReleaseSchema.methods.rejectRelease = function(reason, reviewedBy = null
 }
 
 advancedReleaseSchema.methods.requestUpdate = function(reason, changes) {
+    this.releaseStatus = EReleaseStatus.UPDATE_REQUEST
     this.updateRequest.requestedAt = new Date()
     this.updateRequest.requestReason = reason
     this.updateRequest.requestedChanges = changes
@@ -546,6 +547,7 @@ advancedReleaseSchema.methods.requestUpdate = function(reason, changes) {
 }
 
 advancedReleaseSchema.methods.requestTakedown = function(reason) {
+    this.releaseStatus = EReleaseStatus.TAKE_DOWN
     this.takeDown.requestedAt = new Date()
     this.takeDown.reason = reason
     return this
