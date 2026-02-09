@@ -483,11 +483,16 @@ export default {
                 query.releaseStatus = status;
             }
 
-            const releases = await BasicRelease.find(query)
+            let queryBuilder = BasicRelease.find(query)
                 .sort({ createdAt: -1 })
                 .limit(limit * 1)
-                .skip((page - 1) * limit)
-                .select('releaseId step1.releaseInfo.releaseName step2.tracks trackType releaseStatus completedSteps totalSteps createdAt submittedAt');
+                .skip((page - 1) * limit);
+
+            if (req.query.isExport !== 'true') {
+                 queryBuilder = queryBuilder.select('releaseId step1.releaseInfo.releaseName step2.tracks trackType releaseStatus completedSteps totalSteps createdAt submittedAt');
+            }
+
+            const releases = await queryBuilder;
 
             const total = await BasicRelease.countDocuments(query);
 
@@ -497,7 +502,7 @@ export default {
                 200,
                 responseMessage.SUCCESS,
                 {
-                    releases: releases.map(release => {
+                    releases: req.query.isExport === 'true' ? releases : releases.map(release => {
                         const nextStepInfo = getNextStepInfo(release);
                         return {
                             releaseId: release.releaseId,
