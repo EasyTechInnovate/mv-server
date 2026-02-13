@@ -27,7 +27,8 @@ export default {
             if (search) {
                 filter.$or = [
                     { 'step1.releaseInfo.releaseName': { $regex: search, $options: 'i' } },
-                    { releaseId: { $regex: search, $options: 'i' } }
+                    { releaseId: { $regex: search, $options: 'i' } },
+                    { accountId: { $regex: search, $options: 'i' } }
                 ]
             }
 

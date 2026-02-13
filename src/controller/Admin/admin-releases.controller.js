@@ -38,6 +38,7 @@ export default {
                         $or: [
                             { firstName: { $regex: searchRegex } },
                             { lastName: { $regex: searchRegex } },
+                            { accountId: { $regex: searchRegex } }
                         ]
                     };
                     const matchingUsers = await User.find(userQuery).select('_id');
@@ -51,7 +52,7 @@ export default {
             }
 
             let releasesQuery = BasicRelease.find(query)
-                .populate('userId', 'firstName lastName emailAddress userType')
+                .populate('userId', 'firstName lastName emailAddress userType accountId')
                 .sort({ createdAt: -1 })
                 .limit(limit * 1)
                 .skip((page - 1) * limit);
@@ -85,7 +86,8 @@ export default {
                     user: {
                         name: `${release.userId.firstName} ${release.userId.lastName}`,
                         email: release.userId.emailAddress,
-                        userType: release.userId.userType
+                        userType: release.userId.userType,
+                        accountId: release.userId.accountId
                     },
                     createdAt: release.createdAt,
                     submittedAt: release.submittedAt,
@@ -165,7 +167,7 @@ export default {
             const { releaseId } = req.params;
 
             const release = await BasicRelease.findOne({ releaseId, isActive: true })
-                .populate('userId', 'firstName lastName emailAddress userType phoneNumber')
+                .populate('userId', 'firstName lastName emailAddress userType phoneNumber accountId')
                 .populate('adminReview.reviewedBy', 'firstName lastName emailAddress');
 
             if (!release) {
@@ -193,7 +195,8 @@ export default {
                         name: `${release.userId.firstName} ${release.userId.lastName}`,
                         email: release.userId.emailAddress,
                         userType: release.userId.userType,
-                        phone: release.userId.phoneNumber
+                        phone: release.userId.phoneNumber,
+                        accountId: release.userId.accountId
                     },
                     step1: release.step1,
                     step2: release.step2,
