@@ -709,6 +709,7 @@ export default {
                     if (step1.coverArt.imageUrl !== undefined) release.step1.coverArt.imageUrl = step1.coverArt.imageUrl
                     if (step1.coverArt.imageSize !== undefined) release.step1.coverArt.imageSize = step1.coverArt.imageSize
                     if (step1.coverArt.imageFormat !== undefined) release.step1.coverArt.imageFormat = step1.coverArt.imageFormat
+                    if (step1.coverArt.singerName !== undefined) release.step1.coverArt.singerName = step1.coverArt.singerName
                 }
                 if (step1.releaseInfo) {
                     if (step1.releaseInfo.releaseName !== undefined) release.step1.releaseInfo.releaseName = step1.releaseInfo.releaseName
@@ -907,6 +908,35 @@ export default {
                     releaseId: release.releaseId,
                     releaseStatus: release.releaseStatus,
                     rejectionReason: reason
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    async permanentDelete(req, res, next) {
+        try {
+            const { releaseId } = req.params
+
+            const release = await BasicRelease.findOneAndDelete({ releaseId })
+
+            if (!release) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('Release')),
+                    req,
+                    404
+                )
+            }
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Release permanently deleted'),
+                {
+                    releaseId: release.releaseId
                 }
             )
         } catch (err) {

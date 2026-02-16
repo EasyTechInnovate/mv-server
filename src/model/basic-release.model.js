@@ -140,7 +140,11 @@ const releaseSchema = new mongoose.Schema({
       imageFormat: {
         type: String,
         enum: ['jpg', 'jpeg', 'png', 'webp']
-      }
+      },
+      singerName: [{
+        type: String,
+        trim: true
+      }]
     },
     releaseInfo: {
       releaseName: {

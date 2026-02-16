@@ -960,6 +960,35 @@ export default {
         }
     },
 
+    async permanentDelete(req, res, next) {
+        try {
+            const { releaseId } = req.params
+
+            const release = await AdvancedRelease.findOneAndDelete({ releaseId })
+
+            if (!release) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.ERROR.NOT_FOUND('Release')),
+                    req,
+                    404
+                )
+            }
+
+            return httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage('Advanced release permanently deleted'),
+                {
+                    releaseId: release.releaseId
+                }
+            )
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
     async createForUser(req, res, next) {
         try {
             const adminId = req.authenticatedUser._id

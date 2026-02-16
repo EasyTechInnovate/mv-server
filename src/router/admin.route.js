@@ -312,6 +312,14 @@ router.route('/releases/:releaseId/edit')
         adminReleasesController.editRelease
     )
 
+router.route('/releases/:releaseId/permanent')
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(releaseSchemas.releaseIdParam),
+        adminReleasesController.permanentDelete
+    )
+
 router.route('/releases/create-for-user')
     .post(
         authentication,
@@ -359,6 +367,14 @@ router.route('/advanced-releases/edit-requests')
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
         moduleAuthorization('Release Management'),
         adminAdvanceReleaseController.getEditRequests
+    )
+
+router.route('/advanced-releases/:releaseId/permanent')
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(advancedReleaseSchemas.getReleaseById),
+        adminAdvanceReleaseController.permanentDelete
     )
 
 router.route('/advanced-releases/create-for-user')
@@ -1146,6 +1162,20 @@ router.route('/support-tickets/:ticketId/escalate')
         moduleAuthorization('Support Tickets'),
         validateRequest(escalateTicketSchema),
         adminSupportTicketController.escalateTicket
+    )
+
+router.route('/wallets/:userId')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminPayoutController.getWalletByUser
+    )
+
+router.route('/wallets/:userId/adjust')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        adminPayoutController.adjustWallet
     )
 
 router.route('/payout-requests')

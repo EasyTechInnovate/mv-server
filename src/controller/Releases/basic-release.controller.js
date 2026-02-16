@@ -178,7 +178,8 @@ export default {
                 release.step1.coverArt = {
                     imageUrl: coverArt.imageUrl,
                     imageSize: coverArt.imageSize,
-                    imageFormat: coverArt.imageFormat
+                    imageFormat: coverArt.imageFormat,
+                    singerName: coverArt.singerName
                 };
             }
 

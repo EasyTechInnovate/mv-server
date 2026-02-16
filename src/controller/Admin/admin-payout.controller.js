@@ -259,6 +259,124 @@ const adminPayoutController = {
         }
     },
 
+    async adjustWallet(req, res, next) {
+        try {
+            const adminId = req.authenticatedUser._id
+            const { userId } = req.params
+            const { type, amount, reason } = req.body
+
+            if (!type || !['credit', 'debit'].includes(type)) {
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('type must be credit or debit')), req, 400)
+            }
+
+            if (!amount || amount <= 0) {
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('amount must be greater than 0')), req, 400)
+            }
+
+            if (!reason || !reason.trim()) {
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('reason is required')), req, 400)
+            }
+
+            const user = await User.findById(userId)
+            if (!user) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404)
+            }
+
+            const wallet = await Wallet.findByUserId(userId)
+            if (!wallet) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Wallet')), req, 404)
+            }
+
+            if (type === 'debit' && amount > wallet.availableBalance) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage(`Insufficient balance. Available: ${wallet.availableBalance}`)),
+                    req,
+                    400
+                )
+            }
+
+            await wallet.applyAdminAdjustment(type, amount, reason.trim(), adminId)
+
+            httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage(`Wallet ${type} of ${amount} applied successfully`),
+                {
+                    userId: user._id,
+                    userName: `${user.firstName} ${user.lastName}`,
+                    adjustment: {
+                        type,
+                        amount,
+                        reason: reason.trim(),
+                        balanceBefore: wallet.adminAdjustments[wallet.adminAdjustments.length - 1].balanceBefore,
+                        balanceAfter: wallet.availableBalance
+                    },
+                    wallet: {
+                        availableBalance: wallet.availableBalance,
+                        withdrawableBalance: wallet.withdrawableBalance,
+                        totalEarnings: wallet.totalEarnings,
+                        pendingPayout: wallet.pendingPayout,
+                        totalPaidOut: wallet.totalPaidOut
+                    }
+                }
+            )
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
+    },
+
+    async getWalletByUser(req, res, next) {
+        try {
+            const { userId } = req.params
+
+            const user = await User.findById(userId).select('firstName lastName emailAddress accountId')
+            if (!user) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404)
+            }
+
+            const wallet = await Wallet.findByUserId(userId)
+            if (!wallet) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Wallet')), req, 404)
+            }
+
+            // Populate adjustedBy in adminAdjustments
+            await wallet.populate('adminAdjustments.adjustedBy', 'firstName lastName emailAddress')
+
+            httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.SUCCESS,
+                {
+                    user: {
+                        id: user._id,
+                        name: `${user.firstName} ${user.lastName}`,
+                        email: user.emailAddress,
+                        accountId: user.accountId
+                    },
+                    wallet: {
+                        totalEarnings: wallet.totalEarnings,
+                        regularRoyalty: wallet.regularRoyalty,
+                        bonusRoyalty: wallet.bonusRoyalty,
+                        mcnRoyalty: wallet.mcnRoyalty,
+                        totalCommission: wallet.totalCommission,
+                        availableBalance: wallet.availableBalance,
+                        pendingPayout: wallet.pendingPayout,
+                        totalPaidOut: wallet.totalPaidOut,
+                        withdrawableBalance: wallet.withdrawableBalance,
+                        lastCalculatedAt: wallet.lastCalculatedAt,
+                        lastCalculatedMonth: wallet.lastCalculatedMonth
+                    },
+                    adminAdjustments: wallet.adminAdjustments
+                }
+            )
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
+    },
+
     async getPayoutStats(req, res, next) {
         try {
             const stats = await PayoutRequest.aggregate([
