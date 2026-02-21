@@ -300,7 +300,7 @@ export default {
 
             const isStepComplete = release.step2.tracks && release.step2.tracks.length > 0 &&
                                    release.step2.tracks.every(track => 
-                                       track.trackLink && track.trackName && 
+                                       track.trackName && 
                                        track.primaryArtists?.length > 0 && track.primaryGenre)
 
             if (isStepComplete && !release.step2.isCompleted) {

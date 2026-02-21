@@ -26,10 +26,11 @@ const contributorSchema = new Schema({
     }
 }, { _id: false })
 
+// Schema for track data within an advanced release
 const trackSchema = new Schema({
     trackLink: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     trackName: {
