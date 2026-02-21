@@ -20,6 +20,7 @@ const updateStep1 = z.object({
     }),
     body: z.object({
         coverArt: z.object({
+            singerName: z.array(z.string().trim().max(100, 'Singer name too long')).optional(),
             imageUrl: z.string().url('Invalid image URL'),
             imageSize: z.number().min(1, 'Image size must be positive').optional(),
             imageFormat: z.enum(['jpg', 'jpeg', 'png', 'webp']).optional()
