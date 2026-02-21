@@ -369,8 +369,7 @@ export default {
 
             if (deliveryDetails) {
                 release.step3.deliveryDetails = {
-                    forFutureRelease: deliveryDetails.forFutureRelease ? new Date(deliveryDetails.forFutureRelease) : null,
-                    forPastRelease: deliveryDetails.forPastRelease ? new Date(deliveryDetails.forPastRelease) : null
+                    releaseDate: deliveryDetails.releaseDate ? new Date(deliveryDetails.releaseDate) : null
                 }
             }
 

@@ -274,11 +274,9 @@ const advancedReleaseSchema = new Schema({
             type: Date
         },
         deliveryDetails: {
-            forFutureRelease: {
-                type: Date
-            },
-            forPastRelease: {
-                type: Date
+            releaseDate: {
+                type: Date,
+                default: null
             }
         },
         territorialRights: {

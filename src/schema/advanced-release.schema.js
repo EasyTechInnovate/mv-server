@@ -97,8 +97,7 @@ const updateStep3 = z.object({
     }),
     body: z.object({
         deliveryDetails: z.object({
-            forFutureRelease: z.string().refine((date) => !isNaN(Date.parse(date)), 'Invalid future release date').optional(),
-            forPastRelease: z.string().refine((date) => !isNaN(Date.parse(date)), 'Invalid past release date').optional()
+            releaseDate: z.string().refine((date) => !isNaN(Date.parse(date)), 'Invalid release date').nullable().optional()
         }).optional(),
         territorialRights: z.object({
             territories: z.array(z.enum(Object.values(ETerritories))).optional(),

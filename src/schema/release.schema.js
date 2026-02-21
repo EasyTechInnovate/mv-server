@@ -73,7 +73,7 @@ const updateStep3 = z.object({
         releaseId: z.string().min(1, 'Release ID is required')
     }),
     body: z.object({
-        releaseDate: z.string().datetime('Invalid release date format').optional(),
+        releaseDate: z.string().datetime('Invalid release date format').nullable().optional(),
         territorialRights: z.object({
             hasRights: z.boolean(),
             territories: z.array(z.enum(Object.values(ETerritories))).optional()
