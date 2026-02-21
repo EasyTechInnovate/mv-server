@@ -209,3 +209,38 @@ Admin can save audio plagiarism check results for any release:
 |-----|--------|---------|
 | `/v1/admin/advanced-releases/:releaseId/provide-upc` | POST | Admin provides UPC code |
 | `/v1/admin/advanced-releases/:releaseId/provide-isrc` | POST | Admin provides ISRC for a track |
+
+---
+
+## Permanent Delete (Hard Delete)
+
+Admin can permanently delete a release from the database (irreversible). Admin-only, no team member access.
+
+| API | Method | Purpose |
+|-----|--------|---------|
+| `/v1/admin/releases/:releaseId/permanent` | DELETE | Permanently delete basic release |
+| `/v1/admin/advanced-releases/:releaseId/permanent` | DELETE | Permanently delete advanced release |
+
+---
+
+## Admin Wallet Adjustment
+
+Admin can manually credit or debit a user's wallet with a reason. All adjustments are tracked with admin info, timestamps, and before/after balances.
+
+| API | Method | Purpose |
+|-----|--------|---------|
+| `/v1/admin/wallets/:userId` | GET | View user wallet details with adjustment history |
+| `/v1/admin/wallets/:userId/adjust` | POST | Credit or debit user wallet |
+
+### Adjust Wallet Body:
+```json
+{
+    "type": "credit" or "debit",
+    "amount": 500,
+    "reason": "Bonus payment for top performer"
+}
+```
+
+### Response includes:
+- Adjustment details (type, amount, reason, balanceBefore, balanceAfter)
+- Updated wallet balances

@@ -66,6 +66,40 @@ const walletSchema = new mongoose.Schema({
         default: null,
         trim: true
     },
+    adminAdjustments: [{
+        type: {
+            type: String,
+            enum: ['credit', 'debit'],
+            required: true
+        },
+        amount: {
+            type: Number,
+            required: true,
+            min: 0
+        },
+        reason: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        adjustedBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        balanceBefore: {
+            type: Number,
+            required: true
+        },
+        balanceAfter: {
+            type: Number,
+            required: true
+        },
+        adjustedAt: {
+            type: Date,
+            default: Date.now
+        }
+    }],
     isActive: {
         type: Boolean,
         default: true
@@ -120,6 +154,34 @@ walletSchema.methods.markPayoutComplete = function(amount) {
     this.pendingPayout -= amount
     this.totalPaidOut += amount
     this.withdrawableBalance = this.availableBalance - this.pendingPayout - this.totalPaidOut
+    return this.save()
+}
+
+walletSchema.methods.applyAdminAdjustment = function(type, amount, reason, adminId) {
+    const balanceBefore = this.availableBalance
+
+    if (type === 'credit') {
+        this.availableBalance += amount
+    } else {
+        this.availableBalance -= amount
+    }
+
+    if (this.availableBalance < 0) {
+        this.availableBalance = 0
+    }
+
+    this.withdrawableBalance = this.availableBalance - this.pendingPayout - this.totalPaidOut
+
+    this.adminAdjustments.push({
+        type,
+        amount,
+        reason,
+        adjustedBy: adminId,
+        balanceBefore,
+        balanceAfter: this.availableBalance,
+        adjustedAt: new Date()
+    })
+
     return this.save()
 }
 
