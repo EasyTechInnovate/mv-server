@@ -118,18 +118,19 @@ export const createLabelSublabel = async (userId, contractStartDate = new Date()
 export const getUserActiveSublabels = async (userId) => {
     try {
         const user = await User.findById(userId)
-            .populate('sublabels.sublabel', 'name membershipStatus contractStartDate contractEndDate')
+            .populate('sublabels.sublabel', 'name membershipStatus isActive contractStartDate contractEndDate')
 
         if (!user) {
             return []
         }
 
         return user.sublabels
-            .filter(sub => sub.isActive)
+            .filter(sub => sub.isActive && sub.sublabel.isActive && sub.sublabel.membershipStatus === 'active')
             .map(sub => ({
                 id: sub.sublabel._id,
                 name: sub.sublabel.name,
                 membershipStatus: sub.sublabel.membershipStatus,
+                isActive: sub.sublabel.isActive,
                 contractStartDate: sub.sublabel.contractStartDate,
                 contractEndDate: sub.sublabel.contractEndDate,
                 isDefault: sub.isDefault,
