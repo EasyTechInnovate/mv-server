@@ -1,0 +1,30 @@
+# Dashboard API Requirements for Backend
+
+This document outlines the missing fields required from the backend APIs to fully populate the User and Admin dashboards. We are ignoring "Active Campaigns" and "This Month's Performance" as per the requirement.
+
+## 1. User Dashboard API (`/v1/dashboard/user`)
+
+The current API is missing data required for the main statistics cards and the charts.
+
+**Missing Fields to Add:**
+- **Total Streams:** The total number of streams across all releases for the user.
+- **Monthly Earnings Chart Data:** An array containing earnings data for the last 6 months to populate the line chart.
+  - Expected format: `[{ month: "Jan", earnings: 15000 }, { month: "Feb", earnings: 22000 }, ...]`
+- **Monthly Streams Chart Data:** An array containing streams data for the last 6 months to populate the bar chart.
+  - Expected format: `[{ month: "Jan", streams: 150000 }, { month: "Feb", streams: 220000 }, ...]`
+- **Recent Releases Enhancement:** The current `recentReleases` object needs additional fields within each release item:
+  - `artistName`: The name of the artist for the release.
+  - `streamsCount`: Total streams for that specific release.
+
+## 2. Admin Dashboard API (`/v1/dashboard/admin`)
+
+The current API covers the basic statistics but lacks data for the charts, system activities, and some specific counts.
+
+**Missing Fields to Add:**
+- **Platform Usage (24h) Chart Data:** An array of data points representing platform usage over the last 24 hours.
+  - Expected format: `[{ time: "00:00", value: 50 }, { time: "04:00", value: 20 }, ...]`
+- **Revenue & User Growth Chart Data:** An array showing monthly revenue/user growth over the last 6 months.
+  - Expected format: `[{ month: "Jan", value: 1800000 }, { month: "Feb", value: 2100000 }, ...]`
+- **Recent System Activities:** A list of recent activities/logs happening on the platform (e.g., new user signups, album uploads, KYC approvals).
+  - Expected format: `[{ type: "success|warning|info", message: "Activity text", time: "time string" }, ...]`
+- **Pending KYC Count:** The total number of users with pending KYC verifications, ideally with a breakdown (e.g., urgent vs. standard).
