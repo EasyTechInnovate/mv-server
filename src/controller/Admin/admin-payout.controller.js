@@ -282,9 +282,9 @@ const adminPayoutController = {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404)
             }
 
-            const wallet = await Wallet.findByUserId(userId)
+            let wallet = await Wallet.findByUserId(userId)
             if (!wallet) {
-                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Wallet')), req, 404)
+                wallet = await Wallet.createWallet(userId, user.accountId)
             }
 
             if (type === 'debit' && amount > wallet.availableBalance) {
@@ -336,9 +336,9 @@ const adminPayoutController = {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404)
             }
 
-            const wallet = await Wallet.findByUserId(userId)
+            let wallet = await Wallet.findByUserId(userId)
             if (!wallet) {
-                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Wallet')), req, 404)
+                wallet = await Wallet.createWallet(userId, user.accountId)
             }
 
             // Populate adjustedBy in adminAdjustments

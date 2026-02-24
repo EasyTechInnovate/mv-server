@@ -69,6 +69,7 @@ const walletController = {
                     pendingPayout: wallet.pendingPayout,
                     withdrawableBalance: wallet.withdrawableBalance
                 },
+                adminAdjustments: wallet.adminAdjustments || [],
                 metadata: {
                     lastCalculatedAt: wallet.lastCalculatedAt,
                     lastCalculatedMonth: wallet.lastCalculatedMonth
