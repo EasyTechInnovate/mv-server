@@ -191,13 +191,7 @@ const releaseSchema = new mongoose.Schema({
   },
   step3: {
     releaseDate: {
-      type: Date,
-      validate: {
-        validator: function(value) {
-          return !value || value >= new Date();
-        },
-        message: 'Release date must be in the future'
-      }
+      type: Date
     },
     territorialRights: {
       hasRights: {
@@ -356,8 +350,8 @@ const releaseSchema = new mongoose.Schema({
       upc: { type: String, trim: true, default: null }
     },
     streamingLinks: {
-      spotify: { type: String, trim: true, default: null },
-      deezer: { type: String, trim: true, default: null }
+      type: mongoose.Schema.Types.Mixed,
+      default: {}
     },
     genres: { type: [String], default: [] },
     checkedAt: { type: Date, default: Date.now },

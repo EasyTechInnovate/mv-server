@@ -61,6 +61,20 @@ router.route('/analytics/dashboard')
         userReportController.getAnalyticsDashboard
     )
 
+router.route('/analytics/export')
+    .get(
+        authentication,
+        authorization([EUserRole.USER, EUserRole.TEAM_MEMBER]),
+        userReportController.exportUserAnalytics
+    )
+
+router.route('/export')
+    .get(
+        authentication,
+        authorization([EUserRole.USER, EUserRole.TEAM_MEMBER]),
+        userReportController.exportUserRoyalty
+    )
+
 // Royalty Management Routes
 
 // Royalty dashboard - comprehensive data in one endpoint (following analytics pattern)

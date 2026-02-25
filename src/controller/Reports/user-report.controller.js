@@ -607,12 +607,12 @@ export default {
                 // Trends over time
                 trends: {
                     monthlyRoyaltyTrends: monthlyRoyaltyTrends.map(item => ({
-                        month: item._id,
+                        period: item.period,
                         regularRoyalty: parseFloat(item.regularRoyalty),
                         totalEarnings: parseFloat(item.totalEarnings)
                     })),
                     monthlyBonusRoyaltyTrends: monthlyBonusRoyaltyTrends.map(item => ({
-                        month: item._id,
+                        period: item.period,
                         bonusRoyalty: parseFloat(item.bonusRoyalty),
                         totalEarnings: parseFloat(item.totalEarnings)
                     }))
@@ -639,15 +639,15 @@ export default {
                     regular: {
                         averageMonthly: parseFloat(performanceMetrics.averageMonthly || 0),
                         bestMonth: {
-                            month: performanceMetrics.bestMonth?.month || null,
-                            amount: parseFloat(performanceMetrics.bestMonth?.amount || 0)
+                            period: performanceMetrics.bestMonth?.period || null,
+                            amount: parseFloat(performanceMetrics.bestMonth?.totalEarnings || 0)
                         },
                         growthRate: parseFloat(performanceMetrics.growthRate || 0)
                     },
                     bonus: {
                         averageMonthly: parseFloat(bonusPerformanceMetrics.averageMonthly || 0),
                         bestMonth: {
-                            month: bonusPerformanceMetrics.bestMonth?.month || null,
+                            period: bonusPerformanceMetrics.bestMonth?.period || null,
                             amount: parseFloat(bonusPerformanceMetrics.bestMonth?.amount || 0)
                         },
                         growthRate: parseFloat(bonusPerformanceMetrics.growthRate || 0)
@@ -875,6 +875,127 @@ export default {
             httpResponse(req, res, 200, responseMessage.SUCCESS, dashboardData)
         } catch (err) {
             httpError(next, err, req, 500)
+        }
+    },
+
+    async exportUserRoyalty(req, res, next) {
+        try {
+            const { monthId, exportType } = req.query;
+            const userAccountId = req.authenticatedUser.accountId;
+
+            if (!monthId || !exportType) {
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('monthId or exportType')), req, 400);
+            }
+
+            let dataToExport = [];
+            let fileName = `${exportType}_royalty_report.csv`;
+
+            if (exportType === 'regular' || exportType === 'bonus') {
+                const query = { monthId, userAccountId };
+                if (exportType === 'regular') query.royaltyType = 'regular';
+                if (exportType === 'bonus') query.royaltyType = 'bonus';
+
+                const records = await Royalty.find(query).lean();
+                
+                dataToExport = records.map(record => ({
+                    'Platform': record.platform || '',
+                    'Country': record.countryCode || '',
+                    'Label Name': record.labelName || '',
+                    'Artist Name': record.artistName || '',
+                    'Album Title': record.albumTitle || '',
+                    'Track Title': record.trackTitle || '',
+                    'UPC': record.upc || '',
+                    'ISRC': record.isrc || '',
+                    'Total Units': record.totalUnits || 0,
+                    'Regular Royalty': record.regularRoyalty || 0,
+                    'Bonus Royalty': record.bonusRoyalty || 0,
+                    'Total Earnings': record.totalEarnings || 0
+                }));
+            } else if (exportType === 'mcn') {
+                const MCN = (await import('../../model/mcn.model.js')).default;
+                const records = await MCN.find({ monthId, userAccountId }).lean();
+
+                dataToExport = records.map(record => ({
+                    'YouTube Channel Name': record.youtubeChannelName || '',
+                    'Asset Channel ID': record.assetChannelId || '',
+                    'Revenue Share %': record.revenueSharePercent || 0,
+                    'YouTube Payout (USD)': record.youtubePayoutUsd || 0,
+                    'Revenue (USD)': record.revenueUsd || 0,
+                    'MV Commission': record.mvCommission || 0,
+                    'Payout Revenue (INR)': record.payoutRevenueInr || 0
+                }));
+            } else {
+                return httpError(next, new Error('Invalid exportType. Must be regular, bonus, or mcn.'), req, 400);
+            }
+
+            if (dataToExport.length === 0) {
+                return httpError(next, new Error('No data found for the selected month and type'), req, 404);
+            }
+
+            // Generate CSV
+            const headers = Object.keys(dataToExport[0]);
+            const headerRow = headers.map(h => `"${h.replace(/"/g, '""')}"`).join(',');
+            const rows = dataToExport.map(row => 
+                headers.map(h => {
+                    const val = row[h] !== undefined && row[h] !== null ? String(row[h]) : '';
+                    return `"${val.replace(/"/g, '""')}"`;
+                }).join(',')
+            );
+            const csvContent = [headerRow, ...rows].join('\n');
+
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`);
+            res.status(200).send(csvContent);
+
+        } catch (err) {
+            httpError(next, err, req, 500);
+        }
+    },
+
+    async exportUserAnalytics(req, res, next) {
+        try {
+            const { monthId } = req.query;
+            const userAccountId = req.authenticatedUser.accountId;
+
+            if (!monthId) {
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('monthId')), req, 400);
+            }
+
+            const records = await Analytics.find({ monthId, userAccountId }).lean();
+
+            if (!records || records.length === 0) {
+                return httpError(next, new Error('No analytics data found for the selected month'), req, 404);
+            }
+
+            const dataToExport = records.map(record => ({
+                'Platform': record.platform || '',
+                'Country': record.countryCode || '',
+                'Label Name': record.labelName || '',
+                'Artist Name': record.artistName || '',
+                'Album Title': record.albumTitle || '',
+                'Track Title': record.trackTitle || '',
+                'UPC': record.upc || '',
+                'ISRC': record.isrc || '',
+                'Total Units': record.totalUnits || 0
+            }));
+
+            // Generate CSV
+            const headers = Object.keys(dataToExport[0]);
+            const headerRow = headers.map(h => `"${h.replace(/"/g, '""')}"`).join(',');
+            const rows = dataToExport.map(row => 
+                headers.map(h => {
+                    const val = row[h] !== undefined && row[h] !== null ? String(row[h]) : '';
+                    return `"${val.replace(/"/g, '""')}"`;
+                }).join(',')
+            );
+            const csvContent = [headerRow, ...rows].join('\n');
+
+            res.setHeader('Content-Type', 'text/csv');
+            res.setHeader('Content-Disposition', `attachment; filename="analytics_report.csv"`);
+            res.status(200).send(csvContent);
+
+        } catch (err) {
+            httpError(next, err, req, 500);
         }
     }
 }
