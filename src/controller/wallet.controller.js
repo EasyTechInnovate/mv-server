@@ -1,5 +1,6 @@
 import Wallet from '../model/wallet.model.js'
 import Royalty from '../model/royalty.model.js'
+import MCN from '../model/mcn.model.js'
 import PayoutRequest from '../model/payoutRequest.model.js'
 import responseMessage from '../constant/responseMessage.js'
 import httpResponse from '../util/httpResponse.js'
@@ -122,6 +123,24 @@ const walletController = {
                 { $sort: { latestDate: -1 } }
             ])
 
+            // ── 1b. MCN earnings ──
+            const mcnMatch = { userAccountId: accountId, isActive: true }
+            if (month && year) {
+                mcnMatch.reportMonth = month
+                mcnMatch.reportYear = parseInt(year)
+            }
+            const mcnByMonth = await MCN.aggregate([
+                { $match: mcnMatch },
+                {
+                    $group: {
+                        _id: { year: '$reportYear', month: '$reportMonth' },
+                        totalEarnings: { $sum: '$payoutRevenueInr' },
+                        latestDate: { $max: '$createdAt' }
+                    }
+                },
+                { $sort: { latestDate: -1 } }
+            ])
+
             // ── 2. Admin adjustments ── embedded in wallet
             let wallet = await Wallet.findByUserId(userId)
             if (!wallet) {
@@ -160,6 +179,18 @@ const walletController = {
                     month: `${r._id.month} ${r._id.year}`,
                     streams: r.totalStreams,
                     date: r.latestDate
+                })
+            })
+
+            mcnByMonth.forEach(m => {
+                transactions.push({
+                    id: `mcn_${m._id.year}_${m._id.month}`,
+                    type: 'mcn_royalty',
+                    direction: 'credit',
+                    amount: parseFloat(m.totalEarnings.toFixed(2)),
+                    description: `MCN Royalty — ${m._id.month} ${m._id.year}`,
+                    month: `${m._id.month} ${m._id.year}`,
+                    date: m.latestDate
                 })
             })
 

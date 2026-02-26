@@ -1,6 +1,8 @@
 import PayoutRequest from '../../model/payoutRequest.model.js'
 import Wallet from '../../model/wallet.model.js'
 import User from '../../model/user.model.js'
+import Royalty from '../../model/royalty.model.js'
+import MCN from '../../model/mcn.model.js'
 import { EPayoutStatus } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
@@ -374,6 +376,177 @@ const adminPayoutController = {
             )
         } catch (err) {
             httpError(next, err, req, 500)
+        }
+    },
+
+    async getTransactionHistoryForUser(req, res, next) {
+        try {
+            const { userId } = req.params
+            const { page = 1, limit = 20, type, month, year } = req.query
+
+            const user = await User.findById(userId).select('firstName lastName emailAddress accountId')
+            if (!user) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404)
+            }
+
+            const accountId = user.accountId
+            const pageNum = parseInt(page)
+            const limitNum = parseInt(limit)
+
+            // ── 1. Royalty credits ──
+            const royaltyMatch = { userAccountId: accountId }
+            if (month && year) {
+                royaltyMatch.reportMonth = month
+                royaltyMatch.reportYear = parseInt(year)
+            }
+            const royaltyByMonth = await Royalty.aggregate([
+                { $match: royaltyMatch },
+                {
+                    $group: {
+                        _id: { year: '$reportYear', month: '$reportMonth', royaltyType: '$royaltyType' },
+                        totalEarnings: { $sum: '$totalEarnings' },
+                        totalStreams: { $sum: '$totalUnits' },
+                        latestDate: { $max: '$createdAt' }
+                    }
+                },
+                { $sort: { latestDate: -1 } }
+            ])
+
+            // ── 2. MCN earnings ──
+            const mcnMatch = { userAccountId: accountId, isActive: true }
+            if (month && year) {
+                mcnMatch.reportMonth = month
+                mcnMatch.reportYear = parseInt(year)
+            }
+            const mcnByMonth = await MCN.aggregate([
+                { $match: mcnMatch },
+                {
+                    $group: {
+                        _id: { year: '$reportYear', month: '$reportMonth' },
+                        totalEarnings: { $sum: '$payoutRevenueInr' },
+                        latestDate: { $max: '$createdAt' }
+                    }
+                },
+                { $sort: { latestDate: -1 } }
+            ])
+
+            // ── 3. Admin adjustments ──
+            let wallet = await Wallet.findByUserId(userId)
+            if (!wallet) {
+                wallet = await Wallet.createWallet(userId, accountId)
+            }
+            await wallet.populate('adminAdjustments.adjustedBy', 'firstName lastName')
+
+            let adminAdjustments = wallet.adminAdjustments || []
+            if (month && year) {
+                adminAdjustments = adminAdjustments.filter(adj => {
+                    const d = new Date(adj.adjustedAt)
+                    return d.getMonth() + 1 === parseInt(month) && d.getFullYear() === parseInt(year)
+                })
+            }
+
+            // ── 4. Payout withdrawals ──
+            const payoutMatch = { userId, isActive: true }
+            if (month && year) {
+                const startOfMonth = new Date(parseInt(year), parseInt(month) - 1, 1)
+                const endOfMonth = new Date(parseInt(year), parseInt(month), 0, 23, 59, 59, 999)
+                payoutMatch.requestedAt = { $gte: startOfMonth, $lte: endOfMonth }
+            }
+            const payouts = await PayoutRequest.find(payoutMatch).sort({ requestedAt: -1 }).lean()
+
+            // ── Build unified list ──
+            const transactions = []
+
+            royaltyByMonth.forEach(r => {
+                const isBonus = r._id.royaltyType === 'bonus'
+                transactions.push({
+                    id: `royalty_${r._id.year}_${r._id.month}_${r._id.royaltyType}`,
+                    type: isBonus ? 'bonus_royalty' : 'regular_royalty',
+                    direction: 'credit',
+                    amount: parseFloat(r.totalEarnings.toFixed(2)),
+                    description: `${isBonus ? 'Bonus' : 'Regular'} Royalty — ${r._id.month} ${r._id.year}`,
+                    month: `${r._id.month} ${r._id.year}`,
+                    streams: r.totalStreams,
+                    date: r.latestDate
+                })
+            })
+
+            mcnByMonth.forEach(m => {
+                transactions.push({
+                    id: `mcn_${m._id.year}_${m._id.month}`,
+                    type: 'mcn_royalty',
+                    direction: 'credit',
+                    amount: parseFloat(m.totalEarnings.toFixed(2)),
+                    description: `MCN Royalty — ${m._id.month} ${m._id.year}`,
+                    month: `${m._id.month} ${m._id.year}`,
+                    date: m.latestDate
+                })
+            })
+
+            adminAdjustments.forEach(adj => {
+                transactions.push({
+                    id: adj._id,
+                    type: 'admin_adjustment',
+                    direction: adj.type,
+                    amount: adj.amount,
+                    description: adj.reason,
+                    date: adj.adjustedAt,
+                    adjustedBy: adj.adjustedBy
+                        ? `${adj.adjustedBy.firstName} ${adj.adjustedBy.lastName}`
+                        : 'Admin',
+                    balanceBefore: adj.balanceBefore,
+                    balanceAfter: adj.balanceAfter
+                })
+            })
+
+            payouts.forEach(p => {
+                transactions.push({
+                    id: p.requestId,
+                    type: 'withdrawal',
+                    direction: 'debit',
+                    amount: p.amount,
+                    description: `Withdrawal — ${p.payoutMethod?.replace('_', ' ')}`,
+                    date: p.requestedAt,
+                    status: p.status,
+                    requestId: p.requestId
+                })
+            })
+
+            const filtered = type ? transactions.filter(t => t.type === type) : transactions
+            filtered.sort((a, b) => new Date(b.date) - new Date(a.date))
+
+            const totalItems = filtered.length
+            const paged = filtered.slice((pageNum - 1) * limitNum, pageNum * limitNum)
+
+            const totalCredits = transactions
+                .filter(t => t.direction === 'credit')
+                .reduce((sum, t) => sum + t.amount, 0)
+            const totalDebits = transactions
+                .filter(t => t.direction === 'debit')
+                .reduce((sum, t) => sum + t.amount, 0)
+
+            return httpResponse(req, res, 200, responseMessage.SUCCESS, {
+                user: {
+                    id: user._id,
+                    name: `${user.firstName} ${user.lastName}`,
+                    email: user.emailAddress,
+                    accountId: user.accountId
+                },
+                transactions: paged,
+                pagination: {
+                    currentPage: pageNum,
+                    totalPages: Math.ceil(totalItems / limitNum),
+                    totalItems,
+                    itemsPerPage: limitNum
+                },
+                summary: {
+                    totalCredits: parseFloat(totalCredits.toFixed(2)),
+                    totalDebits: parseFloat(totalDebits.toFixed(2)),
+                    currentBalance: wallet.availableBalance
+                }
+            })
+        } catch (err) {
+            return httpError(next, err, req, 500)
         }
     },
 
