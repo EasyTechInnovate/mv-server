@@ -244,6 +244,7 @@ Reason:  [_________________________]
 |--------|-------|---------|
 | GET | `/v1/wallet/my-wallet` | Summary card |
 | GET | `/v1/wallet/my-wallet/details` | Detailed breakdown |
+| GET | `/v1/wallet/my-wallet/transactions` | Unified transaction history |
 
 ### User-facing Payout APIs:
 | Method | Route | Purpose |
@@ -264,6 +265,108 @@ Reason:  [_________________________]
 | PATCH | `/v1/admin/payout-requests/:requestId/approve` | Approve request | Admin + Team |
 | PATCH | `/v1/admin/payout-requests/:requestId/reject` | Reject (reason required) | Admin + Team |
 | PATCH | `/v1/admin/payout-requests/:requestId/mark-paid` | Mark as paid | Admin + Team |
+
+---
+
+---
+
+## Part 4 — Transaction History (User dekhe balance kahan se aaya)
+
+```
+GET /v1/wallet/my-wallet/transactions
+```
+
+### Query Params (all optional):
+| Param | Type | Example | Purpose |
+|-------|------|---------|---------|
+| `page` | number | `1` | Pagination |
+| `limit` | number | `20` | Items per page |
+| `type` | string | `regular_royalty` | Filter by type |
+| `month` | string | `January` | Filter by month name |
+| `year` | number | `2026` | Filter by year |
+
+### `type` filter values:
+| Value | What it shows |
+|-------|--------------|
+| `regular_royalty` | Monthly royalty credits from streaming |
+| `bonus_royalty` | Monthly bonus royalty credits |
+| `admin_adjustment` | Manual credit/debit by admin |
+| `withdrawal` | Payout requests (withdrawals) |
+
+### Response:
+```json
+{
+  "transactions": [
+    {
+      "id": "royalty_2026_January_regular",
+      "type": "regular_royalty",
+      "direction": "credit",
+      "amount": 12500.00,
+      "description": "Regular Royalty — January 2026",
+      "month": "January 2026",
+      "streams": 145000,
+      "date": "2026-01-31T..."
+    },
+    {
+      "id": "64f...abc",
+      "type": "admin_adjustment",
+      "direction": "credit",
+      "amount": 5000,
+      "description": "Bonus payment for top performer",
+      "date": "2026-02-10T...",
+      "adjustedBy": "Manish Admin",
+      "balanceBefore": 15000,
+      "balanceAfter": 20000
+    },
+    {
+      "id": "PAY-001",
+      "type": "withdrawal",
+      "direction": "debit",
+      "amount": 10000,
+      "description": "Withdrawal — Bank Transfer",
+      "date": "2026-02-01T...",
+      "status": "paid",
+      "requestId": "PAY-001"
+    }
+  ],
+  "pagination": {
+    "currentPage": 1,
+    "totalPages": 3,
+    "totalItems": 42,
+    "itemsPerPage": 20
+  },
+  "summary": {
+    "totalCredits": 17500.00,
+    "totalDebits": 10000,
+    "currentBalance": 20000
+  }
+}
+```
+
+### UI for Transaction History page:
+
+```
+┌─────────────────────────────────────────────────────┐
+│  Wallet Balance: ₹20,000        [Withdraw]          │
+│  Available to Withdraw: ₹17,000                     │
+├─────────────────────────────────────────────────────┤
+│  Transaction History                                 │
+│  Filter: [All ▼]  [Month ▼]  [Year ▼]              │
+│                                                     │
+│  31 Jan 2026                                        │
+│  ● Regular Royalty - January 2026   +₹12,500 🟢    │
+│    145,000 streams                                  │
+│                                                     │
+│  10 Feb 2026                                        │
+│  ● Admin Adjustment (Credit)        +₹5,000 🟢     │
+│    "Bonus for top performer"                        │
+│    By: Manish Admin                                 │
+│                                                     │
+│  01 Feb 2026                                        │
+│  ● Withdrawal - Bank Transfer       -₹10,000 🔴    │
+│    Status: Paid ✓                                   │
+└─────────────────────────────────────────────────────┘
+```
 
 ---
 

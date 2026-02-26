@@ -20,4 +20,11 @@ router.route('/my-wallet/details')
         walletController.getWalletDetails
     )
 
+router.route('/my-wallet/transactions')
+    .get(
+        authentication,
+        authorization([EUserRole.USER, EUserRole.ADMIN]),
+        walletController.getTransactionHistory
+    )
+
 export default router
