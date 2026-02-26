@@ -257,6 +257,7 @@ Reason:  [_________________________]
 | Method | Route | Purpose | Who |
 |--------|-------|---------|-----|
 | GET | `/v1/admin/wallets/:userId` | View wallet + adjustment history | Admin + Team |
+| GET | `/v1/admin/wallets/:userId/transactions` | Unified transaction history for any user | Admin + Team |
 | POST | `/v1/admin/wallets/:userId/adjust` | Credit / Debit wallet | **Admin only** |
 | GET | `/v1/admin/payout-requests` | All payout requests | Admin + Team |
 | GET | `/v1/admin/payout-requests/pending` | Pending only | Admin + Team |
@@ -290,6 +291,7 @@ GET /v1/wallet/my-wallet/transactions
 |-------|--------------|
 | `regular_royalty` | Monthly royalty credits from streaming |
 | `bonus_royalty` | Monthly bonus royalty credits |
+| `mcn_royalty` | Monthly MCN (YouTube) earnings |
 | `admin_adjustment` | Manual credit/debit by admin |
 | `withdrawal` | Payout requests (withdrawals) |
 
@@ -305,6 +307,15 @@ GET /v1/wallet/my-wallet/transactions
       "description": "Regular Royalty — January 2026",
       "month": "January 2026",
       "streams": 145000,
+      "date": "2026-01-31T..."
+    },
+    {
+      "id": "mcn_2026_January",
+      "type": "mcn_royalty",
+      "direction": "credit",
+      "amount": 3200.00,
+      "description": "MCN Royalty — January 2026",
+      "month": "January 2026",
       "date": "2026-01-31T..."
     },
     {
@@ -357,6 +368,10 @@ GET /v1/wallet/my-wallet/transactions
 │  ● Regular Royalty - January 2026   +₹12,500 🟢    │
 │    145,000 streams                                  │
 │                                                     │
+│  31 Jan 2026                                        │
+│  ● MCN Royalty - January 2026       +₹3,200 🟢     │
+│    YouTube channel earnings                         │
+│                                                     │
 │  10 Feb 2026                                        │
 │  ● Admin Adjustment (Credit)        +₹5,000 🟢     │
 │    "Bonus for top performer"                        │
@@ -366,6 +381,54 @@ GET /v1/wallet/my-wallet/transactions
 │  ● Withdrawal - Bank Transfer       -₹10,000 🔴    │
 │    Status: Paid ✓                                   │
 └─────────────────────────────────────────────────────┘
+```
+
+---
+
+## Part 5 — Admin Unified Transaction History
+
+Admin kisi bhi user ka combined transaction history dekh sakta hai — same format as user's own history.
+
+```
+GET /v1/admin/wallets/:userId/transactions
+```
+
+### Same query params as user API:
+`page`, `limit`, `type`, `month`, `year`
+
+### `type` filter values (same as user):
+`regular_royalty` | `bonus_royalty` | `mcn_royalty` | `admin_adjustment` | `withdrawal`
+
+### Response (same structure + user info):
+```json
+{
+  "user": {
+    "id": "...",
+    "name": "Rahul Sharma",
+    "email": "rahul@example.com",
+    "accountId": "MV-1001"
+  },
+  "transactions": [ ... ],
+  "pagination": { ... },
+  "summary": {
+    "totalCredits": 20700.00,
+    "totalDebits": 10000.00,
+    "currentBalance": 20000
+  }
+}
+```
+
+### UI Suggestion — Where to use this:
+```
+Admin Panel → User Management → User Detail
+                                     |
+                                     | [Wallet Tab]
+                                     |
+                                     |  Balance Card
+                                     |  [Full Transaction History]  ← uses this API
+                                     |  Filter: [All ▼] [Type ▼] [Month ▼]
+                                     |
+                                     |  Also shows [Adjust Wallet] button (Part 3 API)
 ```
 
 ---
