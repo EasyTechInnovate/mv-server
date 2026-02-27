@@ -188,7 +188,7 @@ const walletController = {
                     type: 'mcn_royalty',
                     direction: 'credit',
                     amount: parseFloat(m.totalEarnings.toFixed(2)),
-                    description: `MCN Royalty — ${m._id.month} ${m._id.year}`,
+                    description: `MCN Royalty - ${m._id.month} ${m._id.year}`,
                     month: `${m._id.month} ${m._id.year}`,
                     date: m.latestDate
                 })
@@ -216,10 +216,13 @@ const walletController = {
                     type: 'withdrawal',
                     direction: 'debit',
                     amount: p.amount,
-                    description: `Withdrawal — ${p.payoutMethod?.replace('_', ' ')}`,
+                    description: `Withdrawal - ${p.payoutMethod?.replace('_', ' ')}`,
                     date: p.requestedAt,
                     status: p.status,
-                    requestId: p.requestId
+                    rejectionReason: p.rejectionReason,
+                    requestId: p.requestId,
+                    transactionReference: p.transactionReference,
+                    paidAt: p.paidAt
                 })
             })
 

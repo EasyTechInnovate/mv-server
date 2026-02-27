@@ -1185,6 +1185,13 @@ router.route('/wallets/:userId/adjust')
         adminPayoutController.adjustWallet
     )
 
+router.route('/transactions')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminPayoutController.getAllTransactions
+    )
+
 router.route('/payout-requests')
     .get(
         authentication,
