@@ -419,6 +419,7 @@ releaseSchema.methods.approveForProcessing = function(adminId, notes = '') {
   this.adminReview.reviewedBy = adminId;
   this.adminReview.reviewedAt = new Date();
   this.adminReview.adminNotes = notes;
+  this.adminReview.rejectionReason = undefined;
 };
 
 releaseSchema.methods.startProcessing = function(adminId) {

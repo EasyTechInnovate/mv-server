@@ -158,10 +158,10 @@ export default {
                 )
             }
 
-            if (release.releaseStatus !== EReleaseStatus.DRAFT) {
+            if (![EReleaseStatus.DRAFT, EReleaseStatus.REJECTED].includes(release.releaseStatus)) {
                 return httpError(
                     next,
-                    new Error(responseMessage.customMessage('Only draft releases can be edited')),
+                    new Error(responseMessage.customMessage('Only draft or rejected releases can be edited')),
                     req,
                     400
                 )
@@ -265,10 +265,10 @@ export default {
                 )
             }
 
-            if (release.releaseStatus !== EReleaseStatus.DRAFT) {
+            if (![EReleaseStatus.DRAFT, EReleaseStatus.REJECTED].includes(release.releaseStatus)) {
                 return httpError(
                     next,
-                    new Error(responseMessage.customMessage('Only draft releases can be edited')),
+                    new Error(responseMessage.customMessage('Only draft or rejected releases can be edited')),
                     req,
                     400
                 )
@@ -349,10 +349,10 @@ export default {
                 )
             }
 
-            if (release.releaseStatus !== EReleaseStatus.DRAFT) {
+            if (![EReleaseStatus.DRAFT, EReleaseStatus.REJECTED].includes(release.releaseStatus)) {
                 return httpError(
                     next,
-                    new Error(responseMessage.customMessage('Only draft releases can be edited')),
+                    new Error(responseMessage.customMessage('Only draft or rejected releases can be edited')),
                     req,
                     400
                 )
@@ -442,10 +442,10 @@ export default {
                 )
             }
 
-            if (release.releaseStatus !== EReleaseStatus.DRAFT) {
+            if (![EReleaseStatus.DRAFT, EReleaseStatus.REJECTED].includes(release.releaseStatus)) {
                 return httpError(
                     next,
-                    new Error(responseMessage.customMessage('Only draft releases can be submitted')),
+                    new Error(responseMessage.customMessage('Only draft or rejected releases can be submitted')),
                     req,
                     409
                 )

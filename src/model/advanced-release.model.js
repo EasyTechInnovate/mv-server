@@ -507,6 +507,7 @@ advancedReleaseSchema.methods.submitForReview = function() {
 
 advancedReleaseSchema.methods.approveForProcessing = function() {
     this.releaseStatus = EReleaseStatus.UNDER_REVIEW
+    this.adminReview.rejectionReason = undefined
     return this
 }
 
