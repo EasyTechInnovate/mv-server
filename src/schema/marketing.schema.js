@@ -70,7 +70,7 @@ const createPlaylistPitchingSchema = z.object({
 const getMarketingSubmissionsSchema = z.object({
     query: z.object({
         page: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1)).optional().default('1'),
-        limit: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1).max(100)).optional().default('10'),
+        limit: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1).max(200)).optional().default('10'),
         status: z.enum(Object.values(EMarketingSubmissionStatus)).optional(),
         search: z.string().optional(),
         sortBy: z.enum(['createdAt', 'updatedAt', 'trackName', 'artistName']).optional().default('createdAt'),
@@ -108,7 +108,7 @@ const getPlaylistPitchingByStoreSchema = z.object({
     }),
     query: z.object({
         page: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1)).optional().default('1'),
-        limit: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1).max(100)).optional().default('10'),
+        limit: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1).max(200)).optional().default('10'),
         status: z.enum(Object.values(EMarketingSubmissionStatus)).optional(),
         sortBy: z.enum(['createdAt', 'updatedAt', 'trackName', 'artistName']).optional().default('createdAt'),
         sortOrder: z.enum(['asc', 'desc']).optional().default('desc')
