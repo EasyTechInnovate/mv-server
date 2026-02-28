@@ -545,7 +545,8 @@ export const EModuleAccess = Object.freeze({
     CONTENT_MANAGEMENT: 'Content Management',
     SUPPORT_TICKETS: 'Support Tickets',
     SYSTEM_SETTINGS: 'System Settings',
-    MERCH_MANAGEMENT: 'Merch Management'
+    MERCH_MANAGEMENT: 'Merch Management',
+    AGGREGATOR_MANAGEMENT: 'Aggregator Management'
 });
 
 export const ETeamMemberStatus = Object.freeze({

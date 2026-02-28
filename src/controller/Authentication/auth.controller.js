@@ -227,6 +227,36 @@ export default {
                         redirectTo: isCompanySetupComplete ? '/admin/dashboard' : '/admin/company-settings'
                     }
                 }
+            } else if (user.role === EUserRole.TEAM_MEMBER) {
+                // Team member login — include moduleAccess for frontend access control
+                if (!user.isActive || !user.isInvitationAccepted) {
+                    return httpError(
+                        next,
+                        new Error(responseMessage.customMessage('Your account is not active. Please accept the invitation or contact your administrator.')),
+                        req,
+                        403
+                    )
+                }
+
+                responseData = {
+                    user: {
+                        _id: user._id,
+                        accountId: user.accountId,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        emailAddress: user.emailAddress,
+                        role: user.role,
+                        teamRole: user.teamRole,
+                        department: user.department,
+                        moduleAccess: user.moduleAccess || [],
+                        isActive: user.isActive,
+                        isEmailVerified: user.isEmailVerified
+                    },
+                    tokens: {
+                        accessToken,
+                        refreshToken
+                    }
+                }
             } else {
                 // Regular user login response with KYC status
                 const accountStatus = quicker.getAccountStatus(user)
