@@ -903,6 +903,14 @@ router.route('/users')
         adminAnalyticsController.getAllUsers
     )
 
+router.route('/users/:userId/aggregator-banner')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
+        adminAnalyticsController.updateAggregatorBanner
+    )
+
 router.route('/analytics/self')
     .get(
         authentication,

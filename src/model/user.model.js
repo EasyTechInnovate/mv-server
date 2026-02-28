@@ -408,6 +408,18 @@ const userSchema = new mongoose.Schema(
       },
     },
 
+    aggregatorBanner: {
+      _id: false,
+      heading: {
+        type: String,
+        default: null,
+      },
+      description: {
+        type: String,
+        default: null,
+      },
+    },
+
     socialMedia: {
       _id: false,
       spotify: {

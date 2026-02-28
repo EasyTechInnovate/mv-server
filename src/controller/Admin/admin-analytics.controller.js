@@ -58,5 +58,34 @@ export default {
         } catch (error) {
             httpError(next, error, req, 500)
         }
+    },
+
+    updateAggregatorBanner: async (req, res, next) => {
+        try {
+            const { userId } = req.params;
+            const { heading, description } = req.body;
+
+            const user = await User.findById(userId);
+            if (!user) {
+                return httpError(next, new Error('User not found'), req, 404);
+            }
+
+            if (user.userType !== 'aggregator') {
+                return httpError(next, new Error('User is not an aggregator'), req, 400);
+            }
+
+            user.aggregatorBanner = {
+                heading: heading || null,
+                description: description || null
+            };
+
+            await user.save();
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, {
+                aggregatorBanner: user.aggregatorBanner
+            });
+        } catch (error) {
+            httpError(next, error, req, 500);
+        }
     }
 }

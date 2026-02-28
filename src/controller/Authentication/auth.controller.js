@@ -244,7 +244,8 @@ export default {
                         profileCompletion: user.profileCompletion,
                         hasActiveSubscription: user.hasActiveSubscription,
                         subscription: user.subscription,
-                        kycStatus: user.kycStatus
+                        kycStatus: user.kycStatus,
+                        aggregatorBanner: user.aggregatorBanner
                     },
                     tokens: {
                         accessToken,
@@ -502,6 +503,7 @@ export default {
                     featureAccess: user.featureAccess,
                     socialMedia: user.socialMedia,
                     kyc: user.kyc,
+                    aggregatorBanner: user.aggregatorBanner,
                     createdAt: user.createdAt
                 }
             }
