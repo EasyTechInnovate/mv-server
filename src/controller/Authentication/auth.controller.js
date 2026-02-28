@@ -504,6 +504,9 @@ export default {
                     socialMedia: user.socialMedia,
                     kyc: user.kyc,
                     aggregatorBanner: user.aggregatorBanner,
+                    profile: user.profile,
+                    artistData: user.artistData,
+                    labelData: user.labelData,
                     createdAt: user.createdAt
                 }
             }
