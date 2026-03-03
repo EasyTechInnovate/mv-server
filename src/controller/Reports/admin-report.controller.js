@@ -6,7 +6,8 @@ import Royalty from '../../model/royalty.model.js'
 import Wallet from '../../model/wallet.model.js'
 import User from '../../model/user.model.js'
 import MCN from '../../model/mcn.model.js'
-import { EReportType, EReportStatus } from '../../constant/application.js'
+import { EReportType, EReportStatus, ENotificationCategory, ENotificationTargetType } from '../../constant/application.js'
+import { createNotification } from '../../util/notificationHelper.js'
 import { processCsvFile, calculateReportSummary, validateCsvHeaders } from '../../util/csvProcessor.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
@@ -141,6 +142,23 @@ const adminReportController = {
                 const result = await Analytics.insertMany(analyticsRecords)
                 insertedCount = result.length
 
+                // Notify each affected user about analytics update
+                const uniqueAccountIds = [...new Set(csvData.map(r => r.accountId))]
+                for (const accountId of uniqueAccountIds) {
+                    const user = await User.findOne({ accountId })
+                    if (user) {
+                        createNotification({
+                            type: 'system',
+                            category: ENotificationCategory.ANALYTICS_UPDATE,
+                            title: 'Analytics Updated',
+                            message: `Your analytics data for ${month} has been updated.`,
+                            targetType: ENotificationTargetType.SPECIFIC_USER,
+                            targetUser: user._id,
+                            metadata: { reportType, monthName: month }
+                        }).catch(() => {})
+                    }
+                }
+
             } else if (reportType === EReportType.ROYALTY) {
                 // Clear existing royalty for this month
                 await Royalty.deleteMany({ monthId, royaltyType: 'regular' })
@@ -267,6 +285,17 @@ const adminReportController = {
                             month: reportData.monthId.month
                         })
                         console.log(`✅ Updated wallet for user ${user.accountId}: +${earnings.totalEarnings} INR`)
+
+                        const isBonus = reportType === EReportType.BONUS_ROYALTY
+                        createNotification({
+                            type: 'system',
+                            category: isBonus ? ENotificationCategory.BONUS_ROYALTY_UPDATE : ENotificationCategory.ROYALTY_UPDATE,
+                            title: isBonus ? 'Bonus Royalty Credited' : 'Royalty Credited',
+                            message: `Your ${isBonus ? 'bonus royalty' : 'royalty'} earnings for ${month} have been updated. Amount: ₹${earnings.totalEarnings.toFixed(2)}`,
+                            targetType: ENotificationTargetType.SPECIFIC_USER,
+                            targetUser: user._id,
+                            metadata: { reportType, monthName: month }
+                        }).catch(() => {})
                     }
                 }
             }
@@ -297,6 +326,16 @@ const adminReportController = {
                             month: reportData.monthId.month
                         })
                         console.log(`✅ Updated wallet for user ${user.accountId}: +${earnings.totalEarnings} INR (MCN)`)
+
+                        createNotification({
+                            type: 'system',
+                            category: ENotificationCategory.MCN_UPDATE,
+                            title: 'MCN Royalty Credited',
+                            message: `Your MCN earnings for ${month} have been updated. Amount: ₹${earnings.totalEarnings.toFixed(2)}`,
+                            targetType: ENotificationTargetType.SPECIFIC_USER,
+                            targetUser: user._id,
+                            metadata: { reportType, monthName: month }
+                        }).catch(() => {})
                     }
                 }
             }

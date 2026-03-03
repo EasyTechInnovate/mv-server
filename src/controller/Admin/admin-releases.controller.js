@@ -1,6 +1,7 @@
 import BasicRelease from '../../model/basic-release.model.js'
 import User from '../../model/user.model.js'
-import { EReleaseStatus, EReleaseStep } from '../../constant/application.js'
+import { EReleaseStatus, EReleaseStep, ENotificationCategory, ENotificationTargetType } from '../../constant/application.js'
+import { createNotification } from '../../util/notificationHelper.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
@@ -374,6 +375,16 @@ export default {
             release.goLive(adminId);
             await release.save();
 
+            createNotification({
+                type: 'system',
+                category: ENotificationCategory.CATALOG_LIVE,
+                title: 'Your Release is Now Live!',
+                message: `"${release.step1?.releaseInfo?.releaseName || 'Your release'}" is now live on all platforms.`,
+                targetType: ENotificationTargetType.SPECIFIC_USER,
+                targetUser: release.userId,
+                metadata: { releaseId: release.releaseId, releaseName: release.step1?.releaseInfo?.releaseName }
+            }).catch(() => {})
+
             return httpResponse(
                 req,
                 res,
@@ -475,6 +486,16 @@ export default {
             release.releaseStatus = EReleaseStatus.TAKEN_DOWN; // New status
             // release.isActive = false; // KEEP ACTIVE so it shows in admin list
             await release.save();
+
+            createNotification({
+                type: 'system',
+                category: ENotificationCategory.CATALOG_TAKEDOWN,
+                title: 'Release Taken Down',
+                message: `"${release.step1?.releaseInfo?.releaseName || 'Your release'}" has been taken down from all platforms.`,
+                targetType: ENotificationTargetType.SPECIFIC_USER,
+                targetUser: release.userId,
+                metadata: { releaseId: release.releaseId, releaseName: release.step1?.releaseInfo?.releaseName }
+            }).catch(() => {})
 
             return httpResponse(
                 req,

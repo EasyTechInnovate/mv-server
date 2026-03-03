@@ -13,6 +13,7 @@ import adminCompanySettingsController from '../controller/CompanySettings/admin-
 import adminTeamMemberController from '../controller/TeamMember/admin-team-member.controller.js'
 import adminSupportTicketController from '../controller/SupportTicket/admin-support-ticket.controller.js'
 import adminPayoutController from '../controller/Admin/admin-payout.controller.js'
+import adminNotificationController from '../controller/Admin/admin-notification.controller.js'
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
 import authorization from '../middleware/authorization.js'
@@ -1247,6 +1248,33 @@ router.route('/payout-requests/:requestId/mark-paid')
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
         adminPayoutController.markPayoutAsPaid
+    )
+
+// ── Notifications ──────────────────────────────────────────────────────────
+router.route('/notifications')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        adminNotificationController.create
+    )
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminNotificationController.getAll
+    )
+
+router.route('/notifications/:notificationId')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminNotificationController.getById
+    )
+
+router.route('/notifications/:notificationId/status')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        adminNotificationController.toggleStatus
     )
 
 export default router

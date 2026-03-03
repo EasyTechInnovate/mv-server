@@ -244,3 +244,42 @@ Admin can manually credit or debit a user's wallet with a reason. All adjustment
 ### Response includes:
 - Adjustment details (type, amount, reason, balanceBefore, balanceAfter)
 - Updated wallet balances
+
+---
+
+## Transaction History
+
+| API | Method | Purpose | Who |
+|-----|--------|---------|-----|
+| `/v1/wallet/my-wallet/transactions` | GET | User ki unified transaction history (royalty + MCN + adjustments + withdrawals) | User |
+| `/v1/admin/wallets/:userId/transactions` | GET | Kisi bhi user ki unified transaction history | Admin + Team |
+
+Query params: `page`, `limit`, `type` (`regular_royalty` / `bonus_royalty` / `mcn_royalty` / `admin_adjustment` / `withdrawal`), `month`, `year`
+
+---
+
+## Notification System
+
+Full documentation: `NOTIFICATION_API_DOC.md`
+
+### User APIs
+| Method | Route | Purpose |
+|--------|-------|---------|
+| GET | `/v1/notifications` | My notifications (paginated, with isRead flag) |
+| GET | `/v1/notifications/count` | Unread count for bell badge |
+| PATCH | `/v1/notifications/:notificationId/read` | Mark single as read |
+| PATCH | `/v1/notifications/read-all` | Mark all as read |
+
+### Admin APIs
+| Method | Route | Purpose | Who |
+|--------|-------|---------|-----|
+| POST | `/v1/admin/notifications` | Create custom notification | Admin only |
+| GET | `/v1/admin/notifications` | List all notifications (filter by type/category/status) | Admin + Team |
+| GET | `/v1/admin/notifications/:notificationId` | Single notification detail | Admin + Team |
+| PATCH | `/v1/admin/notifications/:notificationId/status` | Toggle active/inactive | Admin only |
+
+### Auto-Triggered (no API call needed):
+- Royalty / Bonus Royalty / MCN CSV upload → user ko notification
+- Analytics CSV upload → user ko notification
+- Release → LIVE → user ko notification
+- Release → TAKEN_DOWN → user ko notification

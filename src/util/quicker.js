@@ -127,6 +127,22 @@ export default {
         const ticketId = `${prefix}${String(nextNumber).padStart(6, '0')}`
         return ticketId
     },
+
+    generateNotificationId: async (NotificationModel) => {
+        const prefix = 'NOTIF-'
+
+        const latestNotification = await NotificationModel.findOne({
+            notificationId: { $regex: `^${prefix}` }
+        }).sort({ notificationId: -1 })
+
+        let nextNumber = 1
+        if (latestNotification && latestNotification.notificationId) {
+            const currentNumber = parseInt(latestNotification.notificationId.split('-').pop())
+            nextNumber = currentNumber + 1
+        }
+
+        return `${prefix}${String(nextNumber).padStart(6, '0')}`
+    },
     
     getDomainFromUrl: (url) => {
         try {

@@ -50,6 +50,23 @@ export const ENotificationType = Object.freeze({
     SUCCESS: 'success'
 });
 
+export const ENotificationCategory = Object.freeze({
+    ANALYTICS_UPDATE: 'analytics_update',
+    ROYALTY_UPDATE: 'royalty_update',
+    BONUS_ROYALTY_UPDATE: 'bonus_royalty_update',
+    MCN_UPDATE: 'mcn_update',
+    CATALOG_LIVE: 'catalog_live',
+    CATALOG_TAKEDOWN: 'catalog_takedown',
+    CUSTOM: 'custom'
+});
+
+export const ENotificationTargetType = Object.freeze({
+    SPECIFIC_USER: 'specific_user',
+    ALL_ARTISTS: 'all_artists',
+    ALL_LABELS: 'all_labels',
+    ALL_USERS: 'all_users'
+});
+
 // Release related enums
 export const EReleaseType = Object.freeze({
     BASIC: 'basic',
