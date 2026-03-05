@@ -21,12 +21,12 @@ const adminNotificationController = {
             }
 
             if (targetType === ENotificationTargetType.SPECIFIC_USER) {
-                if (!targetUser) {
-                    return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('targetUser is required for specific_user targetType')), req, 400)
+                if (!targetUser || !Array.isArray(targetUser) || targetUser.length === 0) {
+                    return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('targetUser must be a non-empty array for specific_user targetType')), req, 400)
                 }
-                const user = await User.findById(targetUser)
-                if (!user) {
-                    return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404)
+                const users = await User.find({ _id: { $in: targetUser } })
+                if (users.length !== targetUser.length) {
+                    return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('One or more Users')), req, 404)
                 }
             }
 
@@ -36,7 +36,7 @@ const adminNotificationController = {
                 title: title.trim(),
                 message: message.trim(),
                 targetType,
-                targetUser: targetType === ENotificationTargetType.SPECIFIC_USER ? targetUser : null,
+                targetUsers: targetType === ENotificationTargetType.SPECIFIC_USER ? targetUser : [],
                 createdBy: adminId
             })
 
@@ -62,6 +62,7 @@ const adminNotificationController = {
                 Notification.find(filter)
                     .populate('createdBy', 'firstName lastName emailAddress')
                     .populate('targetUser', 'firstName lastName emailAddress accountId')
+                    .populate('targetUsers', 'firstName lastName emailAddress accountId')
                     .sort({ createdAt: -1 })
                     .skip(skip)
                     .limit(limitNum)
@@ -90,6 +91,7 @@ const adminNotificationController = {
             const notification = await Notification.findOne({ notificationId, isActive: true })
                 .populate('createdBy', 'firstName lastName emailAddress')
                 .populate('targetUser', 'firstName lastName emailAddress accountId')
+                .populate('targetUsers', 'firstName lastName emailAddress accountId')
 
             if (!notification) {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Notification')), req, 404)
@@ -121,6 +123,48 @@ const adminNotificationController = {
             return httpResponse(req, res, 200, responseMessage.customMessage(`Notification ${status ? 'enabled' : 'disabled'} successfully`), {
                 notificationId: notification.notificationId,
                 status: notification.status
+            })
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    async searchUsers(req, res, next) {
+        try {
+            const { page = 1, limit = 100, search = '' } = req.query
+            const pageNum = parseInt(page)
+            const limitNum = parseInt(limit)
+            const skip = (pageNum - 1) * limitNum
+
+            const filter = { isActive: true }
+            if (search) {
+                const searchRegex = { $regex: search, $options: 'i' }
+                filter.$or = [
+                    { firstName: searchRegex },
+                    { lastName: searchRegex },
+                    { emailAddress: searchRegex },
+                    { accountId: searchRegex }
+                ]
+            }
+
+            const [users, totalCount] = await Promise.all([
+                User.find(filter)
+                    .select('firstName lastName emailAddress accountId userType')
+                    .limit(limitNum)
+                    .skip(skip)
+                    .lean(),
+                User.countDocuments(filter)
+            ])
+
+            return httpResponse(req, res, 200, responseMessage.SUCCESS, {
+                users,
+                pagination: {
+                    currentPage: pageNum,
+                    totalPages: Math.ceil(totalCount / limitNum),
+                    totalCount,
+                    hasNextPage: pageNum * limitNum < totalCount,
+                    hasPrevPage: pageNum > 1
+                }
             })
         } catch (err) {
             return httpError(next, err, req, 500)

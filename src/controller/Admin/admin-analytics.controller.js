@@ -23,9 +23,10 @@ export default {
 
             if (search) {
                 filter.$or = [
-                    { 'personalInfo.firstName': { $regex: search, $options: 'i' } },
-                    { 'personalInfo.lastName': { $regex: search, $options: 'i' } },
-                    { emailAddress: { $regex: search, $options: 'i' } }
+                    { firstName: { $regex: search, $options: 'i' } },
+                    { lastName: { $regex: search, $options: 'i' } },
+                    { emailAddress: { $regex: search, $options: 'i' } },
+                    { accountId: { $regex: search, $options: 'i' } }
                 ]
             }
 

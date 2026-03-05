@@ -54,6 +54,10 @@ const notificationSchema = new mongoose.Schema({
         ref: 'User',
         default: null
     },
+    targetUsers: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     readBy: [readBySchema],
     readCount: {
         type: Number,
@@ -82,6 +86,7 @@ const notificationSchema = new mongoose.Schema({
 // Indexes
 notificationSchema.index({ notificationId: 1 })
 notificationSchema.index({ targetUser: 1, status: 1, createdAt: -1 })
+notificationSchema.index({ targetUsers: 1, status: 1, createdAt: -1 })
 notificationSchema.index({ targetType: 1, status: 1, createdAt: -1 })
 notificationSchema.index({ createdAt: -1 })
 
@@ -92,9 +97,11 @@ function buildUserQuery(userId, userType) {
         isActive: true,
         $or: [
             { targetType: 'specific_user', targetUser: userId },
+            { targetType: 'specific_user', targetUsers: userId },
             { targetType: 'all_users' },
             ...(userType === 'artist' ? [{ targetType: 'all_artists' }] : []),
-            ...(userType === 'label' ? [{ targetType: 'all_labels' }] : [])
+            ...(userType === 'label' ? [{ targetType: 'all_labels' }] : []),
+            ...(userType === 'aggregator' ? [{ targetType: 'all_aggregators' }] : [])
         ]
     }
 }

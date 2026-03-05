@@ -11,7 +11,8 @@ import quicker from './quicker.js'
  * @param {string} opts.title
  * @param {string} opts.message
  * @param {string} opts.targetType - ENotificationTargetType value
- * @param {ObjectId|null} opts.targetUser - required when targetType === 'specific_user'
+ * @param {ObjectId|null} opts.targetUser - (Legacy) single target user
+ * @param {Array<ObjectId>} opts.targetUsers - required when targetType === 'specific_user'
  * @param {object} opts.metadata  - optional { releaseId, releaseName, reportType, monthName }
  * @param {ObjectId|null} opts.createdBy - admin userId
  */
@@ -22,6 +23,7 @@ export const createNotification = async ({
     message,
     targetType,
     targetUser = null,
+    targetUsers = [],
     metadata = {},
     createdBy = null
 }) => {
@@ -35,6 +37,7 @@ export const createNotification = async ({
         status: true,
         targetType,
         targetUser,
+        targetUsers,
         metadata,
         createdBy,
         readBy: [],

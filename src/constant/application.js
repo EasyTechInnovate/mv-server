@@ -64,6 +64,7 @@ export const ENotificationTargetType = Object.freeze({
     SPECIFIC_USER: 'specific_user',
     ALL_ARTISTS: 'all_artists',
     ALL_LABELS: 'all_labels',
+    ALL_AGGREGATORS: 'all_aggregators',
     ALL_USERS: 'all_users'
 });
 

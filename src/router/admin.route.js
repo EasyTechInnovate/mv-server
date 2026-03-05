@@ -1252,6 +1252,13 @@ router.route('/payout-requests/:requestId/mark-paid')
     )
 
 // ── Notifications ──────────────────────────────────────────────────────────
+router.route('/notifications/users/search')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminNotificationController.searchUsers
+    )
+
 router.route('/notifications')
     .post(
         authentication,
