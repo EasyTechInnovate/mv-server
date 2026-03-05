@@ -29,7 +29,7 @@ const updateStep1 = z.object({
             releaseName: z.string().trim().min(1, 'Release name is required').max(200, 'Release name too long'),
             genre: z.enum(Object.values(EMusicGenre)),
             labelName: z.string().trim().max(100, 'Label name too long').optional(),
-            upc: z.string().regex(/^[0-9]{12}$/, 'UPC must be exactly 12 digits').optional()
+            upc: z.string().regex(/^([0-9]{12,13})?$/, 'UPC must be exactly 12 or 13 digits').optional().or(z.literal(''))
         }).optional()
     })
 })
@@ -42,7 +42,7 @@ const trackSchema = z.object({
     lyricistName: z.string().trim().max(100, 'Lyricist name too long').optional(),
     singerName: z.string().trim().max(100, 'Singer name too long').optional(),
     producerName: z.string().trim().max(100, 'Producer name too long').optional(),
-    isrc: z.string().regex(/^[A-Z]{2}[A-Z0-9]{3}[0-9]{2}[0-9]{5}$/, 'Invalid ISRC format').optional(),
+    isrc: z.string().regex(/^([A-Z]{2}[A-Z0-9]{3}[0-9]{2}[0-9]{5})?$/, 'Invalid ISRC format').optional().or(z.literal('')),
     audioFiles: z.array(z.object({
         format: z.enum(Object.values(EAudioFormat)),
         fileUrl: z.string().url('Invalid file URL'),

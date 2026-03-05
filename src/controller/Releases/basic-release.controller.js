@@ -598,10 +598,10 @@ export default {
                 );
             }
 
-            if (release.releaseStatus === EReleaseStatus.LIVE) {
+            if (release.releaseStatus !== EReleaseStatus.DRAFT) {
                 return httpError(
                     next,
-                    new Error(responseMessage.customMessage('Live releases cannot be deleted')),
+                    new Error(responseMessage.customMessage('Only draft releases can be deleted')),
                     req,
                     400
                 );

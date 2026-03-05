@@ -65,7 +65,7 @@ const updateStep1 = z.object({
             variousArtists: z.array(z.string().trim().max(100, 'Artist name too long')).optional(),
             featuringArtists: z.array(z.string().trim().max(100, 'Artist name too long')).optional(),
             needsUPC: z.boolean().default(false),
-            upcCode: z.string().trim().max(20, 'UPC code too long').optional(),
+            upcCode: z.string().trim().regex(/^([0-9]{12,13})?$/, 'UPC code must be 12 or 13 digits').optional().or(z.literal('')),
             primaryGenre: z.enum(Object.values(EMusicGenre)),
             secondaryGenre: z.enum(Object.values(EMusicGenre)).optional(),
             labelName: z.string().min(1, 'Label selection is required'),
@@ -217,7 +217,7 @@ const provideUPC = z.object({
         releaseId: z.string().min(1, 'Release ID is required')
     }),
     body: z.object({
-        upcCode: z.string().trim().min(1, 'UPC code is required').max(20, 'UPC code too long')
+        upcCode: z.string().trim().regex(/^([0-9]{12,13})?$/, 'UPC code must be 12 or 13 digits').optional().or(z.literal(''))
     })
 })
 

@@ -48,7 +48,8 @@ const trackSchema = new mongoose.Schema({
     trim: true,
     unique: true,
     sparse: true,
-    match: [/^[A-Z]{2}[A-Z0-9]{3}[0-9]{2}[0-9]{5}$/, 'Invalid ISRC format']
+    match: [/^([A-Z]{2}[A-Z0-9]{3}[0-9]{2}[0-9]{5})?$/, 'Invalid ISRC format'],
+    set: v => v === '' ? undefined : v
   },
   audioFiles: [{
     format: {
@@ -166,7 +167,8 @@ const releaseSchema = new mongoose.Schema({
         trim: true,
         unique: true,
         sparse: true,
-        match: [/^[0-9]{12}$/, 'UPC must be exactly 12 digits']
+        match: [/^([0-9]{12,13})?$/, 'UPC must be exactly 12 or 13 digits'],
+        set: v => v === '' ? undefined : v
       }
     },
     isCompleted: {
