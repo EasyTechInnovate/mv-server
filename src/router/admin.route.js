@@ -14,6 +14,7 @@ import adminTeamMemberController from '../controller/TeamMember/admin-team-membe
 import adminSupportTicketController from '../controller/SupportTicket/admin-support-ticket.controller.js'
 import adminPayoutController from '../controller/Admin/admin-payout.controller.js'
 import adminNotificationController from '../controller/Admin/admin-notification.controller.js'
+import adminNewsController from '../controller/News/admin-news.controller.js'
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
 import authorization from '../middleware/authorization.js'
@@ -1275,6 +1276,41 @@ router.route('/notifications/:notificationId/status')
         authentication,
         authorization([EUserRole.ADMIN]),
         adminNotificationController.toggleStatus
+    )
+
+// ── News (Press) Management ─────────────────────────────────────────────────
+router.route('/news')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('News Management'),
+        adminNewsController.createNews
+    )
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('News Management'),
+        adminNewsController.getAllNews
+    )
+
+router.route('/news/:newsId')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('News Management'),
+        adminNewsController.getNewsById
+    )
+    .put(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('News Management'),
+        adminNewsController.updateNews
+    )
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('News Management'),
+        adminNewsController.deleteNews
     )
 
 export default router

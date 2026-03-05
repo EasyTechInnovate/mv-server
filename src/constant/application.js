@@ -563,7 +563,8 @@ export const EModuleAccess = Object.freeze({
     SUPPORT_TICKETS: 'Support Tickets',
     SYSTEM_SETTINGS: 'System Settings',
     MERCH_MANAGEMENT: 'Merch Management',
-    AGGREGATOR_MANAGEMENT: 'Aggregator Management'
+    AGGREGATOR_MANAGEMENT: 'Aggregator Management',
+    NEWS_MANAGEMENT: 'News Management'
 });
 
 export const ETeamMemberStatus = Object.freeze({

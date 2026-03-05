@@ -26,6 +26,7 @@ import walletRouter from './wallet.route.js';
 import payoutRequestRouter from './payout-request.route.js';
 import dashboardRouter from './dashboard.route.js';
 import notificationRouter from './notification.route.js';
+import newsRouter from './news.route.js';
 
 const router = Router();
 
@@ -56,6 +57,7 @@ router.use('/wallet', walletRouter);
 router.use('/payout-requests', payoutRequestRouter);
 router.use('/dashboard', dashboardRouter);
 router.use('/notifications', notificationRouter);
+router.use('/news', newsRouter);
 
 
 export default router;
