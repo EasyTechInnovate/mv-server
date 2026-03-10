@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { ETicketPriority, ETicketStatus, EDepartment, ETicketType } from '../constant/application.js';
+import { ETicketPriority, ETicketStatus, ETeamRole, ETicketType } from '../constant/application.js';
 
 const ticketResponseSchema = new mongoose.Schema({
     message: {
@@ -79,9 +79,9 @@ const supportTicketSchema = new mongoose.Schema({
         ref: 'User',
         default: null
     },
-    assignedDepartment: {
+    assignedTeamRole: {
         type: String,
-        enum: Object.values(EDepartment),
+        enum: Object.values(ETeamRole),
         default: null
     },
     attachments: [{
@@ -177,7 +177,7 @@ supportTicketSchema.index({ userId: 1 });
 supportTicketSchema.index({ status: 1 });
 supportTicketSchema.index({ priority: 1 });
 supportTicketSchema.index({ assignedTo: 1 });
-supportTicketSchema.index({ assignedDepartment: 1 })
+supportTicketSchema.index({ assignedTeamRole: 1 })
 supportTicketSchema.index({ createdAt: -1 })
 supportTicketSchema.index({ lastActivityAt: -1 })
 
@@ -214,10 +214,10 @@ supportTicketSchema.methods.addInternalNote = function (note, addedBy) {
     return this.save()
 }
 
-supportTicketSchema.methods.assignTo = function (userId, department = null) {
+supportTicketSchema.methods.assignTo = function (userId, teamRole = null) {
     this.assignedTo = userId
-    if (department) {
-        this.assignedDepartment = department
+    if (teamRole) {
+        this.assignedTeamRole = teamRole
     }
     this.lastActivityAt = new Date()
     return this.save()
@@ -304,14 +304,14 @@ supportTicketSchema.statics.getCategoryStats = async function () {
     ])
 }
 
-supportTicketSchema.statics.getDepartmentStats = async function () {
+supportTicketSchema.statics.getTeamRoleStats = async function () {
     return await this.aggregate([
         {
-            $match: { assignedDepartment: { $ne: null } }
+            $match: { assignedTeamRole: { $ne: null } }
         },
         {
             $group: {
-                _id: '$assignedDepartment',
+                _id: '$assignedTeamRole',
                 count: { $sum: 1 },
                 openCount: { $sum: { $cond: [{ $eq: ['$status', ETicketStatus.OPEN] }, 1, 0] } },
                 pendingCount: { $sum: { $cond: [{ $eq: ['$status', ETicketStatus.PENDING] }, 1, 0] } }

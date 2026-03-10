@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ETeamRole, EDepartment, EModuleAccess } from '../constant/application.js';
+import { ETeamRole, EModuleAccess } from '../constant/application.js';
 
 const teamMemberSchemas = {
     inviteTeamMemberSchema: z.object({
@@ -19,9 +19,11 @@ const teamMemberSchemas = {
             teamRole: z.enum(Object.values(ETeamRole), {
                 errorMap: () => ({ message: 'Invalid team role' })
             }),
-            department: z.enum(Object.values(EDepartment), {
-                errorMap: () => ({ message: 'Invalid department' })
-            }),
+            mobileNumber: z.string()
+                .trim()
+                .min(10, 'Mobile number must be at least 10 digits')
+                .max(15, 'Mobile number cannot exceed 15 digits')
+                .regex(/^\+?[1-9]\d{1,14}$/, 'Invalid mobile number format'),
             moduleAccess: z.array(z.enum(Object.values(EModuleAccess), {
                 errorMap: () => ({ message: 'Invalid module access' })
             }))
@@ -47,9 +49,11 @@ const teamMemberSchemas = {
             teamRole: z.enum(Object.values(ETeamRole), {
                 errorMap: () => ({ message: 'Invalid team role' })
             }),
-            department: z.enum(Object.values(EDepartment), {
-                errorMap: () => ({ message: 'Invalid department' })
-            }),
+            mobileNumber: z.string()
+                .trim()
+                .min(10, 'Mobile number must be at least 10 digits')
+                .max(15, 'Mobile number cannot exceed 15 digits')
+                .regex(/^\+?[1-9]\d{1,14}$/, 'Invalid mobile number format'),
             moduleAccess: z.array(z.enum(Object.values(EModuleAccess), {
                 errorMap: () => ({ message: 'Invalid module access' })
             }))
@@ -91,8 +95,6 @@ const teamMemberSchemas = {
                 .trim()
                 .optional(),
             teamRole: z.enum(Object.values(ETeamRole))
-                .optional(),
-            department: z.enum(Object.values(EDepartment))
                 .optional(),
             status: z.enum(['active', 'inactive', 'pending'])
                 .optional()

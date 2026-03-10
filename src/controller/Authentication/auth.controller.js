@@ -247,7 +247,7 @@ export default {
                         emailAddress: user.emailAddress,
                         role: user.role,
                         teamRole: user.teamRole,
-                        department: user.department,
+                        mobileNumber: user.mobileNumber,
                         moduleAccess: user.moduleAccess || [],
                         isActive: user.isActive,
                         isEmailVerified: user.isEmailVerified

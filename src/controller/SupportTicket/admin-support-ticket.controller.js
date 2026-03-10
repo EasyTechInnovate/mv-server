@@ -22,7 +22,7 @@ export default {
                 status,
                 category,
                 priority,
-                assignedDepartment,
+                assignedTeamRole,
                 search,
                 sortBy = 'lastActivityAt',
                 sortOrder = 'desc',
@@ -36,7 +36,7 @@ export default {
             if (status) filter.status = status;
             if (category) filter.category = category;
             if (priority) filter.priority = priority;
-            if (assignedDepartment) filter.assignedDepartment = assignedDepartment;
+            if (assignedTeamRole) filter.assignedTeamRole = assignedTeamRole;
 
             if (search) {
                 filter.$or = [
@@ -58,7 +58,7 @@ export default {
 
             const tickets = await SupportTicket.find(filter)
                 .populate('userId', 'firstName lastName emailAddress accountId')
-                .populate('assignedTo', 'firstName lastName emailAddress teamRole department')
+                .populate('assignedTo', 'firstName lastName emailAddress teamRole')
                 .populate('responses.respondedBy', 'firstName lastName emailAddress role teamRole')
                 .populate('internalNotes.addedBy', 'firstName lastName emailAddress role teamRole')
                 .sort(sortOptions)
@@ -91,7 +91,7 @@ export default {
 
             const ticket = await SupportTicket.findOne({ ticketId })
                 .populate('userId', 'firstName lastName emailAddress accountId userType')
-                .populate('assignedTo', 'firstName lastName emailAddress teamRole department')
+                .populate('assignedTo', 'firstName lastName emailAddress teamRole')
                 .populate('responses.respondedBy', 'firstName lastName emailAddress role teamRole')
                 .populate('internalNotes.addedBy', 'firstName lastName emailAddress role teamRole');
 
@@ -137,7 +137,7 @@ export default {
 
             const updatedTicket = await SupportTicket.findById(ticket._id)
                 .populate('userId', 'firstName lastName emailAddress accountId')
-                .populate('assignedTo', 'firstName lastName emailAddress teamRole department');
+                .populate('assignedTo', 'firstName lastName emailAddress teamRole');
 
             if (ticket.userId) {
                 const user = await User.findById(ticket.userId);
@@ -160,7 +160,7 @@ export default {
     async assignTicket(req, res, next) {
         try {
             const { ticketId } = req.params;
-            const { assignedTo, assignedDepartment } = req.body;
+            const { assignedTo, assignedTeamRole } = req.body;
 
             const ticket = await SupportTicket.findOne({ ticketId });
 
@@ -185,11 +185,11 @@ export default {
                 }
             }
 
-            await ticket.assignTo(assignedTo, assignedDepartment);
+            await ticket.assignTo(assignedTo, assignedTeamRole);
 
             const updatedTicket = await SupportTicket.findById(ticket._id)
                 .populate('userId', 'firstName lastName emailAddress accountId')
-                .populate('assignedTo', 'firstName lastName emailAddress teamRole department');
+                .populate('assignedTo', 'firstName lastName emailAddress teamRole');
 
             if (assignedTo) {
                 const assignee = await User.findById(assignedTo);
@@ -241,7 +241,7 @@ export default {
 
             const updatedTicket = await SupportTicket.findById(ticket._id)
                 .populate('userId', 'firstName lastName emailAddress accountId')
-                .populate('assignedTo', 'firstName lastName emailAddress teamRole department');
+                .populate('assignedTo', 'firstName lastName emailAddress teamRole');
 
             if (ticket.userId) {
                 const user = await User.findById(ticket.userId);
@@ -289,7 +289,7 @@ export default {
 
             const updatedTicket = await SupportTicket.findById(ticket._id)
                 .populate('userId', 'firstName lastName emailAddress accountId')
-                .populate('assignedTo', 'firstName lastName emailAddress teamRole department');
+                .populate('assignedTo', 'firstName lastName emailAddress teamRole');
 
             httpResponse(req, res, 200, responseMessage.UPDATED, updatedTicket);
         } catch (err) {
@@ -331,7 +331,7 @@ export default {
 
             const updatedTicket = await SupportTicket.findById(ticket._id)
                 .populate('userId', 'firstName lastName emailAddress accountId')
-                .populate('assignedTo', 'firstName lastName emailAddress teamRole department')
+                .populate('assignedTo', 'firstName lastName emailAddress teamRole')
                 .populate('responses.respondedBy', 'firstName lastName emailAddress role teamRole');
 
             if (!isInternal && ticket.userId) {
@@ -372,7 +372,7 @@ export default {
 
             const updatedTicket = await SupportTicket.findById(ticket._id)
                 .populate('userId', 'firstName lastName emailAddress accountId')
-                .populate('assignedTo', 'firstName lastName emailAddress teamRole department')
+                .populate('assignedTo', 'firstName lastName emailAddress teamRole')
                 .populate('internalNotes.addedBy', 'firstName lastName emailAddress role teamRole');
 
             httpResponse(req, res, 200, responseMessage.UPDATED, updatedTicket);
@@ -409,7 +409,7 @@ export default {
 
             const updatedTicket = await SupportTicket.findById(ticket._id)
                 .populate('userId', 'firstName lastName emailAddress accountId')
-                .populate('assignedTo', 'firstName lastName emailAddress teamRole department');
+                .populate('assignedTo', 'firstName lastName emailAddress teamRole');
 
             httpResponse(req, res, 200, responseMessage.UPDATED, updatedTicket);
         } catch (err) {
@@ -419,7 +419,7 @@ export default {
 
     async getTicketStats(req, res, next) {
         try {
-            const { dateFrom, dateTo, department } = req.query;
+            const { dateFrom, dateTo, teamRole } = req.query;
 
             const matchFilter = {};
 
@@ -429,13 +429,13 @@ export default {
                 if (dateTo) matchFilter.createdAt.$lte = new Date(dateTo);
             }
 
-            if (department) {
-                matchFilter.assignedDepartment = department;
+            if (teamRole) {
+                matchFilter.assignedTeamRole = teamRole;
             }
 
             const stats = await SupportTicket.getTicketStats();
             const categoryStats = await SupportTicket.getCategoryStats();
-            const departmentStats = await SupportTicket.getDepartmentStats();
+            const teamRoleStats = await SupportTicket.getTeamRoleStats();
 
             const priorityStats = await SupportTicket.aggregate([
                 { $match: matchFilter },
@@ -495,7 +495,6 @@ export default {
                         _id: '$assignedTo',
                         assigneeName: { $first: { $concat: ['$assignee.firstName', ' ', '$assignee.lastName'] } },
                         teamRole: { $first: '$assignee.teamRole' },
-                        department: { $first: '$assignee.department' },
                         totalAssigned: { $sum: 1 },
                         resolved: { $sum: { $cond: [{ $eq: ['$status', ETicketStatus.RESOLVED] }, 1, 0] } },
                         closed: { $sum: { $cond: [{ $eq: ['$status', ETicketStatus.CLOSED] }, 1, 0] } }
@@ -507,7 +506,7 @@ export default {
             const result = {
                 overallStats: stats,
                 categoryStats,
-                departmentStats,
+                teamRoleStats,
                 priorityStats,
                 resolutionStats: resolutionStats[0] || { averageResolutionTime: 0, totalResolved: 0 },
                 teamPerformance

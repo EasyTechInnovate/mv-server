@@ -1,5 +1,5 @@
 import User from '../../model/user.model.js';
-import { EUserRole, ETeamRole, EDepartment, EModuleAccess, ETeamMemberStatus } from '../../constant/application.js';
+import { EUserRole, ETeamRole, EModuleAccess, ETeamMemberStatus } from '../../constant/application.js';
 import responseMessage from '../../constant/responseMessage.js';
 import httpResponse from '../../util/httpResponse.js';
 import httpError from '../../util/httpError.js';
@@ -16,7 +16,7 @@ export default {
 
     async inviteTeamMember(req, res, next) {
         try {
-            const { firstName, lastName, emailAddress, teamRole, department, moduleAccess } = req.body;
+            const { firstName, lastName, emailAddress, teamRole, mobileNumber, moduleAccess } = req.body;
 
             const existingUser = await User.findOne({ emailAddress });
             if (existingUser) {
@@ -38,7 +38,7 @@ export default {
                 emailAddress,
                 role: EUserRole.TEAM_MEMBER,
                 teamRole,
-                department,
+                mobileNumber,
                 moduleAccess,
                 invitedBy: req.authenticatedUser._id,
                 isInvitationAccepted: false,
@@ -65,7 +65,7 @@ export default {
                 lastName: teamMember.lastName,
                 emailAddress: teamMember.emailAddress,
                 teamRole: teamMember.teamRole,
-                department: teamMember.department,
+                mobileNumber: teamMember.mobileNumber,
                 moduleAccess: teamMember.moduleAccess,
                 invitationToken,
                 invitationExpiresAt: teamMember.invitationExpiresAt,
@@ -86,7 +86,7 @@ export default {
 
     async getAllTeamMembers(req, res, next) {
         try {
-            const { page = 1, limit = 10, search, teamRole, department, status } = req.query;
+            const { page = 1, limit = 10, search, teamRole, status } = req.query;
 
             let query = { role: EUserRole.TEAM_MEMBER };
 
@@ -100,10 +100,6 @@ export default {
 
             if (teamRole) {
                 query.teamRole = teamRole;
-            }
-
-            if (department) {
-                query.department = department;
             }
 
             if (status === 'active') {
@@ -182,7 +178,7 @@ export default {
     async updateTeamMember(req, res, next) {
         try {
             const { teamMemberId } = req.params;
-            const { firstName, lastName, teamRole, department, moduleAccess } = req.body;
+            const { firstName, lastName, teamRole, mobileNumber, moduleAccess } = req.body;
 
             const teamMember = await User.findOne({
                 _id: teamMemberId,
@@ -201,7 +197,7 @@ export default {
             teamMember.firstName = firstName;
             teamMember.lastName = lastName;
             teamMember.teamRole = teamRole;
-            teamMember.department = department;
+            teamMember.mobileNumber = mobileNumber;
             teamMember.moduleAccess = moduleAccess;
 
             await teamMember.save();
@@ -221,7 +217,7 @@ export default {
                 lastName: teamMember.lastName,
                 emailAddress: teamMember.emailAddress,
                 teamRole: teamMember.teamRole,
-                department: teamMember.department,
+                mobileNumber: teamMember.mobileNumber,
                 moduleAccess: teamMember.moduleAccess,
                 isActive: teamMember.isActive,
                 isInvitationAccepted: teamMember.isInvitationAccepted,
@@ -389,12 +385,6 @@ export default {
                 isInvitationAccepted: false
             });
 
-            const departmentStats = await User.aggregate([
-                { $match: { role: EUserRole.TEAM_MEMBER } },
-                { $group: { _id: '$department', count: { $sum: 1 } } },
-                { $sort: { count: -1 } }
-            ]);
-
             const roleStats = await User.aggregate([
                 { $match: { role: EUserRole.TEAM_MEMBER } },
                 { $group: { _id: '$teamRole', count: { $sum: 1 } } },
@@ -406,7 +396,6 @@ export default {
                 activeTeamMembers,
                 pendingInvitations,
                 inactiveTeamMembers: totalTeamMembers - activeTeamMembers - pendingInvitations,
-                departmentDistribution: departmentStats,
                 roleDistribution: roleStats
             };
 

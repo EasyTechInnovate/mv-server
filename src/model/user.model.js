@@ -9,7 +9,6 @@ import {
   ESubscriptionStatus,
   ENotificationType,
   ETeamRole,
-  EDepartment,
   EModuleAccess,
   ETeamMemberStatus,
 } from "../constant/application.js";
@@ -175,12 +174,13 @@ const userSchema = new mongoose.Schema(
       },
     },
 
-    department: {
+    mobileNumber: {
       type: String,
-      enum: Object.values(EDepartment),
       required: function () {
         return this.role === EUserRole.TEAM_MEMBER;
       },
+      trim: true,
+      match: [/^\+?[1-9]\d{1,14}$/, "Please provide a valid mobile number"]
     },
 
     moduleAccess: [{

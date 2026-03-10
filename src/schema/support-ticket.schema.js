@@ -2,7 +2,7 @@ import { z } from 'zod'
 import {
     ETicketPriority,
     ETicketStatus,
-    EDepartment,
+    ETeamRole,
     ETicketType,
     ENormalTicketCategory,
     ETicketCategory,
@@ -168,10 +168,10 @@ const getTicketsSchema = z.object({
         limit: z.string()
             .optional()
             .transform((val) => val ? parseInt(val, 10) : 10)
-            .pipe(z.number().min(1, 'Limit must be at least 1').max(100, 'Limit must be at most 100')),
+            .pipe(z.number().min(1, 'Limit must be at least 1').max(500, 'Limit must be at most 500')),
         status: z.enum(Object.values(ETicketStatus)).optional(),
         priority: z.enum(Object.values(ETicketPriority)).optional(),
-        assignedDepartment: z.enum(Object.values(EDepartment)).optional(),
+        assignedTeamRole: z.enum(Object.values(ETeamRole)).optional(),
         search: z.string().trim().optional(),
         sortBy: z.enum(['createdAt', 'lastActivityAt', 'priority', 'status']).optional().default('lastActivityAt'),
         sortOrder: z.enum(['asc', 'desc']).optional().default('desc'),
@@ -210,8 +210,8 @@ const updateTicketSchema = z.object({
             .trim()
             .optional()
             .nullable(),
-        assignedDepartment: z.enum(Object.values(EDepartment), {
-            errorMap: () => ({ message: 'Invalid department' })
+        assignedTeamRole: z.enum(Object.values(ETeamRole), {
+            errorMap: () => ({ message: 'Invalid team role' })
         }).optional().nullable(),
         tags: z.array(z.string().trim().toLowerCase()).optional(),
         details: z.any().optional(),
@@ -263,8 +263,8 @@ const assignTicketSchema = z.object({
             .trim()
             .optional()
             .nullable(),
-        assignedDepartment: z.enum(Object.values(EDepartment), {
-            errorMap: () => ({ message: 'Invalid department' })
+        assignedTeamRole: z.enum(Object.values(ETeamRole), {
+            errorMap: () => ({ message: 'Invalid team role' })
         }).optional().nullable()
     })
 })
@@ -326,7 +326,7 @@ const getTicketStatsSchema = z.object({
     query: z.object({
         dateFrom: z.string().optional().transform((val) => val ? new Date(val) : undefined),
         dateTo: z.string().optional().transform((val) => val ? new Date(val) : undefined),
-        department: z.enum(Object.values(EDepartment)).optional()
+        teamRole: z.enum(Object.values(ETeamRole)).optional()
     })
 })
 
@@ -337,7 +337,7 @@ const bulkUpdateTicketsSchema = z.object({
             status: z.enum(Object.values(ETicketStatus)).optional(),
             priority: z.enum(Object.values(ETicketPriority)).optional(),
             assignedTo: z.string().trim().optional().nullable(),
-            assignedDepartment: z.enum(Object.values(EDepartment)).optional().nullable(),
+            assignedTeamRole: z.enum(Object.values(ETeamRole)).optional().nullable(),
             tags: z.array(z.string().trim().toLowerCase()).optional()
         }).refine((data) => {
             const hasUpdates = Object.keys(data).length > 0

@@ -58,7 +58,7 @@ export default {
                 lastName: teamMember.lastName,
                 emailAddress: teamMember.emailAddress,
                 teamRole: teamMember.teamRole,
-                department: teamMember.department,
+                mobileNumber: teamMember.mobileNumber,
                 moduleAccess: teamMember.moduleAccess,
                 isActive: teamMember.isActive,
                 createdAt: teamMember.createdAt
@@ -87,7 +87,7 @@ export default {
                 invitationExpiresAt: { $gt: new Date() }
             })
             .populate('invitedBy', 'firstName lastName emailAddress')
-            .select('firstName lastName emailAddress teamRole department moduleAccess invitationExpiresAt invitedBy createdAt');
+            .select('firstName lastName emailAddress teamRole mobileNumber moduleAccess invitationExpiresAt invitedBy createdAt');
 
             if (!teamMember) {
                 return httpError(
@@ -170,7 +170,7 @@ export default {
                 lastName: teamMember.lastName,
                 emailAddress: teamMember.emailAddress,
                 teamRole: teamMember.teamRole,
-                department: teamMember.department,
+                mobileNumber: teamMember.mobileNumber,
                 moduleAccess: teamMember.moduleAccess,
                 updatedAt: teamMember.updatedAt
             };

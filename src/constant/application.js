@@ -536,19 +536,14 @@ export const ECompanySettingsStatus = Object.freeze({
 });
 
 export const ETeamRole = Object.freeze({
-    ADMIN: 'Admin',
-    CONTENT_MANAGER: 'Content Manager',
-    DEVELOPER: 'Developer',
-    MARKETING_HEAD: 'Marketing Head',
-    SUPPORT_SPECIALIST: 'Support Specialist'
-});
-
-export const EDepartment = Object.freeze({
-    MANAGEMENT: 'Management',
+    GENERAL: 'General',
     CONTENT: 'Content',
-    TECHNOLOGY: 'Technology',
     MARKETING: 'Marketing',
-    SUPPORT: 'Support'
+    USER_ACCOUNTS: 'User Accounts & Membership',
+    FINANCE_ROYALTY: 'Finance - Royalty',
+    FINANCE_MEMBERSHIP: 'Finance - Membership',
+    COPYRIGHTS: 'Copyrights',
+    OTHER: 'Other'
 });
 
 export const EModuleAccess = Object.freeze({
