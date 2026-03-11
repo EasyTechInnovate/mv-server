@@ -180,6 +180,14 @@ const getTicketsSchema = z.object({
     })
 })
 
+const deleteTicketSchema = z.object({
+    params: z.object({
+        ticketId: z.string()
+            .trim()
+            .min(1, 'Ticket ID is required')
+    })
+})
+
 const getTicketByIdSchema = z.object({
     params: z.object({
         ticketId: z.string()
@@ -348,9 +356,20 @@ const bulkUpdateTicketsSchema = z.object({
     })
 })
 
+const bulkDeleteTicketsSchema = z.object({
+    body: z.object({
+        ticketIds: z.array(
+            z.string()
+                .trim()
+                .min(1, 'Ticket ID is required')
+        ).min(1, 'At least one Ticket ID is required')
+    })
+})
+
 export {
     createTicketSchema,
     getTicketsSchema,
+    deleteTicketSchema,
     getTicketByIdSchema,
     updateTicketSchema,
     addResponseSchema,
@@ -361,5 +380,6 @@ export {
     escalateTicketSchema,
     addSatisfactionRatingSchema,
     getTicketStatsSchema,
-    bulkUpdateTicketsSchema
+    bulkUpdateTicketsSchema,
+    bulkDeleteTicketsSchema
 }

@@ -157,6 +157,29 @@ export default {
         }
     },
 
+    async deleteTicket(req, res, next) {
+        try {
+            const { ticketId } = req.params;
+
+            const ticket = await SupportTicket.findOne({ ticketId });
+
+            if (!ticket) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('Ticket not found')),
+                    req,
+                    404
+                );
+            }
+
+            await SupportTicket.deleteOne({ _id: ticket._id });
+
+            httpResponse(req, res, 200, responseMessage.customMessage('Ticket deleted permanently.'));
+        } catch (err) {
+            httpError(next, err, req, 500);
+        }
+    },
+
     async assignTicket(req, res, next) {
         try {
             const { ticketId } = req.params;
@@ -549,6 +572,30 @@ export default {
                 updatedCount: tickets.length,
                 ticketIds: tickets.map(t => t.ticketId)
             });
+        } catch (err) {
+            httpError(next, err, req, 500);
+        }
+    },
+
+    async bulkDeleteTickets(req, res, next) {
+        try {
+            const { ticketIds } = req.body;
+
+            const tickets = await SupportTicket.find({ ticketId: { $in: ticketIds } });
+
+            if (tickets.length === 0) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('No tickets found')),
+                    req,
+                    404
+                );
+            }
+
+            const deletedIds = tickets.map(t => t._id);
+            await SupportTicket.deleteMany({ _id: { $in: deletedIds } });
+
+            httpResponse(req, res, 200, responseMessage.customMessage('Tickets deleted permanently.'));
         } catch (err) {
             httpError(next, err, req, 500);
         }

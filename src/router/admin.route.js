@@ -42,8 +42,10 @@ import {
     updateTicketStatusSchema,
     updateTicketPrioritySchema,
     escalateTicketSchema,
+    deleteTicketSchema,
     getTicketStatsSchema,
-    bulkUpdateTicketsSchema
+    bulkUpdateTicketsSchema,
+    bulkDeleteTicketsSchema
 } from '../schema/support-ticket.schema.js'
 import { uploadFiles } from '../middleware/multerHandler.js'
 
@@ -1104,6 +1106,14 @@ router.route('/support-tickets/bulk-update')
         adminSupportTicketController.bulkUpdateTickets
     )
 
+router.route('/support-tickets/bulk/permanent')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(bulkDeleteTicketsSchema),
+        adminSupportTicketController.bulkDeleteTickets
+    )
+
 router.route('/support-tickets/:ticketId')
     .get(
         authentication,
@@ -1118,6 +1128,12 @@ router.route('/support-tickets/:ticketId')
         moduleAuthorization('Support Tickets'),
         validateRequest(updateTicketSchema),
         adminSupportTicketController.updateTicket
+    )
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(deleteTicketSchema),
+        adminSupportTicketController.deleteTicket
     )
 
 router.route('/support-tickets/:ticketId/assign')
