@@ -20,7 +20,6 @@ build
 .env.production
 .env.test
 .env.test.local
-docs
 development.log
 Test Analytics Sheet.csv
 Test Bonus Royalty.csv

@@ -33,6 +33,27 @@ router.route('/mock-verify-payment')
         subscriptionController.mockVerifyPayment
     )
 
+router.route('/payment-failed')
+    .post(
+        authentication,
+        validateRequest(subscriptionSchemas.paymentFailed),
+        subscriptionController.paymentFailed
+    )
+
+router.route('/payment-status/:razorpayOrderId')
+    .get(
+        authentication,
+        validateRequest(subscriptionSchemas.paymentStatus),
+        subscriptionController.checkPaymentStatus
+    )
+
+// Payment gateway webhooks — no auth middleware, verified via signature
+router.route('/webhook/razorpay')
+    .post(subscriptionController.razorpayWebhook)
+
+router.route('/webhook/paytm')
+    .post(subscriptionController.paytmWebhook)
+
 router.route('/my-subscription')
     .get(
         authentication,

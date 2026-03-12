@@ -126,6 +126,7 @@ const paymentTransactionSchema = new mongoose.Schema({
 paymentTransactionSchema.index({ userId: 1 })
 paymentTransactionSchema.index({ transactionId: 1 }, { unique: true })
 paymentTransactionSchema.index({ razorpayPaymentId: 1 })
+paymentTransactionSchema.index({ razorpayOrderId: 1 })
 paymentTransactionSchema.index({ status: 1 })
 paymentTransactionSchema.index({ planId: 1 })
 paymentTransactionSchema.index({ createdAt: -1 })

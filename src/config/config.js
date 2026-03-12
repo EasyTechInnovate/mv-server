@@ -28,6 +28,18 @@ const config = {
     },
     client: {
         url: process.env.CLIENT_URL || 'http://localhost:3000'
+    },
+    payment: {
+        gateway: process.env.PAYMENT_GATEWAY || 'razorpay',   // 'razorpay' | 'paytm'
+        razorpay_key_id: process.env.RAZORPAY_KEY_ID || '',
+        razorpay_key_secret: process.env.RAZORPAY_KEY_SECRET || '',
+        razorpay_webhook_secret: process.env.RAZORPAY_WEBHOOK_SECRET || '',
+        paytm_merchant_id: process.env.PAYTM_MERCHANT_ID || '',
+        paytm_merchant_key: process.env.PAYTM_MERCHANT_KEY || '',
+        paytm_website: process.env.PAYTM_WEBSITE || 'WEBSTAGING',
+        paytm_channel_id: process.env.PAYTM_CHANNEL_ID || 'WEB',
+        paytm_industry_type: process.env.PAYTM_INDUSTRY_TYPE || 'Retail',
+        paytm_callback_url: process.env.PAYTM_CALLBACK_URL || `${process.env.SERVER_URL || 'http://localhost:5000'}/v1/subscription/webhook/paytm`
     }
 }
 

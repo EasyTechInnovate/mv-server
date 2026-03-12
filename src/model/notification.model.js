@@ -84,7 +84,6 @@ const notificationSchema = new mongoose.Schema({
 })
 
 // Indexes
-notificationSchema.index({ notificationId: 1 })
 notificationSchema.index({ targetUser: 1, status: 1, createdAt: -1 })
 notificationSchema.index({ targetUsers: 1, status: 1, createdAt: -1 })
 notificationSchema.index({ targetType: 1, status: 1, createdAt: -1 })

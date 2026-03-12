@@ -29,6 +29,91 @@ export default {
     }
   },
 
+  async updateUserProfile(req, res, next) {
+    try {
+      const { userId } = req.params
+      const {
+        firstName, lastName,
+        phoneNumber,
+        address,
+        profile,
+        artistData,
+        labelData
+      } = req.body
+
+      const user = await User.findById(userId)
+      if (!user) {
+        return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404)
+      }
+
+      if (firstName !== undefined) user.firstName = firstName.trim()
+      if (lastName !== undefined) user.lastName = lastName.trim()
+
+      if (phoneNumber !== undefined) {
+        if (phoneNumber.isoCode !== undefined) user.phoneNumber.isoCode = phoneNumber.isoCode
+        if (phoneNumber.countryCode !== undefined) user.phoneNumber.countryCode = phoneNumber.countryCode
+        if (phoneNumber.internationalNumber !== undefined) user.phoneNumber.internationalNumber = phoneNumber.internationalNumber
+      }
+
+      if (address !== undefined) {
+        if (address.street !== undefined) user.address.street = address.street
+        if (address.city !== undefined) user.address.city = address.city
+        if (address.state !== undefined) user.address.state = address.state
+        if (address.country !== undefined) user.address.country = address.country
+        if (address.pinCode !== undefined) user.address.pinCode = address.pinCode
+      }
+
+      if (profile !== undefined) {
+        if (profile.photo !== undefined) user.profile.photo = profile.photo
+        if (profile.bio !== undefined) user.profile.bio = profile.bio
+        if (profile.primaryGenre !== undefined) user.profile.primaryGenre = profile.primaryGenre
+        if (profile.location !== undefined) {
+          if (profile.location.lat !== undefined) user.profile.location.lat = profile.location.lat
+          if (profile.location.long !== undefined) user.profile.location.long = profile.location.long
+          if (profile.location.address !== undefined) user.profile.location.address = profile.location.address
+        }
+      }
+
+      if (artistData !== undefined && user.userType === EUserType.ARTIST) {
+        if (artistData.artistName !== undefined) user.artistData.artistName = artistData.artistName
+        if (artistData.youtubeLink !== undefined) user.artistData.youtubeLink = artistData.youtubeLink
+        if (artistData.instagramLink !== undefined) user.artistData.instagramLink = artistData.instagramLink
+        if (artistData.facebookLink !== undefined) user.artistData.facebookLink = artistData.facebookLink
+      }
+
+      if (labelData !== undefined && user.userType === EUserType.LABEL) {
+        if (labelData.labelName !== undefined) user.labelData.labelName = labelData.labelName
+        if (labelData.youtubeLink !== undefined) user.labelData.youtubeLink = labelData.youtubeLink
+        if (labelData.websiteLink !== undefined) user.labelData.websiteLink = labelData.websiteLink
+        if (labelData.popularReleaseLink !== undefined) user.labelData.popularReleaseLink = labelData.popularReleaseLink
+        if (labelData.briefInfo !== undefined) user.labelData.briefInfo = labelData.briefInfo
+        if (labelData.totalReleases !== undefined) user.labelData.totalReleases = labelData.totalReleases
+        if (labelData.releaseFrequency !== undefined) user.labelData.releaseFrequency = labelData.releaseFrequency
+        if (labelData.monthlyReleasePlans !== undefined) user.labelData.monthlyReleasePlans = labelData.monthlyReleasePlans
+      }
+
+      await user.save()
+
+      return httpResponse(req, res, 200, responseMessage.customMessage('User profile updated successfully'), {
+        user: {
+          _id: user._id,
+          accountId: user.accountId,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          emailAddress: user.emailAddress,
+          phoneNumber: user.phoneNumber,
+          address: user.address,
+          profile: user.profile,
+          userType: user.userType,
+          artistData: user.userType === EUserType.ARTIST ? user.artistData : undefined,
+          labelData: user.userType === EUserType.LABEL ? user.labelData : undefined
+        }
+      })
+    } catch (err) {
+      return httpError(next, err, req, 500)
+    }
+  },
+
   async getAllPlans(req, res, next) {
     try {
       const { includeInactive } = req.query;

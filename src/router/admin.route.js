@@ -908,6 +908,14 @@ router.route('/users')
         adminAnalyticsController.getAllUsers
     )
 
+router.route('/users/:userId/profile')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
+        adminController.updateUserProfile
+    )
+
 router.route('/users/:userId/aggregator-banner')
     .patch(
         authentication,

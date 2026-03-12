@@ -3,11 +3,13 @@ import SubscriptionPlan from '../../model/subscriptionPlan.model.js'
 import PaymentTransaction from '../../model/paymentTransaction.model.js'
 import User from '../../model/user.model.js'
 import { ESubscriptionStatus, EPaymentStatus, EUserType } from '../../constant/application.js'
+import { paymentGateway } from '../../config/initPayment.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
 import quicker from '../../util/quicker.js'
 import { createLabelSublabel } from '../../util/sublabelHelper.js'
+import config from '../../config/config.js'
 
 export default {
     async self (req, res, next) {
@@ -89,15 +91,31 @@ export default {
             const amount = plan.getEffectivePrice()
             const transactionId = `TXN_${Date.now()}_${Math.random().toString(36).substr(2, 9).toUpperCase()}`
 
+            // Create order via configured payment gateway
+            const orderResult = await paymentGateway.createOrder({
+                amount,
+                currency: plan.currency || 'INR',
+                receipt: transactionId,
+                notes: { planId, userId: userId.toString() }
+            })
+
+            if (!orderResult.success) {
+                return httpError(next, new Error(`Payment order creation failed: ${orderResult.error}`), req, 502)
+            }
+
+            const gatewayOrder = orderResult.order
+            const activeGateway = config.payment.gateway
+
             const transaction = new PaymentTransaction({
                 userId,
                 transactionId,
                 amount,
-                currency: plan.currency,
+                currency: plan.currency || 'INR',
                 planId,
                 description: `Subscription to ${plan.name}`,
                 status: EPaymentStatus.PENDING,
-                gateway: 'razorpay',
+                gateway: activeGateway,
+                razorpayOrderId: gatewayOrder.id,   // stores gateway order ID regardless of provider
                 metadata: {
                     ipAddress: req.ip,
                     userAgent: req.get('User-Agent'),
@@ -107,17 +125,30 @@ export default {
 
             await transaction.save()
 
-            const paymentData = {
+            // Build gateway-specific checkout data for the frontend
+            const gatewayCheckoutData = activeGateway === 'paytm'
+                ? {
+                    gateway: 'paytm',
+                    orderId: gatewayOrder.id,
+                    txnToken: gatewayOrder.txnToken,
+                    merchantId: config.payment.paytm_merchant_id,
+                    amount,
+                    currency: plan.currency || 'INR'
+                }
+                : {
+                    gateway: 'razorpay',
+                    razorpayOrderId: gatewayOrder.id,
+                    keyId: config.payment.razorpay_key_id,
+                    amount,
+                    currency: gatewayOrder.currency
+                }
+
+            return httpResponse(req, res, 200, responseMessage.CREATED, {
                 transactionId,
-                orderId: `order_${transactionId}`,
-                amount,
-                currency: plan.currency,
                 planId,
                 planName: plan.name,
-                razorpayOrderId: `razorpay_order_${Date.now()}`
-            }
-
-            return httpResponse(req, res, 200, responseMessage.CREATED, paymentData)
+                ...gatewayCheckoutData
+            })
         } catch (err) {
             return httpError(next, err, req, 500)
         }
@@ -125,48 +156,77 @@ export default {
 
     async verifyPayment(req, res, next) {
         try {
-            const { razorpayPaymentId, razorpayOrderId, razorpaySignature, planId } = req.body
             const userId = req.authenticatedUser._id
+            const activeGateway = config.payment.gateway
 
+            // Extract gateway-specific fields
+            let orderId, paymentId, signature, signatureParams
+            if (activeGateway === 'paytm') {
+                orderId = req.body.paytmOrderId
+                paymentId = req.body.paytmTxnId
+                signature = req.body.paytmChecksum
+                signatureParams = {
+                    paytmOrderId: orderId,
+                    paytmTxnId: paymentId,
+                    paytmChecksum: signature
+                }
+            } else {
+                orderId = req.body.razorpayOrderId
+                paymentId = req.body.razorpayPaymentId
+                signature = req.body.razorpaySignature
+                signatureParams = {
+                    razorpayOrderId: orderId,
+                    razorpayPaymentId: paymentId,
+                    razorpaySignature: signature
+                }
+            }
+
+            if (!orderId || !paymentId || !signature) {
+                return httpError(next, new Error('Missing required payment verification fields'), req, 400)
+            }
+
+            // 1. Find pending transaction by gateway order ID
             const transaction = await PaymentTransaction.findOne({
+                razorpayOrderId: orderId,
                 userId,
-                planId,
                 status: EPaymentStatus.PENDING
-            }).sort({ createdAt: -1 })
+            })
 
             if (!transaction) {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Payment transaction')), req, 404)
             }
 
-            const plan = await SubscriptionPlan.getPlanByPlanId(planId)
+            // 2. Verify payment signature
+            const signatureResult = paymentGateway.verifyPaymentSignature(signatureParams)
+
+            if (!signatureResult.success || !signatureResult.valid) {
+                return httpError(next, new Error('Payment verification failed: invalid signature'), req, 400)
+            }
+
+            const plan = await SubscriptionPlan.getPlanByPlanId(transaction.planId)
             if (!plan) {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Plan')), req, 404)
             }
 
-            transaction.razorpayPaymentId = razorpayPaymentId
-            transaction.razorpayOrderId = razorpayOrderId
-            transaction.razorpaySignature = razorpaySignature
-            transaction.razorpayResponse = {
-                razorpay_payment_id: razorpayPaymentId,
-                razorpay_order_id: razorpayOrderId,
-                razorpay_signature: razorpaySignature
-            }
-            
+            // 3. Mark transaction complete
+            transaction.razorpayPaymentId = paymentId
+            transaction.razorpaySignature = signature
+            transaction.razorpayResponse = signatureParams
             await transaction.markAsCompleted()
 
+            // 4. Activate subscription
             const user = await User.findById(userId)
             const validUntil = dayjs().add(plan.intervalCount, plan.interval).toDate()
-            
-            user.activateSubscription(planId, validUntil, `razorpay_sub_${Date.now()}`)
+
+            user.activateSubscription(transaction.planId, validUntil, `razorpay_sub_${Date.now()}`)
             user.addNotification(
                 'Subscription Activated',
                 `Your ${plan.name} subscription has been activated successfully!`,
                 'success'
             )
-            
             await user.save()
 
-            if (user.userType === EUserType.LABELS) {
+            if (user.userType === EUserType.LABEL) {
                 try {
                     await createLabelSublabel(user._id, user.subscription.validFrom, user.subscription.validUntil)
                 } catch (error) {
@@ -174,7 +234,7 @@ export default {
                 }
             }
 
-            const responseData = {
+            return httpResponse(req, res, 200, responseMessage.customMessage('Payment verified and subscription activated'), {
                 subscription: {
                     planId: user.subscription.planId,
                     status: user.subscription.status,
@@ -186,9 +246,7 @@ export default {
                     amount: transaction.amount,
                     status: transaction.status
                 }
-            }
-
-            return httpResponse(req, res, 200, responseMessage.customMessage('Payment verified and subscription activated'), responseData)
+            })
         } catch (err) {
             return httpError(next, err, req, 500)
         }
@@ -248,7 +306,7 @@ export default {
             
             await user.save()
 
-            if (user.userType === EUserType.LABELS) {
+            if (user.userType === EUserType.LABEL) {
                 try {
                     await createLabelSublabel(user._id, user.subscription.validFrom, user.subscription.validUntil)
                 } catch (error) {
@@ -256,7 +314,7 @@ export default {
                 }
             }
 
-            const responseData = {
+            return httpResponse(req, res, 200, responseMessage.customMessage('Mock payment verified and subscription activated'), {
                 subscription: {
                     planId: user.subscription.planId,
                     status: user.subscription.status,
@@ -269,11 +327,217 @@ export default {
                     status: transaction.status,
                     isMockPayment: true
                 }
-            }
-
-            return httpResponse(req, res, 200, responseMessage.customMessage('Mock payment verified and subscription activated'), responseData)
+            })
         } catch (err) {
             return httpError(next, err, req, 500)
+        }
+    },
+
+    async paymentFailed(req, res, next) {
+        try {
+            const { razorpayOrderId, razorpayPaymentId, reason } = req.body
+            const userId = req.authenticatedUser._id
+
+            const transaction = await PaymentTransaction.findOne({
+                razorpayOrderId,
+                userId,
+                status: EPaymentStatus.PENDING
+            })
+
+            if (!transaction) {
+                // Already processed or not found — not an error, just acknowledge
+                return httpResponse(req, res, 200, responseMessage.customMessage('Payment status noted'), null)
+            }
+
+            if (razorpayPaymentId) transaction.razorpayPaymentId = razorpayPaymentId
+            await transaction.markAsFailed(reason || 'Payment failed or cancelled by user')
+
+            return httpResponse(req, res, 200, responseMessage.customMessage('Payment failure recorded'), {
+                transactionId: transaction.transactionId,
+                status: transaction.status,
+                failureReason: transaction.failureReason
+            })
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    async checkPaymentStatus(req, res, next) {
+        try {
+            const { razorpayOrderId } = req.params
+            const userId = req.authenticatedUser._id
+
+            const transaction = await PaymentTransaction.findOne({
+                razorpayOrderId,
+                userId
+            }).sort({ createdAt: -1 })
+
+            if (!transaction) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Payment transaction')), req, 404)
+            }
+
+            // If still pending, verify with payment gateway directly
+            if (transaction.status === EPaymentStatus.PENDING) {
+                const orderResult = await paymentGateway.getOrderDetails(razorpayOrderId)
+                if (orderResult.success && orderResult.order.status === 'paid') {
+                    // Order is paid on Razorpay but we haven't processed it yet
+                    return httpResponse(req, res, 200, responseMessage.SUCCESS, {
+                        transactionId: transaction.transactionId,
+                        status: 'pending_verification',
+                        message: 'Payment received but not yet verified. Please call verify-payment endpoint.',
+                        razorpayOrderStatus: orderResult.order.status
+                    })
+                }
+            }
+
+            return httpResponse(req, res, 200, responseMessage.SUCCESS, {
+                transactionId: transaction.transactionId,
+                status: transaction.status,
+                amount: transaction.amount,
+                currency: transaction.currency,
+                planId: transaction.planId,
+                failureReason: transaction.failureReason || null,
+                completedAt: transaction.completedAt || null,
+                createdAt: transaction.createdAt
+            })
+        } catch (err) {
+            return httpError(next, err, req, 500)
+        }
+    },
+
+    // Razorpay webhook — no auth, verified via Razorpay signature header
+    async razorpayWebhook(req, res, next) {
+        try {
+            const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET
+            const signature = req.headers['x-razorpay-signature']
+
+            if (webhookSecret && signature) {
+                const crypto = (await import('crypto')).default
+                const expectedSignature = crypto
+                    .createHmac('sha256', webhookSecret)
+                    .update(JSON.stringify(req.body))
+                    .digest('hex')
+
+                if (expectedSignature !== signature) {
+                    return httpError(next, new Error('Invalid webhook signature'), req, 400)
+                }
+            }
+
+            const event = req.body.event
+            const payload = req.body.payload
+
+            if (event === 'payment.captured') {
+                const payment = payload.payment.entity
+                const transaction = await PaymentTransaction.findOne({
+                    razorpayOrderId: payment.order_id,
+                    status: EPaymentStatus.PENDING
+                })
+
+                if (transaction) {
+                    const plan = await SubscriptionPlan.getPlanByPlanId(transaction.planId)
+
+                    transaction.razorpayPaymentId = payment.id
+                    transaction.razorpayResponse = payment
+                    await transaction.markAsCompleted()
+
+                    if (plan) {
+                        const user = await User.findById(transaction.userId)
+                        if (user && !user.hasActiveSubscription) {
+                            const validUntil = dayjs().add(plan.intervalCount, plan.interval).toDate()
+                            user.activateSubscription(transaction.planId, validUntil, `razorpay_sub_${Date.now()}`)
+                            await user.save()
+                        }
+                    }
+                }
+            }
+
+            if (event === 'payment.failed') {
+                const payment = payload.payment.entity
+                const transaction = await PaymentTransaction.findOne({
+                    razorpayOrderId: payment.order_id,
+                    status: EPaymentStatus.PENDING
+                })
+
+                if (transaction) {
+                    transaction.razorpayPaymentId = payment.id
+                    transaction.razorpayResponse = payment
+                    await transaction.markAsFailed(
+                        payment.error_description || 'Payment failed',
+                        payment.error_code || null
+                    )
+                }
+            }
+
+            return httpResponse(req, res, 200, responseMessage.SUCCESS)
+        } catch (err) {
+            // Still return 200 so Razorpay doesn't retry
+            console.error('Webhook processing error:', err)
+            return httpResponse(req, res, 200, responseMessage.SUCCESS)
+        }
+    },
+
+    // Paytm webhook — no auth, verified via checksum
+    async paytmWebhook(req, res, next) {
+        try {
+            const body = req.body
+            const { CHECKSUMHASH, ...params } = body
+
+            // Verify checksum if provided
+            if (CHECKSUMHASH) {
+                const isValid = paymentGateway.verifyPaymentSignature
+                    ? paymentGateway.verifyPaymentSignature({ ...params, paytmChecksum: CHECKSUMHASH })
+                    : { valid: true }
+
+                if (!isValid.valid) {
+                    return httpResponse(req, res, 200, responseMessage.SUCCESS)
+                }
+            }
+
+            const txnStatus = body.STATUS
+            const orderId = body.ORDERID
+            const txnId = body.TXNID
+
+            if (txnStatus === 'TXN_SUCCESS') {
+                const transaction = await PaymentTransaction.findOne({
+                    razorpayOrderId: orderId,
+                    status: EPaymentStatus.PENDING
+                })
+
+                if (transaction) {
+                    const plan = await SubscriptionPlan.getPlanByPlanId(transaction.planId)
+
+                    transaction.razorpayPaymentId = txnId
+                    transaction.razorpayResponse = body
+                    await transaction.markAsCompleted()
+
+                    if (plan) {
+                        const user = await User.findById(transaction.userId)
+                        if (user && !user.hasActiveSubscription) {
+                            const validUntil = dayjs().add(plan.intervalCount, plan.interval).toDate()
+                            user.activateSubscription(transaction.planId, validUntil, `paytm_sub_${Date.now()}`)
+                            await user.save()
+                        }
+                    }
+                }
+            }
+
+            if (txnStatus === 'TXN_FAILURE') {
+                const transaction = await PaymentTransaction.findOne({
+                    razorpayOrderId: orderId,
+                    status: EPaymentStatus.PENDING
+                })
+
+                if (transaction) {
+                    transaction.razorpayPaymentId = txnId || null
+                    transaction.razorpayResponse = body
+                    await transaction.markAsFailed(body.RESPMSG || 'Payment failed', body.RESPCODE || null)
+                }
+            }
+
+            return httpResponse(req, res, 200, responseMessage.SUCCESS)
+        } catch (err) {
+            console.error('Paytm webhook processing error:', err)
+            return httpResponse(req, res, 200, responseMessage.SUCCESS)
         }
     },
 
