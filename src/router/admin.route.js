@@ -87,6 +87,7 @@ router.route('/plans/:planId')
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
         moduleAuthorization('System Settings'),
         adminController.deletePlan
+        
     )
 
 router.route('/plans/:planId/activate')
