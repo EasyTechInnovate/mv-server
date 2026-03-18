@@ -129,6 +129,46 @@ const adminNotificationController = {
         }
     },
 
+    async delete(req, res, next) {
+        try {
+            const { notificationId } = req.params;
+            const notification = await Notification.findOne({ notificationId });
+            
+            if (!notification) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Notification')), req, 404);
+            }
+
+            await Notification.deleteOne({ _id: notification._id });
+
+            return httpResponse(req, res, 200, responseMessage.customMessage('Notification deleted permanently.'));
+        } catch (err) {
+            return httpError(next, err, req, 500);
+        }
+    },
+
+    async bulkDelete(req, res, next) {
+        try {
+            const { notificationIds } = req.body;
+
+            if (!notificationIds || !Array.isArray(notificationIds) || notificationIds.length === 0) {
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('notificationIds must be a non-empty array')), req, 400);
+            }
+
+            const notifications = await Notification.find({ notificationId: { $in: notificationIds } });
+
+            if (notifications.length === 0) {
+                return httpError(next, new Error(responseMessage.customMessage('No notifications found to delete')), req, 404);
+            }
+
+            const deletedIds = notifications.map(n => n._id);
+            await Notification.deleteMany({ _id: { $in: deletedIds } });
+
+            return httpResponse(req, res, 200, responseMessage.customMessage('Notifications deleted permanently.'));
+        } catch (err) {
+            return httpError(next, err, req, 500);
+        }
+    },
+
     async searchUsers(req, res, next) {
         try {
             const { page = 1, limit = 100, search = '' } = req.query

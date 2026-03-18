@@ -1138,6 +1138,8 @@ router.route('/support-tickets/:ticketId')
         validateRequest(updateTicketSchema),
         adminSupportTicketController.updateTicket
     )
+
+router.route('/support-tickets/:ticketId/permanent')
     .delete(
         authentication,
         authorization([EUserRole.ADMIN]),
@@ -1294,6 +1296,20 @@ router.route('/notifications')
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
         adminNotificationController.getAll
+    )
+
+router.route('/notifications/bulk/permanent')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        adminNotificationController.bulkDelete
+    )
+
+router.route('/notifications/:notificationId/permanent')
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        adminNotificationController.delete
     )
 
 router.route('/notifications/:notificationId')
