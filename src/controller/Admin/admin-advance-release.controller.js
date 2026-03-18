@@ -26,6 +26,7 @@ export default {
             if (status) filter.releaseStatus = status
             if (releaseType) filter.releaseType = releaseType
             if (userId) filter.userId = userId
+            
 
             if (search) {
                 filter.$or = [
