@@ -145,6 +145,29 @@ export default {
         }
     },
 
+    bulkDeleteMVProductions: async (req, res, next) => {
+        try {
+            const { productionIds } = req.body;
+
+            if (!productionIds || !Array.isArray(productionIds) || productionIds.length === 0) {
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('productionIds must be a non-empty array')), req, 400);
+            }
+
+            const productions = await MVProductionModel.find({ _id: { $in: productionIds } });
+
+            if (productions.length === 0) {
+                return httpError(next, new Error(responseMessage.customMessage('No productions found to delete')), req, 404);
+            }
+
+            const deletedIds = productions.map(p => p._id);
+            await MVProductionModel.deleteMany({ _id: { $in: deletedIds } });
+
+            return httpResponse(req, res, 200, responseMessage.customMessage('MV Productions permanently deleted.'), null);
+        } catch (err) {
+            return httpError(next, err, req, 500);
+        }
+    },
+
     getMVProductionStats: async (req, res, next) => {
         try {
             const [totalProductions, pendingProductions, acceptedProductions, rejectedProductions, recentProductions] = await Promise.all([

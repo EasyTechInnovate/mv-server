@@ -142,6 +142,36 @@ router.route('/admin/playlist-pitching/submissions/:submissionId/review')
         adminMarketingController.reviewPlaylistPitchingSubmission
     )
 
+router.route('/admin/sync/submissions/bulk/permanent')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminMarketingController.bulkDeleteSyncSubmissions
+    )
+
+router.route('/admin/sync/submissions/:submissionId/permanent')
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
+        adminMarketingController.deleteSyncSubmission
+    )
+
+router.route('/admin/playlist-pitching/submissions/bulk/permanent')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        adminMarketingController.bulkDeletePlaylistPitchingSubmissions
+    )
+
+router.route('/admin/playlist-pitching/submissions/:submissionId/permanent')
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
+        adminMarketingController.deletePlaylistPitchingSubmission
+    )
+
 router.route('/admin/playlist-pitching/submissions/store/:store')
     .get(
         authentication,

@@ -32,6 +32,19 @@ router.route('/admin/:productionId/review').post(
     adminMVProductionController.reviewMVProduction
 );
 
+router.route('/admin/bulk/permanent').post(
+    authentication,
+    authorization(['admin']),
+    adminMVProductionController.bulkDeleteMVProductions
+);
+
+router.route('/admin/:productionId/permanent').delete(
+    authentication,
+    authorization(['admin']),
+    validateRequest(mvProductionSchemas.deleteMVProduction),
+    adminMVProductionController.deleteMVProduction
+);
+
 router.route('/admin/:productionId')
     .get(
         authentication,

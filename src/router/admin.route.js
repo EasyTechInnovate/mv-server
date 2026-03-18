@@ -15,6 +15,8 @@ import adminSupportTicketController from '../controller/SupportTicket/admin-supp
 import adminPayoutController from '../controller/Admin/admin-payout.controller.js'
 import adminNotificationController from '../controller/Admin/admin-notification.controller.js'
 import adminNewsController from '../controller/News/admin-news.controller.js'
+import adminMVProductionController from '../controller/MVProduction/admin-mv-production.controller.js'
+import adminMarketingController from '../controller/Marketing/admin-marketing.controller.js'
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
 import authorization from '../middleware/authorization.js'
@@ -197,6 +199,8 @@ router.route('/releases/edit-requests')
         moduleAuthorization('Release Management'),
         adminReleasesController.getEditRequests
     )
+
+
 
 router.route('/releases/:releaseId')
     .get(
@@ -567,6 +571,22 @@ router.route('/sublabels/:id')
         moduleAuthorization('Content Management'),
         validateRequest(sublabelSchemas.deleteSublabel),
         adminSublabelsController.deleteSublabel
+    )
+
+router.route('/marketing/playlist-pitching/submissions/bulk/permanent')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Marketing Management'),
+        adminMarketingController.bulkDeletePlaylistPitchingSubmissions
+    )
+
+router.route('/marketing/playlist-pitching/submissions/:submissionId/permanent')
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Marketing Management'),
+        adminMarketingController.deletePlaylistPitchingSubmission
     )
 
 router.route('/sublabels/:id/assign-user')

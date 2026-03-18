@@ -523,27 +523,44 @@ export default {
         try {
             const { submissionId } = req.params
 
-            const submission = await PlaylistPitching.findOne({
-                _id: submissionId,
-                isActive: true
-            })
+            const submission = await PlaylistPitching.findByIdAndDelete(submissionId).lean()
 
             if (!submission) {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Playlist pitching submission')), req, 404)
             }
 
-            submission.isActive = false
-            await submission.save()
-
             httpResponse(
                 req,
                 res,
                 200,
-                responseMessage.customMessage('Playlist pitching submission deleted successfully'),
+                responseMessage.customMessage('Playlist pitching submission permanently deleted'),
                 null
             )
         } catch (err) {
             httpError(next, err, req, 500)
+        }
+    },
+
+    async bulkDeletePlaylistPitchingSubmissions(req, res, next) {
+        try {
+            const { submissionIds } = req.body;
+
+            if (!submissionIds || !Array.isArray(submissionIds) || submissionIds.length === 0) {
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('submissionIds must be a non-empty array')), req, 400);
+            }
+
+            const submissions = await PlaylistPitching.find({ _id: { $in: submissionIds } });
+
+            if (submissions.length === 0) {
+                return httpError(next, new Error(responseMessage.customMessage('No submissions found to delete')), req, 404);
+            }
+
+            const deletedIds = submissions.map(n => n._id);
+            await PlaylistPitching.deleteMany({ _id: { $in: deletedIds } });
+
+            return httpResponse(req, res, 200, responseMessage.customMessage('Playlist pitching submissions permanently deleted.'), null);
+        } catch (err) {
+            return httpError(next, err, req, 500);
         }
     },
 
@@ -580,27 +597,44 @@ export default {
         try {
             const { submissionId } = req.params
 
-            const submission = await SyncSubmission.findOne({
-                _id: submissionId,
-                isActive: true
-            })
+            const submission = await SyncSubmission.findByIdAndDelete(submissionId).lean()
 
             if (!submission) {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Sync submission')), req, 404)
             }
 
-            submission.isActive = false
-            await submission.save()
-
             httpResponse(
                 req,
                 res,
                 200,
-                responseMessage.customMessage('Sync submission deleted successfully'),
+                responseMessage.customMessage('Sync submission permanently deleted'),
                 null
             )
         } catch (err) {
             httpError(next, err, req, 500)
+        }
+    },
+
+    async bulkDeleteSyncSubmissions(req, res, next) {
+        try {
+            const { submissionIds } = req.body;
+
+            if (!submissionIds || !Array.isArray(submissionIds) || submissionIds.length === 0) {
+                return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('submissionIds must be a non-empty array')), req, 400);
+            }
+
+            const submissions = await SyncSubmission.find({ _id: { $in: submissionIds } });
+
+            if (submissions.length === 0) {
+                return httpError(next, new Error(responseMessage.customMessage('No submissions found to delete')), req, 404);
+            }
+
+            const deletedIds = submissions.map(n => n._id);
+            await SyncSubmission.deleteMany({ _id: { $in: deletedIds } });
+
+            return httpResponse(req, res, 200, responseMessage.customMessage('Sync submissions permanently deleted.'), null);
+        } catch (err) {
+            return httpError(next, err, req, 500);
         }
     }
 }
