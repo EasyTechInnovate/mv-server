@@ -77,6 +77,18 @@ const companySettingsSchema = new Schema({
             lowercase: true,
             default: null
         },
+        pressEmail: {
+            type: String,
+            trim: true,
+            lowercase: true,
+            default: null
+        },
+        legalEmail: {
+            type: String,
+            trim: true,
+            lowercase: true,
+            default: null
+        },
         whatsappQRCode: {
             type: String,
             trim: true,

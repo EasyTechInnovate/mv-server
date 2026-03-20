@@ -35,6 +35,8 @@ const contactInfoSchema = z.object({
     primaryEmail: z.string().email('Invalid primary email').optional().nullable(),
     supportEmail: z.string().email('Invalid support email').optional().nullable(),
     businessEmail: z.string().email('Invalid business email').optional().nullable(),
+    pressEmail: z.string().email('Invalid press email').optional().nullable(),
+    legalEmail: z.string().email('Invalid legal email').optional().nullable(),
     whatsappQRCode: z.string().url('Invalid WhatsApp QR code URL').optional().nullable(),
     physicalAddress: physicalAddressSchema.optional(),
     businessHours: z.string()
