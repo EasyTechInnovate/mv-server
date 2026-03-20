@@ -1,33 +1,5 @@
 import crypto from 'crypto'
-
-// Paytm checksum utility (Paytm's own algorithm without external SDK dependency)
-function _generateChecksum(params, merchantKey) {
-    const salt = crypto.randomBytes(4).toString('hex')
-    const sortedValues = Object.keys(params)
-        .sort()
-        .map(k => (params[k] === null || params[k] === undefined ? '' : String(params[k])))
-        .join('|')
-    const hashStr = sortedValues + '|' + salt
-    const hash = crypto.createHash('sha256').update(hashStr).digest('hex')
-    return hash + '###' + salt
-}
-
-function _verifyChecksum(params, merchantKey, checksum) {
-    try {
-        const parts = checksum.split('###')
-        if (parts.length !== 2) return false
-        const [hash, salt] = parts
-        const sortedValues = Object.keys(params)
-            .sort()
-            .map(k => (params[k] === null || params[k] === undefined ? '' : String(params[k])))
-            .join('|')
-        const hashStr = sortedValues + '|' + salt
-        const expectedHash = crypto.createHash('sha256').update(hashStr).digest('hex')
-        return expectedHash === hash
-    } catch {
-        return false
-    }
-}
+import PaytmChecksum from 'paytmchecksum'
 
 export class PaytmService {
     constructor(merchantId, merchantKey, website, channelId, industryType, callbackUrl) {
@@ -61,7 +33,7 @@ export class PaytmService {
                 ...(this.callbackUrl ? { callbackUrl: this.callbackUrl } : {})
             }
 
-            const checksum = _generateChecksum({ ...body, mid: this.merchantId }, this.merchantKey)
+            const checksum = await PaytmChecksum.generateSignature(JSON.stringify(body), this.merchantKey)
 
             const response = await fetch(
                 `${this.baseUrl}/theia/api/v1/initiateTransaction?mid=${this.merchantId}&orderId=${orderId}`,
@@ -78,7 +50,7 @@ export class PaytmService {
             )
 
             const result = await response.json()
-
+            
             if (result.body && result.body.resultInfo && result.body.resultInfo.resultStatus === 'S') {
                 return {
                     success: true,
@@ -110,7 +82,7 @@ export class PaytmService {
             if (!paytmChecksum) {
                 return { success: false, valid: false, error: 'Missing Paytm checksum' }
             }
-            const isValid = _verifyChecksum(verifyParams, this.merchantKey, paytmChecksum)
+            const isValid = PaytmChecksum.verifySignature(verifyParams, this.merchantKey, paytmChecksum)
             return { success: true, valid: isValid, error: null }
         } catch (error) {
             return {

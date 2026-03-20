@@ -30,6 +30,12 @@ export const ESubscriptionStatus = Object.freeze({
 });
 
 export const ESubscriptionPlan = Object.freeze({
+    ARTIST_STANDARD: 'artist_standard',
+    ARTIST_POPULAR: 'artist_popular',
+    ARTIST_BEST_VALUE: 'artist_best_value',
+    LABEL_STANDARD: 'label_standard',
+    LABEL_POPULAR: 'label_popular',
+    LABEL_BEST_VALUE: 'label_best_value',
     MAHESHWARI_STANDARD: 'maheshwari_standard',
     MAHESHWARI_BEST_VALUE: 'maheshwari_best_value',
     MAHESHWARI_POPULAR: 'maheshwari_popular',
