@@ -138,7 +138,7 @@ export default {
                 : {
                     gateway: 'razorpay',
                     razorpayOrderId: gatewayOrder.id,
-                    keyId: config.payment.razorpay_key_id,
+                    razorpayKeyId: config.payment.razorpay_key_id,
                     amount,
                     currency: gatewayOrder.currency
                 }
