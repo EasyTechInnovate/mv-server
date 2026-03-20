@@ -28,7 +28,7 @@ const metaClaimReleaseDetailsSchema = z.object({
     claims: z.array(z.object({
         metaVideoLink: z.string().url(),
         metaAudioLink: z.string().url(),
-        isrc: z.string().trim().min(1),
+        isrc: z.string().trim().optional().or(z.literal('')),
     })).min(1),
     confirmation: z.boolean().refine(val => val === true),
 });
@@ -40,7 +40,7 @@ const youtubeClaimReleaseDetailsSchema = z.object({
     claims: z.array(z.object({
         youtubeVideoLink: z.string().url(),
         officialVideoLink: z.string().url(),
-        isrc: z.string().trim().min(1),
+        isrc: z.string().trim().optional().or(z.literal('')),
     })).min(1),
     confirmation: z.boolean().refine(val => val === true),
 });
@@ -52,7 +52,7 @@ const youtubeManualClaimDetailsSchema = z.object({
     claims: z.array(z.object({
         youtubeVideoLink: z.string().url(),
         officialVideoLink: z.string().url().optional().or(z.literal('')),
-        isrc: z.string().trim().min(1),
+        isrc: z.string().trim().optional().or(z.literal('')),
         startTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
         endTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
     })).min(1),
@@ -66,7 +66,7 @@ const metaProfileMappingDetailsSchema = z.object({
     mapType: z.enum(['Facebook Page', 'Instagram Profile', 'Both']),
     facebookPageUrl: z.string().url().optional().or(z.literal('')),
     instagramProfileUrl: z.string().url().optional().or(z.literal('')),
-    isrcs: z.array(z.string().trim().min(1)).min(1),
+    isrcs: z.array(z.string().trim()).optional().default([]),
     confirmation: z.boolean().refine(val => val === true),
 }).refine(data => {
     if (data.mapType === 'Facebook Page') return !!data.facebookPageUrl;
@@ -83,11 +83,11 @@ const youtubeOacMappingDetailsSchema = z.object({
     topicChannelLink: z.string().url().optional().or(z.literal('')),
     youtubeOacTopicLink: z.string().url().optional().or(z.literal('')),
     artTrackLink: z.string().url().optional().or(z.literal('')),
-    isrc: z.string().trim().min(1).optional().or(z.literal('')),
+    isrc: z.string().trim().optional().or(z.literal('')),
     confirmation: z.boolean().refine(val => val === true),
 }).refine(data => {
     if (data.mapType === 'OAC') return !!data.topicChannelLink && !!data.youtubeOacTopicLink;
-    if (data.mapType === 'Release') return !!data.youtubeOacTopicLink && !!data.artTrackLink && !!data.isrc;
+    if (data.mapType === 'Release') return !!data.youtubeOacTopicLink && !!data.artTrackLink;
     return false;
 }, { message: "Please provide the correct links/ISRC for the selected map type." });
 
@@ -98,7 +98,7 @@ const metaManualClaimDetailsSchema = z.object({
     claims: z.array(z.object({
         metaVideoLink: z.string().url(),
         officialVideoLink: z.string().url().optional().or(z.literal('')),
-        isrc: z.string().trim().min(1),
+        isrc: z.string().trim().optional().or(z.literal('')),
         startTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
         endTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
     })).min(1),
