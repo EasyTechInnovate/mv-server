@@ -902,4 +902,49 @@ export default {
       return httpError(next, err, req, 500)
     }
   },
+
+  async resetUserPassword(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const { password } = req.body;
+
+      const user = await User.findById(userId);
+      if (!user) {
+        return httpError(
+          next,
+          new Error(responseMessage.ERROR.NOT_FOUND("User")),
+          req,
+          404
+        );
+      }
+
+      // Update password (pre-save hook in user model handles hashing)
+      user.password = password;
+
+      // Clear any pending reset password tokens
+      if (user.passwordReset) {
+        user.passwordReset.isUsed = true;
+        user.passwordReset.token = null;
+        user.passwordReset.expiresAt = null;
+      }
+
+      await user.save();
+
+      user.addNotification(
+        "Password Reset by Admin",
+        "Your account password has been reset by an administrator.",
+        "warning"
+      );
+      await user.save();
+
+      return httpResponse(
+        req,
+        res,
+        200,
+        responseMessage.customMessage("User password reset successfully")
+      );
+    } catch (err) {
+      return httpError(next, err, req, 500);
+    }
+  },
 };

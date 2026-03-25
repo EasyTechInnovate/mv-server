@@ -936,6 +936,15 @@ router.route('/users/:userId/profile')
         adminController.updateUserProfile
     )
 
+router.route('/users/:userId/reset-password')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]), // Only full ADMIN can do this, or maybe TEAM_MEMBER too? User asked "admin switch", I'll stick to ADMIN for now or check user rules. Let's allow ADMIN for safety.
+        moduleAuthorization('User Management'),
+        validateRequest(adminSchemas.resetUserPassword),
+        adminController.resetUserPassword
+    )
+
 router.route('/users/:userId/aggregator-banner')
     .patch(
         authentication,
