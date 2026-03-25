@@ -392,7 +392,7 @@ export default {
 
     async forgotPassword(req, res, next) {
         try {
-            const { emailAddress } = req.body
+            const { emailAddress, redirectUrl } = req.body
 
             const user = await User.findOne({ emailAddress })
             if (!user) {
@@ -414,7 +414,8 @@ export default {
             }
             await user.save()
 
-            const resetUrl = `${config.client.url}/reset-password?token=${resetToken}`
+            const baseUrl = redirectUrl || config.client.url
+            const resetUrl = `${baseUrl}/reset-password?token=${resetToken}`
 
             user.addNotification(
                 'Password Reset Request',

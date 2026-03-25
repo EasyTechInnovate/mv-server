@@ -61,7 +61,8 @@ const login = z.object({
 
 const forgotPassword = z.object({
     body: z.object({
-        emailAddress: z.string().email('Invalid email address').transform(val => val.toLowerCase())
+        emailAddress: z.string().email('Invalid email address').transform(val => val.toLowerCase()),
+        redirectUrl: z.string().url().optional()
     })
 })
 
