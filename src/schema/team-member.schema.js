@@ -114,9 +114,12 @@ const teamMemberSchemas = {
                 .min(1, 'Invitation token is required'),
             password: z.string()
                 .min(8, 'Password must be at least 8 characters')
-                .max(128, 'Password cannot exceed 128 characters')
-                .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-                    'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character')
+                .max(128, 'Password cannot exceed 128 characters'),
+            confirmPassword: z.string()
+                .min(1, 'Confirm password is required')
+        }).refine(data => data.password === data.confirmPassword, {
+            message: 'Passwords must match',
+            path: ['confirmPassword']
         })
     }),
 

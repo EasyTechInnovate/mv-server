@@ -8,6 +8,7 @@ import httpError from '../../util/httpError.js'
 import quicker from '../../util/quicker.js'
 import config from '../../config/config.js'
 import { assignDefaultSublabelToUser, createLabelSublabel } from '../../util/sublabelHelper.js'
+import { sendForgotPasswordEmail, sendVerificationEmail } from '../../service/emailService.js'
 
 export default {
     async self (req, res, next) {
@@ -119,6 +120,13 @@ export default {
             )
 
             const verificationUrl = `${config.client.url}/verify-email?token=${verificationToken}`
+
+            // Send Verification Email
+            try {
+                await sendVerificationEmail(newUser.emailAddress, newUser.firstName, verificationCode)
+            } catch (emailError) {
+                console.error('Failed to send verification email:', emailError)
+            }
 
             const responseData = {
                 user: {
@@ -414,12 +422,18 @@ export default {
                 'info'
             )
 
+            // Send Forgot Password Email
+            try {
+                await sendForgotPasswordEmail(user.emailAddress, user.firstName, resetUrl)
+            } catch (emailError) {
+                console.error('Failed to send forgot password email:', emailError)
+            }
+
             return httpResponse(
                 req,
                 res,
                 200,
-                responseMessage.customMessage('If an account with this email exists, a password reset link has been sent'),
-                { resetUrl }
+                responseMessage.customMessage('If an account with this email exists, a password reset link has been sent')
             )
         } catch (err) {
             return httpError(next, err, req, 500)
@@ -641,6 +655,13 @@ export default {
             await user.save()
 
             const verificationUrl = `${config.client.url}/verify-email?token=${verificationToken}`
+
+            // Send Verification Email
+            try {
+                await sendVerificationEmail(user.emailAddress, user.firstName, verificationCode)
+            } catch (emailError) {
+                console.error('Failed to send verification email:', emailError)
+            }
 
             user.addNotification(
                 'Verification Email Sent',

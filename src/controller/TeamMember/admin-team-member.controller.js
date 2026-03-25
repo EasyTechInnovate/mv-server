@@ -4,6 +4,8 @@ import responseMessage from '../../constant/responseMessage.js';
 import httpResponse from '../../util/httpResponse.js';
 import httpError from '../../util/httpError.js';
 import quicker from '../../util/quicker.js';
+import { sendTeamInvitationEmail } from '../../service/emailService.js';
+import config from '../../config/config.js';
 
 export default {
     async self(req, res, next) {
@@ -50,11 +52,11 @@ export default {
 
             await teamMember.save();
 
-            teamMember.addNotification(
-                'Team Invitation',
-                'You have been invited to join the team. Please accept the invitation to get started.',
-                'info'
-            );
+            await teamMember.save();
+
+            const invitationUrl = `${config.client.url}/admin/accept-invitation?token=${invitationToken}`;
+
+            await sendTeamInvitationEmail(emailAddress, firstName, invitationUrl);
 
             await teamMember.save();
 
@@ -343,11 +345,11 @@ export default {
 
             await teamMember.save();
 
-            teamMember.addNotification(
-                'Invitation Resent',
-                'Your team invitation has been resent. Please check your email.',
-                'info'
-            );
+            await teamMember.save();
+
+            const invitationUrl = `${config.client.url}/admin/accept-invitation?token=${teamMember.invitationToken}`;
+
+            await sendTeamInvitationEmail(teamMember.emailAddress, teamMember.firstName, invitationUrl);
 
             await teamMember.save();
 
