@@ -936,6 +936,22 @@ router.route('/users/:userId/profile')
         adminController.updateUserProfile
     )
 
+router.route('/users/:userId/kyc/review')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
+        adminController.reviewUserKYC
+    )
+
+router.route('/users/:userId/kyc/update')
+    .put(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
+        adminController.updateUserKYC
+    )
+
 router.route('/users/:userId/reset-password')
     .post(
         authentication,

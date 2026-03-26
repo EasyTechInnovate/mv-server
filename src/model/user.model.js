@@ -6,6 +6,7 @@ import {
   EUserRole,
   EUserType,
   EKYCStatus,
+  EResidencyType,
   ESubscriptionStatus,
   ENotificationType,
   ETeamRole,
@@ -458,55 +459,44 @@ const userSchema = new mongoose.Schema(
 
     kyc: {
       _id: false,
+      residencyType: {
+        type: String,
+        enum: Object.values(EResidencyType),
+        default: EResidencyType.INDIAN,
+      },
       status: {
         type: String,
         enum: Object.values(EKYCStatus),
         default: EKYCStatus.UNVERIFIED,
       },
-      documents: {
+      details: {
         _id: false,
-        aadhaar: {
-          _id: false,
-          number: {
-            type: String,
-            default: null,
-          },
-          documentUrl: {
-            type: String,
-            default: null,
-          },
-          verified: {
-            type: Boolean,
-            default: false,
-          },
+        // Indian Resident Fields
+        aadhaarNumber: {
+          type: String,
+          default: null,
         },
-        pan: {
-          _id: false,
-          number: {
-            type: String,
-            default: null,
-          },
-          documentUrl: {
-            type: String,
-            default: null,
-          },
-          verified: {
-            type: Boolean,
-            default: false,
-          },
+        panNumber: {
+          type: String,
+          default: null,
+        },
+        gstUdhyamNumber: {
+          type: String,
+          default: null,
+        },
+        // Foreign Resident Fields
+        passportNumber: {
+          type: String,
+          default: null,
+        },
+        vatNumber: {
+          type: String,
+          default: null,
         },
       },
       verificationId: {
         type: String,
         default: null,
-      },
-      aadhaarVerified: {
-        type: Boolean,
-        default: false,
-      },
-      panVerified: {
-        type: Boolean,
-        default: false,
       },
       verificationApiResponse: {
         type: mongoose.Schema.Types.Mixed,

@@ -1,6 +1,6 @@
 import PayoutRequest from '../model/payoutRequest.model.js'
 import Wallet from '../model/wallet.model.js'
-import { EPayoutMethod } from '../constant/application.js'
+import { EPayoutMethod, EKYCStatus } from '../constant/application.js'
 import responseMessage from '../constant/responseMessage.js'
 import httpResponse from '../util/httpResponse.js'
 import httpError from '../util/httpError.js'
@@ -14,6 +14,16 @@ const payoutRequestController = {
 
             if (!amount || amount <= 0) {
                 return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('amount')), req, 400)
+            }
+
+            // Check KYC Status
+            if (req.authenticatedUser.kyc?.status !== EKYCStatus.VERIFIED) {
+                return httpError(
+                    next, 
+                    new Error(responseMessage.customMessage('KYC verification is required to request a payout. Please complete your KYC in settings.')), 
+                    req, 
+                    403
+                )
             }
 
             const wallet = await Wallet.findByUserId(userId)

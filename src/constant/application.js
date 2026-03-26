@@ -22,6 +22,11 @@ export const EKYCStatus = Object.freeze({
     REJECTED: 'rejected'
 });
 
+export const EResidencyType = Object.freeze({
+    INDIAN: 'indian',
+    FOREIGN: 'foreign'
+});
+
 export const ESubscriptionStatus = Object.freeze({
     INACTIVE: 'inactive',
     ACTIVE: 'active',

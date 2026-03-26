@@ -9,6 +9,7 @@ import {
   EPaymentStatus,
   EUserType,
   EUserRole,
+  EKYCStatus,
 } from "../../constant/application.js";
 import responseMessage from "../../constant/responseMessage.js";
 import httpResponse from "../../util/httpResponse.js";
@@ -111,6 +112,117 @@ export default {
       })
     } catch (err) {
       return httpError(next, err, req, 500)
+    }
+  },
+
+  async reviewUserKYC(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const { status, rejectionReason } = req.body;
+      const adminId = req.authenticatedUser._id;
+
+      // Import EKYCStatus if not already imported (it is from application.js)
+      const { EKYCStatus } = await import("../../constant/application.js");
+
+      if (!Object.values(EKYCStatus).includes(status)) {
+        return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('status')), req, 400);
+      }
+
+      const user = await User.findById(userId);
+      if (!user) {
+        return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404);
+      }
+
+      user.kyc.status = status;
+      if (status === EKYCStatus.VERIFIED) {
+        user.kyc.verifiedAt = new Date();
+        user.kyc.verifiedBy = adminId;
+        user.kyc.rejectionReason = null;
+        
+        if (user.kyc.bankDetails) user.kyc.bankDetails.verified = true;
+        if (user.kyc.upiDetails) user.kyc.upiDetails.verified = true;
+
+      } else if (status === EKYCStatus.REJECTED) {
+        user.kyc.rejectionReason = rejectionReason || 'KYC Rejected by Administrator';
+        user.kyc.verifiedAt = null;
+      }
+
+      if (user.kycStatus) {
+        user.kycStatus.status = status.toLowerCase();
+      }
+
+      await user.save();
+
+      return httpResponse(req, res, 200, responseMessage.customMessage(`KYC status updated to ${status}`), {
+        kyc: user.kyc
+      });
+    } catch (err) {
+      return httpError(next, err, req, 500);
+    }
+  },
+
+  async updateUserKYC(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const { residencyType, details, bankDetails, upiDetails, status } = req.body;
+
+      const user = await User.findById(userId);
+      if (!user) {
+        return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404);
+      }
+
+      // Validation logic
+      const targetResidency = residencyType || user.kyc.residencyType || "indian";
+      if (targetResidency === "indian") {
+        if (!details?.aadhaarNumber || !/^\d{12}$/.test(details.aadhaarNumber)) {
+          return httpError(next, new Error(responseMessage.customMessage('Invalid 12-digit Aadhaar Number (Mandatory)')), req, 400);
+        }
+        if (details?.panNumber && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(details.panNumber.toUpperCase())) {
+          return httpError(next, new Error(responseMessage.customMessage('Invalid PAN Number format (e.g. ABCDE1234F)')), req, 400);
+        }
+      } else {
+        if (details?.passportNumber && details.passportNumber.length < 6) {
+          return httpError(next, new Error(responseMessage.customMessage('Invalid Passport Number (min 6 characters)')), req, 400);
+        }
+      }
+
+      if (bankDetails?.accountNumber && !/^\d{9,18}$/.test(bankDetails.accountNumber)) {
+        return httpError(next, new Error(responseMessage.customMessage('Invalid Bank Account Number (9-18 digits)')), req, 400);
+      }
+
+      if (bankDetails?.ifscCode && !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(bankDetails.ifscCode.toUpperCase())) {
+        return httpError(next, new Error(responseMessage.customMessage('Invalid IFSC Code')), req, 400);
+      }
+
+      if (upiDetails?.upiId && !/^[\w.-]+@[\w.-]+$/.test(upiDetails.upiId)) {
+        return httpError(next, new Error(responseMessage.customMessage('Invalid UPI ID format')), req, 400);
+      }
+
+      if (residencyType) user.kyc.residencyType = residencyType;
+      
+      if (details) {
+        // Initialize if null
+        if (!user.kyc.details) user.kyc.details = {};
+        Object.assign(user.kyc.details, details);
+      }
+
+      if (bankDetails) {
+        if (!user.kyc.bankDetails) user.kyc.bankDetails = {};
+        Object.assign(user.kyc.bankDetails, bankDetails);
+      }
+
+      if (upiDetails) {
+        if (!user.kyc.upiDetails) user.kyc.upiDetails = {};
+        Object.assign(user.kyc.upiDetails, upiDetails);
+      }
+
+      await user.save();
+
+      return httpResponse(req, res, 200, responseMessage.customMessage('User KYC updated successfully'), {
+        kyc: user.kyc
+      });
+    } catch (err) {
+      return httpError(next, err, req, 500);
     }
   },
 

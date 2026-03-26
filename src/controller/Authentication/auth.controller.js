@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import User from '../../model/user.model.js'
 import CompanySettings from '../../model/company-settings.model.js'
-import { EUserRole, EKYCStatus, EUserType } from '../../constant/application.js'
+import { EUserRole, EKYCStatus, EUserType, EResidencyType } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
@@ -769,7 +769,8 @@ export default {
       try {
         const userId = req.authenticatedUser._id;
         const {
-          documents,
+          residencyType,
+          details,
           bankDetails,
           upiDetails
         } = req.body;
@@ -802,25 +803,50 @@ export default {
           );
         }
 
-        // Update KYC information using the correct schema structure - mark as verified immediately
-        if (documents) {
-          if (documents.aadhaar) {
-            user.kyc.documents.aadhaar = {
-              number: documents.aadhaar.number,
-              documentUrl: documents.aadhaar.documentUrl,
-              verified: true // Mark as verified immediately
-            };
-            user.kyc.aadhaarVerified = true;
-          }
+        // Validation logic
+        const targetResidency = residencyType || user.kyc.residencyType || EResidencyType.INDIAN;
+        if (targetResidency === EResidencyType.INDIAN) {
+            if (!details?.aadhaarNumber || !/^\d{12}$/.test(details.aadhaarNumber)) {
+                return httpError(next, new Error(responseMessage.customMessage('Invalid 12-digit Aadhaar Number')), req, 400);
+            }
+            if (details?.panNumber && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(details.panNumber.toUpperCase())) {
+                return httpError(next, new Error(responseMessage.customMessage('Invalid PAN Number format (e.g. ABCDE1234F)')), req, 400);
+            }
+        } else {
+            if (!details?.passportNumber || details.passportNumber.length < 6) {
+                return httpError(next, new Error(responseMessage.customMessage('Invalid Passport Number (min 6 characters)')), req, 400);
+            }
+        }
 
-          if (documents.pan) {
-            user.kyc.documents.pan = {
-              number: documents.pan.number,
-              documentUrl: documents.pan.documentUrl,
-              verified: true // Mark as verified immediately
-            };
-            user.kyc.panVerified = true;
-          }
+        if (bankDetails?.accountNumber && !/^\d{9,18}$/.test(bankDetails.accountNumber)) {
+            return httpError(next, new Error(responseMessage.customMessage('Invalid Bank Account Number (9-18 digits)')), req, 400);
+        }
+
+        if (bankDetails?.ifscCode && !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(bankDetails.ifscCode.toUpperCase())) {
+            return httpError(next, new Error(responseMessage.customMessage('Invalid IFSC Code')), req, 400);
+        }
+
+        if (upiDetails?.upiId && !/^[\w.-]+@[\w.-]+$/.test(upiDetails.upiId)) {
+            return httpError(next, new Error(responseMessage.customMessage('Invalid UPI ID format')), req, 400);
+        }
+
+        // Update KYC information based on residency type
+        user.kyc.residencyType = residencyType || EResidencyType.INDIAN;
+        
+        if (user.kyc.residencyType === EResidencyType.INDIAN) {
+          user.kyc.details.aadhaarNumber = details?.aadhaarNumber || null;
+          user.kyc.details.panNumber = details?.panNumber || null;
+          user.kyc.details.gstUdhyamNumber = details?.gstUdhyamNumber || null;
+          // Clear foreign fields
+          user.kyc.details.passportNumber = null;
+          user.kyc.details.vatNumber = null;
+        } else {
+          user.kyc.details.passportNumber = details?.passportNumber || null;
+          user.kyc.details.vatNumber = details?.vatNumber || null;
+          // Clear Indian fields
+          user.kyc.details.aadhaarNumber = null;
+          user.kyc.details.panNumber = null;
+          user.kyc.details.gstUdhyamNumber = null;
         }
 
         if (bankDetails) {
@@ -829,28 +855,28 @@ export default {
             ifscCode: bankDetails.ifscCode,
             accountHolderName: bankDetails.accountHolderName,
             bankName: bankDetails.bankName,
-            verified: true // Mark as verified immediately
+            verified: false // Reset verified flag for manual review
           };
         }
 
         if (upiDetails) {
           user.kyc.upiDetails = {
             upiId: upiDetails.upiId,
-            verified: true // Mark as verified immediately
+            verified: false // Reset verified flag for manual review
           };
         }
 
-        // Update KYC status and timestamps - mark as verified immediately
-        user.kyc.status = EKYCStatus.VERIFIED; // Mark as verified immediately
+        // Update KYC status and timestamps - set to PENDING for admin review
+        user.kyc.status = EKYCStatus.PENDING;
         user.kyc.submittedAt = new Date();
-        user.kyc.verifiedAt = new Date(); // Set verification timestamp immediately
-        user.kyc.rejectedAt = null; // Reset rejection timestamp
+        user.kyc.verifiedAt = null; 
+        user.kyc.verifiedBy = null;
+        user.kyc.rejectionReason = null; 
 
         // Also update the kycStatus object for consistency
-        user.kycStatus.status = 'verified';
-        user.kycStatus.submittedAt = new Date();
-        user.kycStatus.isCompleted = true; // Set to true when verified (never from payload)
-        user.kycStatus.verifiedAt = new Date(); // Set verification timestamp
+        if (user.kycStatus) {
+            user.kycStatus.status = 'pending';
+        }
 
         await user.save();
 
