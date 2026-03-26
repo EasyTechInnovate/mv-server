@@ -49,6 +49,18 @@ const subscriptionPlanSchema = new mongoose.Schema({
             type: Boolean,
             default: false
         },
+        unlimitedArtists: {
+            type: Boolean,
+            default: false
+        },
+        singleLabel: {
+            type: Boolean,
+            default: false
+        },
+        ownership100: {
+            type: Boolean,
+            default: true
+        },
         artistProfile: {
             type: Boolean,
             default: true
@@ -73,6 +85,14 @@ const subscriptionPlanSchema = new mongoose.Schema({
             default: false
         },
         youtubeContentId: {
+            type: Boolean,
+            default: false
+        },
+        tiktokContentId: {
+            type: Boolean,
+            default: false
+        },
+        youtubeOac: {
             type: Boolean,
             default: false
         },
@@ -128,6 +148,46 @@ const subscriptionPlanSchema = new mongoose.Schema({
         analyticsCenter: {
             type: Boolean,
             default: false
+        },
+        royaltyClaimCentre: {
+            type: Boolean,
+            default: false
+        },
+        merchandisePanel: {
+            type: Boolean,
+            default: false
+        },
+        dolbyAtmos: {
+            type: Boolean,
+            default: false
+        },
+        playlistPitching: {
+            type: Boolean,
+            default: false
+        },
+        synchronization: {
+            type: Boolean,
+            default: false
+        },
+        fanLinksBuilder: {
+            type: Boolean,
+            default: false
+        },
+        mahiAi: {
+            type: Boolean,
+            default: false
+        },
+        youtubeMcnAccess: {
+            type: Boolean,
+            default: false
+        },
+        available150Stores: {
+            type: Boolean,
+            default: false
+        },
+        liveSupportTime: {
+            type: String,
+            default: '48_to_72_business_hours'
         }
     },
     isActive: {
