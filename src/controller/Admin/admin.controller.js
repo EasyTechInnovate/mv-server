@@ -10,6 +10,7 @@ import {
   EUserType,
   EUserRole,
   EKYCStatus,
+  EPayoutMethod,
 } from "../../constant/application.js";
 import responseMessage from "../../constant/responseMessage.js";
 import httpResponse from "../../util/httpResponse.js";
@@ -138,18 +139,13 @@ export default {
         user.kyc.verifiedAt = new Date();
         user.kyc.verifiedBy = adminId;
         user.kyc.rejectionReason = null;
-        
-        if (user.kyc.bankDetails) user.kyc.bankDetails.verified = true;
-        if (user.kyc.upiDetails) user.kyc.upiDetails.verified = true;
 
       } else if (status === EKYCStatus.REJECTED) {
         user.kyc.rejectionReason = rejectionReason || 'KYC Rejected by Administrator';
         user.kyc.verifiedAt = null;
       }
 
-      if (user.kycStatus) {
-        user.kycStatus.status = status.toLowerCase();
-      }
+      await user.save();
 
       await user.save();
 
@@ -164,7 +160,7 @@ export default {
   async updateUserKYC(req, res, next) {
     try {
       const { userId } = req.params;
-      const { residencyType, details, bankDetails, upiDetails, status } = req.body;
+      const { residencyType, details, status } = req.body;
 
       const user = await User.findById(userId);
       if (!user) {
@@ -186,17 +182,6 @@ export default {
         }
       }
 
-      if (bankDetails?.accountNumber && !/^\d{9,18}$/.test(bankDetails.accountNumber)) {
-        return httpError(next, new Error(responseMessage.customMessage('Invalid Bank Account Number (9-18 digits)')), req, 400);
-      }
-
-      if (bankDetails?.ifscCode && !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(bankDetails.ifscCode.toUpperCase())) {
-        return httpError(next, new Error(responseMessage.customMessage('Invalid IFSC Code')), req, 400);
-      }
-
-      if (upiDetails?.upiId && !/^[\w.-]+@[\w.-]+$/.test(upiDetails.upiId)) {
-        return httpError(next, new Error(responseMessage.customMessage('Invalid UPI ID format')), req, 400);
-      }
 
       if (residencyType) user.kyc.residencyType = residencyType;
       
@@ -206,15 +191,7 @@ export default {
         Object.assign(user.kyc.details, details);
       }
 
-      if (bankDetails) {
-        if (!user.kyc.bankDetails) user.kyc.bankDetails = {};
-        Object.assign(user.kyc.bankDetails, bankDetails);
-      }
-
-      if (upiDetails) {
-        if (!user.kyc.upiDetails) user.kyc.upiDetails = {};
-        Object.assign(user.kyc.upiDetails, upiDetails);
-      }
+      if (status) user.kyc.status = status;
 
       await user.save();
 
@@ -1055,6 +1032,63 @@ export default {
         200,
         responseMessage.customMessage("User password reset successfully")
       );
+    } catch (err) {
+      return httpError(next, err, req, 500);
+    }
+  },
+
+  async updateUserPayoutMethods(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const { bank, upi, paypal, primaryMethod } = req.body;
+
+      const user = await User.findById(userId);
+      if (!user) {
+        return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404);
+      }
+
+      if (primaryMethod) {
+        if (!Object.values(EPayoutMethod).includes(primaryMethod)) {
+           return httpError(next, new Error(responseMessage.customMessage('Invalid primary payout method')), req, 400);
+        }
+        user.payoutMethods.primaryMethod = primaryMethod;
+      }
+
+      if (bank) {
+        if (bank.accountNumber && !/^\d{9,18}$/.test(bank.accountNumber)) {
+          return httpError(next, new Error(responseMessage.customMessage('Invalid Bank Account Number (9-18 digits)')), req, 400);
+        }
+        
+        user.payoutMethods.bank.accountHolderName = bank.accountHolderName ?? user.payoutMethods.bank.accountHolderName;
+        user.payoutMethods.bank.bankName = bank.bankName ?? user.payoutMethods.bank.bankName;
+        user.payoutMethods.bank.accountNumber = bank.accountNumber ?? user.payoutMethods.bank.accountNumber;
+        user.payoutMethods.bank.ifscSwiftCode = bank.ifscSwiftCode ?? user.payoutMethods.bank.ifscSwiftCode;
+        if (bank.verified !== undefined) user.payoutMethods.bank.verified = bank.verified;
+      }
+
+      if (upi) {
+        if (upi.upiId && !/^[\w.-]+@[\w.-]+$/.test(upi.upiId)) {
+          return httpError(next, new Error(responseMessage.customMessage('Invalid UPI ID format')), req, 400);
+        }
+        user.payoutMethods.upi.upiId = upi.upiId ?? user.payoutMethods.upi.upiId;
+        user.payoutMethods.upi.accountHolderName = upi.accountHolderName ?? user.payoutMethods.upi.accountHolderName;
+        if (upi.verified !== undefined) user.payoutMethods.upi.verified = upi.verified;
+      }
+
+      if (paypal) {
+        if (paypal.paypalEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(paypal.paypalEmail)) {
+           return httpError(next, new Error(responseMessage.customMessage('Invalid PayPal Email format')), req, 400);
+        }
+        user.payoutMethods.paypal.accountName = paypal.accountName ?? user.payoutMethods.paypal.accountName;
+        user.payoutMethods.paypal.paypalEmail = paypal.paypalEmail ?? user.payoutMethods.paypal.paypalEmail;
+        if (paypal.verified !== undefined) user.payoutMethods.paypal.verified = paypal.verified;
+      }
+
+      await user.save();
+
+      return httpResponse(req, res, 200, responseMessage.customMessage('User payout methods updated successfully'), {
+        payoutMethods: user.payoutMethods
+      });
     } catch (err) {
       return httpError(next, err, req, 500);
     }

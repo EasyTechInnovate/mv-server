@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 import User from '../../model/user.model.js'
 import CompanySettings from '../../model/company-settings.model.js'
-import { EUserRole, EKYCStatus, EUserType, EResidencyType } from '../../constant/application.js'
+import { EUserRole, EKYCStatus, EUserType, EResidencyType, EPayoutMethod } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
@@ -548,6 +548,7 @@ export default {
                     featureAccess: user.featureAccess,
                     socialMedia: user.socialMedia,
                     kyc: user.kyc,
+                    payoutMethods: user.payoutMethods,
                     aggregatorBanner: user.aggregatorBanner,
                     profile: user.profile,
                     artistData: user.artistData,
@@ -770,9 +771,7 @@ export default {
         const userId = req.authenticatedUser._id;
         const {
           residencyType,
-          details,
-          bankDetails,
-          upiDetails
+          details
         } = req.body;
 
         const user = await User.findById(userId);
@@ -803,33 +802,6 @@ export default {
           );
         }
 
-        // Validation logic
-        const targetResidency = residencyType || user.kyc.residencyType || EResidencyType.INDIAN;
-        if (targetResidency === EResidencyType.INDIAN) {
-            if (!details?.aadhaarNumber || !/^\d{12}$/.test(details.aadhaarNumber)) {
-                return httpError(next, new Error(responseMessage.customMessage('Invalid 12-digit Aadhaar Number')), req, 400);
-            }
-            if (details?.panNumber && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(details.panNumber.toUpperCase())) {
-                return httpError(next, new Error(responseMessage.customMessage('Invalid PAN Number format (e.g. ABCDE1234F)')), req, 400);
-            }
-        } else {
-            if (!details?.passportNumber || details.passportNumber.length < 6) {
-                return httpError(next, new Error(responseMessage.customMessage('Invalid Passport Number (min 6 characters)')), req, 400);
-            }
-        }
-
-        if (bankDetails?.accountNumber && !/^\d{9,18}$/.test(bankDetails.accountNumber)) {
-            return httpError(next, new Error(responseMessage.customMessage('Invalid Bank Account Number (9-18 digits)')), req, 400);
-        }
-
-        if (bankDetails?.ifscCode && !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(bankDetails.ifscCode.toUpperCase())) {
-            return httpError(next, new Error(responseMessage.customMessage('Invalid IFSC Code')), req, 400);
-        }
-
-        if (upiDetails?.upiId && !/^[\w.-]+@[\w.-]+$/.test(upiDetails.upiId)) {
-            return httpError(next, new Error(responseMessage.customMessage('Invalid UPI ID format')), req, 400);
-        }
-
         // Update KYC information based on residency type
         user.kyc.residencyType = residencyType || EResidencyType.INDIAN;
         
@@ -849,26 +821,13 @@ export default {
           user.kyc.details.gstUdhyamNumber = null;
         }
 
-        if (bankDetails) {
-          user.kyc.bankDetails = {
-            accountNumber: bankDetails.accountNumber,
-            ifscCode: bankDetails.ifscCode,
-            accountHolderName: bankDetails.accountHolderName,
-            bankName: bankDetails.bankName,
-            verified: false // Reset verified flag for manual review
-          };
-        }
-
-        if (upiDetails) {
-          user.kyc.upiDetails = {
-            upiId: upiDetails.upiId,
-            verified: false // Reset verified flag for manual review
-          };
-        }
-
         // Update KYC status and timestamps - set to PENDING for admin review
         user.kyc.status = EKYCStatus.PENDING;
         user.kyc.submittedAt = new Date();
+        
+        // Mark payout methods as needing verification if they are updated here (though they shouldn't be anymore)
+        // Since we decoupled them, we don't reset payout methods here.
+
         user.kyc.verifiedAt = null; 
         user.kyc.verifiedBy = null;
         user.kyc.rejectionReason = null; 
@@ -1242,5 +1201,61 @@ export default {
         } catch (err) {
             return httpError(next, err, req, 500)
         }
-    }
+    },
+
+    async updatePayoutMethods(req, res, next) {
+        try {
+            const userId = req.authenticatedUser._id;
+            const { bank, upi, paypal, primaryMethod } = req.body;
+
+            const user = await User.findById(userId);
+            if (!user) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404);
+            }
+
+            if (primaryMethod) {
+                if (!Object.values(EPayoutMethod).includes(primaryMethod)) {
+                    return httpError(next, new Error(responseMessage.customMessage('Invalid primary payout method')), req, 400);
+                }
+                user.payoutMethods.primaryMethod = primaryMethod;
+            }
+
+            if (bank) {
+                if (bank.accountNumber && !/^\d{9,18}$/.test(bank.accountNumber)) {
+                    return httpError(next, new Error(responseMessage.customMessage('Invalid Bank Account Number (9-18 digits)')), req, 400);
+                }
+                user.payoutMethods.bank.accountHolderName = bank.accountHolderName ?? user.payoutMethods.bank.accountHolderName;
+                user.payoutMethods.bank.bankName = bank.bankName ?? user.payoutMethods.bank.bankName;
+                user.payoutMethods.bank.accountNumber = bank.accountNumber ?? user.payoutMethods.bank.accountNumber;
+                user.payoutMethods.bank.ifscSwiftCode = bank.ifscSwiftCode ?? user.payoutMethods.bank.ifscSwiftCode;
+                user.payoutMethods.bank.verified = false;
+            }
+
+            if (upi) {
+                if (upi.upiId && !/^[\w.-]+@[\w.-]+$/.test(upi.upiId)) {
+                    return httpError(next, new Error(responseMessage.customMessage('Invalid UPI ID format')), req, 400);
+                }
+                user.payoutMethods.upi.upiId = upi.upiId ?? user.payoutMethods.upi.upiId;
+                user.payoutMethods.upi.accountHolderName = upi.accountHolderName ?? user.payoutMethods.upi.accountHolderName;
+                user.payoutMethods.upi.verified = false;
+            }
+
+            if (paypal) {
+                if (paypal.paypalEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(paypal.paypalEmail)) {
+                    return httpError(next, new Error(responseMessage.customMessage('Invalid PayPal Email format')), req, 400);
+                }
+                user.payoutMethods.paypal.accountName = paypal.accountName ?? user.payoutMethods.paypal.accountName;
+                user.payoutMethods.paypal.paypalEmail = paypal.paypalEmail ?? user.payoutMethods.paypal.paypalEmail;
+                user.payoutMethods.paypal.verified = false;
+            }
+
+            await user.save();
+
+            return httpResponse(req, res, 200, responseMessage.customMessage('Payout methods updated successfully'), {
+                payoutMethods: user.payoutMethods
+            });
+        } catch (err) {
+            return httpError(next, err, req, 500);
+        }
+    },
 }

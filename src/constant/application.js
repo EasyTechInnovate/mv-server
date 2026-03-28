@@ -1250,7 +1250,8 @@ export const EPayoutStatus = Object.freeze({
 });
 
 export const EPayoutMethod = Object.freeze({
+    BANK: 'bank',
     BANK_TRANSFER: 'bank_transfer',
     UPI: 'upi',
-    CHEQUE: 'cheque'
+    PAYPAL: 'paypal'
 });

@@ -126,7 +126,7 @@ payoutRequestSchema.statics.findPendingRequests = function(limit = 50) {
     return this.find({ status: EPayoutStatus.PENDING, isActive: true })
         .sort({ requestedAt: 1 })
         .limit(limit)
-        .populate('userId', 'firstName lastName emailAddress accountId kyc.bankDetails')
+        .populate('userId', 'firstName lastName emailAddress accountId payoutMethods')
 }
 
 payoutRequestSchema.statics.findUserRequests = function(userId, limit = 10) {

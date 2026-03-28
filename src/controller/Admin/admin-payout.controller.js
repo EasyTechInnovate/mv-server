@@ -40,7 +40,7 @@ const adminPayoutController = {
 
             const [requests, totalCount] = await Promise.all([
                 PayoutRequest.find(filter)
-                    .populate('userId', 'firstName lastName emailAddress accountId kyc.bankDetails')
+                    .populate('userId', 'firstName lastName emailAddress accountId payoutMethods')
                     .populate('processedBy', 'firstName lastName emailAddress')
                     .sort(sortObj)
                     .skip(skip)
@@ -105,7 +105,7 @@ const adminPayoutController = {
                 requestId,
                 isActive: true
             })
-                .populate('userId', 'firstName lastName emailAddress accountId kyc.bankDetails')
+                .populate('userId', 'firstName lastName emailAddress accountId payoutMethods')
                 .populate('processedBy', 'firstName lastName emailAddress')
 
             if (!payoutRequest) {

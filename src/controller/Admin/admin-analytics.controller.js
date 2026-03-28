@@ -52,8 +52,43 @@ export default {
                 hasPrevPage: pageNumber > 1
             }
 
+            // Clean up KYC and Payout data if missing/null for consistent display
+            const transformedUsers = users.map(u => ({
+                ...u,
+                kyc: {
+                    ...u.kyc,
+                    details: {
+                        aadhaarNumber: u.kyc?.details?.aadhaarNumber || "",
+                        panNumber: u.kyc?.details?.panNumber || "",
+                        gstUdhyamNumber: u.kyc?.details?.gstUdhyamNumber || "",
+                        passportNumber: u.kyc?.details?.passportNumber || "",
+                        vatNumber: u.kyc?.details?.vatNumber || "",
+                    }
+                },
+                payoutMethods: {
+                    primaryMethod: u.payoutMethods?.primaryMethod || "bank",
+                    bank: {
+                        accountHolderName: u.payoutMethods?.bank?.accountHolderName || "",
+                        bankName: u.payoutMethods?.bank?.bankName || "",
+                        accountNumber: u.payoutMethods?.bank?.accountNumber || "",
+                        ifscSwiftCode: u.payoutMethods?.bank?.ifscSwiftCode || "",
+                        verified: u.payoutMethods?.bank?.verified || false,
+                    },
+                    upi: {
+                        accountHolderName: u.payoutMethods?.upi?.accountHolderName || "",
+                        upiId: u.payoutMethods?.upi?.upiId || "",
+                        verified: u.payoutMethods?.upi?.verified || false,
+                    },
+                    paypal: {
+                        accountName: u.payoutMethods?.paypal?.accountName || "",
+                        paypalEmail: u.payoutMethods?.paypal?.paypalEmail || "",
+                        verified: u.payoutMethods?.paypal?.verified || false,
+                    }
+                }
+            }));
+
             httpResponse(req, res, 200, responseMessage.SUCCESS, {
-                users,
+                users: transformedUsers,
                 pagination
             })
         } catch (error) {

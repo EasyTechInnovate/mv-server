@@ -88,6 +88,12 @@ router.route('/verify-kyc')
     authController.verifyKYC
   );
 
+router.route('/payout-methods')
+  .patch(
+    authentication,
+    authController.updatePayoutMethods
+  );
+
 // Profile Management
 router.route('/profile')
     .patch(

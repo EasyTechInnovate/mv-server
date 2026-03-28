@@ -10,7 +10,7 @@ const payoutRequestController = {
         try {
             const userId = req.authenticatedUser._id
             const accountId = req.authenticatedUser.accountId
-            const { amount, payoutMethod = EPayoutMethod.BANK_TRANSFER } = req.body
+            const { amount, payoutMethod = EPayoutMethod.BANK } = req.body
 
             if (!amount || amount <= 0) {
                 return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('amount')), req, 400)
@@ -24,6 +24,22 @@ const payoutRequestController = {
                     req, 
                     403
                 )
+            }
+
+            // Check if user has provided details for the requested method
+            const user = req.authenticatedUser;
+            if (payoutMethod === EPayoutMethod.BANK || payoutMethod === EPayoutMethod.BANK_TRANSFER) {
+                if (!user.payoutMethods?.bank?.accountNumber || !user.payoutMethods?.bank?.ifscSwiftCode) {
+                    return httpError(next, new Error(responseMessage.customMessage('Please provide bank account details in Finance & Wallet before requesting a payout.')), req, 400);
+                }
+            } else if (payoutMethod === EPayoutMethod.UPI) {
+                if (!user.payoutMethods?.upi?.upiId) {
+                    return httpError(next, new Error(responseMessage.customMessage('Please provide UPI details in Finance & Wallet before requesting a payout.')), req, 400);
+                }
+            } else if (payoutMethod === EPayoutMethod.PAYPAL) {
+                if (!user.payoutMethods?.paypal?.paypalEmail) {
+                    return httpError(next, new Error(responseMessage.customMessage('Please provide PayPal details in Finance & Wallet before requesting a payout.')), req, 400);
+                }
             }
 
             const wallet = await Wallet.findByUserId(userId)

@@ -944,6 +944,14 @@ router.route('/users/:userId/kyc/review')
         adminController.reviewUserKYC
     )
 
+
+router.route('/users/:userId/payout-methods')
+    .put(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
+        adminController.updateUserPayoutMethods
+    )
 router.route('/users/:userId/kyc/update')
     .put(
         authentication,

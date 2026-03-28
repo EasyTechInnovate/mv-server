@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { EUserType } from '../constant/application.js'
+import { EUserType, EResidencyType } from '../constant/application.js'
 
 const register = z.object({
     body: z.object({
@@ -122,50 +122,46 @@ const createAdmin = z.object({
 
 const kycSubmit = z.object({
     body: z.object({
-        documents: z.object({
-            aadhaar: z.object({
-                number: z.string()
-                    .trim()
-                    .refine(val => /^\d{4}-?\d{4}-?\d{4}$/.test(val), {
-                        message: 'Aadhaar must be 12 digits (format: 1234-5678-9012 or 123456789012)'
-                    }),
-                documentUrl: z.string().url('Invalid document URL')
-            }).optional(),
-            pan: z.object({
-                number: z.string()
-                    .trim()
-                    .toUpperCase()
-                    .refine(val => /^[A-Z]{5}[0-9]{4}[A-Z]$/.test(val), {
-                        message: 'PAN must be valid (e.g., ABCDE1234F)'
-                    }),
-                documentUrl: z.string().url('Invalid document URL')
-            }).optional()
-        }).optional(),
-        bankDetails: z.object({
-            accountNumber: z.string().trim().min(8, 'Account number must be at least 8 characters'),
-            ifscCode: z.string()
-                .trim()
-                .toUpperCase()
-                .refine(val => /^[A-Z]{4}0[A-Z0-9]{6}$/.test(val), {
-                    message: 'IFSC code must be valid (e.g., HDFC0001234)'
-                }),
-            accountHolderName: z.string().trim().min(1, 'Account holder name is required'),
-            bankName: z.string().trim().min(1, 'Bank name is required')
-        }).optional(),
-        upiDetails: z.object({
-            upiId: z.string()
-                .trim()
-                .refine(val => /^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+$/.test(val), {
-                    message: 'UPI ID must be valid (e.g., user@paytm)'
-                })
-        }).optional()
-    }).refine(data => 
-        data.documents || data.bankDetails || data.upiDetails, {
-        message: 'At least one of documents, bank details, or UPI details must be provided'
-    }).transform(data => {
-        // Security: Remove any status fields that users might try to inject
-        const { isCompleted, status, verifiedAt, rejectedAt, ...cleanData } = data;
-        return cleanData;
+        residencyType: z.enum([EResidencyType.INDIAN, EResidencyType.FOREIGN]),
+        details: z.object({
+            // Indian Resident Fields
+            aadhaarNumber: z.string().trim().optional(),
+            panNumber: z.string().trim().toUpperCase().optional(),
+            gstUdhyamNumber: z.string().trim().optional(),
+            // Foreign Resident Fields
+            passportNumber: z.string().trim().optional(),
+            vatNumber: z.string().trim().optional(),
+        })
+    }).superRefine((data, ctx) => {
+        const { residencyType, details } = data;
+
+        if (residencyType === EResidencyType.INDIAN) {
+            // Validate Aadhaar for Indian residents
+            if (!details.aadhaarNumber || !/^\d{12}$/.test(details.aadhaarNumber)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Aadhaar must be 12 digits",
+                    path: ["details", "aadhaarNumber"]
+                });
+            }
+            // Validate PAN if provided for Indian residents
+            if (details.panNumber && details.panNumber !== "" && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(details.panNumber)) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Invalid PAN format",
+                    path: ["details", "panNumber"]
+                });
+            }
+        } else if (residencyType === EResidencyType.FOREIGN) {
+            // Validate Passport for Foreign residents
+            if (!details.passportNumber || details.passportNumber.length < 6) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "Passport Number must be at least 6 characters",
+                    path: ["details", "passportNumber"]
+                });
+            }
+        }
     })
 })
 

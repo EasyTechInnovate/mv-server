@@ -12,6 +12,7 @@ import {
   ETeamRole,
   EModuleAccess,
   ETeamMemberStatus,
+  EPayoutMethod,
 } from "../constant/application.js";
 
 dayjs.extend(utc);
@@ -502,40 +503,6 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.Mixed,
         default: null,
       },
-      bankDetails: {
-        _id: false,
-        accountNumber: {
-          type: String,
-          default: null,
-        },
-        ifscCode: {
-          type: String,
-          default: null,
-        },
-        accountHolderName: {
-          type: String,
-          default: null,
-        },
-        bankName: {
-          type: String,
-          default: null,
-        },
-        verified: {
-          type: Boolean,
-          default: false,
-        },
-      },
-      upiDetails: {
-        _id: false,
-        upiId: {
-          type: String,
-          default: null,
-        },
-        verified: {
-          type: Boolean,
-          default: false,
-        },
-      },
       submittedAt: {
         type: Date,
         default: null,
@@ -553,6 +520,34 @@ const userSchema = new mongoose.Schema(
         type: String,
         default: null,
       },
+    },
+    payoutMethods: {
+      _id: false,
+      primaryMethod: {
+        type: String,
+        enum: Object.values(EPayoutMethod),
+        default: EPayoutMethod.BANK,
+      },
+      bank: {
+        _id: false,
+        accountHolderName: { type: String, default: null },
+        bankName: { type: String, default: null },
+        accountNumber: { type: String, default: null },
+        ifscSwiftCode: { type: String, default: null },
+        verified: { type: Boolean, default: false },
+      },
+      upi: {
+        _id: false,
+        accountHolderName: { type: String, default: null },
+        upiId: { type: String, default: null },
+        verified: { type: Boolean, default: false },
+      },
+      paypal: {
+        _id: false,
+        accountName: { type: String, default: null },
+        paypalEmail: { type: String, default: null },
+        verified: { type: Boolean, default: false },
+      }
     },
 
     taxInfo: {
@@ -775,44 +770,9 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
-    kycStatus: {
-      _id: false,
-      isCompleted: {
-        type: Boolean,
-        default: false,
-      },
-      status: {
-        type: String,
-        enum: ['pending', 'verified', 'rejected'],
-        default: 'pending',
-      },
-      submittedAt: {
-        type: Date,
-        default: null,
-      },
-      verifiedAt: {
-        type: Date,
-        default: null,
-      },
-      rejectedAt: {
-        type: Date,
-        default: null,
-      },
-      rejectionReason: {
-        type: String,
-        default: null,
-      },
-      documents: {
-        _id: false,
-        aadharCard: {
-          type: String,
-          default: null,
-        },
-        panCard: {
-          type: String,
-          default: null,
-        },
-      },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
     },
 
     loginInfo: {
@@ -983,9 +943,8 @@ userSchema.methods.calculateProfileCompletion = function () {
     "profile.photo",
     "profile.bio",
     "profile.primaryGenre",
-    "kyc.documents.aadhaar.verified",
-    "kyc.documents.pan.verified",
-    "kyc.bankDetails.accountNumber",
+    "kyc.status",
+    "payoutMethods.bank.accountNumber",
   ];
 
   let completedFields = 0;
