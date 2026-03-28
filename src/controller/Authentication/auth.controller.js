@@ -565,10 +565,10 @@ export default {
 
     async verifyEmail(req, res, next) {
         try {
-            const { token, code } = req.body
+            const { emailAddress, code } = req.body
 
             const user = await User.findOne({
-                'accountConfirmation.token': token,
+                emailAddress,
                 'accountConfirmation.expiresAt': { $gt: new Date() },
                 'accountConfirmation.isUsed': false,
                 isActive: true
@@ -577,7 +577,7 @@ export default {
             if (!user) {
                 return httpError(
                     next,
-                    new Error(responseMessage.customMessage('Invalid or expired verification token')),
+                    new Error(responseMessage.customMessage('Invalid or expired verification. Please request a new code.')),
                     req,
                     400
                 )

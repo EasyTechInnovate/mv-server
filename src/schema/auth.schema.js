@@ -96,7 +96,7 @@ const refreshToken = z.object({
 
 const verifyEmail = z.object({
     body: z.object({
-        token: z.string().min(1, 'Verification token is required'),
+        emailAddress: z.string().email('Invalid email address').transform(val => val.toLowerCase()),
         code: z.string().min(6, 'Verification code must be 6 digits').max(6, 'Verification code must be 6 digits')
     })
 })
