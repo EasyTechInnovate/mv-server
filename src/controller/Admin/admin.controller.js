@@ -11,11 +11,38 @@ import {
   EUserRole,
   EKYCStatus,
   EPayoutMethod,
+  EPlanTargetType
 } from "../../constant/application.js";
 import responseMessage from "../../constant/responseMessage.js";
 import httpResponse from "../../util/httpResponse.js";
 import httpError from "../../util/httpError.js";
 import quicker from "../../util/quicker.js";
+
+function _formatPlan(plan) {
+    return {
+        _id: plan._id,
+        planId: plan.planId,
+        name: plan.name,
+        description: plan.description,
+        targetType: plan.targetType,
+        price: plan.price,
+        currency: plan.currency,
+        interval: plan.interval,
+        intervalCount: plan.intervalCount,
+        features: plan.features,
+        showcaseFeatures: plan.showcaseFeatures,
+        isActive: plan.isActive,
+        isPopular: plan.isPopular,
+        isBestValue: plan.isBestValue,
+        displayOrder: plan.displayOrder,
+        limits: plan.limits,
+        trial: plan.trial,
+        discount: plan.discount,
+        discountedPrice: plan.discountedPrice,
+        createdAt: plan.createdAt,
+        updatedAt: plan.updatedAt,
+    }
+}
 
 export default {
   async self(req, res, next) {
@@ -205,41 +232,23 @@ export default {
 
   async getAllPlans(req, res, next) {
     try {
-      const { includeInactive } = req.query;
+      const { includeInactive, targetType } = req.query
 
-      const filter = includeInactive === "true" ? {} : { isActive: true };
-      const plans = await SubscriptionPlan.find(filter).sort({
-        displayOrder: 1,
-        createdAt: -1,
-      });
+      const filter = includeInactive === 'true' ? {} : { isActive: true }
+      if (targetType && Object.values(EPlanTargetType).includes(targetType)) {
+        filter.targetType = targetType
+      }
 
-      const formattedPlans = plans.map((plan) => ({
-        _id: plan._id,
-        planId: plan.planId,
-        name: plan.name,
-        description: plan.description,
-        price: plan.price,
-        currency: plan.currency,
-        interval: plan.interval,
-        intervalCount: plan.intervalCount,
-        features: plan.features,
-        isActive: plan.isActive,
-        isPopular: plan.isPopular,
-        isBestValue: plan.isBestValue,
-        displayOrder: plan.displayOrder,
-        limits: plan.limits,
-        trial: plan.trial,
-        discount: plan.discount,
-        createdAt: plan.createdAt,
-        updatedAt: plan.updatedAt,
-      }));
+      const plans = await SubscriptionPlan.find(filter).sort({ displayOrder: 1, createdAt: -1 })
+
+      const formattedPlans = plans.map((plan) => _formatPlan(plan))
 
       return httpResponse(req, res, 200, responseMessage.SUCCESS, {
         plans: formattedPlans,
         totalPlans: plans.length,
-      });
+      })
     } catch (err) {
-      return httpError(next, err, req, 500);
+      return httpError(next, err, req, 500)
     }
   },
 
@@ -268,33 +277,7 @@ export default {
       const newPlan = new SubscriptionPlan(planData);
       await newPlan.save();
 
-      const formattedPlan = {
-        _id: newPlan._id,
-        planId: newPlan.planId,
-        name: newPlan.name,
-        description: newPlan.description,
-        price: newPlan.price,
-        currency: newPlan.currency,
-        interval: newPlan.interval,
-        intervalCount: newPlan.intervalCount,
-        features: newPlan.features,
-        isActive: newPlan.isActive,
-        isPopular: newPlan.isPopular,
-        isBestValue: newPlan.isBestValue,
-        displayOrder: newPlan.displayOrder,
-        limits: newPlan.limits,
-        trial: newPlan.trial,
-        discount: newPlan.discount,
-        createdAt: newPlan.createdAt,
-      };
-
-      return httpResponse(
-        req,
-        res,
-        201,
-        responseMessage.CREATED,
-        formattedPlan
-      );
+      return httpResponse(req, res, 201, responseMessage.CREATED, _formatPlan(newPlan));
     } catch (err) {
       return httpError(next, err, req, 500);
     }
@@ -335,33 +318,14 @@ export default {
         },
       ]);
 
-      const planData = {
-        _id: plan._id,
-        planId: plan.planId,
-        name: plan.name,
-        description: plan.description,
-        price: plan.price,
-        currency: plan.currency,
-        interval: plan.interval,
-        intervalCount: plan.intervalCount,
-        features: plan.features,
-        isActive: plan.isActive,
-        isPopular: plan.isPopular,
-        isBestValue: plan.isBestValue,
-        displayOrder: plan.displayOrder,
-        limits: plan.limits,
-        trial: plan.trial,
-        discount: plan.discount,
+      return httpResponse(req, res, 200, responseMessage.SUCCESS, {
+        ..._formatPlan(plan),
         analytics: {
           subscriberCount,
           totalRevenue: totalRevenue[0]?.total || 0,
           totalTransactions: totalRevenue[0]?.count || 0,
         },
-        createdAt: plan.createdAt,
-        updatedAt: plan.updatedAt,
-      };
-
-      return httpResponse(req, res, 200, responseMessage.SUCCESS, planData);
+      });
     } catch (err) {
       return httpError(next, err, req, 500);
     }
@@ -389,50 +353,19 @@ export default {
       }
 
       Object.keys(updateData).forEach((key) => {
-        if (
-          typeof updateData[key] === "object" &&
-          updateData[key] !== null &&
-          !Array.isArray(updateData[key])
-        ) {
-          if (plan[key]) {
-            Object.assign(plan[key], updateData[key]);
-          } else {
-            plan[key] = updateData[key];
-          }
+        if (Array.isArray(updateData[key])) {
+            // Arrays (e.g. showcaseFeatures) are fully replaced
+            plan[key] = updateData[key]
+        } else if (typeof updateData[key] === 'object' && updateData[key] !== null) {
+            plan[key] = plan[key] ? Object.assign(plan[key], updateData[key]) : updateData[key]
         } else {
-          plan[key] = updateData[key];
+            plan[key] = updateData[key]
         }
-      });
+      })
 
-      await plan.save();
+      await plan.save()
 
-      const formattedPlan = {
-        _id: plan._id,
-        planId: plan.planId,
-        name: plan.name,
-        description: plan.description,
-        price: plan.price,
-        currency: plan.currency,
-        interval: plan.interval,
-        intervalCount: plan.intervalCount,
-        features: plan.features,
-        isActive: plan.isActive,
-        isPopular: plan.isPopular,
-        isBestValue: plan.isBestValue,
-        displayOrder: plan.displayOrder,
-        limits: plan.limits,
-        trial: plan.trial,
-        discount: plan.discount,
-        updatedAt: plan.updatedAt,
-      };
-
-      return httpResponse(
-        req,
-        res,
-        200,
-        responseMessage.UPDATED,
-        formattedPlan
-      );
+      return httpResponse(req, res, 200, responseMessage.UPDATED, _formatPlan(plan));
     } catch (err) {
       return httpError(next, err, req, 500);
     }
@@ -532,6 +465,97 @@ export default {
       });
     } catch (err) {
       return httpError(next, err, req, 500);
+    }
+  },
+
+  async getSubscribers(req, res, next) {
+    try {
+      const { page = 1, limit = 20, planId, search } = req.query
+      const skip = (parseInt(page) - 1) * parseInt(limit)
+
+      const filter = {
+        'subscription.status': ESubscriptionStatus.ACTIVE,
+        role: 'user'
+      }
+      if (planId) filter['subscription.planId'] = planId
+      if (search) {
+        filter.$or = [
+          { firstName: { $regex: search, $options: 'i' } },
+          { lastName:  { $regex: search, $options: 'i' } },
+          { emailAddress: { $regex: search, $options: 'i' } }
+        ]
+      }
+
+      const [subscribers, total] = await Promise.all([
+        User.find(filter)
+          .select('firstName lastName emailAddress userType accountId subscription createdAt')
+          .sort({ 'subscription.validUntil': 1 })
+          .skip(skip)
+          .limit(parseInt(limit)),
+        User.countDocuments(filter)
+      ])
+
+      const data = subscribers.map(u => ({
+        _id: u._id,
+        accountId: u.accountId,
+        name: `${u.firstName} ${u.lastName}`,
+        emailAddress: u.emailAddress,
+        userType: u.userType,
+        subscription: {
+          planId: u.subscription.planId,
+          status: u.subscription.status,
+          validFrom: u.subscription.validFrom,
+          validUntil: u.subscription.validUntil,
+          autoRenewal: u.subscription.autoRenewal
+        }
+      }))
+
+      return httpResponse(req, res, 200, responseMessage.SUCCESS, {
+        subscribers: data,
+        pagination: {
+          currentPage: parseInt(page),
+          totalPages: Math.ceil(total / parseInt(limit)),
+          totalSubscribers: total,
+          hasNextPage: skip + parseInt(limit) < total,
+          hasPreviousPage: parseInt(page) > 1
+        }
+      })
+    } catch (err) {
+      return httpError(next, err, req, 500)
+    }
+  },
+
+  async updateAggregatorSubscription(req, res, next) {
+    try {
+      const { userId } = req.params
+      const { startDate, endDate, notes } = req.body
+      const adminId = req.authenticatedUser._id
+
+      const user = await User.findById(userId)
+      if (!user) {
+        return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('User')), req, 404)
+      }
+
+      if (user.userType !== EUserType.AGGREGATOR) {
+        return httpError(next, new Error(responseMessage.customMessage('This action is only allowed for aggregator accounts')), req, 400)
+      }
+
+      user.aggregatorSubscription = {
+        startDate: new Date(startDate),
+        endDate: new Date(endDate),
+        notes: notes || null,
+        managedBy: adminId
+      }
+      await user.save()
+
+      return httpResponse(req, res, 200, responseMessage.UPDATED, {
+        userId: user._id,
+        accountId: user.accountId,
+        aggregatorSubscription: user.aggregatorSubscription,
+        isCurrentlyActive: user.hasActiveAggregatorSubscription
+      })
+    } catch (err) {
+      return httpError(next, err, req, 500)
     }
   },
 

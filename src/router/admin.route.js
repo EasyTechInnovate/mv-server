@@ -108,6 +108,14 @@ router.route('/plans/:planId/deactivate')
         adminController.deactivatePlan
     )
 
+router.route('/subscribers')
+    .get(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('System Settings'),
+        adminController.getSubscribers
+    )
+
 router.route('/revenue/summary')
     .get(
         authentication,
@@ -934,6 +942,15 @@ router.route('/users/:userId/profile')
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
         moduleAuthorization('User Management'),
         adminController.updateUserProfile
+    )
+
+router.route('/users/:userId/aggregator-subscription')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        moduleAuthorization('User Management'),
+        validateRequest(adminSchemas.aggregatorSubscription),
+        adminController.updateAggregatorSubscription
     )
 
 router.route('/users/:userId/kyc/review')

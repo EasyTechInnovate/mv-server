@@ -622,6 +622,14 @@ const userSchema = new mongoose.Schema(
       },
     },
 
+    aggregatorSubscription: {
+        _id: false,
+        startDate: { type: Date, default: null },
+        endDate:   { type: Date, default: null },
+        notes:     { type: String, default: null },
+        managedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }
+    },
+
     sublabels: [{
       sublabel: {
         type: Schema.Types.ObjectId,
@@ -862,6 +870,16 @@ userSchema.virtual("hasActiveSubscription").get(function () {
     new Date() <= this.subscription.validUntil
   );
 });
+
+userSchema.virtual("hasActiveAggregatorSubscription").get(function () {
+    const now = new Date()
+    return (
+        this.aggregatorSubscription?.startDate !== null &&
+        this.aggregatorSubscription?.endDate !== null &&
+        now >= this.aggregatorSubscription.startDate &&
+        now <= this.aggregatorSubscription.endDate
+    )
+})
 
 userSchema.virtual("unreadNotificationsCount").get(function () {
   return this.userNotifications?.filter((n) => !n.isRead).length || 0;

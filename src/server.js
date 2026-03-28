@@ -4,6 +4,7 @@ import { initRateLimiter } from './config/rateLimiter.js';
 import databaseService from './service/databaseService.js';
 import logger from './util/logger.js';
 import { initializeDefaultSublabels } from './util/sublabelHelper.js';
+import subscriptionExpiryCron from './cron/subscriptionExpiry.cron.js';
 
 const server = app.listen(config.server.port);
 
@@ -21,6 +22,9 @@ const server = app.listen(config.server.port);
 
         await initializeDefaultSublabels();
         logger.info('DEFAULT_SUBLABELS_INITIALIZED');
+
+        subscriptionExpiryCron.start();
+        logger.info('SUBSCRIPTION_EXPIRY_CRON_STARTED');
 
         logger.info('APPLICATION_STARTED', {
             meta: {

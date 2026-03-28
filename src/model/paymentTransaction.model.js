@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { EPaymentStatus, ESubscriptionPlan } from '../constant/application.js'
+import { EPaymentStatus } from '../constant/application.js'
 
 const paymentTransactionSchema = new mongoose.Schema({
     userId: {
@@ -36,7 +36,6 @@ const paymentTransactionSchema = new mongoose.Schema({
     },
     planId: {
         type: String,
-        enum: Object.values(ESubscriptionPlan),
         required: [true, 'Plan ID is required']
     },
     description: {

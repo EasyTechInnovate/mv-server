@@ -21,21 +21,27 @@ export default {
     },
     async getPlans(req, res, next) {
         try {
-            const plans = await SubscriptionPlan.getActivePlans()
-            
+            const { targetType } = req.query
+            const plans = await SubscriptionPlan.getActivePlans(targetType || null)
+
             const formattedPlans = plans.map(plan => ({
                 planId: plan.planId,
                 name: plan.name,
                 description: plan.description,
+                targetType: plan.targetType,
                 price: {
                     current: plan.price.current,
                     original: plan.price.original
                 },
                 currency: plan.currency,
                 interval: plan.interval,
+                intervalCount: plan.intervalCount,
                 features: plan.features,
+                showcaseFeatures: plan.showcaseFeatures,
                 isPopular: plan.isPopular,
                 isBestValue: plan.isBestValue,
+                trial: plan.trial,
+                discount: plan.discount,
                 discountedPrice: plan.discountedPrice
             }))
 
@@ -544,8 +550,24 @@ export default {
     async getMySubscription(req, res, next) {
         try {
             const userId = req.authenticatedUser._id
-            
             const user = await User.findById(userId)
+
+            // Aggregator — subscription is managed by admin, not purchased
+            if (user.userType === 'aggregator') {
+                return httpResponse(req, res, 200, responseMessage.SUCCESS, {
+                    userType: 'aggregator',
+                    hasSubscription: user.hasActiveAggregatorSubscription,
+                    aggregatorSubscription: {
+                        startDate: user.aggregatorSubscription?.startDate || null,
+                        endDate: user.aggregatorSubscription?.endDate || null,
+                        isActive: user.hasActiveAggregatorSubscription,
+                        daysRemaining: user.aggregatorSubscription?.endDate
+                            ? Math.max(0, Math.ceil((new Date(user.aggregatorSubscription.endDate) - new Date()) / (1000 * 60 * 60 * 24)))
+                            : null
+                    }
+                })
+            }
+
             if (!user.subscription.planId) {
                 return httpResponse(req, res, 200, responseMessage.SUCCESS, {
                     hasSubscription: false,
@@ -554,8 +576,8 @@ export default {
             }
 
             const plan = await SubscriptionPlan.getPlanByPlanId(user.subscription.planId)
-            
-            const subscriptionData = {
+
+            return httpResponse(req, res, 200, responseMessage.SUCCESS, {
                 hasSubscription: true,
                 subscription: {
                     planId: user.subscription.planId,
@@ -571,13 +593,14 @@ export default {
                 featureAccess: user.featureAccess,
                 plan: plan ? {
                     name: plan.name,
+                    targetType: plan.targetType,
                     price: plan.price,
+                    discountedPrice: plan.discountedPrice,
                     features: plan.features,
+                    showcaseFeatures: plan.showcaseFeatures,
                     limits: plan.limits
                 } : null
-            }
-
-            return httpResponse(req, res, 200, responseMessage.SUCCESS, subscriptionData)
+            })
         } catch (err) {
             return httpError(next, err, req, 500)
         }

@@ -1,11 +1,13 @@
 import mongoose from 'mongoose'
-import { ESubscriptionPlan } from '../constant/application.js'
+import { EPlanTargetType } from '../constant/application.js'
 
 const subscriptionPlanSchema = new mongoose.Schema({
     planId: {
         type: String,
-        enum: Object.values(ESubscriptionPlan),
-        required: [true, 'Plan ID is required']
+        required: [true, 'Plan ID is required'],
+        trim: true,
+        lowercase: true,
+        match: [/^[a-z0-9_]+$/, 'Plan ID can only contain lowercase letters, numbers, and underscores']
     },
     name: {
         type: String,
@@ -206,6 +208,18 @@ const subscriptionPlanSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    targetType: {
+        type: String,
+        enum: Object.values(EPlanTargetType),
+        default: EPlanTargetType.EVERYONE
+    },
+    showcaseFeatures: [
+        {
+            _id: false,
+            text: { type: String, required: true, trim: true },
+            included: { type: Boolean, default: true }
+        }
+    ],
     razorpayPlanId: {
         type: String,
         default: null
@@ -256,6 +270,7 @@ const subscriptionPlanSchema = new mongoose.Schema({
 
 subscriptionPlanSchema.index({ planId: 1 }, { unique: true })
 subscriptionPlanSchema.index({ isActive: 1 })
+subscriptionPlanSchema.index({ targetType: 1 })
 subscriptionPlanSchema.index({ displayOrder: 1 })
 subscriptionPlanSchema.index({ 'price.current': 1 })
 
@@ -266,8 +281,10 @@ subscriptionPlanSchema.virtual('discountedPrice').get(function() {
     return this.price.current
 })
 
-subscriptionPlanSchema.statics.getActivePlans = function() {
-    return this.find({ isActive: true }).sort({ displayOrder: 1 })
+subscriptionPlanSchema.statics.getActivePlans = function(targetType = null) {
+    const filter = { isActive: true }
+    if (targetType) filter.targetType = targetType
+    return this.find(filter).sort({ displayOrder: 1 })
 }
 
 subscriptionPlanSchema.statics.getPlanByPlanId = function(planId) {
