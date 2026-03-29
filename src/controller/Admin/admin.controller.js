@@ -63,11 +63,13 @@ export default {
       const { userId } = req.params
       const {
         firstName, lastName,
+        emailAddress,
         phoneNumber,
         address,
         profile,
         artistData,
-        labelData
+        labelData,
+        aggregatorData
       } = req.body
 
       const user = await User.findById(userId)
@@ -77,6 +79,17 @@ export default {
 
       if (firstName !== undefined) user.firstName = firstName.trim()
       if (lastName !== undefined) user.lastName = lastName.trim()
+
+      if (emailAddress !== undefined && emailAddress.trim() !== "") {
+        const trimmedEmail = emailAddress.trim().toLowerCase()
+        if (trimmedEmail !== user.emailAddress) {
+          const emailExists = await User.findOne({ emailAddress: trimmedEmail })
+          if (emailExists) {
+             return httpError(next, new Error(responseMessage.customMessage("Email address is already in use by another account")), req, 409)
+          }
+          user.emailAddress = trimmedEmail
+        }
+      }
 
       if (phoneNumber !== undefined) {
         if (phoneNumber.isoCode !== undefined) user.phoneNumber.isoCode = phoneNumber.isoCode
@@ -121,6 +134,25 @@ export default {
         if (labelData.monthlyReleasePlans !== undefined) user.labelData.monthlyReleasePlans = labelData.monthlyReleasePlans
       }
 
+      if (aggregatorData !== undefined && user.userType === EUserType.AGGREGATOR) {
+        if (aggregatorData.companyName !== undefined) user.aggregatorData.companyName = aggregatorData.companyName
+        if (aggregatorData.youtubeLink !== undefined) user.aggregatorData.youtubeLink = aggregatorData.youtubeLink
+        if (aggregatorData.websiteLink !== undefined) user.aggregatorData.websiteLink = aggregatorData.websiteLink
+        if (aggregatorData.instagramUrl !== undefined) user.aggregatorData.instagramUrl = aggregatorData.instagramUrl
+        if (aggregatorData.facebookUrl !== undefined) user.aggregatorData.facebookUrl = aggregatorData.facebookUrl
+        if (aggregatorData.linkedinUrl !== undefined) user.aggregatorData.linkedinUrl = aggregatorData.linkedinUrl
+        if (aggregatorData.popularReleaseLinks !== undefined) user.aggregatorData.popularReleaseLinks = aggregatorData.popularReleaseLinks
+        if (aggregatorData.popularArtistLinks !== undefined) user.aggregatorData.popularArtistLinks = aggregatorData.popularArtistLinks
+        if (aggregatorData.associatedLabels !== undefined) user.aggregatorData.associatedLabels = aggregatorData.associatedLabels
+        if (aggregatorData.totalReleases !== undefined) user.aggregatorData.totalReleases = aggregatorData.totalReleases
+        if (aggregatorData.releaseFrequency !== undefined) user.aggregatorData.releaseFrequency = aggregatorData.releaseFrequency
+        if (aggregatorData.monthlyReleasePlans !== undefined) user.aggregatorData.monthlyReleasePlans = aggregatorData.monthlyReleasePlans
+        if (aggregatorData.briefInfo !== undefined) user.aggregatorData.briefInfo = aggregatorData.briefInfo
+        if (aggregatorData.additionalServices !== undefined) user.aggregatorData.additionalServices = aggregatorData.additionalServices
+        if (aggregatorData.howDidYouKnow !== undefined) user.aggregatorData.howDidYouKnow = aggregatorData.howDidYouKnow
+        if (aggregatorData.howDidYouKnowOther !== undefined) user.aggregatorData.howDidYouKnowOther = aggregatorData.howDidYouKnowOther
+      }
+
       await user.save()
 
       return httpResponse(req, res, 200, responseMessage.customMessage('User profile updated successfully'), {
@@ -135,7 +167,8 @@ export default {
           profile: user.profile,
           userType: user.userType,
           artistData: user.userType === EUserType.ARTIST ? user.artistData : undefined,
-          labelData: user.userType === EUserType.LABEL ? user.labelData : undefined
+          labelData: user.userType === EUserType.LABEL ? user.labelData : undefined,
+          aggregatorData: user.userType === EUserType.AGGREGATOR ? user.aggregatorData : undefined
         }
       })
     } catch (err) {

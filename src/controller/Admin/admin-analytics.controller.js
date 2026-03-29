@@ -14,25 +14,55 @@ export default {
 
     getAllUsers: async (req, res, next) => {
         try {
-            const { page = 1, limit = 10, search, userType, role, isActive } = req.query
-            const pageNumber = parseInt(page)
-            const limitNumber = parseInt(limit)
-            const skip = (pageNumber - 1) * limitNumber
+            const { 
+                page = 1, 
+                limit = 10, 
+                search, 
+                userType, 
+                role, 
+                isActive,
+                kycStatus,
+                subscriptionStatus,
+                startDate,
+                endDate
+            } = req.query;
 
-            const filter = {}
+            const pageNumber = parseInt(page);
+            const limitNumber = parseInt(limit);
+            const skip = (pageNumber - 1) * limitNumber;
 
+            const filter = {};
+
+            // 1. Search Query
             if (search) {
                 filter.$or = [
                     { firstName: { $regex: search, $options: 'i' } },
                     { lastName: { $regex: search, $options: 'i' } },
                     { emailAddress: { $regex: search, $options: 'i' } },
                     { accountId: { $regex: search, $options: 'i' } }
-                ]
+                ];
             }
 
-            if (userType) filter.userType = userType
-            if (role) filter.role = role
-            if (isActive !== undefined) filter.isActive = isActive === 'true'
+            // 2. Exact Match Filters
+            if (userType) filter.userType = userType;
+            if (role) filter.role = role;
+            if (isActive !== undefined) filter.isActive = isActive === 'true';
+
+            // 3. Status Filters (KYC & Subscription)
+            if (kycStatus) filter['kyc.status'] = kycStatus;
+            if (subscriptionStatus) filter['subscription.status'] = subscriptionStatus;
+
+            // 4. Date Range Filter (Join Date)
+            if (startDate || endDate) {
+                filter.createdAt = {};
+                if (startDate) filter.createdAt.$gte = new Date(startDate);
+                if (endDate) {
+                    // Set to end of day
+                    const end = new Date(endDate);
+                    end.setHours(23, 59, 59, 999);
+                    filter.createdAt.$lte = end;
+                }
+            }
 
             const [users, totalCount] = await Promise.all([
                 User.find(filter)
@@ -119,6 +149,27 @@ export default {
 
             httpResponse(req, res, 200, responseMessage.SUCCESS, {
                 aggregatorBanner: user.aggregatorBanner
+            });
+        } catch (error) {
+            httpError(next, error, req, 500);
+        }
+    },
+
+    toggleUserStatus: async (req, res, next) => {
+        try {
+            const { userId } = req.params;
+            const user = await User.findById(userId);
+
+            if (!user) {
+                return httpError(next, new Error('User not found'), req, 404);
+            }
+
+            user.isActive = !user.isActive;
+            await user.save();
+
+            httpResponse(req, res, 200, responseMessage.SUCCESS, {
+                isActive: user.isActive,
+                message: `User account has been ${user.isActive ? 'activated' : 'deactivated'} successfully.`
             });
         } catch (error) {
             httpError(next, error, req, 500);

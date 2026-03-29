@@ -182,6 +182,16 @@ export default {
                 )
             }
 
+            // Block Inactive Accounts
+            if (!user.isActive) {
+                return httpError(
+                    next,
+                    new Error(responseMessage.customMessage('Your account is inactive. Please contact your administrator.')),
+                    req,
+                    403
+                )
+            }
+
             const payload = {
                 userId: user._id,
                 emailAddress: user.emailAddress,

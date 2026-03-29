@@ -994,6 +994,14 @@ router.route('/users/:userId/aggregator-banner')
         adminAnalyticsController.updateAggregatorBanner
     )
 
+router.route('/users/:userId/toggle-status')
+    .patch(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
+        adminAnalyticsController.toggleUserStatus
+    )
+
 router.route('/analytics/self')
     .get(
         authentication,
