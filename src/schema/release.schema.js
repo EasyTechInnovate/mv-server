@@ -49,14 +49,7 @@ const trackSchema = z.object({
         fileSize: z.number().min(1, 'File size must be positive').optional(),
         duration: z.number().min(1, 'Duration must be positive').optional()
     })).min(1, 'At least one audio file is required'),
-    previewTiming: z.object({
-        startTime: z.number().min(0, 'Start time cannot be negative').default(0),
-        endTime: z.number().min(1, 'End time must be positive').default(30)
-    }).optional(),
-    callerTuneTiming: z.object({
-        startTime: z.number().min(0, 'Start time cannot be negative').default(0),
-        endTime: z.number().min(1, 'End time must be positive').default(30)
-    }).optional()
+    previewStartTiming: z.string().regex(/^([0-9]{2}):([0-9]{2}):([0-9]{2})$/, 'Invalid timing format (HH:MM:SS)').optional()
 })
 
 const updateStep2 = z.object({

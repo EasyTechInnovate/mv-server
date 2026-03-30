@@ -72,14 +72,9 @@ const trackSchema = new Schema({
         maxlength: 20
     },
     previewStartTiming: {
-        type: Number,
-        min: 0,
-        max: 600
-    },
-    callertuneStartTiming: {
-        type: Number,
-        min: 0,
-        max: 600
+        type: String,
+        trim: true,
+        default: "00:00:00"
     },
     primaryGenre: {
         type: String,

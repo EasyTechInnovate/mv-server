@@ -272,8 +272,7 @@ export default {
                     producerName: track.producerName,
                     isrc: track.isrc,
                     audioFiles: track.audioFiles,
-                    previewTiming: track.previewTiming || { startTime: 0, endTime: 30 },
-                    callerTuneTiming: track.callerTuneTiming || { startTime: 0, endTime: 30 },
+                    previewStartTiming: track.previewStartTiming || "00:00:00",
                     language: track.language
                 }));
             }

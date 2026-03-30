@@ -71,29 +71,10 @@ const trackSchema = new mongoose.Schema({
       min: [0, 'Duration cannot be negative']
     }
   }],
-  previewTiming: {
-    startTime: {
-      type: Number,
-      min: [0, 'Start time cannot be negative'],
-      default: 0
-    },
-    endTime: {
-      type: Number,
-      min: [0, 'End time cannot be negative'],
-      default: 30
-    }
-  },
-  callerTuneTiming: {
-    startTime: {
-      type: Number,
-      min: [0, 'Start time cannot be negative'],
-      default: 0
-    },
-    endTime: {
-      type: Number,
-      min: [0, 'End time cannot be negative'],
-      default: 30
-    }
+  previewStartTiming: {
+    type: String,
+    trim: true,
+    default: "00:00:00"
   },
   language: {
     type: String,
