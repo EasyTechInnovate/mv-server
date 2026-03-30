@@ -89,17 +89,50 @@ export default {
             const { planId } = req.body
             const userId = req.authenticatedUser._id
 
-            const plan = await SubscriptionPlan.getPlanByPlanId(planId)
+            const [plan, user] = await Promise.all([
+                SubscriptionPlan.getPlanByPlanId(planId),
+                User.findById(userId).select('subscription hasActiveSubscription')
+            ])
+
             if (!plan) {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Plan')), req, 404)
             }
 
-            const amount = plan.getEffectivePrice()
+            if (user.subscription?.planId === planId && user.hasActiveSubscription) {
+                const error = new Error('You are already on this plan')
+                error.statusCode = 400
+                return httpError(next, error, req, 400)
+            }
+
+            const originalAmount = plan.getEffectivePrice()
+            let prorationCredit = 0
+            let isUpgrade = false
+            let previousPlanId = null
+
+            if (user.hasActiveSubscription && user.subscription?.planId) {
+                const currentPlan = await SubscriptionPlan.getPlanByPlanId(user.subscription.planId)
+
+                if (currentPlan && originalAmount > currentPlan.price.current) {
+                    isUpgrade = true
+                    previousPlanId = currentPlan.planId
+
+                    const now = dayjs()
+                    const validUntil = dayjs(user.subscription.validUntil)
+                    const daysRemaining = Math.max(0, validUntil.diff(now, 'day'))
+
+                    if (daysRemaining > 0) {
+                        const totalPlanDays = currentPlan.intervalCount * (currentPlan.interval === 'year' ? 365 : 30)
+                        const dailyRate = currentPlan.price.current / totalPlanDays
+                        prorationCredit = Math.round(dailyRate * daysRemaining)
+                    }
+                }
+            }
+
+            const chargeAmount = Math.max(1, originalAmount - prorationCredit)
             const transactionId = `TXN_${Date.now()}_${Math.random().toString(36).substr(2, 9).toUpperCase()}`
 
-            // Create order via configured payment gateway
             const orderResult = await paymentGateway.createOrder({
-                amount,
+                amount: chargeAmount,
                 currency: plan.currency || 'INR',
                 receipt: transactionId,
                 notes: { planId, userId: userId.toString() }
@@ -115,13 +148,19 @@ export default {
             const transaction = new PaymentTransaction({
                 userId,
                 transactionId,
-                amount,
+                amount: chargeAmount,
+                originalAmount,
+                prorationCredit,
+                isUpgrade,
+                previousPlanId,
                 currency: plan.currency || 'INR',
                 planId,
-                description: `Subscription to ${plan.name}`,
+                description: isUpgrade
+                    ? `Upgrade to ${plan.name} (₹${prorationCredit} credit applied)`
+                    : `Subscription to ${plan.name}`,
                 status: EPaymentStatus.PENDING,
                 gateway: activeGateway,
-                razorpayOrderId: gatewayOrder.id,   // stores gateway order ID regardless of provider
+                razorpayOrderId: gatewayOrder.id,
                 metadata: {
                     ipAddress: req.ip,
                     userAgent: req.get('User-Agent'),
@@ -131,21 +170,20 @@ export default {
 
             await transaction.save()
 
-            // Build gateway-specific checkout data for the frontend
             const gatewayCheckoutData = activeGateway === 'paytm'
                 ? {
                     gateway: 'paytm',
                     orderId: gatewayOrder.id,
                     txnToken: gatewayOrder.txnToken,
                     merchantId: config.payment.paytm_merchant_id,
-                    amount,
+                    amount: chargeAmount,
                     currency: plan.currency || 'INR'
                 }
                 : {
                     gateway: 'razorpay',
                     razorpayOrderId: gatewayOrder.id,
                     razorpayKeyId: config.payment.razorpay_key_id,
-                    amount,
+                    amount: chargeAmount,
                     currency: gatewayOrder.currency
                 }
 
@@ -153,6 +191,10 @@ export default {
                 transactionId,
                 planId,
                 planName: plan.name,
+                isUpgrade,
+                originalAmount,
+                prorationCredit,
+                chargeAmount,
                 ...gatewayCheckoutData
             })
         } catch (err) {
@@ -263,31 +305,57 @@ export default {
             const { planId, mockPaymentId, amount } = req.body
             const userId = req.authenticatedUser._id
 
-            const plan = await SubscriptionPlan.getPlanByPlanId(planId)
+            const [plan, user] = await Promise.all([
+                SubscriptionPlan.getPlanByPlanId(planId),
+                User.findById(userId).select('subscription hasActiveSubscription')
+            ])
+
             if (!plan) {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Plan')), req, 404)
             }
 
-            if (amount !== plan.getEffectivePrice()) {
-                return httpError(next, new Error(responseMessage.customMessage('Invalid amount for the selected plan')), req, 422)
+            const originalAmount = plan.getEffectivePrice()
+            let prorationCredit = 0
+            let isUpgrade = false
+            let previousPlanId = null
+
+            if (user.hasActiveSubscription && user.subscription?.planId) {
+                const currentPlan = await SubscriptionPlan.getPlanByPlanId(user.subscription.planId)
+                if (currentPlan && originalAmount > currentPlan.price.current) {
+                    isUpgrade = true
+                    previousPlanId = currentPlan.planId
+                    const daysRemaining = Math.max(0, dayjs(user.subscription.validUntil).diff(dayjs(), 'day'))
+                    if (daysRemaining > 0) {
+                        const totalPlanDays = currentPlan.intervalCount * (currentPlan.interval === 'year' ? 365 : 30)
+                        prorationCredit = Math.round((currentPlan.price.current / totalPlanDays) * daysRemaining)
+                    }
+                }
             }
 
+            const chargeAmount = Math.max(1, originalAmount - prorationCredit)
+            const mockOrderId = `mock_order_${Date.now()}`
             const transactionId = `TXN_MOCK_${Date.now()}_${Math.random().toString(36).substr(2, 9).toUpperCase()}`
 
             const transaction = new PaymentTransaction({
                 userId,
                 transactionId,
-                amount,
+                amount: chargeAmount,
+                originalAmount,
+                prorationCredit,
+                isUpgrade,
+                previousPlanId,
                 currency: plan.currency,
                 planId,
-                description: `Mock payment for ${plan.name}`,
+                description: isUpgrade
+                    ? `Mock upgrade to ${plan.name} (₹${prorationCredit} credit applied)`
+                    : `Mock payment for ${plan.name}`,
                 status: EPaymentStatus.COMPLETED,
                 gateway: 'mock',
                 razorpayPaymentId: mockPaymentId,
-                razorpayOrderId: `mock_order_${Date.now()}`,
+                razorpayOrderId: mockOrderId,
                 razorpayResponse: {
                     mock_payment_id: mockPaymentId,
-                    mock_order_id: `mock_order_${Date.now()}`,
+                    mock_order_id: mockOrderId,
                     mock_signature: 'mock_signature_verified'
                 },
                 completedAt: new Date(),
@@ -300,10 +368,10 @@ export default {
 
             await transaction.save()
 
-            const user = await User.findById(userId)
+            const fullUser = await User.findById(userId)
             const validUntil = dayjs().add(plan.intervalCount, plan.interval).toDate()
-            
-            user.activateSubscription(planId, validUntil, `mock_sub_${Date.now()}`)
+
+            fullUser.activateSubscription(planId, validUntil, `mock_sub_${Date.now()}`)
             user.addNotification(
                 'Subscription Activated',
                 `Your ${plan.name} subscription has been activated successfully! (Mock Payment)`,

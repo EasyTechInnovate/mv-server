@@ -29,6 +29,22 @@ const paymentTransactionSchema = new mongoose.Schema({
         required: [true, 'Amount is required'],
         min: [0, 'Amount cannot be negative']
     },
+    originalAmount: {
+        type: Number,
+        default: null
+    },
+    prorationCredit: {
+        type: Number,
+        default: 0
+    },
+    isUpgrade: {
+        type: Boolean,
+        default: false
+    },
+    previousPlanId: {
+        type: String,
+        default: null
+    },
     currency: {
         type: String,
         default: 'INR',
