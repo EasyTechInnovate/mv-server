@@ -125,8 +125,8 @@ const adminSchemas = {
             userId: z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid user ID')
         }),
         body: z.object({
-            startDate: z.string().datetime({ message: 'Invalid start date' }),
-            endDate: z.string().datetime({ message: 'Invalid end date' }),
+            startDate: z.coerce.date({ invalid_type_error: "Invalid start date" }),
+            endDate: z.coerce.date({ invalid_type_error: "Invalid end date" }),
             notes: z.string().max(500).optional()
         }).refine(data => new Date(data.endDate) > new Date(data.startDate), {
             message: 'End date must be after start date',
