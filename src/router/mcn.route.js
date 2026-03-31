@@ -100,6 +100,20 @@ router.route('/admin/requests/:requestId')
         validateRequest(mcnSchemas.mcnRequestParamsSchema),
         adminMCNController.getRequestById
     )
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(mcnSchemas.mcnRequestParamsSchema),
+        adminMCNController.deleteRequest
+    )
+
+router.route('/admin/requests/bulk-delete')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN]),
+        validateRequest(mcnSchemas.bulkDeleteMCNRequestsSchema),
+        adminMCNController.bulkDeleteRequests
+    )
 
 router.route('/admin/requests/:requestId/review')
     .post(

@@ -336,8 +336,7 @@ export default {
             const { status, suspensionReason } = req.body
 
             const channel = await MCNChannel.findOne({
-                _id: channelId,
-                isActive: true
+                _id: channelId
             })
 
             if (!channel) {
@@ -544,6 +543,56 @@ export default {
                 200,
                 responseMessage.customMessage('MCN removal request processed successfully'),
                 mcnRequest
+            )
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
+    },
+
+    async deleteRequest(req, res, next) {
+        try {
+            const { requestId } = req.params
+
+            const existingChannel = await MCNChannel.findOne({ mcnRequestId: requestId, isActive: true })
+            if (existingChannel) {
+                return httpError(next, new Error('Cannot delete request as a channel is already created for this request.'), req, 400)
+            }
+
+            const mcnRequest = await MCNRequest.findOneAndDelete({ _id: requestId })
+            if (!mcnRequest) {
+                return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('MCN request')), req, 404)
+            }
+
+            httpResponse(req, res, 200, responseMessage.customMessage('MCN request deleted successfully'), null)
+        } catch (err) {
+            httpError(next, err, req, 500)
+        }
+    },
+
+    async bulkDeleteRequests(req, res, next) {
+        try {
+            const { requestIds } = req.body
+
+            // Find all channels that are linked to these requests
+            const channels = await MCNChannel.find({ mcnRequestId: { $in: requestIds }, isActive: true }).select('mcnRequestId').lean()
+            const linkedRequestIds = new Set(channels.map(c => c.mcnRequestId.toString()))
+
+            // Separate deletable and non-deletable IDs
+            const deletableIds = requestIds.filter(id => !linkedRequestIds.has(id))
+            const skippedIds = requestIds.filter(id => linkedRequestIds.has(id))
+
+            if (deletableIds.length === 0) {
+                return httpError(next, new Error('No deletable requests selected (all selected requests have linked channels).'), req, 400)
+            }
+
+            await MCNRequest.deleteMany({ _id: { $in: deletableIds } })
+
+            httpResponse(
+                req,
+                res,
+                200,
+                responseMessage.customMessage(`Successfully deleted ${deletableIds.length} requests.${skippedIds.length > 0 ? ` Skipped ${skippedIds.length} requests with linked channels.` : ''}`),
+                { deletedCount: deletableIds.length, skippedCount: skippedIds.length }
             )
         } catch (err) {
             httpError(next, err, req, 500)

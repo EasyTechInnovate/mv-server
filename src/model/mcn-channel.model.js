@@ -110,6 +110,7 @@ mcnChannelSchema.index({ channelManager: 1 })
 
 mcnChannelSchema.methods.suspend = function(reason) {
     this.status = EMCNChannelStatus.SUSPENDED
+    this.isActive = true
     this.suspendedAt = new Date()
     this.suspensionReason = reason
     return this.save()
@@ -117,6 +118,7 @@ mcnChannelSchema.methods.suspend = function(reason) {
 
 mcnChannelSchema.methods.reactivate = function() {
     this.status = EMCNChannelStatus.ACTIVE
+    this.isActive = true
     this.reactivatedAt = new Date()
     this.suspensionReason = null
     return this.save()

@@ -26,7 +26,7 @@ const createMCNRequestSchema = z.object({
 const getMCNRequestsSchema = z.object({
     query: z.object({
         page: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1)).optional().default('1'),
-        limit: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1).max(100)).optional().default('10'),
+        limit: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1).max(200)).optional().default('10'),
         status: z.enum(Object.values(EMCNRequestStatus)).optional(),
         search: z.string().optional(),
         sortBy: z.enum(['createdAt', 'updatedAt', 'youtubeChannelName', 'subscriberCount']).optional().default('createdAt'),
@@ -74,7 +74,7 @@ const createMCNChannelSchema = z.object({
 const getMCNChannelsSchema = z.object({
     query: z.object({
         page: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1)).optional().default('1'),
-        limit: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1).max(100)).optional().default('10'),
+        limit: z.string().transform(val => parseInt(val, 10)).pipe(z.number().int().min(1).max(200)).optional().default('10'),
         status: z.enum(Object.values(EMCNChannelStatus)).optional(),
         channelManager: z.string().optional(),
         search: z.string().optional(),
@@ -127,6 +127,12 @@ const requestRemovalSchema = z.object({
     })
 })
 
+const bulkDeleteMCNRequestsSchema = z.object({
+    body: z.object({
+        requestIds: z.array(z.string().regex(/^[0-9a-fA-F]{24}$/, 'Invalid request ID format')).min(1, 'At least one request ID is required')
+    })
+})
+
 export default {
     createMCNRequestSchema,
     getMCNRequestsSchema,
@@ -137,5 +143,6 @@ export default {
     mcnChannelParamsSchema,
     updateMCNChannelSchema,
     updateChannelStatusSchema,
-    requestRemovalSchema
+    requestRemovalSchema,
+    bulkDeleteMCNRequestsSchema
 }
