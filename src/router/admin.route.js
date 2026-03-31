@@ -188,7 +188,8 @@ router.route('/releases')
 router.route('/releases/pending-reviews')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(releaseSchemas.getReleases),
         adminReleasesController.getPendingReviews
     )
@@ -196,7 +197,8 @@ router.route('/releases/pending-reviews')
 router.route('/releases/stats')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Analytics'),
         adminReleasesController.getReleaseStats
     )
 
@@ -213,7 +215,8 @@ router.route('/releases/edit-requests')
 router.route('/releases/:releaseId')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(releaseSchemas.releaseIdParam),
         adminReleasesController.getReleaseDetails
     )
@@ -221,7 +224,8 @@ router.route('/releases/:releaseId')
 router.route('/releases/:releaseId/approve')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(releaseSchemas.releaseIdParam),
         validateRequest(releaseSchemas.adminNotes),
         adminReleasesController.approveForReview
@@ -230,7 +234,8 @@ router.route('/releases/:releaseId/approve')
 router.route('/releases/:releaseId/start-processing')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(releaseSchemas.releaseIdParam),
         adminReleasesController.startProcessing
     )
@@ -332,7 +337,8 @@ router.route('/releases/:releaseId/edit')
 router.route('/releases/:releaseId/permanent')
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(releaseSchemas.releaseIdParam),
         adminReleasesController.permanentDelete
     )
@@ -389,7 +395,8 @@ router.route('/advanced-releases/edit-requests')
 router.route('/advanced-releases/:releaseId/permanent')
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Release Management'),
         validateRequest(advancedReleaseSchemas.getReleaseById),
         adminAdvanceReleaseController.permanentDelete
     )
@@ -947,7 +954,7 @@ router.route('/users/:userId/profile')
 router.route('/users/:userId/aggregator-subscription')
     .patch(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
         moduleAuthorization('User Management'),
         validateRequest(adminSchemas.aggregatorSubscription),
         adminController.updateAggregatorSubscription
@@ -980,7 +987,7 @@ router.route('/users/:userId/kyc/update')
 router.route('/users/:userId/reset-password')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]), // Only full ADMIN can do this, or maybe TEAM_MEMBER too? User asked "admin switch", I'll stick to ADMIN for now or check user rules. Let's allow ADMIN for safety.
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
         moduleAuthorization('User Management'),
         validateRequest(adminSchemas.resetUserPassword),
         adminController.resetUserPassword
@@ -1087,13 +1094,15 @@ router.route('/company-settings/:settingsId/youtube-links/:linkIndex')
 router.route('/team-members')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Team Management'),
         validateRequest(teamMemberSchemas.inviteTeamMemberSchema),
         adminTeamMemberController.inviteTeamMember
     )
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Team Management'),
         validateRequest(teamMemberSchemas.getAllTeamMembersSchema, 'query'),
         adminTeamMemberController.getAllTeamMembers
     )
@@ -1101,33 +1110,38 @@ router.route('/team-members')
 router.route('/team-members/self')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Team Management'),
         adminTeamMemberController.self
     )
 
 router.route('/team-members/statistics')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Team Management'),
         adminTeamMemberController.getTeamStatistics
     )
 
 router.route('/team-members/:teamMemberId')
     .get(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Team Management'),
         validateRequest(teamMemberSchemas.getTeamMemberByIdSchema),
         adminTeamMemberController.getTeamMemberById
     )
     .put(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Team Management'),
         validateRequest(teamMemberSchemas.updateTeamMemberSchema),
         adminTeamMemberController.updateTeamMember
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Team Management'),
         validateRequest(teamMemberSchemas.getTeamMemberByIdSchema),
         adminTeamMemberController.deleteTeamMember
     )
@@ -1135,7 +1149,8 @@ router.route('/team-members/:teamMemberId')
 router.route('/team-members/:teamMemberId/status')
     .patch(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Team Management'),
         validateRequest(teamMemberSchemas.updateTeamMemberStatusSchema),
         adminTeamMemberController.updateTeamMemberStatus
     )
@@ -1143,7 +1158,8 @@ router.route('/team-members/:teamMemberId/status')
 router.route('/team-members/:teamMemberId/resend-invitation')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Team Management'),
         validateRequest(teamMemberSchemas.resendInvitationSchema),
         adminTeamMemberController.resendInvitation
     )
@@ -1196,7 +1212,8 @@ router.route('/support-tickets/bulk-update')
 router.route('/support-tickets/bulk/permanent')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
         validateRequest(bulkDeleteTicketsSchema),
         adminSupportTicketController.bulkDeleteTickets
     )
@@ -1220,7 +1237,8 @@ router.route('/support-tickets/:ticketId')
 router.route('/support-tickets/:ticketId/permanent')
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Support Tickets'),
         validateRequest(deleteTicketSchema),
         adminSupportTicketController.deleteTicket
     )
@@ -1296,7 +1314,8 @@ router.route('/wallets/:userId/transactions')
 router.route('/wallets/:userId/adjust')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Royalty Management'),
         adminPayoutController.adjustWallet
     )
 
@@ -1367,7 +1386,8 @@ router.route('/notifications/users/search')
 router.route('/notifications')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         adminNotificationController.create
     )
     .get(
@@ -1379,14 +1399,16 @@ router.route('/notifications')
 router.route('/notifications/bulk/permanent')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         adminNotificationController.bulkDelete
     )
 
 router.route('/notifications/:notificationId/permanent')
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         adminNotificationController.delete
     )
 
@@ -1400,7 +1422,8 @@ router.route('/notifications/:notificationId')
 router.route('/notifications/:notificationId/status')
     .patch(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         adminNotificationController.toggleStatus
     )
 

@@ -4,8 +4,9 @@ import adminMarketingController from '../controller/Marketing/admin-marketing.co
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
 import authorization from '../middleware/authorization.js'
+import moduleAuthorization from '../middleware/moduleAuthorization.js'
 import marketingSchemas from '../schema/marketing.schema.js'
-import { EUserRole } from '../constant/application.js'
+import { EUserRole, EModuleAccess } from '../constant/application.js'
 
 const router = Router()
 
@@ -75,6 +76,7 @@ router.route('/admin/self')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         adminMarketingController.self
     )
 
@@ -82,6 +84,7 @@ router.route('/admin/sync/submissions')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.getMarketingSubmissionsSchema),
         adminMarketingController.getAllSyncSubmissions
     )
@@ -90,6 +93,7 @@ router.route('/admin/playlist-pitching/submissions')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.getMarketingSubmissionsSchema),
         adminMarketingController.getAllPlaylistPitchingSubmissions
     )
@@ -98,6 +102,7 @@ router.route('/admin/sync/submissions/pending')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.getMarketingSubmissionsSchema),
         adminMarketingController.getPendingSyncSubmissions
     )
@@ -106,6 +111,7 @@ router.route('/admin/playlist-pitching/submissions/pending')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.getMarketingSubmissionsSchema),
         adminMarketingController.getPendingPlaylistPitchingSubmissions
     )
@@ -114,6 +120,7 @@ router.route('/admin/sync/submissions/:submissionId')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
         adminMarketingController.getSyncSubmissionById
     )
@@ -122,6 +129,7 @@ router.route('/admin/playlist-pitching/submissions/:submissionId')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
         adminMarketingController.getPlaylistPitchingSubmissionById
     )
@@ -130,6 +138,7 @@ router.route('/admin/sync/submissions/:submissionId/review')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.reviewMarketingSubmissionSchema),
         adminMarketingController.reviewSyncSubmission
     )
@@ -138,6 +147,7 @@ router.route('/admin/playlist-pitching/submissions/:submissionId/review')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.reviewMarketingSubmissionSchema),
         adminMarketingController.reviewPlaylistPitchingSubmission
     )
@@ -146,6 +156,7 @@ router.route('/admin/sync/submissions/bulk/permanent')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         adminMarketingController.bulkDeleteSyncSubmissions
     )
 
@@ -153,6 +164,7 @@ router.route('/admin/sync/submissions/:submissionId/permanent')
     .delete(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
         adminMarketingController.deleteSyncSubmission
     )
@@ -161,6 +173,7 @@ router.route('/admin/playlist-pitching/submissions/bulk/permanent')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         adminMarketingController.bulkDeletePlaylistPitchingSubmissions
     )
 
@@ -168,6 +181,7 @@ router.route('/admin/playlist-pitching/submissions/:submissionId/permanent')
     .delete(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
         adminMarketingController.deletePlaylistPitchingSubmission
     )
@@ -176,6 +190,7 @@ router.route('/admin/playlist-pitching/submissions/store/:store')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.getPlaylistPitchingByStoreSchema),
         adminMarketingController.getPlaylistPitchingByStore
     )
@@ -184,6 +199,7 @@ router.route('/admin/stats')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.marketingStatsSchema),
         adminMarketingController.getMarketingStats
     )
@@ -192,12 +208,14 @@ router.route('/admin/playlist-pitching/submissions/:submissionId')
     .patch(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
         adminMarketingController.updatePlaylistPitchingSubmission
     )
     .delete(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
         adminMarketingController.deletePlaylistPitchingSubmission
     )
@@ -206,12 +224,14 @@ router.route('/admin/sync/submissions/:submissionId')
     .patch(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
         adminMarketingController.updateSyncSubmission
     )
     .delete(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(marketingSchemas.marketingSubmissionParamsSchema),
         adminMarketingController.deleteSyncSubmission
     )

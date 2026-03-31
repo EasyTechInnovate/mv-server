@@ -4,7 +4,9 @@ import userMVProductionController from '../controller/MVProduction/user-mv-produ
 import validateRequest from '../middleware/validateRequest.js';
 import authentication from '../middleware/authentication.js';
 import authorization from '../middleware/authorization.js';
+import moduleAuthorization from '../middleware/moduleAuthorization.js';
 import mvProductionSchemas from '../schema/mv-production.schema.js';
+import { EUserRole, EModuleAccess } from '../constant/application.js';
 
 const router = Router();
 
@@ -15,32 +17,37 @@ router.route('/self').get(
 
 router.route('/admin/self').get(
     authentication,
-    authorization(['admin']),
+    authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+    moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
     adminMVProductionController.self
 );
 
 router.route('/admin/stats').get(
     authentication,
-    authorization(['admin']),
+    authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+    moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
     adminMVProductionController.getMVProductionStats
 );
 
 router.route('/admin/:productionId/review').post(
     authentication,
-    authorization(['admin']),
+    authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+    moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
     validateRequest(mvProductionSchemas.getMVProductionById),
     adminMVProductionController.reviewMVProduction
 );
 
 router.route('/admin/bulk/permanent').post(
     authentication,
-    authorization(['admin']),
+    authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+    moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
     adminMVProductionController.bulkDeleteMVProductions
 );
 
 router.route('/admin/:productionId/permanent').delete(
     authentication,
-    authorization(['admin']),
+    authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+    moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
     validateRequest(mvProductionSchemas.deleteMVProduction),
     adminMVProductionController.deleteMVProduction
 );
@@ -48,19 +55,22 @@ router.route('/admin/:productionId/permanent').delete(
 router.route('/admin/:productionId')
     .get(
         authentication,
-        authorization(['admin']),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(mvProductionSchemas.getMVProductionById),
         adminMVProductionController.getMVProductionById
     )
     .patch(
         authentication,
-        authorization(['admin']),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(mvProductionSchemas.updateMVProduction),
         adminMVProductionController.updateMVProduction
     )
     .delete(
         authentication,
-        authorization(['admin']),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(mvProductionSchemas.deleteMVProduction),
         adminMVProductionController.deleteMVProduction
     );
@@ -68,7 +78,8 @@ router.route('/admin/:productionId')
 router.route('/admin')
     .get(
         authentication,
-        authorization(['admin']),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.CONTENT_MANAGEMENT),
         validateRequest(mvProductionSchemas.getAllMVProductions, 'query'),
         adminMVProductionController.getAllMVProductions
     );

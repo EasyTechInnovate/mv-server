@@ -102,7 +102,7 @@ router.route('/admin/requests/:requestId')
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
         validateRequest(mcnSchemas.mcnRequestParamsSchema),
         adminMCNController.deleteRequest
     )
@@ -110,7 +110,7 @@ router.route('/admin/requests/:requestId')
 router.route('/admin/requests/bulk-delete')
     .post(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
         validateRequest(mcnSchemas.bulkDeleteMCNRequestsSchema),
         adminMCNController.bulkDeleteRequests
     )
@@ -162,7 +162,7 @@ router.route('/admin/channels/:channelId')
     )
     .delete(
         authentication,
-        authorization([EUserRole.ADMIN]),
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
         validateRequest(mcnSchemas.mcnChannelParamsSchema),
         adminMCNController.deleteChannel
     )
