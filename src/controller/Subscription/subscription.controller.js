@@ -629,6 +629,7 @@ export default {
                         startDate: user.aggregatorSubscription?.startDate || null,
                         endDate: user.aggregatorSubscription?.endDate || null,
                         isActive: user.hasActiveAggregatorSubscription,
+                        notes: user.aggregatorSubscription?.notes || null,
                         daysRemaining: user.aggregatorSubscription?.endDate
                             ? Math.max(0, Math.ceil((new Date(user.aggregatorSubscription.endDate) - new Date()) / (1000 * 60 * 60 * 24)))
                             : null

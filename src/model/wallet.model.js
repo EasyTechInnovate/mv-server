@@ -221,6 +221,9 @@ walletSchema.statics.getTopEarners = function(limit = 10) {
 }
 
 walletSchema.pre('save', function(next) {
+    if (this.availableBalance < 0) {
+        this.availableBalance = 0
+    }
     if (this.withdrawableBalance < 0) {
         this.withdrawableBalance = 0
     }

@@ -321,6 +321,7 @@ const adminReportController = {
                             wallet = await Wallet.createWallet(user._id, user.accountId)
                         }
                         await wallet.updateEarnings({
+                            totalEarnings: earnings.totalEarnings,
                             mcnRoyalty: earnings.totalEarnings,
                             commission: earnings.mvCommission,
                             month: reportData.monthId.month

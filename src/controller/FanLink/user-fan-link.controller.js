@@ -23,7 +23,7 @@ const createFanLink = async (req, res, next) => {
             return next(new httpError(responseMessage.customMessage('Custom URL already exists'), 409));
         }
 
-        const fullUrl = `${process.env.CLIENT_URL}/${customUrl}`;
+        const fullUrl = `${process.env.CLIENT_URL}/s/${customUrl}`;
 
         const newFanLink = new FanLink({
             userId,
@@ -62,7 +62,7 @@ const updateFanLink = async (req, res, next) => {
                 return next(new httpError(responseMessage.customMessage('Custom URL already exists'), 409));
             }
             updates.customUrl = updates.customUrl.toLowerCase();
-            updates.fullUrl = `${process.env.CLIENT_URL}/${updates.customUrl}`;
+            updates.fullUrl = `${process.env.CLIENT_URL}/s/${updates.customUrl}`;
         }
 
         const updatedFanLink = await FanLink.findByIdAndUpdate(fanLinkId, updates, { new: true });
@@ -158,7 +158,8 @@ const getFanLinkByCustomUrl = async (req, res, next) => {
     try {
         const { customUrl } = req.params;
 
-        const fanLink = await FanLink.findByCustomUrl(customUrl);
+        const fanLink = await FanLink.findOne({ customUrl: customUrl.toLowerCase() })
+            .populate('userId', 'firstName lastName profile.photo');
         if (!fanLink) {
             return next(new httpError(responseMessage.customMessage('Fan link not found'), 404));
         }
