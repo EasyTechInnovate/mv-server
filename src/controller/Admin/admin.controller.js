@@ -1150,4 +1150,52 @@ export default {
       return httpError(next, err, req, 500);
     }
   },
+  async deleteAggregatorApplication(req, res, next) {
+    try {
+      const { applicationId } = req.params;
+
+      const application = await AggregatorApplication.findById(applicationId);
+      if (!application) {
+        return httpError(
+          next,
+          new Error(responseMessage.customMessage("Application not found")),
+          req,
+          404
+        );
+      }
+
+      await AggregatorApplication.deleteOne({ _id: applicationId });
+
+      return httpResponse(req, res, 200, responseMessage.DELETED, {
+        applicationId,
+        message: "Aggregator application deleted successfully",
+      });
+    } catch (err) {
+      return httpError(next, err, req, 500);
+    }
+  },
+
+  async bulkDeleteAggregatorApplications(req, res, next) {
+    try {
+      const { applicationIds } = req.body;
+
+      if (!Array.isArray(applicationIds) || applicationIds.length === 0) {
+        return httpError(
+          next,
+          new Error(responseMessage.customMessage("No application IDs provided")),
+          req,
+          400
+        );
+      }
+
+      await AggregatorApplication.deleteMany({ _id: { $in: applicationIds } });
+
+      return httpResponse(req, res, 200, responseMessage.DELETED, {
+        count: applicationIds.length,
+        message: "Aggregator applications deleted successfully",
+      });
+    } catch (err) {
+      return httpError(next, err, req, 500);
+    }
+  },
 };

@@ -148,6 +148,15 @@ router.route('/aggregator/applications')
         adminController.getAllAggregatorApplications
     )
 
+router.route('/aggregator/applications/bulk-delete')
+    .post(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('MCN Management'),
+        adminController.bulkDeleteAggregatorApplications
+    )
+
+
 router.route('/aggregator/applications/:applicationId')
     .get(
         authentication,
@@ -155,6 +164,13 @@ router.route('/aggregator/applications/:applicationId')
         moduleAuthorization('MCN Management'),
         adminController.getAggregatorApplication
     )
+    .delete(
+        authentication,
+        authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('MCN Management'),
+        adminController.deleteAggregatorApplication
+    )
+
 
 router.route('/aggregator/applications/:applicationId/review')
     .patch(
