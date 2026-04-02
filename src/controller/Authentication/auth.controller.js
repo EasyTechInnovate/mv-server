@@ -293,7 +293,8 @@ export default {
                         hasActiveSubscription: user.hasActiveSubscription,
                         subscription: user.subscription,
                         kycStatus: user.kycStatus,
-                        aggregatorBanner: user.aggregatorBanner
+                        aggregatorBanner: user.aggregatorBanner,
+                        aggregatorData: user.aggregatorData
                     },
                     tokens: {
                         accessToken,
@@ -549,7 +550,6 @@ export default {
                     emailAddress: user.emailAddress,
                     role: user.role,
                     userType: user.userType,
-                    companyName: user.companyName,
                     phoneNumber: user.phoneNumber,
                     isEmailVerified: user.isEmailVerified,
                     profileCompletion: user.profileCompletion,
@@ -563,6 +563,7 @@ export default {
                     profile: user.profile,
                     artistData: user.artistData,
                     labelData: user.labelData,
+                    aggregatorData: user.aggregatorData,
                     createdAt: user.createdAt
                 }
             }
@@ -988,15 +989,27 @@ export default {
                 {
                     user: {
                         _id: user._id,
+                        accountId: user.accountId,
                         firstName: user.firstName,
                         lastName: user.lastName,
+                        emailAddress: user.emailAddress,
+                        role: user.role,
+                        userType: user.userType,
                         phoneNumber: user.phoneNumber,
+                        isEmailVerified: user.isEmailVerified,
                         address: user.address,
                         profile: user.profile,
                         artistData: user.artistData,
                         labelData: user.labelData,
                         aggregatorData: user.aggregatorData,
-                        profileCompletion: user.profileCompletion
+                        profileCompletion: user.profileCompletion,
+                        subscription: user.subscription,
+                        featureAccess: user.featureAccess,
+                        socialMedia: user.socialMedia,
+                        kyc: user.kyc,
+                        payoutMethods: user.payoutMethods,
+                        aggregatorBanner: user.aggregatorBanner,
+                        createdAt: user.createdAt
                     }
                 }
             )
