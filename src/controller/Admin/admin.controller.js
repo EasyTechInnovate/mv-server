@@ -272,9 +272,42 @@ export default {
         filter.targetType = targetType
       }
 
-      const plans = await SubscriptionPlan.find(filter).sort({ displayOrder: 1, createdAt: -1 })
+      // Using aggregation to join with User collection and count active subscribers
+      const plans = await SubscriptionPlan.aggregate([
+        { $match: filter },
+        { $sort: { displayOrder: 1, createdAt: -1 } },
+        {
+          $lookup: {
+            from: 'users',
+            let: { pId: '$planId' },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $and: [
+                      { $eq: ['$subscription.planId', '$$pId'] },
+                      { $eq: ['$subscription.status', ESubscriptionStatus.ACTIVE] }
+                    ]
+                  }
+                }
+              },
+              { $count: 'count' }
+            ],
+            as: 'subscriberInfo'
+          }
+        },
+        {
+          $addFields: {
+            subscriberCount: { $ifNull: [{ $arrayElemAt: ['$subscriberInfo.count', 0] }, 0] }
+          }
+        }
+      ]);
 
-      const formattedPlans = plans.map((plan) => _formatPlan(plan))
+      const formattedPlans = plans.map((plan) => {
+        const formatted = _formatPlan(plan);
+        formatted.subscriberCount = plan.subscriberCount;
+        return formatted;
+      });
 
       return httpResponse(req, res, 200, responseMessage.SUCCESS, {
         plans: formattedPlans,
