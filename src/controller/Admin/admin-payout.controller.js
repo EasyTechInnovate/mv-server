@@ -289,15 +289,6 @@ const adminPayoutController = {
                 wallet = await Wallet.createWallet(userId, user.accountId)
             }
 
-            if (type === 'debit' && amount > wallet.availableBalance) {
-                return httpError(
-                    next,
-                    new Error(responseMessage.customMessage(`Insufficient balance. Available: ${wallet.availableBalance}`)),
-                    req,
-                    400
-                )
-            }
-
             await wallet.applyAdminAdjustment(type, amount, reason.trim(), adminId)
 
             httpResponse(

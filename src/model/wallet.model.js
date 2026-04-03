@@ -39,8 +39,7 @@ const walletSchema = new mongoose.Schema({
     },
     availableBalance: {
         type: Number,
-        default: 0,
-        min: 0
+        default: 0
     },
     pendingPayout: {
         type: Number,
@@ -54,8 +53,7 @@ const walletSchema = new mongoose.Schema({
     },
     withdrawableBalance: {
         type: Number,
-        default: 0,
-        min: 0
+        default: 0
     },
     lastCalculatedAt: {
         type: Date,
@@ -123,13 +121,19 @@ walletSchema.virtual('canWithdraw').get(function() {
     return this.withdrawableBalance > 0
 })
 
+walletSchema.methods._adminAdjustmentsTotal = function() {
+    return this.adminAdjustments.reduce((sum, adj) => {
+        return adj.type === 'credit' ? sum + adj.amount : sum - adj.amount
+    }, 0)
+}
+
 walletSchema.methods.updateEarnings = function(earnings) {
     this.totalEarnings += earnings.totalEarnings || 0
     this.regularRoyalty += earnings.regularRoyalty || 0
     this.bonusRoyalty += earnings.bonusRoyalty || 0
     this.mcnRoyalty += earnings.mcnRoyalty || 0
     this.totalCommission += earnings.commission || 0
-    this.availableBalance = this.totalEarnings - this.totalCommission
+    this.availableBalance = this.totalEarnings - this.totalCommission + this._adminAdjustmentsTotal()
     this.withdrawableBalance = this.availableBalance - this.pendingPayout - this.totalPaidOut
     this.lastCalculatedAt = new Date()
     if (earnings.month) {
@@ -166,10 +170,6 @@ walletSchema.methods.applyAdminAdjustment = function(type, amount, reason, admin
         this.availableBalance -= amount
     }
 
-    if (this.availableBalance < 0) {
-        this.availableBalance = 0
-    }
-
     this.withdrawableBalance = this.availableBalance - this.pendingPayout - this.totalPaidOut
 
     this.adminAdjustments.push({
@@ -186,7 +186,7 @@ walletSchema.methods.applyAdminAdjustment = function(type, amount, reason, admin
 }
 
 walletSchema.methods.recalculateBalances = function() {
-    this.availableBalance = this.totalEarnings - this.totalCommission
+    this.availableBalance = this.totalEarnings - this.totalCommission + this._adminAdjustmentsTotal()
     this.withdrawableBalance = this.availableBalance - this.pendingPayout - this.totalPaidOut
     return this.save()
 }
@@ -221,12 +221,6 @@ walletSchema.statics.getTopEarners = function(limit = 10) {
 }
 
 walletSchema.pre('save', function(next) {
-    if (this.availableBalance < 0) {
-        this.availableBalance = 0
-    }
-    if (this.withdrawableBalance < 0) {
-        this.withdrawableBalance = 0
-    }
     next()
 })
 
