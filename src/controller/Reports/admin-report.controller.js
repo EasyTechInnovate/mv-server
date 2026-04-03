@@ -8,6 +8,7 @@ import User from '../../model/user.model.js'
 import MCN from '../../model/mcn.model.js'
 import { EReportType, EReportStatus, ENotificationCategory, ENotificationTargetType } from '../../constant/application.js'
 import { createNotification } from '../../util/notificationHelper.js'
+import { recalculateWalletForUser } from '../../util/walletRecalculator.js'
 import { processCsvFile, calculateReportSummary, validateCsvHeaders } from '../../util/csvProcessor.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
@@ -273,18 +274,8 @@ const adminReportController = {
                 for (const earnings of userEarnings) {
                     const user = await User.findOne({ accountId: earnings._id })
                     if (user) {
-                        let wallet = await Wallet.findByUserId(user._id)
-                        if (!wallet) {
-                            wallet = await Wallet.createWallet(user._id, user.accountId)
-                        }
-                        await wallet.updateEarnings({
-                            totalEarnings: earnings.totalEarnings,
-                            regularRoyalty: earnings.regularRoyalty,
-                            bonusRoyalty: earnings.bonusRoyalty,
-                            commission: earnings.commission,
-                            month: reportData.monthId.month
-                        })
-                        console.log(`✅ Updated wallet for user ${user.accountId}: +${earnings.totalEarnings} INR`)
+                        await recalculateWalletForUser(user._id)
+                        console.log(`✅ Recalculated wallet for user ${user.accountId}`)
 
                         const isBonus = reportType === EReportType.BONUS_ROYALTY
                         createNotification({
@@ -316,17 +307,8 @@ const adminReportController = {
                 for (const earnings of userEarnings) {
                     const user = await User.findOne({ accountId: earnings._id })
                     if (user) {
-                        let wallet = await Wallet.findByUserId(user._id)
-                        if (!wallet) {
-                            wallet = await Wallet.createWallet(user._id, user.accountId)
-                        }
-                        await wallet.updateEarnings({
-                            totalEarnings: earnings.totalEarnings,
-                            mcnRoyalty: earnings.totalEarnings,
-                            commission: earnings.mvCommission,
-                            month: reportData.monthId.month
-                        })
-                        console.log(`✅ Updated wallet for user ${user.accountId}: +${earnings.totalEarnings} INR (MCN)`)
+                        await recalculateWalletForUser(user._id)
+                        console.log(`✅ Recalculated wallet for user ${user.accountId} (MCN)`)
 
                         createNotification({
                             type: 'system',

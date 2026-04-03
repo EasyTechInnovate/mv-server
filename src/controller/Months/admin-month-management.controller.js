@@ -1,8 +1,12 @@
 import MonthManagement from '../../model/month-management.model.js'
+import Royalty from '../../model/royalty.model.js'
+import MCN from '../../model/mcn.model.js'
+import User from '../../model/user.model.js'
 import { EMonthManagementType } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
+import { recalculateWalletForUser } from '../../util/walletRecalculator.js'
 
 
 export default {
@@ -186,6 +190,28 @@ export default {
             }
 
             await MonthManagement.findByIdAndUpdate(id, { isActive: false })
+
+            // Find all unique accountIds affected by this month's royalty/MCN data
+            const [royaltyAccountIds, mcnAccountIds] = await Promise.all([
+                Royalty.distinct('accountId', { monthId: month._id }),
+                MCN.distinct('accountId', { monthId: month._id })
+            ])
+
+            const uniqueAccountIds = [...new Set([...royaltyAccountIds, ...mcnAccountIds])]
+
+            // Recalculate wallets for all affected users in background (don't block response)
+            if (uniqueAccountIds.length > 0) {
+                User.find({ accountId: { $in: uniqueAccountIds }, isActive: true })
+                    .select('_id accountId')
+                    .lean()
+                    .then(async (users) => {
+                        for (const user of users) {
+                            await recalculateWalletForUser(user._id)
+                            console.log(`✅ Wallet recalculated for ${user.accountId} after month deactivation`)
+                        }
+                    })
+                    .catch(err => console.error('Wallet recalculation error on month delete:', err.message))
+            }
 
             httpResponse(
                 req,
