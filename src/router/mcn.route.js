@@ -4,8 +4,9 @@ import adminMCNController from '../controller/MCN/admin-mcn.controller.js'
 import validateRequest from '../middleware/validateRequest.js'
 import authentication from '../middleware/authentication.js'
 import authorization from '../middleware/authorization.js'
+import moduleAuthorization from '../middleware/moduleAuthorization.js'
 import mcnSchemas from '../schema/mcn.schema.js'
-import { EUserRole } from '../constant/application.js'
+import { EUserRole, EModuleAccess } from '../constant/application.js'
 
 const router = Router()
 
@@ -74,6 +75,7 @@ router.route('/admin/self')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         adminMCNController.self
     )
 
@@ -81,6 +83,7 @@ router.route('/admin/requests')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.getMCNRequestsSchema),
         adminMCNController.getAllRequests
     )
@@ -89,6 +92,7 @@ router.route('/admin/requests/pending')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.getMCNRequestsSchema),
         adminMCNController.getPendingRequests
     )
@@ -97,12 +101,14 @@ router.route('/admin/requests/:requestId')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.mcnRequestParamsSchema),
         adminMCNController.getRequestById
     )
     .delete(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.mcnRequestParamsSchema),
         adminMCNController.deleteRequest
     )
@@ -111,6 +117,7 @@ router.route('/admin/requests/bulk-delete')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.bulkDeleteMCNRequestsSchema),
         adminMCNController.bulkDeleteRequests
     )
@@ -119,6 +126,7 @@ router.route('/admin/requests/:requestId/review')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.reviewMCNRequestSchema),
         adminMCNController.reviewRequest
     )
@@ -127,6 +135,7 @@ router.route('/admin/requests/:requestId/create-channel')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.createMCNChannelSchema),
         adminMCNController.createMCNChannel
     )
@@ -135,6 +144,7 @@ router.route('/admin/requests/:requestId/process-removal')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.mcnRequestParamsSchema),
         adminMCNController.processRemovalRequest
     )
@@ -143,6 +153,7 @@ router.route('/admin/channels')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.getMCNChannelsSchema),
         adminMCNController.getAllChannels
     )
@@ -151,18 +162,21 @@ router.route('/admin/channels/:channelId')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.mcnChannelParamsSchema),
         adminMCNController.getChannelById
     )
     .put(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.updateMCNChannelSchema),
         adminMCNController.updateChannel
     )
     .delete(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.mcnChannelParamsSchema),
         adminMCNController.deleteChannel
     )
@@ -171,6 +185,7 @@ router.route('/admin/channels/:channelId/status')
     .patch(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         validateRequest(mcnSchemas.updateChannelStatusSchema),
         adminMCNController.updateChannelStatus
     )
@@ -179,6 +194,7 @@ router.route('/admin/stats')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization(EModuleAccess.MCN_MANAGEMENT),
         adminMCNController.getStats
     )
 

@@ -144,7 +144,7 @@ router.route('/aggregator/applications')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('MCN Management'),
+        moduleAuthorization('Aggregator Management'),
         adminController.getAllAggregatorApplications
     )
 
@@ -152,7 +152,7 @@ router.route('/aggregator/applications/bulk-delete')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('MCN Management'),
+        moduleAuthorization('Aggregator Management'),
         adminController.bulkDeleteAggregatorApplications
     )
 
@@ -161,13 +161,13 @@ router.route('/aggregator/applications/:applicationId')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('MCN Management'),
+        moduleAuthorization('Aggregator Management'),
         adminController.getAggregatorApplication
     )
     .delete(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('MCN Management'),
+        moduleAuthorization('Aggregator Management'),
         adminController.deleteAggregatorApplication
     )
 
@@ -176,7 +176,7 @@ router.route('/aggregator/applications/:applicationId/review')
     .patch(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('MCN Management'),
+        moduleAuthorization('Aggregator Management'),
         validateRequest(aggregatorSchemas.reviewApplication),
         adminController.reviewAggregatorApplication
     )
@@ -185,7 +185,7 @@ router.route('/aggregator/applications/:applicationId/create-account')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('MCN Management'),
+        moduleAuthorization('Aggregator Management'),
         validateRequest(aggregatorSchemas.createAggregatorAccount),
         adminController.createAggregatorAccount
     )
@@ -608,7 +608,7 @@ router.route('/marketing/playlist-pitching/submissions/bulk/permanent')
     .post(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('Marketing Management'),
+        moduleAuthorization('Content Management'),
         adminMarketingController.bulkDeletePlaylistPitchingSubmissions
     )
 
@@ -616,7 +616,7 @@ router.route('/marketing/playlist-pitching/submissions/:submissionId/permanent')
     .delete(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
-        moduleAuthorization('Marketing Management'),
+        moduleAuthorization('Content Management'),
         adminMarketingController.deletePlaylistPitchingSubmission
     )
 
@@ -1317,6 +1317,7 @@ router.route('/wallets/:userId')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminPayoutController.getWalletByUser
     )
 
@@ -1324,6 +1325,7 @@ router.route('/wallets/:userId/transactions')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminPayoutController.getTransactionHistoryForUser
     )
 
@@ -1339,6 +1341,7 @@ router.route('/transactions')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminPayoutController.getAllTransactions
     )
 
@@ -1346,6 +1349,7 @@ router.route('/payout-requests')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminPayoutController.getAllPayoutRequests
     )
 
@@ -1353,6 +1357,7 @@ router.route('/payout-requests/pending')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminPayoutController.getPendingPayoutRequests
     )
 
@@ -1360,6 +1365,7 @@ router.route('/payout-requests/stats')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminPayoutController.getPayoutStats
     )
 
@@ -1367,6 +1373,7 @@ router.route('/payout-requests/:requestId')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminPayoutController.getPayoutRequestById
     )
 
@@ -1374,6 +1381,7 @@ router.route('/payout-requests/:requestId/approve')
     .patch(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminPayoutController.approvePayoutRequest
     )
 
@@ -1381,6 +1389,7 @@ router.route('/payout-requests/:requestId/reject')
     .patch(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminPayoutController.rejectPayoutRequest
     )
 
@@ -1388,6 +1397,7 @@ router.route('/payout-requests/:requestId/mark-paid')
     .patch(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('Financial Reports'),
         adminPayoutController.markPayoutAsPaid
     )
 
@@ -1396,6 +1406,7 @@ router.route('/notifications/users/search')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         adminNotificationController.searchUsers
     )
 
@@ -1409,6 +1420,7 @@ router.route('/notifications')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         adminNotificationController.getAll
     )
 
@@ -1432,6 +1444,7 @@ router.route('/notifications/:notificationId')
     .get(
         authentication,
         authorization([EUserRole.ADMIN, EUserRole.TEAM_MEMBER]),
+        moduleAuthorization('User Management'),
         adminNotificationController.getById
     )
 
