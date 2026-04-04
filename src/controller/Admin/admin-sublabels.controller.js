@@ -247,7 +247,7 @@ export default {
                 )
             }
 
-            if (sublabel.name === 'Maheshwari Visual') {
+            if (sublabel.name === 'Maheshwari Visuals') {
                 return httpError(
                     next,
                     new Error(responseMessage.customMessage('Cannot delete default sublabel')),

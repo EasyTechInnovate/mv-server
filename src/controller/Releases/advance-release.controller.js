@@ -187,7 +187,7 @@ export default {
                         labelNameId = defaultSublabel.id
                     } else {
                         // Fallback to the global default sublabel
-                        const maheshwariSublabel = await Sublabel.findOne({ name: 'Maheshwari Visual', isActive: true })
+                        const maheshwariSublabel = await Sublabel.findOne({ name: 'Maheshwari Visuals', isActive: true })
                         if (maheshwariSublabel) {
                             labelNameId = maheshwariSublabel._id
                         }

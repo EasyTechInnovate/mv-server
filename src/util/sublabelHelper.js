@@ -4,22 +4,37 @@ import { EUserType, ESublabelMembershipStatus } from '../constant/application.js
 
 export const initializeDefaultSublabels = async () => {
     try {
-        const existingMaheshwariVisual = await Sublabel.findOne({ name: 'Maheshwari Visual' })
+        const correctName = 'Maheshwari Visuals'
+        const oldName = 'Maheshwari Visual'
         
-        if (!existingMaheshwariVisual) {
-            const defaultSublabel = new Sublabel({
-                name: 'Maheshwari Visual',
-                membershipStatus: ESublabelMembershipStatus.ACTIVE,
-                contractStartDate: new Date(),
-                contractEndDate: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000), // 10 years from now
-                description: 'Default sublabel for Maheshwari Visual platform',
-                contactInfo: {
-                    email: 'support@maheshwarivisual.com'
-                }
-            })
+        let sublabel = await Sublabel.findOne({ name: correctName })
+        
+        if (!sublabel) {
+            // Check if it exists with the old misspelled name and rename it
+            sublabel = await Sublabel.findOne({ name: oldName })
             
-            await defaultSublabel.save()
-            console.log('Default Maheshwari Visual sublabel created')
+            if (sublabel) {
+                sublabel.name = correctName
+                sublabel.description = 'Default sublabel for Maheshwari Visuals platform'
+                sublabel.contactInfo.email = 'support@maheshwarivisuals.com'
+                await sublabel.save()
+                console.log('Default sublabel renamed to Maheshwari Visuals')
+            } else {
+                // Create brand new if neither exists
+                const defaultSublabel = new Sublabel({
+                    name: correctName,
+                    membershipStatus: ESublabelMembershipStatus.ACTIVE,
+                    contractStartDate: new Date(),
+                    contractEndDate: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000), // 10 years from now
+                    description: 'Default sublabel for Maheshwari Visuals platform',
+                    contactInfo: {
+                        email: 'support@maheshwarivisuals.com'
+                    }
+                })
+                
+                await defaultSublabel.save()
+                console.log('Default Maheshwari Visuals sublabel created')
+            }
         }
     } catch (error) {
         console.error('Error initializing default sublabels:', error)
@@ -34,7 +49,7 @@ export const assignDefaultSublabelToUser = async (userId, userType) => {
         }
 
         if (userType === EUserType.ARTIST) {
-            const maheshwariVisualSublabel = await Sublabel.findOne({ name: 'Maheshwari Visual' })
+            const maheshwariVisualSublabel = await Sublabel.findOne({ name: 'Maheshwari Visuals' })
             if (maheshwariVisualSublabel) {
                 const existingAssignment = user.sublabels.find(
                     sub => sub.sublabel.toString() === maheshwariVisualSublabel._id.toString()

@@ -152,6 +152,19 @@ const kycSubmit = z.object({
                     path: ["details", "panNumber"]
                 });
             }
+            // Validate GST OR Udhyam if provided
+            if (details.gstUdhyamNumber && details.gstUdhyamNumber !== "") {
+                const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/;
+                const udhyamRegex = /^UDYAM-[A-Z]{2}-[0-9]{2}-[0-9]{7,10}$/i;
+                
+                if (!gstRegex.test(details.gstUdhyamNumber) && !udhyamRegex.test(details.gstUdhyamNumber)) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: "Invalid GST or Udhyam format",
+                        path: ["details", "gstUdhyamNumber"]
+                    });
+                }
+            }
         } else if (residencyType === EResidencyType.FOREIGN) {
             // Validate Passport for Foreign residents
             if (!details.passportNumber || details.passportNumber.length < 6) {
