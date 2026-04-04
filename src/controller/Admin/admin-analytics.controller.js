@@ -64,14 +64,18 @@ export default {
                 }
             }
 
-            const [users, totalCount] = await Promise.all([
+            const [users, totalCount, userTypesCount] = await Promise.all([
                 User.find(filter)
                     .select('-password -verificationToken -refreshTokens -__v')
                     .sort({ createdAt: -1 })
                     .skip(skip)
                     .limit(limitNumber)
                     .lean(),
-                User.countDocuments(filter)
+                User.countDocuments(filter),
+                User.aggregate([
+                    { $match: filter },
+                    { $group: { _id: "$userType", count: { $sum: 1 } } }
+                ])
             ])
 
             const pagination = {
@@ -119,7 +123,13 @@ export default {
 
             httpResponse(req, res, 200, responseMessage.SUCCESS, {
                 users: transformedUsers,
-                pagination
+                pagination,
+                stats: {
+                    totalUsers: totalCount,
+                    aggregators: userTypesCount.find(t => t._id === 'aggregator')?.count || 0,
+                    artists: userTypesCount.find(t => t._id === 'artist')?.count || 0,
+                    labels: userTypesCount.find(t => t._id === 'label')?.count || 0,
+                }
             })
         } catch (error) {
             httpError(next, error, req, 500)

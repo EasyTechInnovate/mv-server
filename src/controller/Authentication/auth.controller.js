@@ -113,11 +113,28 @@ export default {
             newUser.refreshTokens.push(refreshToken)
             await newUser.save()
 
+            let welcomeMessage = "Your account has been created successfully. Please check your email to verify your account.";
+            if (userType === 'artist') {
+                welcomeMessage = "We're absolutely thrilled to have you on board! 🎶 Please verify your email to start releasing your music to the world.";
+            } else if (userType === 'label') {
+                welcomeMessage = "We're excited to partner with your label! 🎵 Please verify your email to start managing your catalog and artists.";
+            } else if (userType === 'aggregator') {
+                welcomeMessage = "We're glad to partner with you! 🤝 Please verify your email to start exploring our powerful aggregator services.";
+            }
+
             newUser.addNotification(
-                'Welcome!',
-                'Your account has been created successfully. Please check your email to verify your account.',
+                'Welcome to Maheshwari Visuals! 🎉',
+                welcomeMessage,
                 'success'
             )
+
+            if (userType === 'label') {
+                newUser.addNotification(
+                    'Label Activation Status ⏳',
+                    'Your custom label name will be officially assigned and activated within 24 hours after your subscription plan is activated.',
+                    'info'
+                )
+            }
 
             const verificationUrl = `${config.client.url}/verify-email?token=${verificationToken}`
 
