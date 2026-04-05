@@ -219,16 +219,13 @@ export default {
                     .limit(5)
                     .select('firstName lastName emailAddress userType createdAt accountId')
                     .lean(),
-                // Pending KYC with urgent (>7 days) vs standard breakdown
+                // Unverified and Pending KYC breakdown
                 User.aggregate([
-                    { $match: { role: 'user', 'kyc.status': 'pending', isActive: true } },
+                    { $match: { role: 'user', 'kyc.status': { $in: ['unverified', 'pending'] }, isActive: true } },
                     {
                         $group: {
-                            _id: null,
-                            total: { $sum: 1 },
-                            urgent: {
-                                $sum: { $cond: [{ $lte: ['$updatedAt', sevenDaysAgo] }, 1, 0] }
-                            }
+                            _id: '$kyc.status',
+                            count: { $sum: 1 }
                         }
                     }
                 ]),
@@ -364,12 +361,19 @@ export default {
             rawActivities.sort((a, b) => new Date(b.time) - new Date(a.time))
             const recentSystemActivities = rawActivities.slice(0, 10)
 
-            // Pending KYC breakdown
-            const kycRaw = pendingKYCData[0] || { total: 0, urgent: 0 }
+            // Unverified & Pending KYC breakdown
+            let unverifiedCount = 0;
+            let pendingCount = 0;
+
+            pendingKYCData.forEach(d => {
+                if (d._id === 'unverified') unverifiedCount = d.count;
+                if (d._id === 'pending') pendingCount = d.count;
+            });
+
             const pendingKYC = {
-                total: kycRaw.total,
-                urgent: kycRaw.urgent,
-                standard: kycRaw.total - kycRaw.urgent
+                total: unverifiedCount + pendingCount,
+                unverified: unverifiedCount,
+                pending: pendingCount
             }
 
             const userTypeBreakdown = {}

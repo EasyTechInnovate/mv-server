@@ -1,4 +1,5 @@
 import User from '../../model/user.model.js'
+import SubscriptionPlan from '../../model/subscriptionPlan.model.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpError from '../../util/httpError.js'
 import httpResponse from '../../util/httpResponse.js'
@@ -64,7 +65,7 @@ export default {
                 }
             }
 
-            const [users, totalCount, userTypesCount] = await Promise.all([
+            const [users, totalCount, userTypesCount, plans] = await Promise.all([
                 User.find(filter)
                     .select('-password -verificationToken -refreshTokens -__v')
                     .sort({ createdAt: -1 })
@@ -75,8 +76,14 @@ export default {
                 User.aggregate([
                     { $match: filter },
                     { $group: { _id: "$userType", count: { $sum: 1 } } }
-                ])
+                ]),
+                SubscriptionPlan.find({}).select('planId features.revenueShare.percentage').lean()
             ])
+
+            const planRevenueShareMap = plans.reduce((acc, plan) => {
+                acc[plan.planId] = plan.features?.revenueShare?.percentage || 0;
+                return acc;
+            }, {});
 
             const pagination = {
                 currentPage: pageNumber,
@@ -89,6 +96,10 @@ export default {
             // Clean up KYC and Payout data if missing/null for consistent display
             const transformedUsers = users.map(u => ({
                 ...u,
+                subscription: u.subscription ? {
+                    ...u.subscription,
+                    netRevenueShare: planRevenueShareMap[u.subscription.planId] || 0
+                } : null,
                 kyc: {
                     ...u.kyc,
                     details: {
