@@ -1,8 +1,10 @@
 import MerchStore from '../../model/merch-store.model.js';
+import User from '../../model/user.model.js';
 import responseMessage from '../../constant/responseMessage.js';
 import httpError from '../../util/httpError.js';
 import httpResponse from '../../util/httpResponse.js';
 import { EMerchStoreStatus } from '../../constant/application.js';
+import { sendMerchStoreStatusEmail } from '../../service/emailService.js';
 
 export default {
     self: async (req, res, next) => {
@@ -120,6 +122,11 @@ export default {
             const populatedMerchStore = await MerchStore.findById(updatedMerchStore._id)
                 .populate('userId', 'firstName lastName emailAddress accountId')
                 .lean();
+
+            if (populatedMerchStore?.userId) {
+                const u = populatedMerchStore.userId
+                sendMerchStoreStatusEmail(u.emailAddress, u.firstName, existingMerchStore.artistInfo?.artistName || 'Your Store', existingMerchStore.status, rejectionReason).catch(() => {})
+            }
 
             httpResponse(req, res, 200, responseMessage.SUCCESS, populatedMerchStore);
         } catch (error) {

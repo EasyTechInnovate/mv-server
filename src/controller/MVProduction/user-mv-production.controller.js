@@ -2,6 +2,7 @@ import MVProductionModel from '../../model/mv-production.model.js';
 import responseMessage from '../../constant/responseMessage.js';
 import httpError from '../../util/httpError.js';
 import httpResponse from '../../util/httpResponse.js';
+import { sendMVProductionSubmittedEmail } from '../../service/emailService.js';
 
 export default {
     self: async (req, res, next) => {
@@ -25,6 +26,8 @@ export default {
             });
 
             const savedProduction = await newProduction.save();
+
+            sendMVProductionSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, savedProduction.projectOverview?.projectTitle || 'Your Project').catch(() => {})
 
             httpResponse(req, res, 201, responseMessage.SUCCESS, savedProduction);
         } catch (error) {

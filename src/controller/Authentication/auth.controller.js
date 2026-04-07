@@ -8,7 +8,7 @@ import httpError from '../../util/httpError.js'
 import quicker from '../../util/quicker.js'
 import config from '../../config/config.js'
 import { assignDefaultSublabelToUser, createLabelSublabel } from '../../util/sublabelHelper.js'
-import { sendForgotPasswordEmail, sendVerificationEmail } from '../../service/emailService.js'
+import { sendForgotPasswordEmail, sendVerificationEmail, sendWelcomeEmail, sendDistributionAgreementEmail, sendKycPendingEmail } from '../../service/emailService.js'
 
 export default {
     async self (req, res, next) {
@@ -308,7 +308,9 @@ export default {
                         isEmailVerified: user.isEmailVerified,
                         profileCompletion: user.profileCompletion,
                         hasActiveSubscription: user.hasActiveSubscription,
+                        hasActiveAggregatorSubscription: user.hasActiveAggregatorSubscription,
                         subscription: user.subscription,
+                        aggregatorSubscription: user.aggregatorSubscription,
                         kycStatus: user.kycStatus,
                         aggregatorBanner: user.aggregatorBanner,
                         aggregatorData: user.aggregatorData
@@ -571,7 +573,9 @@ export default {
                     isEmailVerified: user.isEmailVerified,
                     profileCompletion: user.profileCompletion,
                     hasActiveSubscription: user.hasActiveSubscription,
+                    hasActiveAggregatorSubscription: user.hasActiveAggregatorSubscription,
                     subscription: user.subscription,
+                    aggregatorSubscription: user.aggregatorSubscription,
                     featureAccess: user.featureAccess,
                     socialMedia: user.socialMedia,
                     kyc: user.kyc,
@@ -634,6 +638,9 @@ export default {
                 'Your email has been verified successfully. You can now access all features.',
                 'success'
             )
+
+            sendWelcomeEmail(user.emailAddress, user.firstName).catch(() => {})
+            sendDistributionAgreementEmail(user.emailAddress, user.firstName).catch(() => {})
 
             return httpResponse(
                 req,
@@ -874,6 +881,8 @@ export default {
         );
 
         await user.save(); // Save again to persist notification
+
+        sendKycPendingEmail(user.emailAddress, user.firstName).catch(() => {})
 
         return httpResponse(
           req,

@@ -10,6 +10,7 @@ import httpError from '../../util/httpError.js'
 import quicker from '../../util/quicker.js'
 import { createLabelSublabel } from '../../util/sublabelHelper.js'
 import config from '../../config/config.js'
+import { sendMembershipActivationEmail, sendMembershipPurchaseFailedEmail, sendKycDocumentsNeededEmail } from '../../service/emailService.js'
 
 export default {
     async self (req, res, next) {
@@ -274,6 +275,11 @@ export default {
             )
             await user.save()
 
+            sendMembershipActivationEmail(user.emailAddress, user.firstName, plan.name, validUntil).catch(() => {})
+            if (user.kyc?.status !== 'verified') {
+                sendKycDocumentsNeededEmail(user.emailAddress, user.firstName).catch(() => {})
+            }
+
             if (user.userType === EUserType.LABEL) {
                 try {
                     await createLabelSublabel(user._id, user.subscription.validFrom, user.subscription.validUntil)
@@ -377,8 +383,13 @@ export default {
                 `Your ${plan.name} subscription has been activated successfully! (Mock Payment)`,
                 'success'
             )
-            
+
             await user.save()
+
+            sendMembershipActivationEmail(fullUser.emailAddress, fullUser.firstName, plan.name, validUntil).catch(() => {})
+            if (fullUser.kyc?.status !== 'verified') {
+                sendKycDocumentsNeededEmail(fullUser.emailAddress, fullUser.firstName).catch(() => {})
+            }
 
             if (user.userType === EUserType.LABEL) {
                 try {
@@ -425,6 +436,14 @@ export default {
 
             if (razorpayPaymentId) transaction.razorpayPaymentId = razorpayPaymentId
             await transaction.markAsFailed(reason || 'Payment failed or cancelled by user')
+
+            const [failedUser, failedPlan] = await Promise.all([
+                User.findById(userId).select('firstName emailAddress'),
+                SubscriptionPlan.getPlanByPlanId(transaction.planId)
+            ])
+            if (failedUser && failedPlan) {
+                sendMembershipPurchaseFailedEmail(failedUser.emailAddress, failedUser.firstName, failedPlan.name, transaction.amount).catch(() => {})
+            }
 
             return httpResponse(req, res, 200, responseMessage.customMessage('Payment failure recorded'), {
                 transactionId: transaction.transactionId,

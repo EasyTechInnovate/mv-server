@@ -3,6 +3,7 @@ import User from '../model/user.model.js'
 import { ESubscriptionStatus } from '../constant/application.js'
 import { createNotification } from '../util/notificationHelper.js'
 import logger from '../util/logger.js'
+import { sendMembershipPurchaseReminderEmail, sendMembershipExpiryNoticeEmail } from '../service/emailService.js'
 
 /**
  * Mark expired subscriptions and send notifications.
@@ -38,12 +39,13 @@ const subscriptionExpiryCron = cron.schedule('35 18 * * *', async () => {
                     'subscription.validUntil': { $lt: now, $gte: new Date(now - 24 * 60 * 60 * 1000) }, // expired in last 24h
                     isActive: true
                 },
-                '_id subscription.planId'
+                '_id firstName emailAddress subscription.planId'
             ).lean()
 
             await Promise.allSettled(
-                expiredUsers.map(user =>
-                    createNotification({
+                expiredUsers.map(user => {
+                    sendMembershipPurchaseReminderEmail(user.emailAddress, user.firstName).catch(() => {})
+                    return createNotification({
                         type: 'system',
                         category: 'custom',
                         title: 'Subscription Expired',
@@ -52,7 +54,7 @@ const subscriptionExpiryCron = cron.schedule('35 18 * * *', async () => {
                         targetUsers: [user._id],
                         createdBy: null
                     })
-                )
+                })
             )
         }
 
@@ -69,13 +71,14 @@ const subscriptionExpiryCron = cron.schedule('35 18 * * *', async () => {
                 'subscription.validUntil': { $gte: sevenDaysWindow.start, $lte: sevenDaysWindow.end },
                 isActive: true
             },
-            '_id'
+            '_id firstName emailAddress subscription.planId subscription.validUntil'
         ).lean()
 
         if (expiringIn7Days.length > 0) {
             await Promise.allSettled(
-                expiringIn7Days.map(user =>
-                    createNotification({
+                expiringIn7Days.map(user => {
+                    sendMembershipExpiryNoticeEmail(user.emailAddress, user.firstName, user.subscription?.planId || 'Your Plan', user.subscription?.validUntil, 7).catch(() => {})
+                    return createNotification({
                         type: 'system',
                         category: 'custom',
                         title: 'Subscription Expiring Soon',
@@ -84,7 +87,7 @@ const subscriptionExpiryCron = cron.schedule('35 18 * * *', async () => {
                         targetUsers: [user._id],
                         createdBy: null
                     })
-                )
+                })
             )
 
             logger.info('SUBSCRIPTION_EXPIRY_CRON', {
@@ -105,13 +108,14 @@ const subscriptionExpiryCron = cron.schedule('35 18 * * *', async () => {
                 'subscription.validUntil': { $gte: oneDayWindow.start, $lte: oneDayWindow.end },
                 isActive: true
             },
-            '_id'
+            '_id firstName emailAddress subscription.planId subscription.validUntil'
         ).lean()
 
         if (expiringIn1Day.length > 0) {
             await Promise.allSettled(
-                expiringIn1Day.map(user =>
-                    createNotification({
+                expiringIn1Day.map(user => {
+                    sendMembershipExpiryNoticeEmail(user.emailAddress, user.firstName, user.subscription?.planId || 'Your Plan', user.subscription?.validUntil, 1).catch(() => {})
+                    return createNotification({
                         type: 'system',
                         category: 'custom',
                         title: 'Last Day — Subscription Expires Tomorrow',
@@ -120,7 +124,7 @@ const subscriptionExpiryCron = cron.schedule('35 18 * * *', async () => {
                         targetUsers: [user._id],
                         createdBy: null
                     })
-                )
+                })
             )
 
             logger.info('SUBSCRIPTION_EXPIRY_CRON', {

@@ -1,9 +1,11 @@
 import SyncSubmission from '../../model/sync-submission.model.js'
 import PlaylistPitching from '../../model/playlist-pitching.model.js'
+import User from '../../model/user.model.js'
 import { EMarketingSubmissionStatus } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
+import { sendSyncRequestStatusEmail, sendPlaylistPitchingStatusEmail } from '../../service/emailService.js'
 
 export default {
     async self(req, res, next) {
@@ -205,23 +207,15 @@ export default {
 
             if (action === 'approve') {
                 await submission.approve(reviewerId, adminNotes)
-                httpResponse(
-                    req,
-                    res,
-                    200,
-                    responseMessage.customMessage('Sync submission approved successfully'),
-                    submission
-                )
+                httpResponse(req, res, 200, responseMessage.customMessage('Sync submission approved successfully'), submission)
             } else if (action === 'reject') {
                 await submission.reject(reviewerId, rejectionReason, adminNotes)
-                httpResponse(
-                    req,
-                    res,
-                    200,
-                    responseMessage.customMessage('Sync submission rejected successfully'),
-                    submission
-                )
+                httpResponse(req, res, 200, responseMessage.customMessage('Sync submission rejected successfully'), submission)
             }
+
+            User.findById(submission.userId).select('firstName emailAddress').lean().then(u => {
+                if (u) sendSyncRequestStatusEmail(u.emailAddress, u.firstName, submission.trackName, action === 'approve' ? 'approved' : 'rejected', rejectionReason).catch(() => {})
+            }).catch(() => {})
         } catch (err) {
             httpError(next, err, req, 500)
         }
@@ -244,23 +238,15 @@ export default {
 
             if (action === 'approve') {
                 await submission.approve(reviewerId, adminNotes)
-                httpResponse(
-                    req,
-                    res,
-                    200,
-                    responseMessage.customMessage('Playlist pitching submission approved successfully'),
-                    submission
-                )
+                httpResponse(req, res, 200, responseMessage.customMessage('Playlist pitching submission approved successfully'), submission)
             } else if (action === 'reject') {
                 await submission.reject(reviewerId, rejectionReason, adminNotes)
-                httpResponse(
-                    req,
-                    res,
-                    200,
-                    responseMessage.customMessage('Playlist pitching submission rejected successfully'),
-                    submission
-                )
+                httpResponse(req, res, 200, responseMessage.customMessage('Playlist pitching submission rejected successfully'), submission)
             }
+
+            User.findById(submission.userId).select('firstName emailAddress').lean().then(u => {
+                if (u) sendPlaylistPitchingStatusEmail(u.emailAddress, u.firstName, submission.trackName, action === 'approve' ? 'approved' : 'rejected', rejectionReason).catch(() => {})
+            }).catch(() => {})
         } catch (err) {
             httpError(next, err, req, 500)
         }

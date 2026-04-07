@@ -4,6 +4,7 @@ import { EPayoutMethod, EKYCStatus } from '../constant/application.js'
 import responseMessage from '../constant/responseMessage.js'
 import httpResponse from '../util/httpResponse.js'
 import httpError from '../util/httpError.js'
+import { sendRoyaltyWithdrawRequestedEmail } from '../service/emailService.js'
 
 const payoutRequestController = {
     async createPayoutRequest(req, res, next) {
@@ -76,6 +77,8 @@ const payoutRequestController = {
             await payoutRequest.save()
 
             await wallet.addPendingPayout(amount)
+
+            sendRoyaltyWithdrawRequestedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, amount, payoutRequest.requestId).catch(() => {})
 
             httpResponse(
                 req,

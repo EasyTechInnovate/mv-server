@@ -3,6 +3,7 @@ import responseMessage from '../../constant/responseMessage.js';
 import httpError from '../../util/httpError.js';
 import httpResponse from '../../util/httpResponse.js';
 import { EMerchStoreStatus } from '../../constant/application.js';
+import { sendMerchStoreSubmittedEmail } from '../../service/emailService.js';
 
 export default {
     self: async (req, res, next) => {
@@ -30,6 +31,8 @@ export default {
             });
 
             const savedMerchStore = await newMerchStore.save();
+
+            sendMerchStoreSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, artistInfo?.artistName || 'Your Store').catch(() => {})
 
             httpResponse(req, res, 201, responseMessage.SUCCESS, savedMerchStore);
         } catch (error) {

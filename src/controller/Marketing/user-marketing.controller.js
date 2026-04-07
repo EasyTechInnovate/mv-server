@@ -4,6 +4,7 @@ import { EMarketingSubmissionStatus } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
+import { sendSyncRequestSubmittedEmail, sendPlaylistPitchingSubmittedEmail } from '../../service/emailService.js'
 
 export default {
     async self(req, res, next) {
@@ -26,6 +27,8 @@ export default {
 
             const syncSubmission = new SyncSubmission(submissionData)
             const savedSubmission = await syncSubmission.save()
+
+            sendSyncRequestSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, savedSubmission.trackName).catch(() => {})
 
             httpResponse(
                 req,
@@ -51,6 +54,8 @@ export default {
 
             const playlistSubmission = new PlaylistPitching(submissionData)
             const savedSubmission = await playlistSubmission.save()
+
+            sendPlaylistPitchingSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, savedSubmission.trackName).catch(() => {})
 
             httpResponse(
                 req,

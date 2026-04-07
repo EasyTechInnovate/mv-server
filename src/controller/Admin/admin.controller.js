@@ -17,6 +17,8 @@ import responseMessage from "../../constant/responseMessage.js";
 import httpResponse from "../../util/httpResponse.js";
 import httpError from "../../util/httpError.js";
 import quicker from "../../util/quicker.js";
+import config from "../../config/config.js";
+import { sendKycVerifiedEmail, sendAggregatorAccountActivationEmail } from "../../service/emailService.js";
 
 function _formatPlan(plan) {
     return {
@@ -207,7 +209,7 @@ export default {
 
       await user.save();
 
-      await user.save();
+      sendKycVerifiedEmail(user.emailAddress, user.firstName, status, rejectionReason).catch(() => {})
 
       return httpResponse(req, res, 200, responseMessage.customMessage(`KYC status updated to ${status}`), {
         kyc: user.kyc
@@ -1051,6 +1053,8 @@ export default {
       )
       
       await aggregatorUser.save()
+
+      sendAggregatorAccountActivationEmail(aggregatorUser.emailAddress, aggregatorUser.firstName, password, `${config.client.url}/login`).catch(() => {})
 
       const responseData = {
         user: {

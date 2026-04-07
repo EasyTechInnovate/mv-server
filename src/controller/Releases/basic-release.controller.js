@@ -5,6 +5,7 @@ import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
 import quicker from '../../util/quicker.js'
+import { sendReleaseSubmittedEmail } from '../../service/emailService.js'
 
 const getNextStepInfo = (release) => {
     if (!release.step1.isCompleted) {
@@ -104,7 +105,7 @@ export default {
                 );
             }
 
-            if (!user.hasActiveSubscription) {
+            if (!user.hasActiveSubscription && !user.hasActiveAggregatorSubscription) {
                 return httpError(
                     next,
                     new Error(responseMessage.customMessage('Active subscription required to create releases')),
@@ -417,7 +418,7 @@ export default {
             const { releaseId } = req.params;
 
             const user = await User.findById(userId);
-            if (!user.hasActiveSubscription) {
+            if (!user.hasActiveSubscription && !user.hasActiveAggregatorSubscription) {
                 return httpError(
                     next,
                     new Error(responseMessage.customMessage('Active subscription required to submit releases')),
@@ -456,6 +457,8 @@ export default {
 
             release.submitForReview();
             await release.save();
+
+            sendReleaseSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
 
             return httpResponse(
                 req,

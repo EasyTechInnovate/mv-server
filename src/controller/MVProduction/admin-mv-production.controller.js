@@ -1,7 +1,9 @@
 import MVProductionModel from '../../model/mv-production.model.js';
+import User from '../../model/user.model.js';
 import responseMessage from '../../constant/responseMessage.js';
 import httpError from '../../util/httpError.js';
 import httpResponse from '../../util/httpResponse.js';
+import { sendMVProductionStatusEmail } from '../../service/emailService.js';
 
 export default {
     self: async (req, res, next) => {
@@ -124,6 +126,11 @@ export default {
             } else {
                 return httpError(next, new Error('Invalid action. Use "approve" or "reject"'), req, 400);
             }
+
+            if (action !== 'approve' && action !== 'accept' && action !== 'reject') return
+            User.findById(production.userId).select('firstName emailAddress').lean().then(u => {
+                if (u) sendMVProductionStatusEmail(u.emailAddress, u.firstName, production.projectOverview?.projectTitle || 'Your Project', action === 'approve' || action === 'accept' ? 'accept' : 'reject', rejectionReason).catch(() => {})
+            }).catch(() => {})
         } catch (error) {
             httpError(next, error, req, 500);
         }

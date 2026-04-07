@@ -7,6 +7,7 @@ import { EPayoutStatus } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
+import { sendRoyaltyWithdrawStatusEmail, sendRoyaltyPaidEmail } from '../../service/emailService.js'
 
 const adminPayoutController = {
     async getAllPayoutRequests(req, res, next) {
@@ -160,6 +161,10 @@ const adminPayoutController = {
 
             await payoutRequest.approve(adminId, adminNotes)
 
+            User.findById(payoutRequest.userId).select('firstName emailAddress').lean().then(u => {
+                if (u) sendRoyaltyWithdrawStatusEmail(u.emailAddress, u.firstName, payoutRequest.amount, payoutRequest.requestId, 'approved').catch(() => {})
+            }).catch(() => {})
+
             httpResponse(
                 req,
                 res,
@@ -207,6 +212,10 @@ const adminPayoutController = {
                 await wallet.removePendingPayout(payoutRequest.amount)
             }
 
+            User.findById(payoutRequest.userId).select('firstName emailAddress').lean().then(u => {
+                if (u) sendRoyaltyWithdrawStatusEmail(u.emailAddress, u.firstName, payoutRequest.amount, payoutRequest.requestId, 'rejected', reason).catch(() => {})
+            }).catch(() => {})
+
             httpResponse(
                 req,
                 res,
@@ -248,6 +257,10 @@ const adminPayoutController = {
             if (wallet) {
                 await wallet.markPayoutComplete(payoutRequest.amount)
             }
+
+            User.findById(payoutRequest.userId).select('firstName emailAddress').lean().then(u => {
+                if (u) sendRoyaltyPaidEmail(u.emailAddress, u.firstName, payoutRequest.amount, payoutRequest.requestId, transactionReference).catch(() => {})
+            }).catch(() => {})
 
             httpResponse(
                 req,

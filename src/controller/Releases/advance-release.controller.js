@@ -7,6 +7,7 @@ import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
 import quicker from '../../util/quicker.js'
 import { getUserDefaultSublabel, getUserActiveSublabels } from '../../util/sublabelHelper.js'
+import { sendReleaseSubmittedEmail } from '../../service/emailService.js'
 
 const getNextStepInfo = (release) => {
     if (!release.step1.isCompleted) {
@@ -453,6 +454,8 @@ export default {
 
             release.submitForReview()
             await release.save()
+
+            sendReleaseSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
 
             return httpResponse(
                 req,
