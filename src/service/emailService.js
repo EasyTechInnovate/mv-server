@@ -56,7 +56,7 @@ export const sendWelcomeEmail = (to, firstName) =>
     send(K.welcome, to, {
         name: firstName,
         email: to,
-        subscriptions_link: `${config.client.url}/subscriptions`
+        subscriptions_link: `${config.client.url}/pricing/everyone`
     })
 
 // ─── 2. Distribution Agreement ─────────────────────────────────────────────
