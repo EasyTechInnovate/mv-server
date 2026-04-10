@@ -54,7 +54,8 @@ const createMerchStore = z.object({
             }),
             consentToShowcase: z.boolean().refine(val => val === true, {
                 message: 'You must consent to MMC showcasing approved designs'
-            })
+            }),
+            subscribeToNewsletter: z.boolean().optional()
         })
     })
 });

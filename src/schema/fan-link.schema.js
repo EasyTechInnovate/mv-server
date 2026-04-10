@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { EFanLinkStatus, EFanLinkPlatform } from '../constant/application.js';
 
 const platformLinkSchema = z.object({
-    platform: z.enum(Object.values(EFanLinkPlatform)),
+    platform: z.string().min(1, 'Platform is required'),
     link: z.string().url().min(1, 'Platform link is required'),
     isActive: z.boolean().default(true)
 });

@@ -186,7 +186,8 @@ export default {
                 rejectedStores,
                 designPendingStores,
                 designSubmittedStores,
-                designApprovedStores
+                designApprovedStores,
+                approvedDesignsResult
             ] = await Promise.all([
                 MerchStore.countDocuments(),
                 MerchStore.countDocuments({ status: EMerchStoreStatus.PENDING }),
@@ -194,7 +195,12 @@ export default {
                 MerchStore.countDocuments({ status: EMerchStoreStatus.REJECTED }),
                 MerchStore.countDocuments({ status: EMerchStoreStatus.DESIGN_PENDING }),
                 MerchStore.countDocuments({ status: EMerchStoreStatus.DESIGN_SUBMITTED }),
-                MerchStore.countDocuments({ status: EMerchStoreStatus.DESIGN_APPROVED })
+                MerchStore.countDocuments({ status: EMerchStoreStatus.DESIGN_APPROVED }),
+                MerchStore.aggregate([
+                    { $unwind: "$designs" },
+                    { $match: { "designs.status": "approved" } },
+                    { $count: "total" }
+                ])
             ]);
 
             const stats = {
@@ -204,7 +210,8 @@ export default {
                 rejectedStores,
                 designPendingStores,
                 designSubmittedStores,
-                designApprovedStores
+                designApprovedStores,
+                totalApprovedDesigns: approvedDesignsResult[0]?.total || 0
             };
 
             httpResponse(req, res, 200, responseMessage.SUCCESS, stats);

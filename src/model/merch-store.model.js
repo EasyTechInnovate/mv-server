@@ -96,6 +96,10 @@ const merchStoreSchema = new Schema(
                 type: Boolean,
                 required: true,
                 default: false
+            },
+            subscribeToNewsletter: {
+                type: Boolean,
+                default: false
             }
         },
         designs: [{
