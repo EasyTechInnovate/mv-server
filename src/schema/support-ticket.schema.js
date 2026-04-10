@@ -53,8 +53,8 @@ const youtubeManualClaimDetailsSchema = z.object({
         youtubeVideoLink: z.string().url(),
         officialVideoLink: z.string().url().optional().or(z.literal('')),
         isrc: z.string().trim().optional().or(z.literal('')),
-        startTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
-        endTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
+        startTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/),
+        endTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/),
     })).min(1),
     confirmation: z.boolean().refine(val => val === true),
 });
@@ -99,8 +99,8 @@ const metaManualClaimDetailsSchema = z.object({
         metaVideoLink: z.string().url(),
         officialVideoLink: z.string().url().optional().or(z.literal('')),
         isrc: z.string().trim().optional().or(z.literal('')),
-        startTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
-        endTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/),
+        startTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/),
+        endTime: z.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$/),
     })).min(1),
     confirmation: z.boolean().refine(val => val === true),
 });

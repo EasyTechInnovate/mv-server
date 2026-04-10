@@ -67,6 +67,11 @@ const syncSubmissionSchema = new mongoose.Schema(
             enum: Object.values(EMusicTheme),
             required: true
         },
+        tempoBPM: {
+            type: String,
+            required: false,
+            trim: true
+        },
         masterRightsOwner: {
             type: String,
             required: true,

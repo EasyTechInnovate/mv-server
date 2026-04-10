@@ -21,6 +21,7 @@ const createSyncSubmissionSchema = z.object({
         isVocalsPresent: z.boolean(),
         language: z.enum(Object.values(EMusicLanguage)).optional(),
         theme: z.enum(Object.values(EMusicTheme)),
+        tempoBPM: z.string().optional().or(z.literal('')),
         masterRightsOwner: z.string().min(1, 'Master rights owner is required').max(200),
         publishingRightsOwner: z.string().min(1, 'Publishing rights owner is required').max(200),
         isFullyClearedForSync: z.union([z.boolean(), z.literal('unsure')]),
