@@ -875,9 +875,9 @@ export default {
         await user.save();
 
         user.addNotification(
-          'KYC Verified',
-          'Your KYC information has been successfully verified and approved.',
-          'success'
+          'KYC Submitted',
+          'Your KYC information has been submitted successfully and is under review.',
+          'info'
         );
 
         await user.save(); // Save again to persist notification
@@ -893,7 +893,7 @@ export default {
             kycStatus: user.kyc.status,
             submittedAt: user.kyc.submittedAt,
             verifiedAt: user.kyc.verifiedAt,
-            isCompleted: user.kycStatus.isCompleted,
+            isCompleted: user.kycStatus?.isCompleted ?? false,
             kyc: {
               documents: user.kyc.documents,
               bankDetails: user.kyc.bankDetails,
