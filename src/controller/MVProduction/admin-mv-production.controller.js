@@ -129,7 +129,7 @@ export default {
 
             if (action !== 'approve' && action !== 'accept' && action !== 'reject') return
             User.findById(production.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendMVProductionStatusEmail(u.emailAddress, u.firstName, production.projectOverview?.projectTitle || 'Your Project', action === 'approve' || action === 'accept' ? 'accept' : 'reject', rejectionReason).catch(() => {})
+                if (u) sendMVProductionStatusEmail(u.emailAddress, u.accountId, production.projectOverview?.projectTitle || 'Your Project', action === 'approve' || action === 'accept' ? 'accept' : 'reject', rejectionReason).catch(() => {})
             }).catch(() => {})
         } catch (error) {
             httpError(next, error, req, 500);

@@ -140,7 +140,7 @@ export default {
 
             // Send Verification Email
             try {
-                await sendVerificationEmail(newUser.emailAddress, newUser.firstName, verificationCode)
+                await sendVerificationEmail(newUser.emailAddress, newUser.accountId, verificationCode)
             } catch (emailError) {
                 console.error('Failed to send verification email:', emailError)
             }
@@ -455,7 +455,7 @@ export default {
 
             // Send Forgot Password Email
             try {
-                await sendForgotPasswordEmail(user.emailAddress, user.firstName, resetUrl)
+                await sendForgotPasswordEmail(user.emailAddress, user.accountId, resetUrl)
             } catch (emailError) {
                 console.error('Failed to send forgot password email:', emailError)
             }
@@ -639,8 +639,8 @@ export default {
                 'success'
             )
 
-            sendWelcomeEmail(user.emailAddress, user.firstName).catch(() => {})
-            sendDistributionAgreementEmail(user.emailAddress, user.firstName).catch(() => {})
+            sendWelcomeEmail(user.emailAddress, user.accountId).catch(() => {})
+            sendDistributionAgreementEmail(user.emailAddress, user.accountId).catch(() => {})
 
             return httpResponse(
                 req,
@@ -695,7 +695,7 @@ export default {
 
             // Send Verification Email
             try {
-                await sendVerificationEmail(user.emailAddress, user.firstName, verificationCode)
+                await sendVerificationEmail(user.emailAddress, user.accountId, verificationCode)
             } catch (emailError) {
                 console.error('Failed to send verification email:', emailError)
             }
@@ -882,7 +882,7 @@ export default {
 
         await user.save(); // Save again to persist notification
 
-        sendKycPendingEmail(user.emailAddress, user.firstName).catch(() => {})
+        sendKycPendingEmail(user.emailAddress, user.accountId).catch(() => {})
 
         return httpResponse(
           req,

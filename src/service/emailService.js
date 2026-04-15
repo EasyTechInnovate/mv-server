@@ -233,7 +233,7 @@ export const sendReleaseLiveEmail = (to, firstName, releaseName, releaseId) =>
         dashboard_link: `${config.client.url}/app/releases`
     })
 
-// ─── 16. Release Edit Approved ────────────────────────────────────────────
+// ─── 16. Release Edit Approved / Rejected ────────────────────────────────
 
 export const sendReleaseEditApprovedEmail = (to, firstName, releaseName, releaseId) =>
     send(K.releaseEditApproved, to, {
@@ -241,17 +241,42 @@ export const sendReleaseEditApprovedEmail = (to, firstName, releaseName, release
         email: to,
         release_name: releaseName,
         release_id: releaseId,
+        is_approved: 'true',
+        reason: '',
         edit_link: `${config.client.url}/app/releases`
     })
 
-// ─── 17. Release Takedown ─────────────────────────────────────────────────
+export const sendReleaseEditRejectedEmail = (to, firstName, releaseName, releaseId, reason = '') =>
+    send(K.releaseEditApproved, to, {
+        name: firstName,
+        email: to,
+        release_name: releaseName,
+        release_id: releaseId,
+        is_approved: 'false',
+        reason: reason || '',
+        edit_link: `${config.client.url}/app/releases`
+    })
+
+// ─── 17. Release Takedown / Takedown Rejected ─────────────────────────────
 
 export const sendReleaseTakedownEmail = (to, firstName, releaseName, releaseId) =>
     send(K.releaseTakedown, to, {
         name: firstName,
         email: to,
         release_name: releaseName,
-        release_id: releaseId
+        release_id: releaseId,
+        is_approved: 'true',
+        reason: ''
+    })
+
+export const sendReleaseTakedownRejectedEmail = (to, firstName, releaseName, releaseId, reason = '') =>
+    send(K.releaseTakedown, to, {
+        name: firstName,
+        email: to,
+        release_name: releaseName,
+        release_id: releaseId,
+        is_approved: 'false',
+        reason: reason || ''
     })
 
 // ─── 18. Sync Submitted ───────────────────────────────────────────────────
@@ -319,11 +344,12 @@ export const sendMVProductionStatusEmail = (to, firstName, projectTitle, status,
 
 // ─── 24. Merch Store Submitted ────────────────────────────────────────────
 
-export const sendMerchStoreSubmittedEmail = (to, firstName, storeName) =>
+export const sendMerchStoreSubmittedEmail = (to, firstName, storeName, products = '') =>
     send(K.merchSubmitted, to, {
         name: firstName,
         email: to,
-        store_name: storeName
+        store_name: storeName,
+        products
     })
 
 // ─── 25. Merch Store Status ───────────────────────────────────────────────
@@ -347,4 +373,36 @@ export const sendAggregatorAccountActivationEmail = (to, firstName, password, lo
         email: to,
         password,
         login_link: loginUrl
+    })
+
+// ─── 27. MCN Request Submitted ────────────────────────────────────────────
+
+export const sendMCNRequestSubmittedEmail = (to, firstName, channelName, channelId) =>
+    send(K.mcnSubmitted, to, {
+        name: firstName,
+        email: to,
+        channel_name: channelName,
+        channel_id: channelId
+    })
+
+// ─── 28. MCN Request Status (Approved / Rejected) ─────────────────────────
+
+export const sendMCNRequestStatusEmail = (to, firstName, channelName, status, reason = '') =>
+    send(K.mcnStatus, to, {
+        name: firstName,
+        email: to,
+        channel_name: channelName,
+        status,
+        is_approved: status === 'approve' ? 'true' : 'false',
+        reason: reason || '',
+        dashboard_link: `${config.client.url}/app/mcn`
+    })
+
+// ─── 29. Payment Details Needed ───────────────────────────────────────────
+
+export const sendPaymentDetailsNeededEmail = (to, firstName) =>
+    send(K.paymentDetailsNeeded, to, {
+        name: firstName,
+        email: to,
+        settings_link: `${config.client.url}/app/settings`
     })

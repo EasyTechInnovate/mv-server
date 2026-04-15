@@ -32,7 +32,8 @@ export default {
 
             const savedMerchStore = await newMerchStore.save();
 
-            sendMerchStoreSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, artistInfo?.artistName || 'Your Store').catch(() => {})
+            const products = (productPreferences?.selectedProducts || []).join(', ')
+            sendMerchStoreSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.accountId, artistInfo?.artistName || 'Your Store', products).catch(() => {})
 
             httpResponse(req, res, 201, responseMessage.SUCCESS, savedMerchStore);
         } catch (error) {

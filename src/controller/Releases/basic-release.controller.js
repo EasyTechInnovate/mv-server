@@ -1,4 +1,6 @@
 import BasicRelease from '../../model/basic-release.model.js'
+import AdvancedRelease from '../../model/advanced-release.model.js'
+import SubscriptionPlan from '../../model/subscriptionPlan.model.js'
 import User from '../../model/user.model.js'
 import { EReleaseStatus, EReleaseStep } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
@@ -112,6 +114,24 @@ export default {
                     req,
                     403
                 );
+            }
+
+            if (user.hasActiveSubscription && user.subscription?.planId) {
+                const plan = await SubscriptionPlan.findOne({ planId: user.subscription.planId }).select('limits').lean()
+                if (plan && plan.limits?.maxUploads !== -1 && plan.limits?.maxUploads > 0) {
+                    const [basicCount, advancedCount] = await Promise.all([
+                        BasicRelease.countDocuments({ userId, isActive: true }),
+                        AdvancedRelease.countDocuments({ userId, isActive: true })
+                    ])
+                    if (basicCount + advancedCount >= plan.limits.maxUploads) {
+                        return httpError(
+                            next,
+                            new Error(responseMessage.customMessage(`Your plan allows a maximum of ${plan.limits.maxUploads} release(s). Please upgrade to upload more.`)),
+                            req,
+                            403
+                        )
+                    }
+                }
             }
 
             const releaseId = await quicker.generateReleaseId('basic', trackType, BasicRelease);
@@ -458,7 +478,7 @@ export default {
             release.submitForReview();
             await release.save();
 
-            sendReleaseSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
+            sendReleaseSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.accountId, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
 
             return httpResponse(
                 req,

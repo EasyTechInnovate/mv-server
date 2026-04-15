@@ -1,9 +1,11 @@
 import MCNRequest from '../../model/mcn-request.model.js'
 import MCNChannel from '../../model/mcn-channel.model.js'
+import User from '../../model/user.model.js'
 import { EMCNRequestStatus, EMCNChannelStatus } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
+import { sendMCNRequestStatusEmail } from '../../service/emailService.js'
 
 export default {
     async self(req, res, next) {
@@ -126,6 +128,11 @@ export default {
 
             if (action === 'approve') {
                 await mcnRequest.approve(reviewerId, adminNotes)
+
+                User.findById(mcnRequest.userId).select('accountId emailAddress').lean().then(u => {
+                    if (u) sendMCNRequestStatusEmail(u.emailAddress, u.accountId, mcnRequest.youtubeChannelName || 'Your Channel', 'approve').catch(() => {})
+                }).catch(() => {})
+
                 httpResponse(
                     req,
                     res,
@@ -135,6 +142,11 @@ export default {
                 )
             } else if (action === 'reject') {
                 await mcnRequest.reject(reviewerId, rejectionReason, adminNotes)
+
+                User.findById(mcnRequest.userId).select('accountId emailAddress').lean().then(u => {
+                    if (u) sendMCNRequestStatusEmail(u.emailAddress, u.accountId, mcnRequest.youtubeChannelName || 'Your Channel', 'reject', rejectionReason).catch(() => {})
+                }).catch(() => {})
+
                 httpResponse(
                     req,
                     res,

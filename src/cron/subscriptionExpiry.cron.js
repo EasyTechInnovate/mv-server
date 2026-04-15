@@ -39,12 +39,12 @@ const subscriptionExpiryCron = cron.schedule('35 18 * * *', async () => {
                     'subscription.validUntil': { $lt: now, $gte: new Date(now - 24 * 60 * 60 * 1000) }, // expired in last 24h
                     isActive: true
                 },
-                '_id firstName emailAddress subscription.planId'
+                '_id accountId emailAddress subscription.planId'
             ).lean()
 
             await Promise.allSettled(
                 expiredUsers.map(user => {
-                    sendMembershipPurchaseReminderEmail(user.emailAddress, user.firstName).catch(() => {})
+                    sendMembershipPurchaseReminderEmail(user.emailAddress, user.accountId).catch(() => {})
                     return createNotification({
                         type: 'system',
                         category: 'custom',
@@ -71,13 +71,13 @@ const subscriptionExpiryCron = cron.schedule('35 18 * * *', async () => {
                 'subscription.validUntil': { $gte: sevenDaysWindow.start, $lte: sevenDaysWindow.end },
                 isActive: true
             },
-            '_id firstName emailAddress subscription.planId subscription.validUntil'
+            '_id accountId emailAddress subscription.planId subscription.validUntil'
         ).lean()
 
         if (expiringIn7Days.length > 0) {
             await Promise.allSettled(
                 expiringIn7Days.map(user => {
-                    sendMembershipExpiryNoticeEmail(user.emailAddress, user.firstName, user.subscription?.planId || 'Your Plan', user.subscription?.validUntil, 7).catch(() => {})
+                    sendMembershipExpiryNoticeEmail(user.emailAddress, user.accountId, user.subscription?.planId || 'Your Plan', user.subscription?.validUntil, 7).catch(() => {})
                     return createNotification({
                         type: 'system',
                         category: 'custom',
@@ -108,13 +108,13 @@ const subscriptionExpiryCron = cron.schedule('35 18 * * *', async () => {
                 'subscription.validUntil': { $gte: oneDayWindow.start, $lte: oneDayWindow.end },
                 isActive: true
             },
-            '_id firstName emailAddress subscription.planId subscription.validUntil'
+            '_id accountId emailAddress subscription.planId subscription.validUntil'
         ).lean()
 
         if (expiringIn1Day.length > 0) {
             await Promise.allSettled(
                 expiringIn1Day.map(user => {
-                    sendMembershipExpiryNoticeEmail(user.emailAddress, user.firstName, user.subscription?.planId || 'Your Plan', user.subscription?.validUntil, 1).catch(() => {})
+                    sendMembershipExpiryNoticeEmail(user.emailAddress, user.accountId, user.subscription?.planId || 'Your Plan', user.subscription?.validUntil, 1).catch(() => {})
                     return createNotification({
                         type: 'system',
                         category: 'custom',

@@ -213,8 +213,8 @@ export default {
                 httpResponse(req, res, 200, responseMessage.customMessage('Sync submission rejected successfully'), submission)
             }
 
-            User.findById(submission.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendSyncRequestStatusEmail(u.emailAddress, u.firstName, submission.trackName, action === 'approve' ? 'approved' : 'rejected', rejectionReason).catch(() => {})
+            User.findById(submission.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) sendSyncRequestStatusEmail(u.emailAddress, u.accountId, submission.trackName, action === 'approve' ? 'approved' : 'rejected', rejectionReason).catch(() => {})
             }).catch(() => {})
         } catch (err) {
             httpError(next, err, req, 500)
@@ -244,8 +244,8 @@ export default {
                 httpResponse(req, res, 200, responseMessage.customMessage('Playlist pitching submission rejected successfully'), submission)
             }
 
-            User.findById(submission.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendPlaylistPitchingStatusEmail(u.emailAddress, u.firstName, submission.trackName, action === 'approve' ? 'approved' : 'rejected', rejectionReason).catch(() => {})
+            User.findById(submission.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) sendPlaylistPitchingStatusEmail(u.emailAddress, u.accountId, submission.trackName, action === 'approve' ? 'approved' : 'rejected', rejectionReason).catch(() => {})
             }).catch(() => {})
         } catch (err) {
             httpError(next, err, req, 500)

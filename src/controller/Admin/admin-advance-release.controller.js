@@ -8,7 +8,7 @@ import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
 import quicker from '../../util/quicker.js'
 import { getUserDefaultSublabel } from '../../util/sublabelHelper.js'
-import { sendReleaseApprovedEmail, sendReleaseRejectedEmail, sendReleaseUnderDeliveryEmail, sendReleaseLiveEmail, sendReleaseTakedownEmail, sendReleaseEditApprovedEmail } from '../../service/emailService.js'
+import { sendReleaseApprovedEmail, sendReleaseRejectedEmail, sendReleaseUnderDeliveryEmail, sendReleaseLiveEmail, sendReleaseTakedownEmail, sendReleaseEditApprovedEmail, sendReleaseEditRejectedEmail } from '../../service/emailService.js'
 
 export default {
     async self(req, res, next) {
@@ -245,10 +245,6 @@ export default {
 
             await release.save()
 
-            User.findById(release.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendReleaseApprovedEmail(u.emailAddress, u.firstName, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
-            }).catch(() => {})
-
             return httpResponse(
                 req,
                 res,
@@ -291,8 +287,12 @@ export default {
             release.startProcessing()
             await release.save()
 
-            User.findById(release.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendReleaseUnderDeliveryEmail(u.emailAddress, u.firstName, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
+            User.findById(release.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) {
+                    const name = release.step1?.releaseInfo?.releaseName || 'Your Release'
+                    sendReleaseApprovedEmail(u.emailAddress, u.accountId, name, release.releaseId).catch(() => {})
+                    sendReleaseUnderDeliveryEmail(u.emailAddress, u.accountId, name, release.releaseId).catch(() => {})
+                }
             }).catch(() => {})
 
             return httpResponse(
@@ -388,8 +388,8 @@ export default {
                 metadata: { releaseId: release.releaseId, releaseName: release.step1?.releaseInfo?.releaseName }
             }).catch(() => {})
 
-            User.findById(release.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendReleaseLiveEmail(u.emailAddress, u.firstName, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
+            User.findById(release.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) sendReleaseLiveEmail(u.emailAddress, u.accountId, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
             }).catch(() => {})
 
             return httpResponse(
@@ -436,8 +436,8 @@ export default {
             release.rejectRelease(reason, adminId)
             await release.save()
 
-            User.findById(release.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendReleaseRejectedEmail(u.emailAddress, u.firstName, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId, reason).catch(() => {})
+            User.findById(release.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) sendReleaseRejectedEmail(u.emailAddress, u.accountId, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId, reason).catch(() => {})
             }).catch(() => {})
 
             return httpResponse(
@@ -505,8 +505,8 @@ export default {
                 metadata: { releaseId: release.releaseId, releaseName: release.step1?.releaseInfo?.releaseName }
             }).catch(() => {})
 
-            User.findById(release.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendReleaseTakedownEmail(u.emailAddress, u.firstName, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
+            User.findById(release.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) sendReleaseTakedownEmail(u.emailAddress, u.accountId, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
             }).catch(() => {})
 
             return httpResponse(
@@ -842,8 +842,8 @@ export default {
 
             await release.save()
 
-            User.findById(release.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendReleaseEditApprovedEmail(u.emailAddress, u.firstName, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
+            User.findById(release.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) sendReleaseEditApprovedEmail(u.emailAddress, u.accountId, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
             }).catch(() => {})
 
             return httpResponse(
@@ -992,7 +992,9 @@ export default {
 
             await release.save()
 
-            // TODO: Send notification to user about rejection with reason
+            User.findById(release.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) sendReleaseEditRejectedEmail(u.emailAddress, u.accountId, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId, reason).catch(() => {})
+            }).catch(() => {})
 
             return httpResponse(
                 req,

@@ -125,7 +125,7 @@ export default {
 
             if (populatedMerchStore?.userId) {
                 const u = populatedMerchStore.userId
-                sendMerchStoreStatusEmail(u.emailAddress, u.firstName, existingMerchStore.artistInfo?.artistName || 'Your Store', existingMerchStore.status, rejectionReason).catch(() => {})
+                sendMerchStoreStatusEmail(u.emailAddress, u.accountId, existingMerchStore.artistInfo?.artistName || 'Your Store', existingMerchStore.status, rejectionReason).catch(() => {})
             }
 
             httpResponse(req, res, 200, responseMessage.SUCCESS, populatedMerchStore);

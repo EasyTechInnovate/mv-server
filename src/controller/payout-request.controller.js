@@ -78,7 +78,7 @@ const payoutRequestController = {
 
             await wallet.addPendingPayout(amount)
 
-            sendRoyaltyWithdrawRequestedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, amount, payoutRequest.requestId).catch(() => {})
+            sendRoyaltyWithdrawRequestedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.accountId, amount, payoutRequest.requestId).catch(() => {})
 
             httpResponse(
                 req,

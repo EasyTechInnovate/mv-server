@@ -38,7 +38,7 @@ const subscriptionPlanSchema = new mongoose.Schema({
     },
     interval: {
         type: String,
-        enum: ['month', 'year'],
+        enum: ['month', 'year', 'lifetime'],
         required: [true, 'Billing interval is required']
     },
     intervalCount: {

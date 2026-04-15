@@ -28,7 +28,7 @@ export default {
             const syncSubmission = new SyncSubmission(submissionData)
             const savedSubmission = await syncSubmission.save()
 
-            sendSyncRequestSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, savedSubmission.trackName).catch(() => {})
+            sendSyncRequestSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.accountId, savedSubmission.trackName).catch(() => {})
 
             httpResponse(
                 req,
@@ -55,7 +55,7 @@ export default {
             const playlistSubmission = new PlaylistPitching(submissionData)
             const savedSubmission = await playlistSubmission.save()
 
-            sendPlaylistPitchingSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, savedSubmission.trackName).catch(() => {})
+            sendPlaylistPitchingSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.accountId, savedSubmission.trackName).catch(() => {})
 
             httpResponse(
                 req,

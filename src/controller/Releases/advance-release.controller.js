@@ -455,7 +455,7 @@ export default {
             release.submitForReview()
             await release.save()
 
-            sendReleaseSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
+            sendReleaseSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.accountId, release.step1?.releaseInfo?.releaseName || 'Your Release', release.releaseId).catch(() => {})
 
             return httpResponse(
                 req,

@@ -161,8 +161,8 @@ const adminPayoutController = {
 
             await payoutRequest.approve(adminId, adminNotes)
 
-            User.findById(payoutRequest.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendRoyaltyWithdrawStatusEmail(u.emailAddress, u.firstName, payoutRequest.amount, payoutRequest.requestId, 'approved').catch(() => {})
+            User.findById(payoutRequest.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) sendRoyaltyWithdrawStatusEmail(u.emailAddress, u.accountId, payoutRequest.amount, payoutRequest.requestId, 'approved').catch(() => {})
             }).catch(() => {})
 
             httpResponse(
@@ -212,8 +212,8 @@ const adminPayoutController = {
                 await wallet.removePendingPayout(payoutRequest.amount)
             }
 
-            User.findById(payoutRequest.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendRoyaltyWithdrawStatusEmail(u.emailAddress, u.firstName, payoutRequest.amount, payoutRequest.requestId, 'rejected', reason).catch(() => {})
+            User.findById(payoutRequest.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) sendRoyaltyWithdrawStatusEmail(u.emailAddress, u.accountId, payoutRequest.amount, payoutRequest.requestId, 'rejected', reason).catch(() => {})
             }).catch(() => {})
 
             httpResponse(
@@ -258,8 +258,8 @@ const adminPayoutController = {
                 await wallet.markPayoutComplete(payoutRequest.amount)
             }
 
-            User.findById(payoutRequest.userId).select('firstName emailAddress').lean().then(u => {
-                if (u) sendRoyaltyPaidEmail(u.emailAddress, u.firstName, payoutRequest.amount, payoutRequest.requestId, transactionReference).catch(() => {})
+            User.findById(payoutRequest.userId).select('accountId emailAddress').lean().then(u => {
+                if (u) sendRoyaltyPaidEmail(u.emailAddress, u.accountId, payoutRequest.amount, payoutRequest.requestId, transactionReference).catch(() => {})
             }).catch(() => {})
 
             httpResponse(

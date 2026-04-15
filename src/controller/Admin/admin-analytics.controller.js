@@ -94,8 +94,17 @@ export default {
             }
 
             // Clean up KYC and Payout data if missing/null for consistent display
-            const transformedUsers = users.map(u => ({
+            const now = new Date()
+            const transformedUsers = users.map(u => {
+                const hasActiveAggregatorSubscription = u.userType === 'aggregator' &&
+                    !!u.aggregatorSubscription?.startDate &&
+                    !!u.aggregatorSubscription?.endDate &&
+                    now >= new Date(u.aggregatorSubscription.startDate) &&
+                    now <= new Date(u.aggregatorSubscription.endDate)
+
+                return {
                 ...u,
+                hasActiveAggregatorSubscription,
                 subscription: u.subscription ? {
                     ...u.subscription,
                     netRevenueShare: planRevenueShareMap[u.subscription.planId] || 0
@@ -130,7 +139,7 @@ export default {
                         verified: u.payoutMethods?.paypal?.verified || false,
                     }
                 }
-            }));
+            }});
 
             httpResponse(req, res, 200, responseMessage.SUCCESS, {
                 users: transformedUsers,

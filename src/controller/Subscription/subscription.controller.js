@@ -10,7 +10,7 @@ import httpError from '../../util/httpError.js'
 import quicker from '../../util/quicker.js'
 import { createLabelSublabel } from '../../util/sublabelHelper.js'
 import config from '../../config/config.js'
-import { sendMembershipActivationEmail, sendMembershipPurchaseFailedEmail, sendKycDocumentsNeededEmail } from '../../service/emailService.js'
+import { sendMembershipActivationEmail, sendMembershipPurchaseFailedEmail, sendKycDocumentsNeededEmail, sendPaymentDetailsNeededEmail } from '../../service/emailService.js'
 
 export default {
     async self (req, res, next) {
@@ -265,7 +265,9 @@ export default {
 
             // 4. Activate subscription
             const user = await User.findById(userId)
-            const validUntil = dayjs().add(plan.intervalCount, plan.interval).toDate()
+            const validUntil = plan.interval === 'lifetime'
+                ? new Date('9999-12-31')
+                : dayjs().add(plan.intervalCount, plan.interval).toDate()
 
             user.activateSubscription(transaction.planId, validUntil, `razorpay_sub_${Date.now()}`)
             user.addNotification(
@@ -275,9 +277,12 @@ export default {
             )
             await user.save()
 
-            sendMembershipActivationEmail(user.emailAddress, user.firstName, plan.name, validUntil).catch(() => {})
+            sendMembershipActivationEmail(user.emailAddress, user.accountId, plan.name, validUntil).catch(() => {})
             if (user.kyc?.status !== 'verified') {
-                sendKycDocumentsNeededEmail(user.emailAddress, user.firstName).catch(() => {})
+                sendKycDocumentsNeededEmail(user.emailAddress, user.accountId).catch(() => {})
+            }
+            if (!user.payoutMethods?.bank?.accountNumber && !user.payoutMethods?.upi?.upiId) {
+                sendPaymentDetailsNeededEmail(user.emailAddress, user.accountId).catch(() => {})
             }
 
             if (user.userType === EUserType.LABEL) {
@@ -375,7 +380,9 @@ export default {
             await transaction.save()
 
             const fullUser = await User.findById(userId)
-            const validUntil = dayjs().add(plan.intervalCount, plan.interval).toDate()
+            const validUntil = plan.interval === 'lifetime'
+                ? new Date('9999-12-31')
+                : dayjs().add(plan.intervalCount, plan.interval).toDate()
 
             fullUser.activateSubscription(planId, validUntil, `mock_sub_${Date.now()}`)
             user.addNotification(
@@ -386,9 +393,12 @@ export default {
 
             await user.save()
 
-            sendMembershipActivationEmail(fullUser.emailAddress, fullUser.firstName, plan.name, validUntil).catch(() => {})
+            sendMembershipActivationEmail(fullUser.emailAddress, fullUser.accountId, plan.name, validUntil).catch(() => {})
             if (fullUser.kyc?.status !== 'verified') {
-                sendKycDocumentsNeededEmail(fullUser.emailAddress, fullUser.firstName).catch(() => {})
+                sendKycDocumentsNeededEmail(fullUser.emailAddress, fullUser.accountId).catch(() => {})
+            }
+            if (!fullUser.payoutMethods?.bank?.accountNumber && !fullUser.payoutMethods?.upi?.upiId) {
+                sendPaymentDetailsNeededEmail(fullUser.emailAddress, fullUser.accountId).catch(() => {})
             }
 
             if (user.userType === EUserType.LABEL) {
@@ -438,11 +448,11 @@ export default {
             await transaction.markAsFailed(reason || 'Payment failed or cancelled by user')
 
             const [failedUser, failedPlan] = await Promise.all([
-                User.findById(userId).select('firstName emailAddress'),
-                SubscriptionPlan.getPlanByPlanId(transaction.planId)
+                User.findById(userId).select('accountId emailAddress').lean(),
+                SubscriptionPlan.findOne({ planId: transaction.planId }).select('name').lean()
             ])
             if (failedUser && failedPlan) {
-                sendMembershipPurchaseFailedEmail(failedUser.emailAddress, failedUser.firstName, failedPlan.name, transaction.amount).catch(() => {})
+                sendMembershipPurchaseFailedEmail(failedUser.emailAddress, failedUser.accountId, failedPlan.name, transaction.amount).catch(() => {})
             }
 
             return httpResponse(req, res, 200, responseMessage.customMessage('Payment failure recorded'), {
@@ -536,7 +546,9 @@ export default {
                     if (plan) {
                         const user = await User.findById(transaction.userId)
                         if (user && !user.hasActiveSubscription) {
-                            const validUntil = dayjs().add(plan.intervalCount, plan.interval).toDate()
+                            const validUntil = plan.interval === 'lifetime'
+                                ? new Date('9999-12-31')
+                                : dayjs().add(plan.intervalCount, plan.interval).toDate()
                             user.activateSubscription(transaction.planId, validUntil, `razorpay_sub_${Date.now()}`)
                             await user.save()
                         }
@@ -606,7 +618,9 @@ export default {
                     if (plan) {
                         const user = await User.findById(transaction.userId)
                         if (user && !user.hasActiveSubscription) {
-                            const validUntil = dayjs().add(plan.intervalCount, plan.interval).toDate()
+                            const validUntil = plan.interval === 'lifetime'
+                                ? new Date('9999-12-31')
+                                : dayjs().add(plan.intervalCount, plan.interval).toDate()
                             user.activateSubscription(transaction.planId, validUntil, `paytm_sub_${Date.now()}`)
                             await user.save()
                         }

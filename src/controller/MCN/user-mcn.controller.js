@@ -4,6 +4,7 @@ import { EMCNRequestStatus } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
+import { sendMCNRequestSubmittedEmail } from '../../service/emailService.js'
 
 export default {
     async self(req, res, next) {
@@ -37,6 +38,13 @@ export default {
 
             const mcnRequest = new MCNRequest(requestData)
             const savedRequest = await mcnRequest.save()
+
+            sendMCNRequestSubmittedEmail(
+                req.authenticatedUser.emailAddress,
+                req.authenticatedUser.firstName,
+                req.body.youtubeChannelName || 'Your Channel',
+                req.body.youtubeChannelId || ''
+            ).catch(() => {})
 
             httpResponse(
                 req,

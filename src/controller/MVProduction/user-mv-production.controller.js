@@ -27,7 +27,7 @@ export default {
 
             const savedProduction = await newProduction.save();
 
-            sendMVProductionSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.firstName, savedProduction.projectOverview?.projectTitle || 'Your Project').catch(() => {})
+            sendMVProductionSubmittedEmail(req.authenticatedUser.emailAddress, req.authenticatedUser.accountId, savedProduction.projectOverview?.projectTitle || 'Your Project').catch(() => {})
 
             httpResponse(req, res, 201, responseMessage.SUCCESS, savedProduction);
         } catch (error) {

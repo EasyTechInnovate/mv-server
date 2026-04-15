@@ -209,7 +209,7 @@ export default {
 
       await user.save();
 
-      sendKycVerifiedEmail(user.emailAddress, user.firstName, status, rejectionReason).catch(() => {})
+      sendKycVerifiedEmail(user.emailAddress, user.accountId, status, rejectionReason).catch(() => {})
 
       return httpResponse(req, res, 200, responseMessage.customMessage(`KYC status updated to ${status}`), {
         kyc: user.kyc
@@ -1054,7 +1054,7 @@ export default {
       
       await aggregatorUser.save()
 
-      sendAggregatorAccountActivationEmail(aggregatorUser.emailAddress, aggregatorUser.firstName, password, `${config.client.url}/login`).catch(() => {})
+      sendAggregatorAccountActivationEmail(aggregatorUser.emailAddress, aggregatorUser.accountId, password, `${config.client.url}/signin`).catch(() => {})
 
       const responseData = {
         user: {

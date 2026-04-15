@@ -50,6 +50,9 @@ const config = {
             merchStatus:             process.env.BILLIONMAIL_KEY_MERCH_STATUS,
             aggregatorActivation:    process.env.BILLIONMAIL_KEY_AGGREGATOR_ACTIVATION,
             teamInvitation:          process.env.BILLIONMAIL_KEY_TEAM_INVITATION,
+            mcnSubmitted:            process.env.BILLIONMAIL_KEY_MCN_SUBMITTED,
+            mcnStatus:               process.env.BILLIONMAIL_KEY_MCN_STATUS,
+            paymentDetailsNeeded:    process.env.BILLIONMAIL_KEY_PAYMENT_DETAILS_NEEDED,
         }
     },
     security: {
