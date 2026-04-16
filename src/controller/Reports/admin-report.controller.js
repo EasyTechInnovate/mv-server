@@ -112,11 +112,26 @@ const adminReportController = {
             const monthId = reportData.monthId._id
             const month = reportData.monthId.month
 
+            const requiredFields = [
+                { key: 'accountId', label: 'Account ID' },
+                { key: 'artist', label: 'Artist' },
+                { key: 'licensee', label: 'Licensee' },
+                { key: 'licensor', label: 'Licensor' },
+                { key: 'musicService', label: 'Music Service' }
+            ]
+            const invalidRows = csvData.reduce((acc, record, index) => {
+                const missing = requiredFields.filter(f => !record[f.key]).map(f => f.label)
+                if (missing.length > 0) acc.push(`Row ${index + 2}: missing ${missing.join(', ')}`)
+                return acc
+            }, [])
+            if (invalidRows.length > 0) {
+                throw new Error(`CSV has ${invalidRows.length} invalid row(s) — ${invalidRows.slice(0, 5).join(' | ')}${invalidRows.length > 5 ? ` ... and ${invalidRows.length - 5} more` : ''}`)
+            }
+
             if (reportType === EReportType.ANALYTICS) {
                 // Clear existing analytics for this month
                 await Analytics.deleteMany({ monthId })
 
-                // Insert new analytics records
                 const analyticsRecords = csvData.map(record => ({
                     userAccountId: record.accountId,
                     licensee: record.licensee,
@@ -164,7 +179,6 @@ const adminReportController = {
                 // Clear existing royalty for this month
                 await Royalty.deleteMany({ monthId, royaltyType: 'regular' })
 
-                // Insert new royalty records
                 const royaltyRecords = csvData.map(record => ({
                     userAccountId: record.accountId,
                     licensee: record.licensee,
@@ -199,7 +213,6 @@ const adminReportController = {
                 // Clear existing bonus royalty for this month
                 await Royalty.deleteMany({ monthId, royaltyType: 'bonus' })
 
-                // Insert new bonus royalty records
                 const bonusRecords = csvData.map(record => ({
                     userAccountId: record.accountId,
                     licensee: record.licensee,
