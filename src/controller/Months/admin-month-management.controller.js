@@ -257,7 +257,7 @@ export default {
                                     }
                                 }
                             },
-                            { $project: { _id: 1, status: 1 } }
+                            { $project: { _id: 1, status: 1, errorMessage: 1 } }
                         ],
                         as: 'report'
                     }
@@ -270,12 +270,14 @@ export default {
                                 then: {
                                     isSubmitted: true,
                                     reportId: { $arrayElemAt: ['$report._id', 0] },
-                                    status: { $arrayElemAt: ['$report.status', 0] }
+                                    status: { $arrayElemAt: ['$report.status', 0] },
+                                    errorMessage: { $arrayElemAt: ['$report.errorMessage', 0] }
                                 },
                                 else: {
                                     isSubmitted: false,
                                     reportId: null,
-                                    status: null
+                                    status: null,
+                                    errorMessage: null
                                 }
                             }
                         }

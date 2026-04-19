@@ -11,19 +11,18 @@ const analyticsSchema = new mongoose.Schema({
     // Basic track information
     licensee: {
         type: String,
-        required: true,
-        trim: true
+        trim: true,
+        default: null
     },
     licensor: {
         type: String,
-        required: true,
-        trim: true
+        trim: true,
+        default: null
     },
     platform: {
         type: String,
-        // enum: Object.values(EStreamingPlatform), // Commented out to allow any platform value from CSV
-        required: true,
-        trim: true
+        trim: true,
+        default: null
     },
     monthId: {
         type: mongoose.Schema.Types.ObjectId,
@@ -37,13 +36,13 @@ const analyticsSchema = new mongoose.Schema({
     },
     labelName: {
         type: String,
-        required: true,
-        trim: true
+        trim: true,
+        default: null
     },
     artistName: {
         type: String,
-        required: true,
-        trim: true
+        trim: true,
+        default: null
     },
     albumTitle: {
         type: String,

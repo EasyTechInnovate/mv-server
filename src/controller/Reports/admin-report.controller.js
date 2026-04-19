@@ -112,16 +112,8 @@ const adminReportController = {
             const monthId = reportData.monthId._id
             const month = reportData.monthId.month
 
-            const requiredFields = [
-                { key: 'accountId', label: 'Account ID' },
-                { key: 'artist', label: 'Artist' },
-                { key: 'licensee', label: 'Licensee' },
-                { key: 'licensor', label: 'Licensor' },
-                { key: 'musicService', label: 'Music Service' }
-            ]
             const invalidRows = csvData.reduce((acc, record, index) => {
-                const missing = requiredFields.filter(f => !record[f.key]).map(f => f.label)
-                if (missing.length > 0) acc.push(`Row ${index + 2}: missing ${missing.join(', ')}`)
+                if (!record.accountId) acc.push(`Row ${index + 2}: missing Account ID`)
                 return acc
             }, [])
             if (invalidRows.length > 0) {
