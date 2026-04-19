@@ -99,6 +99,25 @@ const trackSchema = new Schema({
         trim: true,
         maxlength: 200
     },
+    audioFiles: [{
+        format: {
+            type: String,
+            required: true
+        },
+        fileUrl: {
+            type: String,
+            required: true,
+            trim: true
+        },
+        fileSize: {
+            type: Number,
+            min: 0
+        },
+        duration: {
+            type: Number,
+            min: 0
+        }
+    }],
     isAvailableForDownload: {
         type: Boolean,
         default: true
