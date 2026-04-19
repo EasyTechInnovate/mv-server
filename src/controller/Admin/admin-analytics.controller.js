@@ -105,6 +105,9 @@ export default {
                 return {
                 ...u,
                 hasActiveAggregatorSubscription,
+                membershipActive: u.userType === 'aggregator'
+                    ? hasActiveAggregatorSubscription
+                    : u.subscription?.status === 'active',
                 subscription: u.subscription ? {
                     ...u.subscription,
                     netRevenueShare: planRevenueShareMap[u.subscription.planId] || 0
