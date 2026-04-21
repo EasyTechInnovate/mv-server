@@ -898,31 +898,48 @@ export default {
                 const records = await Royalty.find(query).lean();
                 
                 dataToExport = records.map(record => ({
-                    'Platform': record.platform || '',
-                    'Country': record.countryCode || '',
-                    'Label Name': record.labelName || '',
-                    'Artist Name': record.artistName || '',
+                    'Account ID': record.accountId || record.userAccountId || '',
+                    'Licensee': record.licensee || '',
+                    'Licensor': record.licensor || '',
+                    'Music Service': record.platform || '',
+                    'Label': record.labelName || '',
+                    'Artist': record.artistName || '',
                     'Album Title': record.albumTitle || '',
+                    'Product Title': record.productTitle || '',
                     'Track Title': record.trackTitle || '',
+                    'Vol/Version': record.volVersion || '',
                     'UPC': record.upc || '',
+                    'CatNo': record.catalogNumber || '',
                     'ISRC': record.isrc || '',
                     'Total Units': record.totalUnits || 0,
+                    'Country Of Sale': record.countryCode || '',
                     'Regular Royalty': record.regularRoyalty || 0,
                     'Bonus Royalty': record.bonusRoyalty || 0,
-                    'Total Earnings': record.totalEarnings || 0
+                    'Total Earnings': record.totalEarnings || 0,
+                    'MV Commission': record.maheshwariVisualsCommission || 0,
+                    'Currency': record.currency || 'USD',
+                    'Rate': record.rate || 0,
+                    'Report Month': record.reportMonth || '',
+                    'Report Year': record.reportYear || ''
                 }));
             } else if (exportType === 'mcn') {
                 const MCN = (await import('../../model/mcn.model.js')).default;
                 const records = await MCN.find({ monthId, userAccountId }).lean();
 
                 dataToExport = records.map(record => ({
-                    'YouTube Channel Name': record.youtubeChannelName || '',
+                    'Account ID': record.accountId || record.userAccountId || '',
+                    'Licensee': record.licensee || '',
+                    'Licensor': record.licensor || '',
                     'Asset Channel ID': record.assetChannelId || '',
+                    'YouTube Channel Name': record.youtubeChannelName || '',
                     'Revenue Share %': record.revenueSharePercent || 0,
                     'YouTube Payout (USD)': record.youtubePayoutUsd || 0,
                     'Revenue (USD)': record.revenueUsd || 0,
+                    'Conversion Rate': record.conversionRate || 0,
                     'MV Commission': record.mvCommission || 0,
-                    'Payout Revenue (INR)': record.payoutRevenueInr || 0
+                    'Payout Revenue (INR)': record.payoutRevenueInr || 0,
+                    'Report Month': record.reportMonth || '',
+                    'Report Year': record.reportYear || ''
                 }));
             } else {
                 return httpError(next, new Error('Invalid exportType. Must be regular, bonus, or mcn.'), req, 400);
@@ -968,15 +985,24 @@ export default {
             }
 
             const dataToExport = records.map(record => ({
-                'Platform': record.platform || '',
-                'Country': record.countryCode || '',
-                'Label Name': record.labelName || '',
-                'Artist Name': record.artistName || '',
+                'Account ID': record.accountId || record.userAccountId || '',
+                'Licensee': record.licensee || '',
+                'Licensor': record.licensor || '',
+                'Music Service': record.platform || '',
+                'Label': record.labelName || '',
+                'Artist': record.artistName || '',
                 'Album Title': record.albumTitle || '',
+                'Product Title': record.productTitle || '',
                 'Track Title': record.trackTitle || '',
+                'Vol/Version': record.volVersion || '',
                 'UPC': record.upc || '',
+                'CatNo': record.catalogNumber || '',
                 'ISRC': record.isrc || '',
-                'Total Units': record.totalUnits || 0
+                'Total Units': record.totalUnits || 0,
+                'Country Of Sale': record.countryCode || '',
+                'Usage Type': record.usageType || '',
+                'Report Month': record.reportMonth || '',
+                'Report Year': record.reportYear || ''
             }));
 
             // Generate CSV
