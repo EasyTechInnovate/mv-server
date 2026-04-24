@@ -517,6 +517,27 @@ const adminReportController = {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Report')), req, 404)
             }
 
+            const monthId = report.monthId
+
+            if (report.reportType === EReportType.ANALYTICS) {
+                await Analytics.deleteMany({ monthId })
+            } else if (report.reportType === EReportType.ROYALTY) {
+                const affectedIds = await Royalty.distinct('userAccountId', { monthId, royaltyType: 'regular' })
+                await Royalty.deleteMany({ monthId, royaltyType: 'regular' })
+                const users = await User.find({ accountId: { $in: affectedIds } }).select('_id').lean()
+                await Promise.allSettled(users.map(u => recalculateWalletForUser(u._id)))
+            } else if (report.reportType === EReportType.BONUS_ROYALTY) {
+                const affectedIds = await Royalty.distinct('userAccountId', { monthId, royaltyType: 'bonus' })
+                await Royalty.deleteMany({ monthId, royaltyType: 'bonus' })
+                const users = await User.find({ accountId: { $in: affectedIds } }).select('_id').lean()
+                await Promise.allSettled(users.map(u => recalculateWalletForUser(u._id)))
+            } else if (report.reportType === EReportType.MCN) {
+                const affectedIds = await MCN.distinct('userAccountId', { monthId })
+                await MCN.deleteMany({ monthId })
+                const users = await User.find({ accountId: { $in: affectedIds } }).select('_id').lean()
+                await Promise.allSettled(users.map(u => recalculateWalletForUser(u._id)))
+            }
+
             if (fs.existsSync(report.filePath)) {
                 fs.unlinkSync(report.filePath)
             }

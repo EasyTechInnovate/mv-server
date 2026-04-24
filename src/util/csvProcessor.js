@@ -2,6 +2,13 @@ import fs from 'fs'
 import csv from 'csv-parser'
 import { EReportType } from '../constant/application.js'
 
+const requiredHeadersByType = {
+    [EReportType.ANALYTICS]:     { 'Acount ID': 'accountId' },
+    [EReportType.ROYALTY]:       { 'Acount ID': 'accountId' },
+    [EReportType.BONUS_ROYALTY]: { 'Acount ID': 'accountId' },
+    [EReportType.MCN]:           { 'Acount ID': 'accountId' }
+}
+
 const csvFieldMappings = {
     [EReportType.ANALYTICS]: {
         'Licensee': 'licensee',
@@ -104,9 +111,8 @@ export const processCsvFile = (filePath, reportType) => {
             .on('data', (row) => {
                 const mappedRow = {}
 
-                Object.keys(fieldMapping).forEach(csvHeader => {
-                    const schemaField = fieldMapping[csvHeader]
-                    const value = row[csvHeader]
+                Object.entries(fieldMapping).forEach(([csvHeader, schemaField]) => {
+                    const value = row[csvHeader] !== undefined ? row[csvHeader] : row[schemaField]
 
                     if (value !== undefined && value !== '') {
                         if (['totalUnits', 'income', 'maheshwariVisualsCommission', 'royalty',
@@ -167,7 +173,7 @@ export const calculateReportSummary = (data, reportType) => {
 
 export const validateCsvHeaders = (filePath, reportType) => {
     return new Promise((resolve, reject) => {
-        const expectedHeaders = Object.keys(csvFieldMappings[reportType])
+        const mapping = csvFieldMappings[reportType]
         const actualHeaders = []
 
         fs.createReadStream(filePath)
@@ -178,14 +184,16 @@ export const validateCsvHeaders = (filePath, reportType) => {
             .on('data', () => {
             })
             .on('end', () => {
-                const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header))
-                const extraHeaders = actualHeaders.filter(header => !expectedHeaders.includes(header))
+                const required = requiredHeadersByType[reportType] || {}
+                const missingHeaders = Object.entries(required)
+                    .filter(([displayName, camelKey]) =>
+                        !actualHeaders.includes(displayName) && !actualHeaders.includes(camelKey)
+                    )
+                    .map(([displayName]) => displayName)
 
                 resolve({
                     isValid: missingHeaders.length === 0,
                     missingHeaders,
-                    extraHeaders,
-                    expectedHeaders,
                     actualHeaders
                 })
             })

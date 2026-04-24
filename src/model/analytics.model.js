@@ -170,6 +170,7 @@ analyticsSchema.statics.getUserTotalStreams = async function(userAccountId, time
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     const result = await this.aggregate([
         { $match: matchStage },
@@ -216,6 +217,7 @@ analyticsSchema.statics.getTopTracks = async function(userAccountId, limit = 10,
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
@@ -258,6 +260,7 @@ analyticsSchema.statics.getPlatformDistribution = async function(userAccountId, 
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
@@ -290,6 +293,7 @@ analyticsSchema.statics.getCountryDistribution = async function(userAccountId, l
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
@@ -323,6 +327,7 @@ analyticsSchema.statics.getStreamOverTime = async function(userAccountId, groupB
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     const groupStage = {
         _id: {
@@ -363,6 +368,7 @@ analyticsSchema.statics.getUserTotalRevenue = async function(userAccountId, time
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     const result = await this.aggregate([
         { $match: matchStage },
@@ -385,6 +391,7 @@ analyticsSchema.statics.getUserCountriesReached = async function(userAccountId, 
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     const result = await this.aggregate([
         { $match: matchStage },
@@ -438,6 +445,7 @@ analyticsSchema.statics.getUserRevenueOverTime = async function(userAccountId, t
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
@@ -474,6 +482,7 @@ analyticsSchema.statics.getUserListenersByCountry = async function(userAccountId
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
@@ -505,6 +514,7 @@ analyticsSchema.statics.getUserListenersByPlatform = async function(userAccountI
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },

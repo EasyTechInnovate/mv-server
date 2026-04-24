@@ -404,6 +404,9 @@ export default {
             const previousStartDate = new Date(startDate.getTime() - previousPeriodLength)
             const previousEndDate = new Date(startDate)
 
+            const activeAnalyticsMonths = await MonthManagement.find({ isActive: true, type: 'analytics' }).select('_id').lean()
+            const analyticsMonthIds = activeAnalyticsMonths.map(m => m._id)
+
             const [
                 // Overview metrics
                 totalStreams,
@@ -428,26 +431,26 @@ export default {
                 revenueByPlatform
             ] = await Promise.all([
                 // Overview metrics
-                Analytics.getUserTotalStreams(userAccountId, { startDate, endDate }),
-                Analytics.getUserTotalRevenue(userAccountId, { startDate, endDate }),
-                Analytics.getUserCountriesReached(userAccountId, { startDate, endDate }),
-                Analytics.getUserActiveListeners(userAccountId, { startDate, endDate }),
-                Analytics.getUserTotalStreams(userAccountId, { startDate: previousStartDate, endDate: previousEndDate }),
-                Analytics.getUserTotalRevenue(userAccountId, { startDate: previousStartDate, endDate: previousEndDate }),
+                Analytics.getUserTotalStreams(userAccountId, { startDate, endDate, monthIds: analyticsMonthIds }),
+                Analytics.getUserTotalRevenue(userAccountId, { startDate, endDate, monthIds: analyticsMonthIds }),
+                Analytics.getUserCountriesReached(userAccountId, { startDate, endDate, monthIds: analyticsMonthIds }),
+                Analytics.getUserActiveListeners(userAccountId, { startDate, endDate, monthIds: analyticsMonthIds }),
+                Analytics.getUserTotalStreams(userAccountId, { startDate: previousStartDate, endDate: previousEndDate, monthIds: analyticsMonthIds }),
+                Analytics.getUserTotalRevenue(userAccountId, { startDate: previousStartDate, endDate: previousEndDate, monthIds: analyticsMonthIds }),
 
                 // Time series data
-                Analytics.getUserStreamsOverTime(userAccountId, { startDate, endDate, groupBy }),
-                Analytics.getUserRevenueOverTime(userAccountId, { startDate, endDate, groupBy }),
+                Analytics.getUserStreamsOverTime(userAccountId, { startDate, endDate, groupBy, monthIds: analyticsMonthIds }),
+                Analytics.getUserRevenueOverTime(userAccountId, { startDate, endDate, groupBy, monthIds: analyticsMonthIds }),
 
                 // Distribution data
-                Analytics.getUserTopTracks(userAccountId, { startDate, endDate, limit: parseInt(topTracksLimit) }),
-                Analytics.getUserPlatformDistribution(userAccountId, { startDate, endDate }),
-                Analytics.getUserCountryDistribution(userAccountId, { startDate, endDate, limit: parseInt(countriesLimit) }),
+                Analytics.getUserTopTracks(userAccountId, { startDate, endDate, limit: parseInt(topTracksLimit), monthIds: analyticsMonthIds }),
+                Analytics.getUserPlatformDistribution(userAccountId, { startDate, endDate, monthIds: analyticsMonthIds }),
+                Analytics.getUserCountryDistribution(userAccountId, { startDate, endDate, limit: parseInt(countriesLimit), monthIds: analyticsMonthIds }),
 
                 // Additional insights
-                Analytics.getUserListenersByCountry(userAccountId, { startDate, endDate, limit: 10 }),
-                Analytics.getUserListenersByPlatform(userAccountId, { startDate, endDate }),
-                Analytics.getUserRevenueBySources(userAccountId, { startDate, endDate })
+                Analytics.getUserListenersByCountry(userAccountId, { startDate, endDate, limit: 10, monthIds: analyticsMonthIds }),
+                Analytics.getUserListenersByPlatform(userAccountId, { startDate, endDate, monthIds: analyticsMonthIds }),
+                Analytics.getUserRevenueBySources(userAccountId, { startDate, endDate, monthIds: analyticsMonthIds })
             ])
 
             const streamsGrowth = previousPeriodStreams > 0
@@ -532,8 +535,8 @@ export default {
             // Handle custom timeframe
             let dateFilter = {}
             if (timeframe === ERoyaltyTimeframe.CUSTOM && startDate && endDate) {
-                dateFilter.start = new Date(startDate)
-                dateFilter.end = new Date(endDate)
+                dateFilter.startDate = new Date(startDate)
+                dateFilter.endDate = new Date(endDate)
             } else {
                 const timeframeConfig = {
                     [ERoyaltyTimeframe.LAST_7_DAYS]: { days: 7 },
@@ -543,18 +546,21 @@ export default {
                     [ERoyaltyTimeframe.LAST_YEAR]: { months: 12 }
                 }
                 const config = timeframeConfig[timeframe]
-                const endDate = new Date()
-                const startDate = new Date()
+                const end = new Date()
+                const start = new Date()
 
                 if (config.days) {
-                    startDate.setDate(endDate.getDate() - config.days)
+                    start.setDate(end.getDate() - config.days)
                 } else if (config.months) {
-                    startDate.setMonth(endDate.getMonth() - config.months)
+                    start.setMonth(end.getMonth() - config.months)
                 }
 
-                dateFilter.start = startDate
-                dateFilter.end = endDate
+                dateFilter.startDate = start
+                dateFilter.endDate = end
             }
+
+            const activeMonths = await MonthManagement.find({ isActive: true, type: { $in: ['royalty', 'bonus'] } }).select('_id').lean()
+            dateFilter.monthIds = activeMonths.map(m => m._id)
 
             // Get all royalty data in parallel
             const [
@@ -757,6 +763,9 @@ export default {
             // Get MCN data
             const MCN = (await import('../../model/mcn.model.js')).default
 
+            const activeMcnMonths = await MonthManagement.find({ isActive: true, type: 'mcn' }).select('_id').lean()
+            const mcnMonthFilter = activeMcnMonths.length > 0 ? { monthId: { $in: activeMcnMonths.map(m => m._id) } } : {}
+
             const [
                 totalEarnings,
                 monthlyTrends,
@@ -765,7 +774,7 @@ export default {
             ] = await Promise.all([
                 // Total earnings for user
                 MCN.aggregate([
-                    { $match: { userAccountId, isActive: true, ...dateFilter } },
+                    { $match: { userAccountId, isActive: true, ...dateFilter, ...mcnMonthFilter } },
                     {
                         $group: {
                             _id: null,
@@ -780,7 +789,7 @@ export default {
                 ]),
                 // Monthly trends
                 MCN.aggregate([
-                    { $match: { userAccountId, isActive: true, ...dateFilter } },
+                    { $match: { userAccountId, isActive: true, ...dateFilter, ...mcnMonthFilter } },
                     {
                         $group: {
                             _id: { month: '$reportMonth', year: '$reportYear' },
@@ -795,7 +804,7 @@ export default {
                 ]),
                 // Channel-wise performance
                 MCN.aggregate([
-                    { $match: { userAccountId, isActive: true, ...dateFilter } },
+                    { $match: { userAccountId, isActive: true, ...dateFilter, ...mcnMonthFilter } },
                     {
                         $group: {
                             _id: {
@@ -814,7 +823,7 @@ export default {
                 ]),
                 // Overall stats (all time)
                 MCN.aggregate([
-                    { $match: { userAccountId, isActive: true } },
+                    { $match: { userAccountId, isActive: true, ...mcnMonthFilter } },
                     {
                         $group: {
                             _id: null,

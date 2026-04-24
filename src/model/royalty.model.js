@@ -204,6 +204,7 @@ royaltySchema.statics.getUserTotalEarnings = async function(userAccountId, timef
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     const result = await this.aggregate([
         { $match: matchStage },
@@ -265,6 +266,7 @@ royaltySchema.statics.getUserMonthlyRoyaltyTrends = async function(userAccountId
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
@@ -308,6 +310,7 @@ royaltySchema.statics.getUserRoyaltyComposition = async function(userAccountId, 
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     const result = await this.aggregate([
         { $match: matchStage },
@@ -403,6 +406,7 @@ royaltySchema.statics.getUserRevenueByPlatform = async function(userAccountId, t
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
@@ -440,6 +444,7 @@ royaltySchema.statics.getUserTopEarningTracks = async function(userAccountId, li
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
@@ -487,6 +492,7 @@ royaltySchema.statics.getUserBonusRoyaltyTrends = async function(userAccountId, 
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
@@ -525,6 +531,7 @@ royaltySchema.statics.getUserBonusRoyaltyByPlatform = async function(userAccount
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
@@ -557,6 +564,7 @@ royaltySchema.statics.getUserTopBonusEarningTracks = async function(userAccountI
         if (timeframe.startDate) matchStage.createdAt.$gte = new Date(timeframe.startDate)
         if (timeframe.endDate) matchStage.createdAt.$lte = new Date(timeframe.endDate)
     }
+    if (timeframe.monthIds) matchStage.monthId = { $in: timeframe.monthIds }
 
     return await this.aggregate([
         { $match: matchStage },
