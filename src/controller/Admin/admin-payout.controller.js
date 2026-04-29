@@ -397,11 +397,18 @@ const adminPayoutController = {
             const pageNum = parseInt(page)
             const limitNum = parseInt(limit)
 
+            // ── Build date range for filtering by createdAt ──
+            let dateRange = null
+            if (month && year) {
+                const startOfMonth = new Date(parseInt(year), parseInt(month) - 1, 1)
+                const endOfMonth = new Date(parseInt(year), parseInt(month), 0, 23, 59, 59, 999)
+                dateRange = { $gte: startOfMonth, $lte: endOfMonth }
+            }
+
             // ── 1. Royalty credits ──
             const royaltyMatch = { userAccountId: accountId }
-            if (month && year) {
-                royaltyMatch.reportMonth = month
-                royaltyMatch.reportYear = parseInt(year)
+            if (dateRange) {
+                royaltyMatch.createdAt = dateRange
             }
             const royaltyByMonth = await Royalty.aggregate([
                 { $match: royaltyMatch },
@@ -418,9 +425,8 @@ const adminPayoutController = {
 
             // ── 2. MCN earnings ──
             const mcnMatch = { userAccountId: accountId, isActive: true }
-            if (month && year) {
-                mcnMatch.reportMonth = month
-                mcnMatch.reportYear = parseInt(year)
+            if (dateRange) {
+                mcnMatch.createdAt = dateRange
             }
             const mcnByMonth = await MCN.aggregate([
                 { $match: mcnMatch },
@@ -594,12 +600,19 @@ const adminPayoutController = {
                 })
             }
 
+            // ── Build date range for filtering by createdAt ──
+            let dateRange = null
+            if (month && year) {
+                const startOfMonth = new Date(parseInt(year), parseInt(month) - 1, 1)
+                const endOfMonth = new Date(parseInt(year), parseInt(month), 0, 23, 59, 59, 999)
+                dateRange = { $gte: startOfMonth, $lte: endOfMonth }
+            }
+
             // ── 1. Royalty credits ──
             const royaltyMatch = {}
             if (userAccountIds) royaltyMatch.userAccountId = { $in: userAccountIds }
-            if (month && year) {
-                royaltyMatch.reportMonth = month
-                royaltyMatch.reportYear = parseInt(year)
+            if (dateRange) {
+                royaltyMatch.createdAt = dateRange
             }
             const royaltyByMonth = await Royalty.aggregate([
                 { $match: royaltyMatch },
@@ -617,9 +630,8 @@ const adminPayoutController = {
             // ── 2. MCN earnings ──
             const mcnMatch = { isActive: true }
             if (userAccountIds) mcnMatch.userAccountId = { $in: userAccountIds }
-            if (month && year) {
-                mcnMatch.reportMonth = month
-                mcnMatch.reportYear = parseInt(year)
+            if (dateRange) {
+                mcnMatch.createdAt = dateRange
             }
             const mcnByMonth = await MCN.aggregate([
                 { $match: mcnMatch },
