@@ -41,7 +41,7 @@ const adminPayoutController = {
 
             const [requests, totalCount] = await Promise.all([
                 PayoutRequest.find(filter)
-                    .populate('userId', 'firstName lastName emailAddress accountId payoutMethods')
+                    .populate('userId', 'firstName lastName emailAddress accountId payoutMethods userType artistData.artistName labelData.labelName aggregatorData.companyName')
                     .populate('processedBy', 'firstName lastName emailAddress')
                     .sort(sortObj)
                     .skip(skip)
@@ -106,7 +106,7 @@ const adminPayoutController = {
                 requestId,
                 isActive: true
             })
-                .populate('userId', 'firstName lastName emailAddress accountId payoutMethods')
+                .populate('userId', 'firstName lastName emailAddress accountId payoutMethods userType artistData.artistName labelData.labelName aggregatorData.companyName')
                 .populate('processedBy', 'firstName lastName emailAddress')
 
             if (!payoutRequest) {
@@ -584,7 +584,7 @@ const adminPayoutController = {
                         { emailAddress: searchRegex },
                         { accountId: searchRegex }
                     ]
-                }).select('_id accountId firstName lastName emailAddress')
+                }).select('_id accountId firstName lastName emailAddress userType artistData.artistName labelData.labelName aggregatorData.companyName')
                 
                 userMatchIds = users.map(u => u._id)
                 userAccountIds = users.map(u => u.accountId)
@@ -593,7 +593,7 @@ const adminPayoutController = {
                     usersMap[u._id.toString()] = u
                 })
             } else {
-                 const allUsers = await User.find({}).select('_id accountId firstName lastName emailAddress')
+                 const allUsers = await User.find({}).select('_id accountId firstName lastName emailAddress userType artistData.artistName labelData.labelName aggregatorData.companyName')
                  allUsers.forEach(u => {
                     usersMap[u.accountId] = u
                     usersMap[u._id.toString()] = u
@@ -648,7 +648,7 @@ const adminPayoutController = {
             // ── 3. Admin adjustments ──
             const walletQuery = {}
             if (userMatchIds) walletQuery.userId = { $in: userMatchIds }
-            let wallets = await Wallet.find(walletQuery).populate('userId', 'firstName lastName emailAddress accountId').populate('adminAdjustments.adjustedBy', 'firstName lastName')
+            let wallets = await Wallet.find(walletQuery).populate('userId', 'firstName lastName emailAddress accountId userType artistData.artistName labelData.labelName aggregatorData.companyName').populate('adminAdjustments.adjustedBy', 'firstName lastName')
             
             let adminAdjustments = []
             wallets.forEach(wallet => {
@@ -672,18 +672,27 @@ const adminPayoutController = {
                 const endOfMonth = new Date(parseInt(year), parseInt(month), 0, 23, 59, 59, 999)
                 payoutMatch.requestedAt = { $gte: startOfMonth, $lte: endOfMonth }
             }
-            const payouts = await PayoutRequest.find(payoutMatch).populate('userId', 'firstName lastName emailAddress accountId').sort({ requestedAt: -1 }).lean()
+            const payouts = await PayoutRequest.find(payoutMatch).populate('userId', 'firstName lastName emailAddress accountId userType artistData.artistName labelData.labelName aggregatorData.companyName').sort({ requestedAt: -1 }).lean()
 
             // ── Build unified list ──
             const transactions = []
 
             const getUserInfo = (userObj) => {
                 if (!userObj) return null;
+                const accountName = userObj.userType === 'artist'
+                    ? userObj.artistData?.artistName || ''
+                    : userObj.userType === 'label'
+                    ? userObj.labelData?.labelName || ''
+                    : userObj.userType === 'aggregator'
+                    ? userObj.aggregatorData?.companyName || ''
+                    : '';
                 return {
                      id: userObj._id,
                      name: `${userObj.firstName} ${userObj.lastName}`,
                      email: userObj.emailAddress,
-                     accountId: userObj.accountId
+                     accountId: userObj.accountId,
+                     userType: userObj.userType || '',
+                     accountName
                 }
             }
 
