@@ -93,6 +93,47 @@ const csvFieldMappings = {
     }
 }
 
+export const csvColumnOrder = {
+    [EReportType.ANALYTICS]: [
+        'Licensee', 'Licensor', 'Music Service', 'Month', 'Acount ID',
+        'Label', 'Artist', 'Album Title', 'Track Title', 'Product Title',
+        'Vol/Version', 'UPC', 'Cat No', 'ISRC', 'Total Units', 'S/R',
+        'Country of Sale', 'Usage Type'
+    ],
+    [EReportType.ROYALTY]: [
+        'Licensee', 'Licensor', 'Music Service', 'Month', 'Acount ID',
+        'Label', 'Artist', 'Album Title', 'Track Title', 'Product Title',
+        'Vol/Version', 'UPC', 'Cat No', 'ISRC', 'Total Units', 'S/R',
+        'Country of Sale', 'Usage Type', 'Income', 'Maheshwari Visuals Commission', 'Royalty'
+    ],
+    [EReportType.BONUS_ROYALTY]: [
+        'Licensee', 'Licensor', 'Music Service', 'Month', 'Acount ID',
+        'Label', 'Artist', 'Album Title', 'Track Title', 'Product Title',
+        'Vol/Version', 'UPC', 'Cat No', 'ISRC', 'Total Units', 'S/R',
+        'Country of Sale', 'Usage Type', 'Income', 'Maheshwari Visuals Commission', 'Bonus', 'Royalty'
+    ],
+    [EReportType.MCN]: [
+        'Licensee', 'Licensor', 'Asset Channel ID', 'YouTube Chanel Name', 'Month', 'Acount ID',
+        'Revenue Share %', 'YouTube Payout (USD)', 'MV Commission', 'Revenue (USD)',
+        'Conversion Rate', 'Payout Revenue (INR)'
+    ]
+}
+
+export const remapToOriginalHeaders = (records, reportType) => {
+    const fieldMap = csvFieldMappings[reportType]
+    const columnOrder = csvColumnOrder[reportType]
+    if (!fieldMap || !columnOrder) return records
+
+    return records.map(record => {
+        const row = {}
+        columnOrder.forEach(csvHeader => {
+            const camelKey = fieldMap[csvHeader]
+            row[csvHeader] = (camelKey !== undefined && record[camelKey] !== undefined) ? record[camelKey] : ''
+        })
+        return row
+    })
+}
+
 export const processCsvFile = (filePath, reportType) => {
     return new Promise((resolve, reject) => {
         const results = []

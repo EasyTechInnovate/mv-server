@@ -4,6 +4,7 @@ import Analytics from '../../model/analytics.model.js'
 import Royalty from '../../model/royalty.model.js'
 import reportQuickerController from './report-quicker.controller.js'
 import { EReportType, EReportStatus, EAnalyticsTimeframe, ERoyaltyTimeframe } from '../../constant/application.js'
+import { remapToOriginalHeaders } from '../../util/csvProcessor.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
 import httpError from '../../util/httpError.js'
@@ -896,72 +897,40 @@ export default {
                 return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('monthId or exportType')), req, 400);
             }
 
-            let dataToExport = [];
+            let reportType;
+            let dataKey;
             let fileName = `${exportType}_royalty_report.csv`;
 
-            if (exportType === 'regular' || exportType === 'bonus') {
-                const query = { monthId, userAccountId };
-                if (exportType === 'regular') query.royaltyType = 'regular';
-                if (exportType === 'bonus') query.royaltyType = 'bonus';
-
-                const records = await Royalty.find(query).lean();
-                
-                dataToExport = records.map(record => ({
-                    'Account ID': record.accountId || record.userAccountId || '',
-                    'Licensee': record.licensee || '',
-                    'Licensor': record.licensor || '',
-                    'Music Service': record.platform || '',
-                    'Label': record.labelName || '',
-                    'Artist': record.artistName || '',
-                    'Album Title': record.albumTitle || '',
-                    'Product Title': record.productTitle || '',
-                    'Track Title': record.trackTitle || '',
-                    'Vol/Version': record.volVersion || '',
-                    'UPC': record.upc || '',
-                    'CatNo': record.catalogNumber || '',
-                    'ISRC': record.isrc || '',
-                    'Total Units': record.totalUnits || 0,
-                    'Country Of Sale': record.countryCode || '',
-                    'Regular Royalty': record.regularRoyalty || 0,
-                    'Bonus Royalty': record.bonusRoyalty || 0,
-                    'Total Earnings': record.totalEarnings || 0,
-                    'MV Commission': record.maheshwariVisualsCommission || 0,
-                    'Currency': record.currency || 'USD',
-                    'Rate': record.rate || 0,
-                    'Report Month': record.reportMonth || '',
-                    'Report Year': record.reportYear || ''
-                }));
+            if (exportType === 'regular') {
+                reportType = EReportType.ROYALTY;
+                dataKey = 'royalty';
+            } else if (exportType === 'bonus') {
+                reportType = EReportType.BONUS_ROYALTY;
+                dataKey = 'bonusRoyalty';
             } else if (exportType === 'mcn') {
-                const MCN = (await import('../../model/mcn.model.js')).default;
-                const records = await MCN.find({ monthId, userAccountId }).lean();
-
-                dataToExport = records.map(record => ({
-                    'Account ID': record.accountId || record.userAccountId || '',
-                    'Licensee': record.licensee || '',
-                    'Licensor': record.licensor || '',
-                    'Asset Channel ID': record.assetChannelId || '',
-                    'YouTube Channel Name': record.youtubeChannelName || '',
-                    'Revenue Share %': record.revenueSharePercent || 0,
-                    'YouTube Payout (USD)': record.youtubePayoutUsd || 0,
-                    'Revenue (USD)': record.revenueUsd || 0,
-                    'Conversion Rate': record.conversionRate || 0,
-                    'MV Commission': record.mvCommission || 0,
-                    'Payout Revenue (INR)': record.payoutRevenueInr || 0,
-                    'Report Month': record.reportMonth || '',
-                    'Report Year': record.reportYear || ''
-                }));
+                reportType = EReportType.MCN;
+                dataKey = 'mcn';
             } else {
                 return httpError(next, new Error('Invalid exportType. Must be regular, bonus, or mcn.'), req, 400);
             }
 
-            if (dataToExport.length === 0) {
+            const report = await ReportData.findOne({ monthId, reportType, isActive: true }).lean();
+            if (!report || !report.data || !report.data[dataKey]) {
                 return httpError(next, new Error('No data found for the selected month and type'), req, 404);
             }
 
-            // Generate CSV
+            const allRecords = report.data[dataKey];
+            const userRecords = allRecords.filter(r => r.accountId === userAccountId);
+
+            if (userRecords.length === 0) {
+                return httpError(next, new Error('No data found for the selected month and type'), req, 404);
+            }
+
+            const dataToExport = remapToOriginalHeaders(userRecords, reportType);
+
             const headers = Object.keys(dataToExport[0]);
             const headerRow = headers.map(h => `"${h.replace(/"/g, '""')}"`).join(',');
-            const rows = dataToExport.map(row => 
+            const rows = dataToExport.map(row =>
                 headers.map(h => {
                     const val = row[h] !== undefined && row[h] !== null ? String(row[h]) : '';
                     return `"${val.replace(/"/g, '""')}"`;
@@ -987,37 +956,23 @@ export default {
                 return httpError(next, new Error(responseMessage.COMMON.INVALID_PARAMETERS('monthId')), req, 400);
             }
 
-            const records = await Analytics.find({ monthId, userAccountId }).lean();
-
-            if (!records || records.length === 0) {
+            const report = await ReportData.findOne({ monthId, reportType: EReportType.ANALYTICS, isActive: true }).lean();
+            if (!report || !report.data || !report.data.analytics) {
                 return httpError(next, new Error('No analytics data found for the selected month'), req, 404);
             }
 
-            const dataToExport = records.map(record => ({
-                'Account ID': record.accountId || record.userAccountId || '',
-                'Licensee': record.licensee || '',
-                'Licensor': record.licensor || '',
-                'Music Service': record.platform || '',
-                'Label': record.labelName || '',
-                'Artist': record.artistName || '',
-                'Album Title': record.albumTitle || '',
-                'Product Title': record.productTitle || '',
-                'Track Title': record.trackTitle || '',
-                'Vol/Version': record.volVersion || '',
-                'UPC': record.upc || '',
-                'CatNo': record.catalogNumber || '',
-                'ISRC': record.isrc || '',
-                'Total Units': record.totalUnits || 0,
-                'Country Of Sale': record.countryCode || '',
-                'Usage Type': record.usageType || '',
-                'Report Month': record.reportMonth || '',
-                'Report Year': record.reportYear || ''
-            }));
+            const allRecords = report.data.analytics;
+            const userRecords = allRecords.filter(r => r.accountId === userAccountId);
 
-            // Generate CSV
+            if (userRecords.length === 0) {
+                return httpError(next, new Error('No analytics data found for the selected month'), req, 404);
+            }
+
+            const dataToExport = remapToOriginalHeaders(userRecords, EReportType.ANALYTICS);
+
             const headers = Object.keys(dataToExport[0]);
             const headerRow = headers.map(h => `"${h.replace(/"/g, '""')}"`).join(',');
-            const rows = dataToExport.map(row => 
+            const rows = dataToExport.map(row =>
                 headers.map(h => {
                     const val = row[h] !== undefined && row[h] !== null ? String(row[h]) : '';
                     return `"${val.replace(/"/g, '""')}"`;
