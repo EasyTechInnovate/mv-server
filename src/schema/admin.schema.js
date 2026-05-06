@@ -62,7 +62,7 @@ const adminSchemas = {
                 original: z.number().min(0, 'Original price cannot be negative')
             }),
             currency: z.string().default('INR').transform(val => val.toUpperCase()),
-            interval: z.enum(['month', 'year'], { required_error: 'Billing interval is required' }),
+            interval: z.enum(['month', 'year', 'lifetime'], { required_error: 'Billing interval is required' }),
             intervalCount: z.number().min(1).default(1),
             features: featuresSchema,
             showcaseFeatures: z.array(showcaseFeatureItem).default([]),
@@ -96,7 +96,7 @@ const adminSchemas = {
                 original: z.number().min(0).optional()
             }).optional(),
             currency: z.string().transform(val => val.toUpperCase()).optional(),
-            interval: z.enum(['month', 'year']).optional(),
+            interval: z.enum(['month', 'year', 'lifetime']).optional(),
             intervalCount: z.number().min(1).optional(),
             features: featuresSchema.partial().optional(),
             showcaseFeatures: z.array(showcaseFeatureItem).optional(),
