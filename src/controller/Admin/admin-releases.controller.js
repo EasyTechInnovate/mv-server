@@ -206,6 +206,7 @@ export default {
                     adminReview: release.adminReview,
                     updateRequest: release.updateRequest,
                     takeDown: release.takeDown,
+                    audioFootprinting: release.audioFootprinting || [],
                     createdAt: release.createdAt,
                     updatedAt: release.updatedAt,
                     submittedAt: release.submittedAt,
