@@ -478,11 +478,18 @@ export default {
     async getMyReleases(req, res, next) {
         try {
             const userId = req.authenticatedUser._id
-            const { page = 1, limit = 10, status, releaseType, sortBy = 'createdAt', sortOrder = 'desc' } = req.query
+            const { page = 1, limit = 10, status, releaseType, sortBy = 'createdAt', sortOrder = 'desc', search } = req.query
 
             const filter = { userId, isActive: true }
             if (status) filter.releaseStatus = status
             if (releaseType) filter.releaseType = releaseType
+            if (search) {
+                const searchRegex = new RegExp(search, 'i')
+                filter.$or = [
+                    { releaseId: { $regex: searchRegex } },
+                    { 'step1.releaseInfo.releaseName': { $regex: searchRegex } },
+                ]
+            }
 
             const sort = {}
             sort[sortBy] = sortOrder === 'asc' ? 1 : -1
@@ -497,6 +504,7 @@ export default {
                     .skip(skip)
                     .limit(limitNum)
                     .populate('step1.releaseInfo.labelName', 'name')
+                    .populate('userId', 'firstName lastName emailAddress accountId')
                     .lean(),
                 AdvancedRelease.countDocuments(filter)
             ])

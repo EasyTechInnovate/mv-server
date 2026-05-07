@@ -499,15 +499,24 @@ export default {
     async getMyReleases(req, res, next) {
         try {
             const userId = req.authenticatedUser._id;
-            const { page = 1, limit = 10, status } = req.query;
+            const { page = 1, limit = 10, status, search, sortOrder = 'desc' } = req.query;
 
             const query = { userId, isActive: true };
             if (status) {
                 query.releaseStatus = status;
             }
+            if (search) {
+                const searchRegex = new RegExp(search, 'i');
+                query.$or = [
+                    { releaseId: { $regex: searchRegex } },
+                    { releaseTitle: { $regex: searchRegex } },
+                    { 'step1.releaseInfo.releaseName': { $regex: searchRegex } },
+                ];
+            }
 
             let queryBuilder = BasicRelease.find(query)
-                .sort({ createdAt: -1 })
+                .populate('userId', 'firstName lastName emailAddress accountId')
+                .sort({ createdAt: sortOrder === 'asc' ? 1 : -1 })
                 .limit(limit * 1)
                 .skip((page - 1) * limit);
 
