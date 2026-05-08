@@ -13,8 +13,15 @@ const contributorSchema = z.object({
     contributors: z.string().trim().min(1, 'Contributor name is required').max(200, 'Contributor name too long')
 })
 
+const audioFileSchema = z.object({
+    format: z.string().min(1, 'Audio format is required'),
+    fileUrl: z.string().url('Invalid audio file URL'),
+    fileSize: z.number().min(0).optional(),
+    duration: z.number().min(0).optional()
+})
+
 const trackSchema = z.object({
-    trackLink: z.string().url('Invalid track URL').min(1, 'Track link is required'),
+    trackLink: z.string().url('Invalid track URL').optional(),
     trackName: z.string().trim().min(1, 'Track name is required').max(200, 'Track name too long'),
     mixVersion: z.string().trim().max(100, 'Mix version too long').optional(),
     primaryArtists: z.array(z.string().trim().min(1, 'Artist name required').max(100, 'Artist name too long')).min(1, 'At least one primary artist required'),
@@ -28,7 +35,9 @@ const trackSchema = z.object({
     secondaryGenre: z.enum(Object.values(EMusicGenre)).optional(),
     hasHumanVocals: z.boolean().default(true),
     language: z.enum(Object.values(EMusicLanguage)).optional(),
-    isAvailableForDownload: z.boolean().default(true)
+    vocalType: z.string().trim().max(200).optional(),
+    isAvailableForDownload: z.boolean().default(true),
+    audioFiles: z.array(audioFileSchema).optional()
 }).refine(data => {
     if (data.hasHumanVocals && !data.language) {
         return false;
