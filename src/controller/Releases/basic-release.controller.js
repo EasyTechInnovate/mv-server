@@ -117,7 +117,9 @@ export default {
             }
 
             if (user.hasActiveSubscription && user.subscription?.planId) {
-                const plan = await SubscriptionPlan.findOne({ planId: user.subscription.planId }).select('limits').lean()
+                const planId = user.subscription.planId
+                const plan = await SubscriptionPlan.findOne({ planId }).select('limits features.unlimitedReleases').lean()
+
                 if (plan && plan.limits?.maxUploads !== -1 && plan.limits?.maxUploads > 0) {
                     const [basicCount, advancedCount] = await Promise.all([
                         BasicRelease.countDocuments({ userId, isActive: true }),
@@ -127,6 +129,17 @@ export default {
                         return httpError(
                             next,
                             new Error(responseMessage.customMessage(`Your plan allows a maximum of ${plan.limits.maxUploads} release(s). Please upgrade to upload more.`)),
+                            req,
+                            403
+                        )
+                    }
+                }
+
+                if (plan && !plan.features?.unlimitedReleases) {
+                    if ((user.releaseCredits || 0) <= 0) {
+                        return httpError(
+                            next,
+                            new Error(responseMessage.customMessage('You have no release credits remaining. Please purchase a plan to create a new release.')),
                             req,
                             403
                         )
@@ -145,6 +158,14 @@ export default {
             });
 
             await release.save();
+
+            if (user.hasActiveSubscription && user.subscription?.planId) {
+                const plan = await SubscriptionPlan.findOne({ planId: user.subscription.planId }).select('features.unlimitedReleases').lean()
+                if (plan && !plan.features?.unlimitedReleases) {
+                    user.releaseCredits = Math.max(0, (user.releaseCredits || 0) - 1)
+                    await user.save()
+                }
+            }
 
             const nextStepInfo = getNextStepInfo(release);
             const stepSummary = getStepSummary(release);

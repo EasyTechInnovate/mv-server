@@ -275,6 +275,9 @@ export default {
                 `Your ${plan.name} subscription has been activated successfully!`,
                 'success'
             )
+            if (!plan.features?.unlimitedReleases) {
+                user.releaseCredits = (user.releaseCredits || 0) + 1
+            }
             await user.save()
 
             sendMembershipActivationEmail(user.emailAddress, user.accountId, plan.name, validUntil).catch(() => {})
@@ -385,13 +388,16 @@ export default {
                 : dayjs().add(plan.intervalCount, plan.interval).toDate()
 
             fullUser.activateSubscription(planId, validUntil, `mock_sub_${Date.now()}`)
-            user.addNotification(
+            fullUser.addNotification(
                 'Subscription Activated',
                 `Your ${plan.name} subscription has been activated successfully! (Mock Payment)`,
                 'success'
             )
+            if (!plan.features?.unlimitedReleases) {
+                fullUser.releaseCredits = (fullUser.releaseCredits || 0) + 1
+            }
 
-            await user.save()
+            await fullUser.save()
 
             sendMembershipActivationEmail(fullUser.emailAddress, fullUser.accountId, plan.name, validUntil).catch(() => {})
             if (fullUser.kyc?.status !== 'verified') {

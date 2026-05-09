@@ -1,6 +1,7 @@
 import AdvancedRelease from '../../model/advanced-release.model.js'
 import User from '../../model/user.model.js'
 import Sublabel from '../../model/sublabel.model.js'
+import SubscriptionPlan from '../../model/subscriptionPlan.model.js'
 import { EReleaseStatus, EAdvancedReleaseStep, EAdvancedReleaseType } from '../../constant/application.js'
 import responseMessage from '../../constant/responseMessage.js'
 import httpResponse from '../../util/httpResponse.js'
@@ -97,7 +98,7 @@ export default {
             const userId = req.authenticatedUser._id
             const { releaseType } = req.body
             
-            const user = await User.findById(userId)
+            const user = await User.findById(userId).select('accountId subscription releaseCredits')
             if (!user) {
                 return httpError(
                     next,
@@ -107,8 +108,36 @@ export default {
                 )
             }
 
-            const releaseId = await quicker.generateReleaseId('advance',releaseType, AdvancedRelease)
-            
+            const planId = user.subscription?.planId
+            if (planId) {
+                const plan = await SubscriptionPlan.findOne({ planId }).select('features.unlimitedReleases').lean()
+
+                if (plan && !plan.features?.unlimitedReleases) {
+                    const singleOnlyPlans = ['one_song']
+                    const singleTypes = [EAdvancedReleaseType.SINGLE, EAdvancedReleaseType.RINGTONE_RELEASE]
+
+                    if (singleOnlyPlans.includes(planId) && !singleTypes.includes(releaseType)) {
+                        return httpError(
+                            next,
+                            new Error(responseMessage.customMessage('Your plan only allows single track releases. Please upgrade to create albums or EPs.')),
+                            req,
+                            403
+                        )
+                    }
+
+                    if ((user.releaseCredits || 0) <= 0) {
+                        return httpError(
+                            next,
+                            new Error(responseMessage.customMessage('You have no release credits remaining. Please purchase a plan to create a new release.')),
+                            req,
+                            403
+                        )
+                    }
+                }
+            }
+
+            const releaseId = await quicker.generateReleaseId('advance', releaseType, AdvancedRelease)
+
             const release = new AdvancedRelease({
                 releaseId,
                 userId,
@@ -118,6 +147,14 @@ export default {
                 currentStep: EAdvancedReleaseStep.COVER_ART_AND_RELEASE_INFO
             })
             await release.save()
+
+            if (planId) {
+                const plan = await SubscriptionPlan.findOne({ planId }).select('features.unlimitedReleases').lean()
+                if (plan && !plan.features?.unlimitedReleases) {
+                    user.releaseCredits = Math.max(0, (user.releaseCredits || 0) - 1)
+                    await user.save()
+                }
+            }
 
             const nextStepInfo = getNextStepInfo(release)
             const stepSummary = getStepSummary(release)

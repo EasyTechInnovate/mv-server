@@ -768,6 +768,12 @@ const userSchema = new mongoose.Schema(
       },
     },
 
+    releaseCredits: {
+      type: Number,
+      default: 0,
+      min: 0,
+    },
+
     isActive: {
       type: Boolean,
       default: false,
