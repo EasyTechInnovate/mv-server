@@ -17,9 +17,13 @@ const adminPayoutController = {
                 limit = 10,
                 status,
                 search,
-                sortBy = 'createdAt',
+                month,
+                year,
+                sortBy = 'requestedAt',
                 sortOrder = 'desc'
             } = req.query
+
+            console.log("getAllPayoutRequests called with:", req.query);
 
             const pageNumber = parseInt(page)
             const limitNumber = parseInt(limit)
@@ -35,6 +39,13 @@ const adminPayoutController = {
                     { accountId: { $regex: search, $options: 'i' } }
                 ]
             }
+            if (month && year) {
+                const startOfMonth = new Date(parseInt(year), parseInt(month) - 1, 1)
+                const endOfMonth = new Date(parseInt(year), parseInt(month), 0, 23, 59, 59, 999)
+                filter.requestedAt = { $gte: startOfMonth, $lte: endOfMonth }
+            }
+
+            console.log("Filter used for DB query:", JSON.stringify(filter));
 
             const sortObj = {}
             sortObj[sortBy] = sortOrder === 'desc' ? -1 : 1
