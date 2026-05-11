@@ -99,7 +99,7 @@ export default {
                 return httpError(next, new Error(responseMessage.ERROR.NOT_FOUND('Plan')), req, 404)
             }
 
-            if (user.subscription?.planId === planId && user.hasActiveSubscription) {
+            if (user.subscription?.planId === planId && user.hasActiveSubscription && plan.interval !== 'lifetime') {
                 const error = new Error('You are already on this plan')
                 error.statusCode = 400
                 return httpError(next, error, req, 400)

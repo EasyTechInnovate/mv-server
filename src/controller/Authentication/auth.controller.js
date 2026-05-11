@@ -313,7 +313,8 @@ export default {
                         aggregatorSubscription: user.aggregatorSubscription,
                         kycStatus: user.kycStatus,
                         aggregatorBanner: user.aggregatorBanner,
-                        aggregatorData: user.aggregatorData
+                        aggregatorData: user.aggregatorData,
+                        releaseCredits: user.releaseCredits ?? 0
                     },
                     tokens: {
                         accessToken,
@@ -585,6 +586,7 @@ export default {
                     artistData: user.artistData,
                     labelData: user.labelData,
                     aggregatorData: user.aggregatorData,
+                    releaseCredits: user.releaseCredits ?? 0,
                     createdAt: user.createdAt
                 }
             }
