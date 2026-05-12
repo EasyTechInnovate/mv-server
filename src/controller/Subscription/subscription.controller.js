@@ -117,14 +117,16 @@ export default {
                     isUpgrade = true
                     previousPlanId = currentPlan.planId
 
-                    const now = dayjs()
-                    const validUntil = dayjs(user.subscription.validUntil)
-                    const daysRemaining = Math.max(0, validUntil.diff(now, 'day'))
+                    if (currentPlan.interval !== 'lifetime') {
+                        const now = dayjs()
+                        const validUntil = dayjs(user.subscription.validUntil)
+                        const daysRemaining = Math.max(0, validUntil.diff(now, 'day'))
 
-                    if (daysRemaining > 0) {
-                        const totalPlanDays = currentPlan.intervalCount * (currentPlan.interval === 'year' ? 365 : 30)
-                        const dailyRate = currentPlan.price.current / totalPlanDays
-                        prorationCredit = Math.round(dailyRate * daysRemaining)
+                        if (daysRemaining > 0) {
+                            const totalPlanDays = currentPlan.intervalCount * (currentPlan.interval === 'year' ? 365 : 30)
+                            const dailyRate = currentPlan.price.current / totalPlanDays
+                            prorationCredit = Math.round(dailyRate * daysRemaining)
+                        }
                     }
                 }
             }
@@ -338,10 +340,13 @@ export default {
                 if (currentPlan && originalAmount > currentPlan.price.current) {
                     isUpgrade = true
                     previousPlanId = currentPlan.planId
-                    const daysRemaining = Math.max(0, dayjs(user.subscription.validUntil).diff(dayjs(), 'day'))
-                    if (daysRemaining > 0) {
-                        const totalPlanDays = currentPlan.intervalCount * (currentPlan.interval === 'year' ? 365 : 30)
-                        prorationCredit = Math.round((currentPlan.price.current / totalPlanDays) * daysRemaining)
+
+                    if (currentPlan.interval !== 'lifetime') {
+                        const daysRemaining = Math.max(0, dayjs(user.subscription.validUntil).diff(dayjs(), 'day'))
+                        if (daysRemaining > 0) {
+                            const totalPlanDays = currentPlan.intervalCount * (currentPlan.interval === 'year' ? 365 : 30)
+                            prorationCredit = Math.round((currentPlan.price.current / totalPlanDays) * daysRemaining)
+                        }
                     }
                 }
             }
