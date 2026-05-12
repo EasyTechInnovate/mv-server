@@ -136,6 +136,24 @@ export default {
                 }
 
                 if (plan && !plan.features?.unlimitedReleases) {
+                    if (planId === 'one_song' && trackType !== 'single') {
+                        return httpError(
+                            next,
+                            new Error(responseMessage.customMessage('Your plan only allows single track releases.')),
+                            req,
+                            403
+                        )
+                    }
+
+                    if (planId === 'one_album' && trackType !== 'album') {
+                        return httpError(
+                            next,
+                            new Error(responseMessage.customMessage('Your plan only allows album releases.')),
+                            req,
+                            403
+                        )
+                    }
+
                     if ((user.releaseCredits || 0) <= 0) {
                         return httpError(
                             next,

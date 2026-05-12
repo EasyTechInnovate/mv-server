@@ -113,13 +113,22 @@ export default {
                 const plan = await SubscriptionPlan.findOne({ planId }).select('features.unlimitedReleases').lean()
 
                 if (plan && !plan.features?.unlimitedReleases) {
-                    const singleOnlyPlans = ['one_song']
                     const singleTypes = [EAdvancedReleaseType.SINGLE, EAdvancedReleaseType.RINGTONE_RELEASE]
+                    const albumTypes = [EAdvancedReleaseType.ALBUM, EAdvancedReleaseType.EP, EAdvancedReleaseType.MINI_ALBUM]
 
-                    if (singleOnlyPlans.includes(planId) && !singleTypes.includes(releaseType)) {
+                    if (planId === 'one_song' && !singleTypes.includes(releaseType)) {
                         return httpError(
                             next,
                             new Error(responseMessage.customMessage('Your plan only allows single track releases. Please upgrade to create albums or EPs.')),
+                            req,
+                            403
+                        )
+                    }
+
+                    if (planId === 'one_album' && !albumTypes.includes(releaseType)) {
+                        return httpError(
+                            next,
+                            new Error(responseMessage.customMessage('Your plan only allows album releases. Please purchase One Song plan to create a single.')),
                             req,
                             403
                         )
