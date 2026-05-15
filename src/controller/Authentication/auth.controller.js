@@ -314,7 +314,7 @@ export default {
                         kycStatus: user.kycStatus,
                         aggregatorBanner: user.aggregatorBanner,
                         aggregatorData: user.aggregatorData,
-                        releaseCredits: user.releaseCredits ?? 0
+                        releaseCredits: { one_song: user.releaseCredits?.one_song ?? 0, one_album: user.releaseCredits?.one_album ?? 0 }
                     },
                     tokens: {
                         accessToken,
@@ -586,7 +586,7 @@ export default {
                     artistData: user.artistData,
                     labelData: user.labelData,
                     aggregatorData: user.aggregatorData,
-                    releaseCredits: user.releaseCredits ?? 0,
+                    releaseCredits: { one_song: user.releaseCredits?.one_song ?? 0, one_album: user.releaseCredits?.one_album ?? 0 },
                     createdAt: user.createdAt
                 }
             }

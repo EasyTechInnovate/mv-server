@@ -116,31 +116,24 @@ export default {
                     const singleTypes = [EAdvancedReleaseType.SINGLE, EAdvancedReleaseType.RINGTONE_RELEASE]
                     const albumTypes = [EAdvancedReleaseType.ALBUM, EAdvancedReleaseType.EP, EAdvancedReleaseType.MINI_ALBUM]
 
-                    if (planId === 'one_song' && !singleTypes.includes(releaseType)) {
-                        return httpError(
-                            next,
-                            new Error(responseMessage.customMessage('Your plan only allows single track releases. Please upgrade to create albums or EPs.')),
-                            req,
-                            403
-                        )
-                    }
-
-                    if (planId === 'one_album' && !albumTypes.includes(releaseType)) {
-                        return httpError(
-                            next,
-                            new Error(responseMessage.customMessage('Your plan only allows album releases. Please purchase One Song plan to create a single.')),
-                            req,
-                            403
-                        )
-                    }
-
-                    if ((user.releaseCredits || 0) <= 0) {
-                        return httpError(
-                            next,
-                            new Error(responseMessage.customMessage('You have no release credits remaining. Please purchase a plan to create a new release.')),
-                            req,
-                            403
-                        )
+                    if (singleTypes.includes(releaseType)) {
+                        if ((user.releaseCredits?.one_song || 0) <= 0) {
+                            return httpError(
+                                next,
+                                new Error(responseMessage.customMessage('You have no single release credits. Please purchase a One Song plan.')),
+                                req,
+                                403
+                            )
+                        }
+                    } else if (albumTypes.includes(releaseType)) {
+                        if ((user.releaseCredits?.one_album || 0) <= 0) {
+                            return httpError(
+                                next,
+                                new Error(responseMessage.customMessage('You have no album release credits. Please purchase a One Album plan.')),
+                                req,
+                                403
+                            )
+                        }
                     }
                 }
             }
@@ -157,12 +150,17 @@ export default {
             })
             await release.save()
 
-            if (planId) {
-                const plan = await SubscriptionPlan.findOne({ planId }).select('features.unlimitedReleases').lean()
-                if (plan && !plan.features?.unlimitedReleases) {
-                    user.releaseCredits = Math.max(0, (user.releaseCredits || 0) - 1)
-                    await user.save()
-                }
+            const singleTypes = [EAdvancedReleaseType.SINGLE, EAdvancedReleaseType.RINGTONE_RELEASE]
+            const albumTypes = [EAdvancedReleaseType.ALBUM, EAdvancedReleaseType.EP, EAdvancedReleaseType.MINI_ALBUM]
+
+            if (singleTypes.includes(releaseType) && (user.releaseCredits?.one_song || 0) > 0) {
+                user.releaseCredits.one_song = user.releaseCredits.one_song - 1
+                user.markModified('releaseCredits')
+                await user.save()
+            } else if (albumTypes.includes(releaseType) && (user.releaseCredits?.one_album || 0) > 0) {
+                user.releaseCredits.one_album = user.releaseCredits.one_album - 1
+                user.markModified('releaseCredits')
+                await user.save()
             }
 
             const nextStepInfo = getNextStepInfo(release)

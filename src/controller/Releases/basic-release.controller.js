@@ -136,31 +136,24 @@ export default {
                 }
 
                 if (plan && !plan.features?.unlimitedReleases) {
-                    if (planId === 'one_song' && trackType !== 'single') {
-                        return httpError(
-                            next,
-                            new Error(responseMessage.customMessage('Your plan only allows single track releases.')),
-                            req,
-                            403
-                        )
-                    }
-
-                    if (planId === 'one_album' && trackType !== 'album') {
-                        return httpError(
-                            next,
-                            new Error(responseMessage.customMessage('Your plan only allows album releases.')),
-                            req,
-                            403
-                        )
-                    }
-
-                    if ((user.releaseCredits || 0) <= 0) {
-                        return httpError(
-                            next,
-                            new Error(responseMessage.customMessage('You have no release credits remaining. Please purchase a plan to create a new release.')),
-                            req,
-                            403
-                        )
+                    if (trackType === 'single') {
+                        if ((user.releaseCredits?.one_song || 0) <= 0) {
+                            return httpError(
+                                next,
+                                new Error(responseMessage.customMessage('You have no single release credits. Please purchase a One Song plan.')),
+                                req,
+                                403
+                            )
+                        }
+                    } else if (trackType === 'album') {
+                        if ((user.releaseCredits?.one_album || 0) <= 0) {
+                            return httpError(
+                                next,
+                                new Error(responseMessage.customMessage('You have no album release credits. Please purchase a One Album plan.')),
+                                req,
+                                403
+                            )
+                        }
                     }
                 }
             }
@@ -177,12 +170,14 @@ export default {
 
             await release.save();
 
-            if (user.hasActiveSubscription && user.subscription?.planId) {
-                const plan = await SubscriptionPlan.findOne({ planId: user.subscription.planId }).select('features.unlimitedReleases').lean()
-                if (plan && !plan.features?.unlimitedReleases) {
-                    user.releaseCredits = Math.max(0, (user.releaseCredits || 0) - 1)
-                    await user.save()
-                }
+            if (trackType === 'single' && (user.releaseCredits?.one_song || 0) > 0) {
+                user.releaseCredits.one_song = user.releaseCredits.one_song - 1
+                user.markModified('releaseCredits')
+                await user.save()
+            } else if (trackType === 'album' && (user.releaseCredits?.one_album || 0) > 0) {
+                user.releaseCredits.one_album = user.releaseCredits.one_album - 1
+                user.markModified('releaseCredits')
+                await user.save()
             }
 
             const nextStepInfo = getNextStepInfo(release);

@@ -277,8 +277,14 @@ export default {
                 `Your ${plan.name} subscription has been activated successfully!`,
                 'success'
             )
-            if (!plan.features?.unlimitedReleases) {
-                user.releaseCredits = (user.releaseCredits || 0) + 1
+            if (planId === 'one_song') {
+                user.releaseCredits = user.releaseCredits || {}
+                user.releaseCredits.one_song = (user.releaseCredits.one_song || 0) + 1
+                user.markModified('releaseCredits')
+            } else if (planId === 'one_album') {
+                user.releaseCredits = user.releaseCredits || {}
+                user.releaseCredits.one_album = (user.releaseCredits.one_album || 0) + 1
+                user.markModified('releaseCredits')
             }
             await user.save()
 
@@ -398,8 +404,14 @@ export default {
                 `Your ${plan.name} subscription has been activated successfully! (Mock Payment)`,
                 'success'
             )
-            if (!plan.features?.unlimitedReleases) {
-                fullUser.releaseCredits = (fullUser.releaseCredits || 0) + 1
+            if (planId === 'one_song') {
+                fullUser.releaseCredits = fullUser.releaseCredits || {}
+                fullUser.releaseCredits.one_song = (fullUser.releaseCredits.one_song || 0) + 1
+                fullUser.markModified('releaseCredits')
+            } else if (planId === 'one_album') {
+                fullUser.releaseCredits = fullUser.releaseCredits || {}
+                fullUser.releaseCredits.one_album = (fullUser.releaseCredits.one_album || 0) + 1
+                fullUser.markModified('releaseCredits')
             }
 
             await fullUser.save()

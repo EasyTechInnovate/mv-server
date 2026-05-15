@@ -769,9 +769,8 @@ const userSchema = new mongoose.Schema(
     },
 
     releaseCredits: {
-      type: Number,
-      default: 0,
-      min: 0,
+      one_song: { type: Number, default: 0, min: 0 },
+      one_album: { type: Number, default: 0, min: 0 },
     },
 
     isActive: {
