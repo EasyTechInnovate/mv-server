@@ -50,8 +50,8 @@ export const recalculateWalletForUser = async (userId) => {
     wallet.regularRoyalty = royalty.regularRoyalty
     wallet.bonusRoyalty = royalty.bonusRoyalty
     wallet.mcnRoyalty = mcn.totalEarnings
-    wallet.totalCommission = royalty.commission + mcn.commission
-    wallet.availableBalance = wallet.totalEarnings - wallet.totalCommission + adjTotal
+    wallet.totalCommission = 0
+    wallet.availableBalance = wallet.totalEarnings + adjTotal
     wallet.withdrawableBalance = wallet.availableBalance - wallet.pendingPayout - wallet.totalPaidOut
 
     return wallet.save()
